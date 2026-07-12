@@ -1,8 +1,9 @@
 ---
+摘要: 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # Transformer 自注意力机制

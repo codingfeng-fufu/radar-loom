@@ -1,4 +1,5 @@
 ---
+摘要: RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

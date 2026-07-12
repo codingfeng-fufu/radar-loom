@@ -1,8 +1,9 @@
 ---
+摘要: RoPE（旋转位置编码）是现在LLM最常用的位置编码方案，GPT-3、LLaMA系列都用它。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 旋转位置编码 RoPE

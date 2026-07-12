@@ -1,8 +1,9 @@
 ---
+摘要: 归因评测是指验证生成内容里的具体声明（claim）是否能在指定的来源材料中找到支撑证据的过程。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [可信度, TripleChecker]
+tags: [可信度, TripleChecker, 评测]
 ---
 
 # 归因评测 Attribution

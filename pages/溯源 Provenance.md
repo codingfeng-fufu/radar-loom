@@ -1,6 +1,7 @@
 ---
+摘要: 溯源记录数据或结论的来源、转换过程和依赖关系。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度, EvidenceFirst]
 ---

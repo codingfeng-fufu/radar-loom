@@ -1,6 +1,7 @@
 ---
+摘要: 可验证性是指AI系统的输出和推理过程可以被客观检验和确认的属性。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度, EvidenceFirst]
 ---

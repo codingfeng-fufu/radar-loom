@@ -1,8 +1,9 @@
 ---
+摘要: 机器翻译经历规则、统计、神经网络到大模型驱动的技术演进。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 机器翻译 Machine Translation

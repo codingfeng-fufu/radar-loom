@@ -1,8 +1,9 @@
 ---
+摘要: 信息检索从布尔匹配、向量空间发展到概率模型和神经检索。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [RAG]
+tags: [RAG, 基础]
 ---
 
 # 信息检索 IR基础模型 Information Retrieval

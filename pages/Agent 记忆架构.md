@@ -1,6 +1,7 @@
 ---
+摘要: Agent记忆由工作记忆、情景记忆和语义记忆三个层次协同构成。
 来源: papers/engineering_and_frontier_works_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [多智能体]
 ---

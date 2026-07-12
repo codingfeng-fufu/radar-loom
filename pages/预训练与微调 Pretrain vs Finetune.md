@@ -1,8 +1,9 @@
 ---
+摘要: 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 预训练与微调 Pretrain vs Finetune

@@ -1,8 +1,9 @@
 ---
+摘要: 分层评测是指不满足于报告整体平均指标，而是把测试集按某种属性（难度、类别、状态）划分成不同子集分别报告性能。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [可信度, EvidenceFirst]
+tags: [可信度, EvidenceFirst, 评测]
 ---
 
 # 分层评测 Stratified Evaluation

@@ -1,0 +1,132 @@
+from __future__ import annotations
+
+import importlib
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+
+import radar_common as rc  # noqa: E402
+
+
+class CommonV3Tests(unittest.TestCase):
+    def test_v3_tags_and_graph_paths(self):
+        self.assertEqual(
+            rc.CATEGORY_TAGS,
+            {"KG", "RAG", "LLM机制", "可信度", "多智能体", "前沿", "基础", "评测"},
+        )
+        self.assertIn("CoMaGRAG", rc.PROJECT_TAGS)
+        self.assertEqual(rc.INDEX_FILE, ROOT / "_index.md")
+        self.assertEqual(set(rc.GRAPH_DIR_FILES), rc.CATEGORY_TAGS)
+
+    def test_parse_source_types_and_local_path(self):
+        self.assertEqual(rc.parse_source("https://example.com/a"), ("url", None))
+        self.assertEqual(rc.parse_source("对话记录 2026-07-12"), ("chat", None))
+        self.assertEqual(
+            rc.parse_source("papers/example.pdf p.3-5"),
+            ("local", "papers/example.pdf"),
+        )
+        self.assertEqual(
+            rc.parse_source("raw/processed/note.md"),
+            ("local", "raw/processed/note.md"),
+        )
+        self.assertEqual(rc.parse_source("somewhere"), ("unknown", None))
+
+
+class IndexV3Tests(unittest.TestCase):
+    def test_index_module_exposes_deterministic_renderer(self):
+        try:
+            module = importlib.import_module("build_index")
+        except ModuleNotFoundError:
+            self.fail("scripts/build_index.py is missing")
+        rendered, concept_count, project_count, missing = module.render_index(rc.scan_pages())
+        self.assertTrue(rendered.startswith("# 索引(机器生成,勿手工编辑)\n"))
+        self.assertIn("## 基础\n", rendered)
+        self.assertIn("## 评测\n", rendered)
+        self.assertIn("## 项目\n", rendered)
+        self.assertGreaterEqual(concept_count, 88)
+        self.assertEqual(project_count, 5)
+        self.assertGreaterEqual(missing, 0)
+
+    def test_current_index_exactly_matches_pages(self):
+        module = importlib.import_module("build_index")
+        rendered, concept_count, project_count, missing = module.render_index(rc.scan_pages())
+        self.assertEqual(rc.INDEX_FILE.read_text(encoding="utf-8"), rendered)
+        self.assertEqual((concept_count, project_count, missing), (88, 5, 0))
+
+    def test_all_concept_metadata_is_v3_healthy(self):
+        for page in rc.scan_pages().values():
+            tags = page.frontmatter.get("tags", [])
+            if page.name == "首页" or "MOC" in tags or "项目" in tags:
+                continue
+            with self.subTest(page=page.name):
+                summary = str(page.frontmatter.get("摘要", "")).strip()
+                self.assertTrue(summary)
+                self.assertLessEqual(len(summary), 60)
+                source_type, local_path = rc.parse_source(str(page.frontmatter.get("来源", "")))
+                self.assertIn(source_type, {"local", "url", "chat"})
+                if source_type == "local":
+                    self.assertTrue((ROOT / local_path).exists(), local_path)
+
+
+class GraphV3Tests(unittest.TestCase):
+    def test_overview_contains_both_statistics_and_broken_links(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        pages["首页"].links.append("不存在的测试页面")
+        edges, broken, degree = graph.graph_data(pages)
+        rendered = graph.render_overview(pages, edges, broken, degree)
+        self.assertIn("> 全库:节点", rendered)
+        self.assertIn("> 概览:节点", rendered)
+        self.assertIn("## 断链", rendered)
+        self.assertIn("首页 → 不存在的测试页面", rendered)
+
+    def test_rag_graph_includes_external_gray_neighbor_for_gnn_rag(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        edges, _, _ = graph.graph_data(pages)
+        rendered, _, _ = graph.render_category("RAG", pages, edges)
+        self.assertIn('GNN-RAG 图神经网络检索增强', rendered)
+        self.assertIn('图神经网络 GNN', rendered)
+        self.assertIn('classDef ext fill:#eee,stroke:#999;', rendered)
+
+
+class CliV3Tests(unittest.TestCase):
+    def run_script(self, script: str, *args: str):
+        return subprocess.run(
+            [sys.executable, str(SCRIPTS / script), *args],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+    def test_all_executables_help_without_business_output(self):
+        for script in ("build_index.py", "render_graph.py", "new_page.py", "check_health.py"):
+            with self.subTest(script=script):
+                result = self.run_script(script, "--help")
+                self.assertEqual(result.returncode, 0)
+                self.assertIn("usage:", result.stdout)
+                self.assertNotIn("已生成", result.stdout)
+                self.assertNotIn("健康检查完成", result.stdout)
+
+    def test_argumentless_scripts_reject_unknown_arguments(self):
+        for script in ("build_index.py", "render_graph.py", "check_health.py"):
+            with self.subTest(script=script):
+                result = self.run_script(script, "--unknown")
+                self.assertEqual(result.returncode, 2)
+
+    def test_new_page_help_lists_v3_arguments(self):
+        result = self.run_script("new_page.py", "--help")
+        self.assertIn("--summary", result.stdout)
+        self.assertIn("--force-source", result.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()

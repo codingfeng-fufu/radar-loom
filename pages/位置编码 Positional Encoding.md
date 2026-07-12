@@ -1,8 +1,9 @@
 ---
+摘要: 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 位置编码 Positional Encoding

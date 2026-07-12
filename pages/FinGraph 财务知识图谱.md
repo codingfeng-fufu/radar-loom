@@ -1,4 +1,5 @@
 ---
+摘要: FinGraph是专门为财务分析场景设计的领域知识图谱，核心是把财报中的结构化和非结构化数据转化为可计算的图结构。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

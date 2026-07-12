@@ -1,8 +1,9 @@
 ---
+摘要: 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [KG]
+tags: [KG, 基础]
 ---
 
 # 词性标注 POS Tagging

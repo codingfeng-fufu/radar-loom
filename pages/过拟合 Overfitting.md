@@ -1,8 +1,9 @@
 ---
+摘要: 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 过拟合 Overfitting

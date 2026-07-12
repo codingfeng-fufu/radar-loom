@@ -1,8 +1,9 @@
 ---
+摘要: RAG评测分别衡量检索召回、排序质量和最终答案准确性。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [RAG]
+tags: [RAG, 评测]
 ---
 
 # RAG 评测指标 EM Recall MRR

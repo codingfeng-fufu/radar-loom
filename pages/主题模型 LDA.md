@@ -1,8 +1,9 @@
 ---
+摘要: LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [KG]
+tags: [基础]
 ---
 
 # 主题模型 LDA

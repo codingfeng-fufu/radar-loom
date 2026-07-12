@@ -1,8 +1,9 @@
 ---
+摘要: 消融实验通过逐步去掉系统的某个组件，观察性能变化，来验证每个组件的贡献。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [前沿]
+tags: [评测]
 ---
 
 # 消融实验 Ablation Study

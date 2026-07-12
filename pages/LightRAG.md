@@ -1,4 +1,5 @@
 ---
+摘要: LightRAG以实体图上的局部和全局检索简化GraphRAG流程。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

@@ -1,6 +1,7 @@
 ---
+摘要: 思维链提示通过显式中间推理步骤提升LLM复杂任务表现。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

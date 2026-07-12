@@ -1,7 +1,4 @@
-graph.md
-graph_kg.md
-graph_rag.md
-graph_trust.md
+graph*.md
 __pycache__/
 *.pyc
 .DS_Store

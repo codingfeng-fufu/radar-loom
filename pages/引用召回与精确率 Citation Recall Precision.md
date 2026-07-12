@@ -1,8 +1,9 @@
 ---
+摘要: 引用召回率与精确率衡量生成声明是否得到充分且正确的证据支持。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [可信度, TripleChecker]
+tags: [可信度, TripleChecker, 评测]
 ---
 
 # 引用召回与精确率 Citation Recall Precision

@@ -1,8 +1,9 @@
 ---
+摘要: BatchNorm与LayerNorm通过不同归一化维度稳定神经网络训练。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 层归一化 LayerNorm BatchNorm

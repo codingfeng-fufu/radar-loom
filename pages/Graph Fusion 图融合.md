@@ -1,4 +1,5 @@
 ---
+摘要: Graph Fusion是解决多来源知识图谱融合问题的技术，把多个异构KG合并成一个统一的高质量KG。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

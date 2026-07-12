@@ -1,47 +1,59 @@
-# 技术雷达 · 个人技术动态知识库
+# 技术雷达 · 个人知识外脑
 
-追踪 KG / RAG / LLM 领域新技术动态的个人知识库。按概念建页、增量更新、双链关联、图谱按需渲染。
+面向 KG / RAG / LLM 等技术方向的纯 Markdown 知识库，由用户与 CC 共同维护。系统以检索优先和增量摄入为两条核心要求：回答问题前先检索库内页面；新知识回到已有概念追加或建立新页，并以 Git 留痕。
 
-与 `MASTER_knowledge_base.md` 的分工:那边是体系化沉淀的"教科书",这里是持续追新的"雷达屏"。雷达上反复出现、已经想清楚的内容,月末人工升级合并过去。
+与 `MASTER_knowledge_base.md` 的分工：那边是体系化沉淀的“教科书”，这里是持续吸收、检索和关联的个人知识外脑。
 
 ## 核心范式
 
-1. **一个概念一个页面**,放在 `pages/` 下,文件名即概念名(格式:`中文名 英文名.md`)
-2. **同一概念的新进展,回到原页面追加"更新记录"**,永远不建第二个页面
-3. 页面间关联用双方括号链接语法写在正文里,不维护独立索引
-4. 需要看全局关联时运行 `python3 scripts/render_graph.py`,生成 `graph.md`,VSCode 里 `Ctrl+Shift+V` 预览
+1. 一个概念一个页面，放在 `pages/` 下，文件名即概念名。
+2. 同一概念的新进展回到原页面追加“更新记录”，不建第二页。
+3. 页面关系使用双方括号链接；机器生成的 `_index.md` 是 CC 的检索入口，不手工编辑。
+4. `python3 scripts/render_graph.py` 按需生成核心概览和八个分类子图。
+5. 来源必须真实可达，并尽量记录 PDF 页码或章节。
 
-## 日常工作流
+## 向 CC 提问
 
-1. 每周固定一次扫描新论文/动态(arXiv cs.CL / cs.AI、会议录用列表、可信的技术博客)
-2. 判断是否建页,标准是二选一:与我的研究方向直接相关;或同一主题第二次进入视野
-3. 建页:`python3 scripts/new_page.py "概念名 EnglishName" --tags KG --source "https://..." --confidence 中`
-4. 已有页面的更新:直接编辑原文件,在"更新记录"末尾追加一行
-5. 提交:`git add -A && git commit -m "radar: 新增/更新 <页面名>"`
+CC 先读取 `_index.md`，再打开命中的少量页面。库内命中时按页面内容回答并注明页面与来源；部分命中时区分库内内容和补充知识；未命中时明确说明库内没有该条目。
+
+## 给 CC 喂料
+
+知识可以来自对话、文本文件或 PDF，不要求固定周频率，有料时增量摄入。文本原始件进入 `raw/inbox/`，PDF 进入 `papers/`；文件内容先形成待建/待更新页面清单，再逐页处理。老概念追加，新概念使用：
+
+```bash
+python3 scripts/new_page.py "概念名 EnglishName" \
+  --tags KG \
+  --summary "一句话说明这页讲什么" \
+  --source "papers/example.pdf p.3-5" \
+  --confidence 中
+```
+
+每次摄入以生成索引、健康检查和 Git 提交收尾。
 
 ## 脚本
 
 | 脚本 | 用途 | 命令 |
 |---|---|---|
-| `render_graph.py` | 扫描双链,生成 Mermaid 图谱快照 `graph.md` | `python3 scripts/render_graph.py` |
-| `new_page.py` | 按模板建新页,自动填字段、连分类页 | 见上方工作流第 3 条 |
-| `check_health.py` | 检查断链、缺字段、重复嫌疑页 | `python3 scripts/check_health.py` |
+| `build_index.py` | 从 frontmatter 生成 `_index.md` 检索索引 | `python3 scripts/build_index.py` |
+| `render_graph.py` | 生成核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+| `new_page.py` | 按模板建页并刷新索引 | 见“给 CC 喂料” |
+| `check_health.py` | 检查格式、链接、来源、摘要和索引一致性 | `python3 scripts/check_health.py` |
+
+## 标签与信度
+
+分类标签：`KG`、`RAG`、`LLM机制`、`可信度`、`多智能体`、`基础`、`评测`、`前沿`。
+
+项目标签：`GSAD`、`ChronoLink`、`EvidenceFirst`、`TripleChecker`、`CoMaGRAG`。
+
+- `高`：一手论文或官方文档精读，或教科书级共识知识。
+- `中`：摘要、可靠二手转述或 PDF 讲义类材料整理。
+- `低`：未验证的二手消息。
 
 ## 月度维护
 
-月末执行一次:
+1. 运行索引生成和健康检查，清零 ERROR。
+2. 运行图谱脚本查看全库连接状态。
+3. 检查 `GSAD`、`ChronoLink` 等项目标签是否长期为 0；为 0 表示该方向尚无知识页沉淀。
+4. 人工判断成熟内容是否升级合并进 `MASTER_knowledge_base.md`，本库脚本不读写该文件。
 
-1. `python3 scripts/check_health.py`,清零告警
-2. `python3 scripts/render_graph.py`,查看孤立节点——孤立说明记录太浅或缺关联,回头补
-3. 把本月已想清楚、稳定下来的内容升级合并进 `MASTER_knowledge_base.md`(人工操作,本库脚本不碰那个文件)
-
-## Claude Code 使用协议
-
-CC 在本库执行建页/更新任务时必须遵守:
-
-1. **建页前先查重**:在 `pages/` 内按中文名和英文名分别搜索;已有页面 → 改为追加更新记录
-2. **只用 `new_page.py` 建页**,不手工拼文件;`--source` 与 `--confidence` 必给
-3. **主动连双链**:正文提到的、`pages/` 里已存在的概念写成双链;与 GSAD / ChronoLink / EvidenceFirst / TripleChecker 有关则写进"和我的项目的关系"并打项目标签
-4. **说明性文字里不写裸双方括号示例**(会被图谱脚本当成真实链接)
-5. **每次批量写入后**:跑 `check_health.py`,修复告警,然后 git 提交,message 格式 `radar: 新增/更新 <页面名>`
-6. **禁止**:删除页面(除非用户明确要求);修改 `MASTER_knowledge_base.md`;改动 `scripts/` 与 `templates/`(除非用户要求)
+CC 行为协议见 `CLAUDE.md`。

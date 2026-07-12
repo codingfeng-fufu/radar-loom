@@ -1,6 +1,7 @@
 ---
+摘要: 确定性状态机用固定规则产生可复现、可解释的系统状态判断。
 来源: papers/simulation_core_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG, EvidenceFirst]
 ---

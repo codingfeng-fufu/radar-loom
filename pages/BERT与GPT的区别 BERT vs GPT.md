@@ -1,8 +1,9 @@
 ---
+摘要: BERT 和 GPT 是 Transformer 架构的两个代表性分支，核心区别在于注意力方向和预训练任务。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # BERT与GPT的区别 BERT vs GPT

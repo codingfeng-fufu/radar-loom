@@ -1,4 +1,5 @@
 ---
+摘要: GNN-RAG（arxiv 2024）把 GNN 引入 RAG 的检索阶段。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

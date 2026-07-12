@@ -1,6 +1,7 @@
 ---
+摘要: KG-RAG在普通RAG的向量检索之外，额外引入知识图谱作为结构化检索层。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG, RAG]
 ---

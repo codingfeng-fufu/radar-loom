@@ -1,8 +1,9 @@
 ---
+摘要: 依存句法分析是分析句子里词和词之间的语法依存关系的任务，用有向图表示，边从修饰词指向被修饰词，边上标注关系类型。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [KG]
+tags: [KG, 基础]
 ---
 
 # 依存句法分析 Dependency Parsing

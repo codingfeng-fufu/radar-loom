@@ -1,8 +1,9 @@
 ---
+摘要: 卷积神经网络的核心思想是局部连接和权重共享。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 卷积神经网络 CNN

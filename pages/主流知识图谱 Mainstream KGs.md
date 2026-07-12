@@ -1,6 +1,7 @@
 ---
+摘要: 主流知识图谱包括Wikidata、DBpedia、YAGO及领域知识图谱。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG]
 ---

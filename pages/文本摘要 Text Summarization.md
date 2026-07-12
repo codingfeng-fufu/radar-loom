@@ -1,8 +1,9 @@
 ---
+摘要: 文本摘要通过抽取式或生成式方法压缩原文并保留关键信息。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 文本摘要 Text Summarization

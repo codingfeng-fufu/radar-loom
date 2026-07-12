@@ -1,4 +1,5 @@
 ---
+摘要: StructRAG（Li et al.
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

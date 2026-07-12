@@ -1,6 +1,7 @@
 ---
+摘要: RLHF是让LLM对齐人类偏好的核心技术，ChatGPT就是用RLHF做的对齐。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

@@ -1,6 +1,7 @@
 ---
+摘要: ReAct是2022年提出的Agent经典范式，现在是几乎所有LLM Agent的基础架构。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [多智能体]
 ---

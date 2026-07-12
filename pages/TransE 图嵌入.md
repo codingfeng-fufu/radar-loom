@@ -1,6 +1,7 @@
 ---
+摘要: TransE把知识图谱关系建模为头实体到尾实体的向量平移。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG]
 ---

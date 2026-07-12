@@ -1,8 +1,9 @@
 ---
+摘要: 强化学习通过智能体与环境交互并最大化累积奖励来学习策略。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 强化学习基本框架 Reinforcement Learning

@@ -1,8 +1,9 @@
 ---
+摘要: 反事实评测通过系统性地改变输入的某个属性，观察输出如何变化，来理解模型的依赖关系和潜在偏见。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [可信度, EvidenceFirst]
+tags: [可信度, EvidenceFirst, 评测]
 ---
 
 # 反事实评测 Counterfactual Evaluation

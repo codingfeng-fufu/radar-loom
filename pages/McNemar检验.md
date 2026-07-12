@@ -1,8 +1,9 @@
 ---
+摘要: McNemar检验是专门用于配对二分类数据的统计显著性检验方法，是NLP实验中比较两个系统差异的标配工具。
 来源: papers/engineering_and_frontier_works_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [前沿]
+tags: [评测]
 ---
 
 # McNemar检验

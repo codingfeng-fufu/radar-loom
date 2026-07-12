@@ -1,6 +1,7 @@
 ---
+摘要: 可观测性是指系统能够暴露其内部运行状态的能力，来自软件工程和分布式系统领域。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度, EvidenceFirst]
 ---

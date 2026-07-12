@@ -1,8 +1,9 @@
 ---
+摘要: 数据增强是通过对现有数据做各种变换来生成新的训练数据，从而增加数据多样性、减少过拟合。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 数据增强 Data Augmentation

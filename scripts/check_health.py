@@ -5,14 +5,16 @@
 检查断链、缺字段、非法 tag、概念页缺分类、重复嫌疑页等。
 退出码:全部通过 → 0;存在任一 ERROR → 1(WARN 不影响退出码)。
 """
+import argparse
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
+import build_index  # noqa: E402
 
 VALID_CONFIDENCE = {"高", "中", "低"}
-CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "W1": 8, "W2": 9}
+CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "E8": 8, "E9": 9, "E10": 10, "W1": 11, "W2": 12, "W3": 13}
 
 
 def normalize_tags(fm: dict) -> list:
@@ -43,7 +45,12 @@ def check_update_record(body: str) -> tuple[bool, bool]:
     return exists, has_entry
 
 
-def main() -> int:
+def parse_args(argv=None):
+    return argparse.ArgumentParser(description="检查技术雷达健康状态").parse_args(argv)
+
+
+def main(argv=None) -> int:
+    parse_args(argv)
     pages = rc.scan_pages()
     findings: list[tuple[str, int, str]] = []  # (page_name, code_order, line)
 
@@ -97,6 +104,17 @@ def main() -> int:
             if not exists or not has_entry:
                 add(name, "W2", f"[WARN W2] 页面《{name}》 缺少「更新记录」小节或无条目")
 
+            source_type, local_path = rc.parse_source(str(fm.get("来源", "")))
+            if source_type == "unknown":
+                add(name, "E9", f"[ERROR E9] 页面《{name}》 来源类型未知")
+            elif source_type == "local" and not (rc.VAULT_ROOT / local_path).exists():
+                add(name, "E9", f"[ERROR E9] 页面《{name}》 本地来源不存在:{local_path}")
+            summary = str(fm.get("摘要", "")).strip()
+            if not summary:
+                add(name, "E10", f"[ERROR E10] 页面《{name}》 缺少摘要")
+            elif len(summary) > 60:
+                add(name, "W3", f"[WARN W3] 页面《{name}》 摘要超过60字")
+
     # ---- E7 重复嫌疑(文件名 casefold+去空格)----
     groups: dict[str, list[str]] = {}
     for name in pages:
@@ -108,6 +126,11 @@ def main() -> int:
             for i in range(len(ns)):
                 for j in range(i + 1, len(ns)):
                     add(ns[i], "E7", f"[ERROR E7] 页面《{ns[i]}》与《{ns[j]}》 文件名大小写/空格不敏感重复")
+
+    expected_index, _, _, _ = build_index.render_index(pages)
+    actual_index = rc.INDEX_FILE.read_text(encoding="utf-8") if rc.INDEX_FILE.exists() else None
+    if actual_index != expected_index:
+        add("_index", "E8", "[ERROR E8] _index.md 缺失或与页面/摘要实况不一致,请运行 build_index.py")
 
     # ---- 输出(按页面名、code 序排序)----
     findings.sort(key=lambda x: (x[0], x[1]))

@@ -1,6 +1,7 @@
 ---
+摘要: 提示工程是通过设计输入prompt的格式、内容、示例来引导LLM输出想要的结果，是大模型应用开发最基础的技能。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

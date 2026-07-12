@@ -1,6 +1,7 @@
 ---
+摘要: 审计风险队列按风险排序样本以集中有限的人工审查资源。
 来源: papers/simulation_core_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度, EvidenceFirst]
 ---

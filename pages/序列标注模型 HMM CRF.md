@@ -1,8 +1,9 @@
 ---
+摘要: HMM与CRF以概率图模型方式联合预测序列中各位置的标签。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [KG]
+tags: [KG, 基础]
 ---
 
 # 序列标注模型 HMM CRF

@@ -1,4 +1,5 @@
 ---
+摘要: IRCoT在多跳问答中交替执行思维链推理与证据检索。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

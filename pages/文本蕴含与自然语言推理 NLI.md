@@ -1,6 +1,7 @@
 ---
+摘要: NLI判断前提文本对假设是蕴含、矛盾还是中立，并可用于知识验证。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG, TripleChecker]
 ---

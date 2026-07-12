@@ -10,10 +10,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
+import build_index  # noqa: E402
 
 USAGE = (
     '用法示例:python3 scripts/new_page.py "概念中文名 EnglishName" '
-    '--tags KG,GSAD --source "https://arxiv.org/abs/xxxx.xxxxx" --confidence 中'
+    '--tags KG --summary "一句话摘要" --source "https://arxiv.org/abs/xxxx.xxxxx" --confidence 中'
 )
 
 FORBIDDEN_TITLE_CHARS = set('/\\:*?"<>|')
@@ -35,11 +36,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("title", nargs="?", help="页面标题,格式「概念中文名 EnglishName」")
     parser.add_argument("--tags", help="逗号分隔的标签,需含至少一个分类标签")
     parser.add_argument("--source", help="来源链接")
+    parser.add_argument("--summary", help="一句话摘要(不超过60字)")
+    parser.add_argument("--force-source", action="store_true", help="允许暂时使用不存在的本地来源")
     parser.add_argument("--confidence", default="中", help="信度:高/中/低(默认 中)")
     return parser.parse_args()
 
 
-def validate(args: argparse.Namespace) -> tuple[str, list[str], str, str]:
+def validate(args: argparse.Namespace) -> tuple[str, list[str], str, str, str]:
     """校验并返回 (title, tags, source, confidence);失败 die() 退出 2。"""
     # ---- title ----
     if args.title is None:
@@ -65,12 +68,23 @@ def validate(args: argparse.Namespace) -> tuple[str, list[str], str, str]:
     if args.source is None or not args.source.strip():
         die("缺少必填参数 --source(不能为空)。")
     source = args.source.strip()
+    source_type, local_path = rc.parse_source(source)
+    if source_type == "unknown":
+        die("--source 必须是 papers/raw 本地路径、完整 URL 或对话记录日期。")
+    if source_type == "local" and not (rc.VAULT_ROOT / local_path).exists() and not args.force_source:
+        die(f"本地来源不存在:{local_path}(确需跳过时使用 --force-source)。")
+
+    if args.summary is None or not args.summary.strip():
+        die("缺少必填参数 --summary(不能为空)。")
+    summary = args.summary.strip()
+    if len(summary) > 60:
+        die("--summary 不能超过60字。")
 
     # ---- confidence ----
     if args.confidence not in ("高", "中", "低"):
         die(f"非法信度「{args.confidence}」:信度必须为 高/中/低 之一。")
 
-    return title, tags, source, args.confidence
+    return title, tags, summary, source, args.confidence
 
 
 def dedup_check(title: str) -> None:
@@ -96,12 +110,13 @@ def dedup_check(title: str) -> None:
         sys.exit(1)
 
 
-def build_content(title: str, tags: list[str], source: str, confidence: str) -> str:
+def build_content(title: str, tags: list[str], summary: str, source: str, confidence: str) -> str:
     """§11.3 读模板并做替换,返回新页正文。"""
     text = rc.TEMPLATE_FILE.read_text(encoding="utf-8")
     # 1. 占位符
     text = text.replace("{TITLE}", title).replace("{DATE}", rc.today())
     # 2. frontmatter 三处字符串替换
+    text = text.replace("摘要:", f"摘要: {summary}", 1)
     text = text.replace("来源: ", f"来源: {source}")
     text = text.replace("信度: 中", f"信度: {confidence}")
     text = text.replace("tags: []", f"tags: [{', '.join(tags)}]")
@@ -133,13 +148,14 @@ def build_content(title: str, tags: list[str], source: str, confidence: str) -> 
 
 def main() -> int:
     args = parse_args()
-    title, tags, source, confidence = validate(args)
+    title, tags, summary, source, confidence = validate(args)
     dedup_check(title)
 
     rc.PAGES_DIR.mkdir(parents=True, exist_ok=True)
-    content = build_content(title, tags, source, confidence)
+    content = build_content(title, tags, summary, source, confidence)
     target_path = rc.PAGES_DIR / f"{title}.md"
     target_path.write_text(content, encoding="utf-8")
+    build_index.main([])
 
     print(
         f'已创建 pages/{title}.md(tags: {", ".join(tags)}, 信度: {confidence})。'

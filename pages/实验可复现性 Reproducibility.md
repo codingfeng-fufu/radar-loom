@@ -1,8 +1,9 @@
 ---
+摘要: 实验可复现性是指其他研究者用完全相同的代码、数据、参数重新运行你的实验，能得到完全相同的结果。
 来源: papers/engineering_and_frontier_works_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
-tags: [前沿]
+tags: [评测]
 ---
 
 # 实验可复现性 Reproducibility

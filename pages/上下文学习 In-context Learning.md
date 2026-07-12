@@ -1,6 +1,7 @@
 ---
+摘要: 上下文学习让LLM仅凭提示中的示例完成任务而无需更新参数。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

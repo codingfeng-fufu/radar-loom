@@ -1,4 +1,5 @@
 ---
+摘要: Self-RAG是让LLM学会自我反思的RAG框架，ICLR 2024的代表作。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

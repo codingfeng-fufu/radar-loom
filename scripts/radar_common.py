@@ -20,13 +20,14 @@ VAULT_ROOT = Path(__file__).resolve().parent.parent
 PAGES_DIR = VAULT_ROOT / "pages"
 TEMPLATE_FILE = VAULT_ROOT / "templates" / "概念页模板.md"
 GRAPH_FILE = VAULT_ROOT / "graph.md"
+INDEX_FILE = VAULT_ROOT / "_index.md"
 
 WIKILINK_RE = re.compile(r"\[\[([^\]|#\n]+?)(?:\|[^\]]*)?\]\]")
 # 说明:捕获组 1 为目标页名;支持 [[目标|别名]] 形式(别名丢弃);
 # 排除 ] | # 换行,避免跨行误匹配与锚点;非贪婪。
 
-CATEGORY_TAGS = {"KG", "RAG", "LLM机制", "可信度", "多智能体", "前沿"}
-PROJECT_TAGS = {"GSAD", "ChronoLink", "EvidenceFirst", "TripleChecker"}
+CATEGORY_TAGS = {"KG", "RAG", "LLM机制", "可信度", "多智能体", "前沿", "基础", "评测"}
+PROJECT_TAGS = {"GSAD", "ChronoLink", "EvidenceFirst", "TripleChecker", "CoMaGRAG"}
 STRUCT_TAGS = {"MOC", "项目"}
 
 TAG_TO_CATEGORY_PAGE = {
@@ -36,7 +37,16 @@ TAG_TO_CATEGORY_PAGE = {
     "可信度": "幻觉与可信度 Hallucination Trustworthiness",
     "多智能体": "多智能体系统 Multi-Agent Systems",
     "前沿": "前沿趋势 Frontier",
+    "基础": "机器学习与NLP基础 ML-NLP Foundations",
+    "评测": "评测方法 Evaluation Methods",
 }
+
+CATEGORY_ORDER = ("KG", "RAG", "LLM机制", "可信度", "多智能体", "基础", "评测", "前沿")
+GRAPH_SLUGS = {
+    "KG": "kg", "RAG": "rag", "LLM机制": "llm", "可信度": "trust",
+    "多智能体": "agents", "前沿": "frontier", "基础": "basics", "评测": "eval",
+}
+GRAPH_DIR_FILES = {tag: VAULT_ROOT / f"graph_{slug}.md" for tag, slug in GRAPH_SLUGS.items()}
 
 
 # --------------------------------------------------------------------------- #
@@ -190,3 +200,16 @@ def mermaid_id(name: str) -> str:
 def today() -> str:
     """返回 YYYY-MM-DD。"""
     return datetime.date.today().isoformat()
+
+
+def parse_source(value: str) -> tuple[str, str | None]:
+    """Classify a source and return its local path when applicable."""
+    value = value.strip()
+    if value.startswith(("papers/", "raw/")):
+        path = re.split(r"\s+p\.(?:\d+)(?:-\d+)?(?:\s|$)", value, maxsplit=1)[0]
+        return ("local", path)
+    if value.startswith(("http://", "https://")):
+        return ("url", None)
+    if value.startswith("对话记录"):
+        return ("chat", None)
+    return ("unknown", None)

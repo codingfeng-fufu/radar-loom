@@ -1,6 +1,7 @@
 ---
+摘要: LLM推理优化的两个核心技术是KV Cache和量化。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

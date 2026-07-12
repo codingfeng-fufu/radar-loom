@@ -1,6 +1,7 @@
 ---
+摘要: 困惑度（Perplexity，PPL）是评估语言模型最经典的指标，衡量模型对测试文本的「惊讶程度」。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [LLM机制]
 ---

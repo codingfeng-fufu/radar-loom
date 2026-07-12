@@ -1,6 +1,7 @@
 ---
+摘要: 可审计性是指第三方（监管者、用户、内审人员）能够独立检验AI系统决策过程和依据的能力，不需要依赖系统开发者的说明。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度, EvidenceFirst]
 ---

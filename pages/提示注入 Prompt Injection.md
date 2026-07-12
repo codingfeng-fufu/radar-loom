@@ -1,6 +1,7 @@
 ---
+摘要: 提示注入通过恶意输入劫持LLM指令并破坏既定行为边界。
 来源: papers/foundational_knowledge_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [可信度]
 ---

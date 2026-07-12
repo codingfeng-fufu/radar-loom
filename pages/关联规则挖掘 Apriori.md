@@ -1,8 +1,9 @@
 ---
+摘要: 关联规则挖掘是从事务数据库里找频繁共现的项目集的任务，典型场景是购物篮分析。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [KG]
+tags: [基础]
 ---
 
 # 关联规则挖掘 Apriori

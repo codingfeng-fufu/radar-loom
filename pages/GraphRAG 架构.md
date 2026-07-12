@@ -1,6 +1,7 @@
 ---
+摘要: 微软GraphRAG是2024年引爆GraphRAG方向的经典工作。
 来源: papers/engineering_and_frontier_works_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [RAG]
 ---

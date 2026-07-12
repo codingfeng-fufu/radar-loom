@@ -1,4 +1,5 @@
 ---
+摘要: 人机协同知识图谱构建用人工反馈校正LLM执行的抽取与融合任务。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

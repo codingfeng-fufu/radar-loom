@@ -1,4 +1,5 @@
 ---
+摘要: CRAG先评估检索质量，再通过补充搜索和结果融合纠正RAG输入。
 来源: papers/engineering_and_frontier_works_1.pdf
 信度: 中
 首次记录: 2026-07-04

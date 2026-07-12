@@ -1,6 +1,7 @@
 ---
+摘要: Grounding（接地）是指生成的内容能够追溯并锚定到具体的、外部可验证的证据上，而不是悬空依赖模型的参数化记忆。
 来源: papers/trustworthy_ai_and_frontier_1.pdf
-信度: 高
+信度: 中
 首次记录: 2026-07-04
 tags: [KG, RAG]
 ---

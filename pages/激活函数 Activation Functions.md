@@ -1,8 +1,9 @@
 ---
+摘要: 激活函数为神经网络引入非线性，没有它多层网络等价于单层线性模型。
 来源: papers/foundational_knowledge_1.pdf
 信度: 高
 首次记录: 2026-07-04
-tags: [LLM机制]
+tags: [LLM机制, 基础]
 ---
 
 # 激活函数 Activation Functions
