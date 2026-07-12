@@ -16,10 +16,10 @@
 - Modify: `tests/test_viewer_contract.py`
 - Modify: `viewer.html`
 
-- [ ] Add failing assertions for `katex.min.css`, `katex.min.js`, `auto-render.min.js`, all four delimiter definitions, `renderMathInElement`, `trust: false`, and math rendering after `DOMPurify.sanitize`.
-- [ ] Run `python3 -m unittest discover -s tests -p 'test_viewer_contract.py' -v`; expect the new math contract to fail.
-- [ ] Add KaTeX assets, responsive math CSS and `renderMathInElement(elements.content, {delimiters, throwOnError:false, trust:false, strict:'warn'})` after sanitized Markdown insertion.
-- [ ] Re-run the viewer contract; expect all tests to pass.
+- [x] Add failing assertions for `katex.min.css`, `katex.min.js`, `auto-render.min.js`, all four delimiter definitions, `renderMathInElement`, `trust: false`, and math rendering after `DOMPurify.sanitize`.
+- [x] Run `python3 -m unittest discover -s tests -p 'test_viewer_contract.py' -v`; expect the new math contract to fail.
+- [x] Add KaTeX assets, responsive math CSS and `renderMathInElement(elements.content, {delimiters, throwOnError:false, trust:false, strict:'warn'})` after sanitized Markdown insertion.
+- [x] Re-run the viewer contract; expect all tests to pass.
 
 ### Task 2: Reproducible WebUI patch
 
@@ -29,21 +29,21 @@
 - Modify: `/home/u2023312337/webui/webui-control`
 - Modify: installed `claude-code-webui` frontend/backend bundles through the patch script.
 
-- [ ] Write a Node test that runs the patch against fixture copies and asserts it adds the `bypassPermissions` option, warning text, mode-state predicate and backend `extraArgs` mapping; run it and expect failure because the patch script is absent.
-- [ ] Implement a version-guarded, idempotent patcher using exact source fragments and atomic temp-file rename.
-- [ ] Run the Node test twice and expect both runs to pass with identical second-run output.
-- [ ] Add `node "$BASE/patch-dangerous-mode.mjs" --check` to `webui-control start`; patch application remains an explicit maintenance command, while startup refuses an unpatched bundle.
-- [ ] Apply the patch, restart WebUI and confirm both bundle markers exist.
+- [x] Write a Node test that runs the patch against fixture copies and asserts it adds the `bypassPermissions` option, warning text, mode-state predicate and backend `extraArgs` mapping; run it and expect failure because the patch script is absent.
+- [x] Implement a version-guarded, idempotent patcher using exact source fragments and atomic temp-file rename.
+- [x] Run the Node test twice and expect both runs to pass with identical second-run output.
+- [x] Add `node "$BASE/patch-dangerous-mode.mjs" --check` to `webui-control start`; patch application remains an explicit maintenance command, while startup refuses an unpatched bundle.
+- [x] Apply the patch, restart WebUI and confirm both bundle markers exist.
 
 ### Task 3: Runtime and browser verification
 
 **Files:**
 - Create temporary files only under `/tmp` or `.playwright-cli`, then remove them.
 
-- [ ] Serve a temporary formula page through the knowledge-base server and use Playwright to assert inline/display KaTeX nodes, delimiter coverage, retained invalid formula and no horizontal page overflow.
-- [ ] Use Playwright to assert the fourth mode is visible, default mode is not bypass, selecting it reveals the red warning, and refresh resets to default.
-- [ ] Send one harmless API request with `bypassPermissions` and one with `default`; assert init/result success and the expected permission mode without file changes.
-- [ ] Confirm ports 18080 and 18081 remain bound only to `127.0.0.1`.
+- [x] Serve a temporary formula page through the knowledge-base server and use Playwright to assert inline/display KaTeX nodes, delimiter coverage, retained invalid formula and no horizontal page overflow.
+- [x] Use Playwright to assert the fourth mode is visible, default mode is not bypass, selecting it reveals the red warning, and refresh resets to default.
+- [x] Send one harmless API request with `bypassPermissions` and one with `default`; assert init/result success and the expected permission mode without file changes.
+- [x] Confirm ports 18080 and 18081 remain bound only to `127.0.0.1`.
 
 ### Task 4: Documentation and completion
 
@@ -52,7 +52,7 @@
 - Modify: `reports/2026-07-12_Web操作台部署完成报告.html`
 - Modify: `docs/superpowers/plans/2026-07-13-viewer-math-webui-bypass.md`
 
-- [ ] Document formula syntax, CDN dependency, fourth-mode behavior, security warning and patch replay command in both reports.
+- [x] Document formula syntax, CDN dependency, fourth-mode behavior, security warning and patch replay command in both reports.
 - [ ] Run the full unittest suite, health check, Node patch tests, browser checks, listener checks and `git diff --check`.
 - [ ] Stage and commit only this task's knowledge-base files with `git commit --only`, leaving existing staged and unstaged user changes untouched.
 - [ ] Audit every design requirement against current files and runtime evidence, then mark the active goal complete.

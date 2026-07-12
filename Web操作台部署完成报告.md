@@ -42,10 +42,22 @@
 - 直接地址格式为 `viewer.html?f=pages/页面名.md`;中文和空格由浏览器进行 URL 编码。
 - 页面 frontmatter 在正文前以“页面元数据”折叠块展示,默认收起。
 - 正文按 GFM 渲染,双方括号链接可跳转,代码块启用 highlight.js,Mermaid 代码块生成图形。
+- 数学公式由 KaTeX 渲染,支持行内 `$...$`、`\\(...\\)` 和块级 `$$...$$`、`\\[...\\]`;错误公式保留原文且不阻断页面。
 - `viewer.html?f=graph.md` 打开全库核心图谱。
 - 查看器为只读工具,不提供编辑、搜索或主题切换。
 
 查看器的 marked、DOMPurify、highlight.js 和 Mermaid 由用户浏览器从 CDN 加载。静态服务器本身不安装 npm 包;浏览器断网或 CDN 不可达时,Markdown 渲染功能不可用。
+
+## WebUI 权限模式
+
+聊天输入框下方的模式按钮依次循环 `normal`、`plan`、`accept edits` 和 `dangerously skip permissions`。第四档会让 Claude 不经确认执行命令和修改文件,界面显示红色警示;它不作为默认值,刷新页面后回到 `normal`。
+
+WebUI 安装包重装后需重新应用并校验本地补丁:
+
+```bash
+node /home/u2023312337/webui/patch-dangerous-mode.mjs
+node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
+```
 
 ## 报告约定
 
@@ -61,12 +73,14 @@
 | 概念页和 frontmatter | 通过 | 打开 `GraphRAG 架构`,元数据折叠块存在且默认收起 |
 | 双链导航 | 通过 | 该页面生成 6 个 viewer 内部链接 |
 | Mermaid | 通过 | `graph.md` 实际生成 1 个 SVG,页面无渲染错误 |
+| 数学公式 | 通过 | 四种定界符生成 4 个 KaTeX 节点与 2 个块级节点;错误公式不阻断,390px 下无页面溢出 |
 | 路径校验 | 通过 | `?f=../xxx.md` 显示拒绝信息,未发起库外文件读取 |
 | 基本 sanitize | 通过 | 渲染结果通过 DOMPurify 后才进入正文 DOM |
 | 桌面/移动布局 | 通过 | 390×844 下显示移动导航,无横向页面溢出 |
 | 监听地址 | 通过 | 18080 和 18081 均只监听 `127.0.0.1` |
 | UI 真实检索对话 | 通过 | 2026-07-13 补验收:实际读取 `_index.md` 与 `pages/GraphRAG 架构.md`,返回完整答案 |
 | UI 测试摄入并恢复 | 通过 | 临时页进入索引后页面数 88→89,健康检查 0/0;随后删除并恢复至 88 页,健康检查仍为 0/0 |
+| 危险权限第四档 | 通过 | UI 可选择且显示红色警示;刷新恢复 normal;真实 API init 为 `bypassPermissions`,普通请求仍为 `default` |
 
 2026-07-12 的 429 历史证据保存在 `/home/u2023312337/webui/preflight.ndjson`。2026-07-13 补验收日志保存在 `/home/u2023312337/webui/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
 
@@ -77,3 +91,4 @@
 3. 查看器的渲染库依赖浏览器访问 CDN。
 4. 两个服务在服务器重启后均需手动启动。
 5. Python 静态服务器是只读访问用途的轻量服务,不承担身份认证;必须保持仅绑定 localhost 并通过受控端口转发访问。
+6. `dangerously skip permissions` 会绕过 Claude Code 的工具确认,只应在明确了解操作范围时临时启用;刷新后自动回到 normal。

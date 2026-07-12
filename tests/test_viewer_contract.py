@@ -23,6 +23,26 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("cdnjs.cloudflare.com/ajax/libs/highlight.js", self.html)
         self.assertNotIn("highlight.js@11.11.1/lib/common.min.js", self.html)
 
+    def test_katex_assets_and_all_supported_delimiters_are_present(self):
+        self.assertIn("katex.min.css", self.html)
+        self.assertIn("katex.min.js", self.html)
+        self.assertIn("auto-render.min.js", self.html)
+        self.assertNotIn('<script defer src="https://cdn.jsdelivr.net/npm/katex', self.html)
+        for delimiter in ("'$$'", "'$'", r"'\\('", r"'\\['"):
+            with self.subTest(delimiter=delimiter):
+                self.assertIn(delimiter, self.html)
+
+    def test_math_runs_after_sanitizing_with_safe_error_handling(self):
+        sanitize_at = self.html.index("DOMPurify.sanitize")
+        render_at = self.html.index("renderMathInElement")
+        self.assertLess(sanitize_at, render_at)
+        self.assertRegex(self.html, r"function\s+protectMathDelimiters\s*\(")
+        self.assertRegex(self.html, r"function\s+restoreMathDelimiters\s*\(")
+        self.assertIn("restoreMathDelimiters(marked.parse(protectMathDelimiters", self.html)
+        self.assertIn("throwOnError: false", self.html)
+        self.assertIn("trust: false", self.html)
+        self.assertIn("strict: 'warn'", self.html)
+
     def test_defaults_to_home_and_builds_sidebar_from_index(self):
         self.assertRegex(self.html, r"DEFAULT_FILE\s*=\s*['\"]首页\.md['\"]")
         self.assertIn("_index.md", self.html)

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>技术雷达知识库</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <style>
     :root {
       color-scheme: light;
@@ -55,6 +56,7 @@
     article :not(pre) > code { padding: 2px 5px; border-radius: 3px; background: var(--code); }
     article pre { overflow: auto; padding: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--code); }
     article pre code { padding: 0; }
+    article .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
     .mermaid { overflow-x: auto; text-align: center; }
     .scrim { display: none; }
     @media (max-width: 760px) {
@@ -71,6 +73,8 @@
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
   <div class="shell">
@@ -132,6 +136,22 @@
         const label = (alias || target).trim().replace(/([\[\]])/g, '\\$1');
         return `[${label}](${viewerHref(cleanTarget)})`;
       });
+    }
+
+    function protectMathDelimiters(markdown) {
+      return markdown
+        .replaceAll('\\(', '@@KATEX_LP@@')
+        .replaceAll('\\)', '@@KATEX_RP@@')
+        .replaceAll('\\[', '@@KATEX_LB@@')
+        .replaceAll('\\]', '@@KATEX_RB@@');
+    }
+
+    function restoreMathDelimiters(html) {
+      return html
+        .replaceAll('@@KATEX_LP@@', '\\(')
+        .replaceAll('@@KATEX_RP@@', '\\)')
+        .replaceAll('@@KATEX_LB@@', '\\[')
+        .replaceAll('@@KATEX_RB@@', '\\]');
     }
 
     function parseIndex(markdown) {
@@ -202,8 +222,21 @@
         const { metadata, body } = splitFrontmatter(await response.text());
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
-        const rendered = marked.parse(rewriteWikilinks(body), { gfm: true, breaks: false });
+        const rendered = restoreMathDelimiters(marked.parse(protectMathDelimiters(
+          rewriteWikilinks(body)
+        ), { gfm: true, breaks: false }));
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
+        renderMathInElement(elements.content, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false,
+          trust: false,
+          strict: 'warn'
+        });
         elements.content.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => hljs.highlightElement(block));
         elements.content.querySelectorAll('pre code.language-mermaid').forEach((block) => {
           const container = document.createElement('div');
