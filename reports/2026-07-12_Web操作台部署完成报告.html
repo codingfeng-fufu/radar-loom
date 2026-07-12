@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web 操作台部署完成报告</title>
+  <style>
+    :root { --ink:#20242a; --muted:#68717d; --line:#d8dde3; --accent:#0b6b57; --soft:#eef6f3; --warn:#9b3b24; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:#fff; font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; letter-spacing:0; }
+    .layout { display:grid; grid-template-columns:240px minmax(0,820px); gap:48px; width:min(1120px,calc(100% - 48px)); margin:0 auto; padding:40px 0 80px; }
+    nav { position:sticky; top:24px; align-self:start; border-left:3px solid var(--accent); padding:4px 0 4px 16px; }
+    nav strong { display:block; margin-bottom:8px; }
+    nav a { display:block; padding:3px 0; color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--accent); }
+    main { min-width:0; }
+    h1,h2 { line-height:1.3; letter-spacing:0; }
+    h1 { margin:0 0 10px; font-size:30px; }
+    h2 { margin:38px 0 14px; padding-bottom:7px; border-bottom:1px solid var(--line); font-size:21px; }
+    .meta { margin:0 0 26px; color:var(--muted); }
+    .status { border-left:4px solid var(--warn); background:#fff4f0; padding:12px 16px; }
+    table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
+    th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+    th { background:#f4f6f7; }
+    code { background:#f4f6f7; border-radius:3px; padding:2px 5px; overflow-wrap:anywhere; }
+    pre { overflow:auto; border:1px solid var(--line); border-radius:4px; background:#f4f6f7; padding:14px; }
+    pre code { padding:0; }
+    a { color:var(--accent); }
+    .pass { color:var(--accent); font-weight:700; }
+    .fail { color:var(--warn); font-weight:700; }
+    @media (max-width:760px) { .layout{display:block;width:min(100% - 32px,820px);padding-top:24px} nav{position:static;margin-bottom:32px} h1{font-size:26px} }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav aria-label="报告目录">
+      <strong>报告目录</strong>
+      <a href="#access">访问入口</a><a href="#control">启停命令</a><a href="#viewer">Viewer 使用</a>
+      <a href="#reports">报告约定</a><a href="#verification">验收记录</a><a href="#limits">已知限制</a>
+    </nav>
+    <main>
+      <h1>Web 操作台部署完成报告</h1>
+      <p class="meta">2026-07-12 · 补充任务书收尾</p>
+      <p class="status"><strong>状态说明:</strong>本地聊天入口与知识库浏览入口均已部署;浏览功能验收通过。火山 endpoint 仍返回 HTTP 429,用户已授权跳过该前置阻断,因此真实对话与测试摄入没有记为通过。</p>
+
+      <h2 id="access">访问入口</h2>
+      <table><thead><tr><th>用途</th><th>本机地址</th><th>监听范围</th></tr></thead><tbody>
+        <tr><td>Claude Code WebUI 聊天</td><td><code>http://127.0.0.1:18080</code></td><td>仅 localhost</td></tr>
+        <tr><td>技术雷达知识库浏览</td><td><code>http://127.0.0.1:18081/viewer.html</code></td><td>仅 localhost</td></tr>
+      </tbody></table>
+      <p>远程使用时,在 VSCode“端口”面板转发 18080 和 18081,可见性保持为专用/本地。服务未开放公网。</p>
+
+      <h2 id="control">启停命令</h2>
+      <pre><code># 聊天入口
+/home/u2023312337/webui/webui-control start|stop|restart|status
+
+# 知识库浏览入口
+/home/u2023312337/webui/kbserve-control start|stop|restart|status</code></pre>
+      <p>两个服务由 tmux 托管。服务器重启后需要手动执行两个 <code>start</code>;当前环境没有 root 权限或可用 user-bus,未配置系统级自启动。</p>
+
+      <h2 id="viewer">Viewer 使用</h2>
+      <ul><li>无参数时显示 <code>首页.md</code>,侧栏从 <code>_index.md</code> 生成。</li><li>概念页格式为 <code>viewer.html?f=pages/页面名.md</code>。</li><li>frontmatter 默认折叠;支持 GFM、双方括号跳转、代码高亮与 Mermaid。</li><li><code>viewer.html?f=graph.md</code> 打开核心图谱。</li><li>查看器只读,不含编辑、搜索和主题功能。</li></ul>
+      <p>渲染库由浏览器从 CDN 加载;浏览器断网或 CDN 不可达时,Markdown 渲染不可用。</p>
+
+      <h2 id="reports">报告约定</h2>
+      <p>面向用户的盘点、迁移和阶段汇总等成品同时保留 Markdown,并生成自包含 HTML 到 <code>reports/YYYY-MM-DD_主题.html</code>。知识库概念页仍只使用 Markdown。</p>
+
+      <h2 id="verification">验收记录</h2>
+      <table><thead><tr><th>验收项</th><th>状态</th><th>实际结果</th></tr></thead><tbody>
+        <tr><td>首页与侧栏</td><td class="pass">通过</td><td>首页正确,索引解析出 9 个分组</td></tr>
+        <tr><td>概念页/frontmatter/双链</td><td class="pass">通过</td><td>GraphRAG 页面元数据默认收起,生成 6 个内部链接</td></tr>
+        <tr><td>Mermaid</td><td class="pass">通过</td><td>graph.md 实际生成 SVG,控制台 0 errors / 0 warnings</td></tr>
+        <tr><td>路径校验</td><td class="pass">通过</td><td><code>?f=../xxx.md</code> 被拒绝</td></tr>
+        <tr><td>移动布局</td><td class="pass">通过</td><td>390×844 无横向溢出</td></tr>
+        <tr><td>监听地址</td><td class="pass">通过</td><td>18080、18081 均仅监听 127.0.0.1</td></tr>
+        <tr><td>UI 真实检索</td><td class="fail">未通过</td><td>连续返回 HTTP 429 rate_limit</td></tr>
+        <tr><td>UI 测试摄入并恢复</td><td class="fail">未执行</td><td>完整模型回复不可用</td></tr>
+      </tbody></table>
+      <p>429 证据位于 <code>/home/u2023312337/webui/preflight.ndjson</code>,请求已中止。本报告不将额度状态描述为恢复。</p>
+
+      <h2 id="limits">已知限制</h2>
+      <ol><li>聊天区不渲染 Markdown且无文件树;知识页和报告通过 18081 查看。</li><li>火山 endpoint 当前仍受 429 限流。</li><li>Viewer 浏览器端依赖 CDN。</li><li>服务器重启后需手动启动两个服务。</li><li>轻量静态服务器不提供认证,必须保持 localhost 绑定。</li></ol>
+    </main>
+  </div>
+</body>
+</html>
