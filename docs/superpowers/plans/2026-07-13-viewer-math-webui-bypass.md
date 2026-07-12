@@ -53,6 +53,6 @@
 - Modify: `docs/superpowers/plans/2026-07-13-viewer-math-webui-bypass.md`
 
 - [x] Document formula syntax, CDN dependency, fourth-mode behavior, security warning and patch replay command in both reports.
-- [ ] Run the full unittest suite, health check, Node patch tests, browser checks, listener checks and `git diff --check`.
-- [ ] Stage and commit only this task's knowledge-base files with `git commit --only`, leaving existing staged and unstaged user changes untouched.
-- [ ] Audit every design requirement against current files and runtime evidence, then mark the active goal complete.
+- [x] Run the full unittest suite, health check, Node patch tests, browser checks, listener checks and `git diff --check`.
+- [x] Stage and commit only this task's knowledge-base files with `git commit --only`, leaving existing staged and unstaged user changes untouched.
+- [x] Audit every design requirement against current files and runtime evidence, then mark the active goal complete.
