@@ -42,7 +42,7 @@
     <main>
       <h1>Web 操作台部署完成报告</h1>
       <p class="meta">2026-07-12 · 补充任务书收尾</p>
-      <p class="status"><strong>状态说明:</strong>本地聊天入口与知识库浏览入口均已部署;浏览功能验收通过。火山 endpoint 仍返回 HTTP 429,用户已授权跳过该前置阻断,因此真实对话与测试摄入没有记为通过。</p>
+      <p class="status"><strong>状态说明:</strong>本地聊天入口与知识库浏览入口均已部署。2026-07-12 火山 endpoint 曾返回 HTTP 429;2026-07-13 已恢复,真实检索与可逆摄入补验收均通过。</p>
 
       <h2 id="access">访问入口</h2>
       <table><thead><tr><th>用途</th><th>本机地址</th><th>监听范围</th></tr></thead><tbody>
@@ -74,13 +74,13 @@
         <tr><td>路径校验</td><td class="pass">通过</td><td><code>?f=../xxx.md</code> 被拒绝</td></tr>
         <tr><td>移动布局</td><td class="pass">通过</td><td>390×844 无横向溢出</td></tr>
         <tr><td>监听地址</td><td class="pass">通过</td><td>18080、18081 均仅监听 127.0.0.1</td></tr>
-        <tr><td>UI 真实检索</td><td class="fail">未通过</td><td>连续返回 HTTP 429 rate_limit</td></tr>
-        <tr><td>UI 测试摄入并恢复</td><td class="fail">未执行</td><td>完整模型回复不可用</td></tr>
+        <tr><td>UI 真实检索</td><td class="pass">通过</td><td>2026-07-13 实际读取索引和 GraphRAG 页面并返回完整答案</td></tr>
+        <tr><td>UI 测试摄入并恢复</td><td class="pass">通过</td><td>页面数 88→89→88,创建和恢复阶段健康检查均为 0/0</td></tr>
       </tbody></table>
-      <p>429 证据位于 <code>/home/u2023312337/webui/preflight.ndjson</code>,请求已中止。本报告不将额度状态描述为恢复。</p>
+      <p>7 月 12 日的 429 证据保留在 <code>/home/u2023312337/webui/preflight.ndjson</code>;7 月 13 日补验收日志保存在同目录的 retrieval、ingest 和 ingest-restore NDJSON 文件中。</p>
 
       <h2 id="limits">已知限制</h2>
-      <ol><li>聊天区不渲染 Markdown且无文件树;知识页和报告通过 18081 查看。</li><li>火山 endpoint 当前仍受 429 限流。</li><li>Viewer 浏览器端依赖 CDN。</li><li>服务器重启后需手动启动两个服务。</li><li>轻量静态服务器不提供认证,必须保持 localhost 绑定。</li></ol>
+      <ol><li>聊天区不渲染 Markdown且无文件树;知识页和报告通过 18081 查看。</li><li>火山 endpoint 的后续额度状态由上游服务控制;7 月 12 日曾限流,7 月 13 日已恢复。</li><li>Viewer 浏览器端依赖 CDN。</li><li>服务器重启后需手动启动两个服务。</li><li>轻量静态服务器不提供认证,必须保持 localhost 绑定。</li></ol>
     </main>
   </div>
 </body>
