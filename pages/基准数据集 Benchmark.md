@@ -1,0 +1,32 @@
+---
+来源: papers/foundational_knowledge_1.pdf
+信度: 高
+首次记录: 2026-07-04
+tags: [前沿]
+---
+
+# 基准数据集 Benchmark
+
+## 核心内容
+
+基准数据集提供统一的评测标准，让不同系统的结果可以直接比较，推动领域进展，明确当前最难的问题在哪里。但局限也很明显：很多 benchmark 的指标并不是真正解决问题，和真实场景可能有差距；数据集构建时的抽取器设置和真实开放检索不同。[[EvidenceFirst]] 里明确说明了贡献定位为可观测性层面而非指标优化，就是为了避开 benchmark 刷榜的内卷。
+
+## 和我的项目的关系
+
+我对 benchmark 的态度是「用但不迷」：
+- [[TripleChecker]] 需要构建一个高质量的 KG 幻觉评测基准，现在的问题是没有公认的基准——大家都在自己造数据，结果不可比
+- [[EvidenceFirst]] 故意不在 HotpotQA 上刷 SOTA，而是强调观测性和可解释性的贡献
+- 面试时可以讲这个观点：benchmark 是手段不是目的，真正好的研究应该是定义新的问题和新的评测维度，而不是在别人定义的指标上多涨零点几个点
+
+## 交叉引用
+
+- [[前沿趋势 Frontier]]
+- [[消融实验 Ablation Study]]
+- [[实验可复现性 Reproducibility]]
+- [[RAG 评测指标 EM Recall MRR]]
+- [[EvidenceFirst]]
+- [[TripleChecker]]
+
+## 更新记录
+
+- 2026-07-04: 首次建页
