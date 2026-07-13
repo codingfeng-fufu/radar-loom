@@ -79,3 +79,43 @@
 - [ ] Add the stable 32 px icon button beside `询问 Claude`; preserve the current Viewer URL, disable the button until the iframe `load` event, then show `知识库已刷新`.
 - [ ] Apply the patch, restart 18080, and use Playwright to verify the Viewer document reloads while the Claude textarea value and current permission mode remain unchanged.
 - [ ] Run both WebUI patch tests, both `--check` commands, listener and HTTP checks.
+
+### Task 7: Mathematical authoring rule and health gate
+
+**Files:**
+- Modify: `/home/u2023312337/知识库/CLAUDE.md`
+- Modify: `/home/u2023312337/知识库/scripts/check_health.py`
+- Modify: `/home/u2023312337/知识库/tests/test_v3_scripts.py`
+- Modify: `/home/u2023312337/知识库/pages/扩散模型 Diffusion Models DDPM.md`
+
+- [ ] Add failing tests for an `undelimited_math_lines` helper: it must flag DDPM-style raw equations and LaTeX commands outside delimiters, while ignoring fenced code, inline code, URLs and valid `$...$`/`$$...$$` math.
+- [ ] Run the focused health tests and confirm failure because the helper and E11 finding do not exist.
+- [ ] Add the explicit LaTeX authoring rule to `CLAUDE.md` and implement conservative ERROR E11 detection in `check_health.py`.
+- [ ] Rewrite the DDPM reference page formulas with inline/display LaTeX and run health check until E11 and all existing findings are clean.
+
+### Task 8: Deterministic Viewer math extraction
+
+**Files:**
+- Modify: `/home/u2023312337/知识库/viewer.html`
+- Modify: `/home/u2023312337/知识库/tests/test_viewer_contract.py`
+
+- [ ] Add failing contract and browser cases for extraction/restoration of four delimiter types, exclusion of fenced/inline code, invalid-math survival and repeated page render.
+- [ ] Replace direct delimiter substitutions with a math-region token store that runs before marked and restores after sanitize.
+- [ ] Run Viewer tests and Playwright against the DDPM page; require nonzero inline/display KaTeX nodes and zero page errors.
+
+### Task 9: Simple Claude Markdown rendering
+
+**Files:**
+- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+
+- [ ] Add failing patcher tests requiring pinned marked/DOMPurify assets, an assistant-only renderer, sanitizer use, disabled GFM tables/raw HTML, stable message-component replacement and dedicated Markdown styles.
+- [ ] Implement the reproducible vendor-bundle patch and chat document assets without changing user/tool/system/thinking renderers.
+- [ ] Apply and check the patch, then verify headings, emphasis, lists, links, inline/fenced code and blockquotes in an existing history; inject an unsafe HTML fixture and confirm it is removed.
+
+### Task 10: Combined completion verification
+
+- [ ] Verify the refresh control reloads the Viewer while preserving Claude textarea content and permission mode.
+- [ ] Run Viewer contracts, v3 script tests, both WebUI patch tests, both patch checks, health check, HTTP/listener checks and `git diff --check`.
+- [ ] Update Markdown and HTML deployment reports with the formula contract, refresh control and Claude Markdown support.
+- [ ] Commit only task-owned knowledge-base files while preserving the user's staged and unrelated changes.

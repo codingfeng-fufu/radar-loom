@@ -50,6 +50,28 @@ Messages are accepted only from the expected localhost Viewer origin. Paths rema
 
 The top toolbar includes a familiar refresh icon with the accessible name and tooltip `刷新知识库`. Activating it reloads only the knowledge Viewer iframe at its current URL, so the file tree and rendered document are refreshed while the Claude iframe, conversation, permission mode and unsent input remain intact. The control is disabled briefly during reload and reports completion through the existing status region.
 
+## Mathematical Content Contract
+
+`CLAUDE.md` is the single source of truth for mathematical writing. Every mathematical expression in a concept page must use LaTeX delimiters: `$...$` for inline math and a standalone `$$...$$` block for display math. Unicode approximations such as `√ᾱ_t`, `ε_θ(x_t,t)` or `‖x‖²` are prohibited when they represent an equation. Subscripts, superscripts, fractions, sums and expectations use normal LaTeX commands.
+
+`check_health.py` adds an ERROR-level undelimited-math check. It scans prose after excluding fenced code, inline code and existing math spans, and flags high-confidence equation patterns such as subscripted identifiers, LaTeX commands outside delimiters and standalone equation-like lines. The check is intentionally conservative: ambiguous prose is not rejected, but the known DDPM-style patterns are. A failing result blocks the normal ingestion closeout.
+
+The existing `扩散模型 Diffusion Models DDPM` page becomes the reference migration case. Its forward process, reverse process, simplified loss and guidance expressions are rewritten as delimited LaTeX.
+
+## Deterministic Viewer Math Pipeline
+
+The Viewer extracts math regions before Markdown parsing, replacing each region with an opaque token that cannot be interpreted as Markdown. Extraction recognizes `$...$`, `$$...$$`, `\\(...\\)` and `\\[...\\]` while ignoring fenced and inline code. After marked parsing and DOMPurify sanitization, tokens are restored as text delimiters and KaTeX auto-render runs once on the final content tree. Invalid expressions retain their source and do not abort the page.
+
+This pipeline removes ordering dependence between marked and KaTeX and makes page navigation, refresh and direct loading use identical rendering behavior.
+
+## Claude Message Rendering
+
+Only Claude chat text messages receive simple Markdown rendering; user messages stay plain text. The existing chat message component is patched at its stable text-render fragment instead of using DOM mutation observers.
+
+The preserved Claude document loads pinned browser builds of marked and DOMPurify before the vendor module. A small global renderer calls marked with GFM tables and raw HTML disabled, then sanitizes the output. Supported presentation is limited to headings, paragraphs, emphasis, ordered/unordered lists, inline code, fenced code, links and blockquotes. Tables, Mermaid and math are out of scope. Tool output, system/result messages, thinking blocks, permissions and plans keep their existing components.
+
+Streaming and historical Claude text use the same component path, so both render consistently. Sanitization remains mandatory before assigning `dangerouslySetInnerHTML`.
+
 ## Graph Access
 
 The Viewer navigation keeps the `交互图谱` entry. Opening it replaces the knowledge preview with `graph-view.html` while the Claude pane remains available. Returning to a Markdown page restores normal preview behavior.
@@ -71,6 +93,9 @@ Browser verification covers:
 - file selection and Markdown/KaTeX/Mermaid preview;
 - `询问 Claude` prompt insertion without automatic send;
 - preservation of all four Claude permission modes;
+- DDPM reference formulas, code-dollar exclusions and repeatable page refresh rendering;
+- simple sanitized Claude Markdown in streaming and historical messages;
+- knowledge-only refresh preserving Claude input and permission mode;
 - mobile tab switching at 390 x 844;
 - listener binding and restart recovery.
 
