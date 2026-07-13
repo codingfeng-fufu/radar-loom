@@ -31,6 +31,8 @@ EM 在我的 KG / RAG 项目里不是主线算法,但作为"隐变量 + 迭代�
 
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 - [[主题模型 LDA]]
+- [[高斯混合模型 GMM Gaussian Mixture Model]]
+- [[序列标注模型 HMM CRF]]
 
 ## 更新记录
 
