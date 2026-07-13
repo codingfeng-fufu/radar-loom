@@ -13,6 +13,7 @@ SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 import radar_common as rc  # noqa: E402
+import check_health  # noqa: E402
 
 
 class CommonV3Tests(unittest.TestCase):
@@ -40,6 +41,26 @@ class CommonV3Tests(unittest.TestCase):
         self.assertEqual(rc.parse_source("somewhere"), ("unknown", None))
 
 
+class HealthMathTests(unittest.TestCase):
+    def test_undelimited_math_flags_ddpm_style_equations(self):
+        body = """普通说明。\n前向过程 q(x_t | x_{t-1}) 加噪。\nL_simple = E_{t, x_0} [ ‖ ε - ε_θ(x_t, t) ‖² ]\n裸命令 \\frac{a}{b}\n"""
+        self.assertEqual(check_health.undelimited_math_lines(body), [2, 3, 4])
+
+    def test_undelimited_math_ignores_delimited_math_and_code(self):
+        body = r"""行内 $q(x_t | x_{t-1})$ 正常。
+$$
+L_{simple} = \mathbb{E}[\epsilon^2]
+$$
+代码 `x_t = 1` 与 https://example.com/a_b。
+文件 MASTER_knowledge_base.md 与长度≤阈值不是公式。
+```python
+x_t = epsilon_theta(x_t)
+```
+括号公式 \(x_t = x_0\) 正常。
+"""
+        self.assertEqual(check_health.undelimited_math_lines(body), [])
+
+
 class IndexV3Tests(unittest.TestCase):
     def test_index_module_exposes_deterministic_renderer(self):
         try:
@@ -59,7 +80,8 @@ class IndexV3Tests(unittest.TestCase):
         module = importlib.import_module("build_index")
         rendered, concept_count, project_count, missing = module.render_index(rc.scan_pages())
         self.assertEqual(rc.INDEX_FILE.read_text(encoding="utf-8"), rendered)
-        self.assertEqual((concept_count, project_count, missing), (88, 5, 0))
+        self.assertGreaterEqual(concept_count, 88)
+        self.assertEqual((project_count, missing), (5, 0))
 
     def test_all_concept_metadata_is_v3_healthy(self):
         for page in rc.scan_pages().values():

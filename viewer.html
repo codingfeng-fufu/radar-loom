@@ -138,20 +138,69 @@
       });
     }
 
-    function protectMathDelimiters(markdown) {
-      return markdown
-        .replaceAll('\\(', '@@KATEX_LP@@')
-        .replaceAll('\\)', '@@KATEX_RP@@')
-        .replaceAll('\\[', '@@KATEX_LB@@')
-        .replaceAll('\\]', '@@KATEX_RB@@');
+    function extractMathRegions(markdown) {
+      const regions = [];
+      let output = '';
+      let index = 0;
+      const store = (source) => {
+        const token = `MATHREGION_${regions.length}_END`;
+        regions.push({ token, source });
+        output += token;
+      };
+      const closingAt = (delimiter, from) => {
+        let found = markdown.indexOf(delimiter, from);
+        while (found >= 0 && markdown[found - 1] === '\\') found = markdown.indexOf(delimiter, found + delimiter.length);
+        return found;
+      };
+      while (index < markdown.length) {
+        const lineStart = index === 0 || markdown[index - 1] === '\n';
+        const fence = lineStart && (markdown.startsWith('```', index) || markdown.startsWith('~~~', index))
+          ? markdown.slice(index, index + 3) : null;
+        if (fence) {
+          const close = markdown.indexOf(`\n${fence}`, index + 3);
+          const end = close < 0 ? markdown.length : (markdown.indexOf('\n', close + 1) + 1 || markdown.length);
+          output += markdown.slice(index, end);
+          index = end;
+          continue;
+        }
+        if (markdown[index] === '`') {
+          let run = 1;
+          while (markdown[index + run] === '`') run += 1;
+          const delimiter = '`'.repeat(run);
+          const close = markdown.indexOf(delimiter, index + run);
+          const end = close < 0 ? index + run : close + run;
+          output += markdown.slice(index, end);
+          index = end;
+          continue;
+        }
+        const delimiters = markdown.startsWith('$$', index) ? ['$$', '$$']
+          : markdown.startsWith('\\[', index) ? ['\\[', '\\]']
+          : markdown.startsWith('\\(', index) ? ['\\(', '\\)']
+          : markdown[index] === '$' && markdown[index - 1] !== '\\' ? ['$', '$'] : null;
+        if (delimiters) {
+          const close = closingAt(delimiters[1], index + delimiters[0].length);
+          if (close >= 0) {
+            const end = close + delimiters[1].length;
+            store(markdown.slice(index, end));
+            index = end;
+            continue;
+          }
+        }
+        output += markdown[index];
+        index += 1;
+      }
+      return { markdown: output, regions };
     }
 
-    function restoreMathDelimiters(html) {
-      return html
-        .replaceAll('@@KATEX_LP@@', '\\(')
-        .replaceAll('@@KATEX_RP@@', '\\)')
-        .replaceAll('@@KATEX_LB@@', '\\[')
-        .replaceAll('@@KATEX_RB@@', '\\]');
+    function restoreMathRegions(root, regions) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      for (const node of nodes) {
+        let value = node.nodeValue;
+        for (const region of regions) value = value.replaceAll(region.token, () => region.source);
+        node.nodeValue = value;
+      }
     }
 
     function parseIndex(markdown) {
@@ -237,10 +286,10 @@
         const { metadata, body } = splitFrontmatter(await response.text());
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
-        const rendered = restoreMathDelimiters(marked.parse(protectMathDelimiters(
-          rewriteWikilinks(body)
-        ), { gfm: true, breaks: false }));
+        const math = extractMathRegions(rewriteWikilinks(body));
+        const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
+        restoreMathRegions(elements.content, math.regions);
         renderMathInElement(elements.content, {
           delimiters: [
             { left: '$$', right: '$$', display: true },
@@ -272,8 +321,9 @@
 
     function closeNavigation() { document.body.classList.remove('nav-open'); }
     window.addEventListener('message', (event) => {
-      if (event.origin !== 'http://127.0.0.1:18080' || event.data?.type !== 'kb-open-navigation') return;
-      document.body.classList.add('nav-open');
+      if (event.origin !== 'http://127.0.0.1:18080') return;
+      if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
+      if (event.data?.type === 'kb-refresh') location.reload();
     });
     document.querySelector('#menuButton').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     document.querySelector('#scrim').addEventListener('click', closeNavigation);

@@ -13,12 +13,14 @@ tags: [基础]
 扩散模型(Diffusion Models,以 DDPM 2020 为代表)是一类**基于逐步加噪-去噪的深度生成模型**,目前在图像、视频、音频、分子生成等领域占据主导地位,也是 Sora / Stable Diffusion / DALL·E 3 的核心。
 
 **两条马尔可夫链**:
-- **前向过程 q(x_t | x_{t−1})**:固定、无参、逐步向真实样本 x_0 加高斯噪声,经 T 步(常见 T=1000)几乎退化为纯噪声 x_T ≈ N(0, I)。用重参数化可写成一次到位:x_t = √ᾱ_t · x_0 + √(1−ᾱ_t) · ε,ε ~ N(0, I),ᾱ_t 由预定义 β_t 累积得到。
-- **反向过程 p_θ(x_{t−1} | x_t)**:由神经网络(通常是 U-Net,视频/文本序列用 DiT / Transformer)参数化,从 x_T 逐步去噪到 x_0。
+- **前向过程 $q(x_t\mid x_{t-1})$**:固定、无参、逐步向真实样本 $x_0$ 加高斯噪声,经 $T$ 步(常见 $T=1000$)几乎退化为纯噪声 $x_T\approx\mathcal{N}(0,I)$。用重参数化可写成一次到位:$x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$,其中 $\epsilon\sim\mathcal{N}(0,I)$,$\bar\alpha_t$ 由预定义 $\beta_t$ 累积得到。
+- **反向过程 $p_\theta(x_{t-1}\mid x_t)$**:由神经网络(通常是 U-Net,视频/文本序列用 DiT / Transformer)参数化,从 $x_T$ 逐步去噪到 $x_0$。
 
 **训练目标——分层 VAE 的 ELBO 退化**:把扩散过程看作一个"T 步、共享参数、每步高斯"的分层 [[变分自编码器 VAE Variational Autoencoder]],ELBO 展开重参数化后,惊人地简化为**每步预测该步添加的噪声 ε**:
 
-L_simple = E_{t, x_0, ε} [ ‖ ε − ε_θ(x_t, t) ‖² ]
+$$
+\mathcal{L}_{\text{simple}}=\mathbb{E}_{t,x_0,\epsilon}\left[\lVert\epsilon-\epsilon_\theta(x_t,t)\rVert_2^2\right]
+$$
 
 一个纯 MSE 损失。这就是"扩散模型比 VAE 好训"的根源:目标从难以稳定的 KL + 重构变成了逐步去噪回归。EM/VAE 的隐变量视角在这里被"分层化 + 时间步条件化"复用——因此把它挂在 [[EM算法 Expectation-Maximization]] → VAE → 扩散这条隐变量链的末端是自洽的。
 
@@ -28,7 +30,7 @@ L_simple = E_{t, x_0, ε} [ ‖ ε − ε_θ(x_t, t) ‖² ]
 - **一致性模型 / 蒸馏**(2023 起):把多步教师蒸馏成 1–4 步学生,推理速度接近 GAN。
 
 **条件生成**:
-- **Classifier-free guidance(CFG)**:训练时随机丢弃条件,推断时用 ε_θ(x_t, c) 与 ε_θ(x_t, ∅) 的线性外推,几乎所有文生图工作都在用。
+- **Classifier-free guidance(CFG)**:训练时随机丢弃条件,推断时用 $\epsilon_\theta(x_t,c)$ 与 $\epsilon_\theta(x_t,\varnothing)$ 的线性外推,几乎所有文生图工作都在用。
 - **Latent Diffusion(Stable Diffusion 的关键)**:先用 VAE 把图像压到低维隐空间,再在其中做扩散,把 512×512 图像的算力需求砍到 1/64 量级——**一个"VAE 编码器 + 隐空间扩散 + VAE 解码器"的三明治**,直接把 VAE 和扩散串成生产系统。
 
 **与其它生成模型对比**:

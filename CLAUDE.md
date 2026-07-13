@@ -31,6 +31,13 @@ python3 scripts/check_health.py   # 有 ERROR 必须修复
 git add -A && git commit -m "radar: <一句话概括本次摄入>"
 ```
 
+### 数学内容写入规则(硬性)
+
+1. 所有数学表达式必须使用 LaTeX:行内公式写成 `$...$`,独立公式使用单独成行的 `$$...$$`
+2. 禁止用 Unicode 符号或普通文本模拟公式,例如 `√ᾱ_t`、`ε_θ(x_t,t)`、`‖x‖²`;应改用 `\sqrt{\bar\alpha_t}`、`\epsilon_\theta(x_t,t)`、`\lVert x\rVert^2`
+3. 下标、上标、分式、求和、期望等分别使用 `_`、`^`、`\frac`、`\sum`、`\mathbb{E}` 等 LaTeX 语法
+4. 新建或更新含数学内容的页面后,除运行健康检查外,必须在 Viewer 中实际打开页面确认公式已渲染;`ERROR E11` 必须修复后才能提交
+
 ## 三、通用禁则
 
 1. 不建重复页;同一概念只有一个页面

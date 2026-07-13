@@ -39,7 +39,9 @@
 ## Viewer 使用方式
 
 - `18080` 首屏同时显示知识库文件树、Markdown 预览和 Claude Code 对话;分隔条可拖动,两侧面板可折叠。
+- 顶部刷新按钮只刷新知识库目录和当前预览,保留 Claude 会话、权限模式与未发送输入。
 - 点击知识页只更新预览;顶部“询问 Claude”会把当前相对路径和问题放入 Claude 输入框,不会自动发送。
+- Claude 文本回复支持标题、段落、粗斜体、列表、行内/块代码、链接和引用的安全 Markdown 渲染;用户消息与工具/系统消息保持原样。
 - Claude 区默认直接进入 `/home/u2023312337/知识库`,无需从项目列表选择中文目录。
 - 390px 等窄屏使用“文件/预览/Claude”三个标签切换,切换不会重载当前页面或聊天。
 - 无参数打开 `viewer.html` 时显示 `首页.md`。
@@ -47,7 +49,8 @@
 - 直接地址格式为 `viewer.html?f=pages/页面名.md`;中文和空格由浏览器进行 URL 编码。
 - 页面 frontmatter 在正文前以“页面元数据”折叠块展示,默认收起。
 - 正文按 GFM 渲染,双方括号链接可跳转,代码块启用 highlight.js,Mermaid 代码块生成图形。
-- 数学公式由 KaTeX 渲染,支持行内 `$...$`、`\\(...\\)` 和块级 `$$...$$`、`\\[...\\]`;错误公式保留原文且不阻断页面。
+- 数学公式由确定性提取管线保护后交给 KaTeX,支持行内 `$...$`、`\\(...\\)` 和块级 `$$...$$`、`\\[...\\]`;代码区域不解析公式,错误公式保留原文且不阻断页面。
+- `CLAUDE.md` 强制数学内容使用 LaTeX,健康检查以 `ERROR E11` 拦截疑似未定界公式。
 - `viewer.html?f=graph.md` 打开全库核心图谱。
 - `graph-view.html` 打开 Cytoscape.js/fCoSE 交互图谱,支持搜索、分类/项目筛选、一跳邻居、详情和 Viewer 跳转;数据由 `python3 scripts/render_graph.py` 生成到 `graph-data.json`。
 - 查看器为只读工具,不提供编辑、搜索或主题切换。
@@ -82,6 +85,7 @@ node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 | 双链导航 | 通过 | 该页面生成 6 个 viewer 内部链接 |
 | Mermaid | 通过 | `graph.md` 实际生成 1 个 SVG,页面无渲染错误 |
 | 数学公式 | 通过 | 四种定界符生成 4 个 KaTeX 节点与 2 个块级节点;错误公式不阻断,390px 下无页面溢出 |
+| 公式规范与稳定管线 | 通过 | 迁移 7 页共 20 处裸公式;DDPM 页面生成 15 个 KaTeX 节点和 1 个块公式;E11 门禁 0 误报 |
 | 路径校验 | 通过 | `?f=../xxx.md` 显示拒绝信息,未发起库外文件读取 |
 | 基本 sanitize | 通过 | 渲染结果通过 DOMPurify 后才进入正文 DOM |
 | 桌面/移动布局 | 通过 | 390×844 下显示移动导航,无横向页面溢出 |
@@ -91,6 +95,7 @@ node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 | 危险权限第四档 | 通过 | UI 可选择且显示红色警示;刷新恢复 normal;真实 API init 为 `bypassPermissions`,普通请求仍为 `default` |
 | 交互式知识图谱 | 通过 | 103 节点、470 边完成 fCoSE 布局;搜索、筛选、一跳聚焦、详情跳转及 1440×900/390×844 布局通过 |
 | 一体化知识库操作台 | 通过 | 18080 同屏显示目录、预览和 Claude;文件路径联动、询问填入、拖动/折叠、移动标签及知识库默认项目通过 |
+| 刷新与 Claude Markdown | 通过 | 知识库刷新保留 Claude 输入与 plan 模式;助手 Markdown 支持标题/列表/代码/链接/引用,表格和恶意 HTML 被移除 |
 
 2026-07-12 的 429 历史证据保存在 `/home/u2023312337/webui/preflight.ndjson`。2026-07-13 补验收日志保存在 `/home/u2023312337/webui/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
 

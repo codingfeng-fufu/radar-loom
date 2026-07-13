@@ -30,6 +30,8 @@ python3 scripts/new_page.py "概念名 EnglishName" \
 
 每次摄入以生成索引、健康检查和 Git 提交收尾。
 
+含数学内容时必须使用 LaTeX 定界符:行内公式写成 `$...$`,独立公式使用单独成行的 `$$...$$`;不得用 Unicode 符号或普通文本模拟公式。`check_health.py` 会以 `ERROR E11` 拦截高置信度的未定界数学表达式。
+
 ## 脚本
 
 | 脚本 | 用途 | 命令 |

@@ -10,12 +10,12 @@ tags: [基础]
 
 ## 核心内容
 
-EM算法(Expectation-Maximization,期望最大化)是**含隐变量概率模型的极大似然估计(MLE/MAP)通用迭代框架**。当数据 X 与隐变量 Z 联合分布 p(X,Z|θ) 已知,但只观测到 X 时,直接对 log p(X|θ) = log ∑_Z p(X,Z|θ) 求极大会遇到"log 里带求和"的解析困难,EM 用两步迭代规避这个问题:
+EM算法(Expectation-Maximization,期望最大化)是**含隐变量概率模型的极大似然估计(MLE/MAP)通用迭代框架**。当数据 $X$ 与隐变量 $Z$ 的联合分布 $p(X,Z\mid\theta)$ 已知,但只观测到 $X$ 时,直接对 $\log p(X\mid\theta)=\log\sum_Z p(X,Z\mid\theta)$ 求极大会遇到"log 里带求和"的解析困难,EM 用两步迭代规避这个问题:
 
-- **E 步(Expectation)**:在当前参数 θ^(t) 下,计算隐变量的后验分布 q(Z) = p(Z|X, θ^(t)),并构造 Q 函数 Q(θ, θ^(t)) = E_{Z~q}[log p(X, Z | θ)],即"完全数据对数似然"关于后验的期望。
-- **M 步(Maximization)**:令 θ^(t+1) = argmax_θ Q(θ, θ^(t))。因为对数直接作用在联合分布上,这一步通常有闭式解或更简单的优化形式。
+- **E 步(Expectation)**:在当前参数 $\theta^{(t)}$ 下,计算隐变量的后验分布 $q(Z)=p(Z\mid X,\theta^{(t)})$,并构造 Q 函数 $Q(\theta,\theta^{(t)})=\mathbb{E}_{Z\sim q}[\log p(X,Z\mid\theta)]$,即"完全数据对数似然"关于后验的期望。
+- **M 步(Maximization)**:令 $\theta^{(t+1)}=\arg\max_\theta Q(\theta,\theta^{(t)})$。因为对数直接作用在联合分布上,这一步通常有闭式解或更简单的优化形式。
 
-**关键性质**:每次迭代保证 log p(X|θ) 单调不减,收敛到似然函数的局部极大值或鞍点(初值敏感,不保证全局最优)。从变分角度看,EM 就是坐标上升法优化证据下界 ELBO = log p(X|θ) - KL(q(Z) || p(Z|X,θ)):E 步固定 θ 更新 q 使 KL=0,M 步固定 q 更新 θ。
+**关键性质**:每次迭代保证 $\log p(X\mid\theta)$ 单调不减,收敛到似然函数的局部极大值或鞍点(初值敏感,不保证全局最优)。从变分角度看,EM 就是坐标上升法优化证据下界 $\mathrm{ELBO}=\log p(X\mid\theta)-\mathrm{KL}(q(Z)\Vert p(Z\mid X,\theta))$:E 步固定 $\theta$ 更新 $q$ 使 KL 为 0,M 步固定 $q$ 更新 $\theta$。
 
 **典型应用**:高斯混合模型 GMM(隐变量=样本所属分量)、HMM 的 Baum-Welch 训练(隐变量=状态序列)、[[主题模型 LDA]] 的变分/在线 EM 变体、缺失数据填补、软聚类等。当 E 步或 M 步没有闭式解时,衍生出广义 EM(GEM)、变分 EM(VEM)、蒙特卡洛 EM(MCEM)等变体,VAE 的训练目标本质上也是这条 ELBO 的神经网络化。
 

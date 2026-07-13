@@ -10,20 +10,22 @@ tags: [基础]
 
 ## 核心内容
 
-VAE(Variational Autoencoder,变分自编码器,Kingma & Welling 2013)是一种**用神经网络参数化的隐变量生成模型**。它假设数据 x 由低维隐变量 z 通过生成器 p_θ(x|z) 生成(先验通常取 z ~ N(0, I)),但真实后验 p(z|x) 无法解析求解,于是引入一个由神经网络参数化的近似后验 q_φ(z|x)(即"编码器"),把 [[EM算法 Expectation-Maximization]] 里的 E 步从"解析计算后验"改成"用一个网络摊销地预测后验参数"(amortized inference)。
+VAE(Variational Autoencoder,变分自编码器,Kingma & Welling 2013)是一种**用神经网络参数化的隐变量生成模型**。它假设数据 $x$ 由低维隐变量 $z$ 通过生成器 $p_\theta(x\mid z)$ 生成(先验通常取 $z\sim\mathcal{N}(0,I)$),但真实后验 $p(z\mid x)$ 无法解析求解,于是引入一个由神经网络参数化的近似后验 $q_\phi(z\mid x)$(即"编码器"),把 [[EM算法 Expectation-Maximization]] 里的 E 步从"解析计算后验"改成"用一个网络摊销地预测后验参数"(amortized inference)。
 
 **训练目标(ELBO)**:
 
-log p(x) ≥ E_{q_φ(z|x)}[log p_θ(x|z)] − KL(q_φ(z|x) ‖ p(z))
+$$
+\log p(x)\geq\mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]-\mathrm{KL}(q_\phi(z\mid x)\Vert p(z))
+$$
 
-- 第一项是**重构项**:让解码器 p_θ(x|z) 能从编码 z 还原 x;
-- 第二项是**KL 正则**:把 q_φ(z|x) 拉向标准高斯先验,保证隐空间连续、可采样。
+- 第一项是**重构项**:让解码器 $p_\theta(x\mid z)$ 能从编码 $z$ 还原 $x$;
+- 第二项是**KL 正则**:把 $q_\phi(z\mid x)$ 拉向标准高斯先验,保证隐空间连续、可采样。
 
-**重参数化技巧(reparameterization trick)**:直接从 q_φ(z|x)=N(μ_φ, σ_φ²) 采样 z 会阻断反传,VAE 改写为 z = μ_φ + σ_φ · ε,ε ~ N(0, I),把随机性外挪到无参噪声上,梯度就能穿过采样点回传到 φ——这是让 VAE 端到端可训的关键工程点。
+**重参数化技巧(reparameterization trick)**:直接从 $q_\phi(z\mid x)=\mathcal{N}(\mu_\phi,\sigma_\phi^2)$ 采样 $z$ 会阻断反传,VAE 改写为 $z=\mu_\phi+\sigma_\phi\epsilon$,$\epsilon\sim\mathcal{N}(0,I)$,把随机性外挪到无参噪声上,梯度就能穿过采样点回传到 $\phi$——这是让 VAE 端到端可训的关键工程点。
 
 **和 EM/GMM/LDA 的关系**:
 - EM:E 步解析算后验、M 步 argmax Q。
-- VAE:E 步用编码器网络"预测"后验参数、M 步用 SGD 一起更新 θ 和 φ,坐标上升退化为同步梯度下降。可以粗略说 **VAE ≈ 摊销、随机、端到端可微的 EM**。
+- VAE:E 步用编码器网络"预测"后验参数、M 步用 SGD 一起更新 $\theta$ 和 $\phi$,坐标上升退化为同步梯度下降。可以粗略说 **VAE 是摊销、随机、端到端可微的 EM**。
 - 隐变量假设由离散(GMM 的簇、HMM 的状态、LDA 的主题)升级为连续高维向量,让 VAE 能拟合图像/文本这类复杂高维数据。
 
 **局限与延伸**:

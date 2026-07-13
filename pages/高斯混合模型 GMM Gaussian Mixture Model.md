@@ -10,17 +10,23 @@ tags: [基础]
 
 ## 核心内容
 
-GMM(Gaussian Mixture Model,高斯混合模型)是把数据密度写成 K 个多元高斯分布的凸组合:p(x) = ∑_{k=1}^K π_k · N(x | μ_k, Σ_k),其中 π_k 是混合权重(∑π_k=1)。它假设每个样本来自某一个"隐含分量" z ∈ {1,…,K},隐变量 z 就是"属于哪一簇"的类别指示,因而 GMM 是 [[EM算法 Expectation-Maximization]] 最教科书式的载体。
+GMM(Gaussian Mixture Model,高斯混合模型)是把数据密度写成 $K$ 个多元高斯分布的凸组合:
+
+$$
+p(x)=\sum_{k=1}^{K}\pi_k\mathcal{N}(x\mid\mu_k,\Sigma_k),\qquad \sum_{k=1}^{K}\pi_k=1
+$$
+
+其中 $\pi_k$ 是混合权重。它假设每个样本来自某一个"隐含分量" $z\in\{1,\ldots,K\}$,隐变量 $z$ 就是"属于哪一簇"的类别指示,因而 GMM 是 [[EM算法 Expectation-Maximization]] 最教科书式的载体。
 
 **训练(EM 迭代)**:
-- **E 步**:计算样本 x_i 属于第 k 个分量的后验(即"责任度",responsibility)γ_{ik} = π_k N(x_i | μ_k, Σ_k) / ∑_j π_j N(x_i | μ_j, Σ_j)。
-- **M 步**:用 γ 加权更新参数——μ_k = ∑_i γ_{ik} x_i / ∑_i γ_{ik},Σ_k 用加权协方差,π_k = ∑_i γ_{ik} / N。
+- **E 步**:计算样本 $x_i$ 属于第 $k$ 个分量的后验(即"责任度",responsibility):$\gamma_{ik}=\frac{\pi_k\mathcal{N}(x_i\mid\mu_k,\Sigma_k)}{\sum_j\pi_j\mathcal{N}(x_i\mid\mu_j,\Sigma_j)}$。
+- **M 步**:用 $\gamma$ 加权更新参数——$\mu_k=\frac{\sum_i\gamma_{ik}x_i}{\sum_i\gamma_{ik}}$,$\Sigma_k$ 用加权协方差,$\pi_k=\frac{\sum_i\gamma_{ik}}{N}$。
 
 **关键性质**:
-- **软聚类**:γ_{ik} 是概率而非 0/1,同一个样本可以按不同权重归属多个簇,天然优于硬聚类的 K-Means(K-Means 其实就是 GMM 在 Σ_k=σ²I、σ→0 时的极限)。
+- **软聚类**:$\gamma_{ik}$ 是概率而非 0/1,同一个样本可以按不同权重归属多个簇,天然优于硬聚类的 K-Means(K-Means 其实就是 GMM 在 $\Sigma_k=\sigma^2I$、$\sigma\to0$ 时的极限)。
 - **密度估计**:GMM 可以拟合任意平滑密度,是通用密度估计器,常用于异常检测、生成式建模的早期基线。
 - **模型选择**:K 需要用 BIC / AIC / 交叉验证挑选;非满秩协方差会使似然发散,实践中要加正则或用共享/对角协方差。
-- **局限**:对初值敏感(常用 K-Means 初始化 μ_k),簇形状假设为椭球,高维下参数量爆炸(Σ_k 是 d×d)。
+- **局限**:对初值敏感(常用 K-Means 初始化 $\mu_k$),簇形状假设为椭球,高维下参数量爆炸($\Sigma_k$ 是 $d\times d$)。
 
 **典型应用**:软聚类、异常检测(尾部概率低即异常)、语音识别里的 GMM-HMM 声学模型、图像分割、变分/贝叶斯 GMM(用 Dirichlet Process 自动选 K)。
 

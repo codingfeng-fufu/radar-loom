@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -16,7 +17,14 @@ import radar_common as rc  # noqa: E402
 import build_index  # noqa: E402
 
 VALID_CONFIDENCE = {"高", "中", "低"}
-CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "E8": 8, "E9": 9, "E10": 10, "W1": 11, "W2": 12, "W3": 13}
+CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "E8": 8, "E9": 9, "E10": 10, "E11": 11, "W1": 12, "W2": 13, "W3": 14}
+
+RAW_MATH_PATTERNS = (
+    re.compile(r"\\(?:frac|sum|prod|mathbb|mathbf|mathrm|theta|epsilon|alpha|beta|gamma|pi|mid|left|right|sqrt|cdot|propto|argmax|argmin|deg)\b"),
+    re.compile(r"[√∑∏‖]"),
+    re.compile(r"(?:[A-Za-z]\s*[+*/−-]\s*)+[A-Za-z]\s*(?:≈|=)"),
+)
+SUBSCRIPT_PATTERN = re.compile(r"(?<![A-Za-z0-9Α-Ωα-ω])((?:[A-Za-z]|[Α-Ωα-ω])[A-Za-z0-9Α-Ωα-ω]*)_[A-Za-z0-9{Α-Ωα-ω]")
 
 
 def normalize_tags(fm: dict) -> list:
@@ -45,6 +53,48 @@ def check_update_record(body: str) -> tuple[bool, bool]:
         if in_sec and line.lstrip().startswith("- "):
             has_entry = True
     return exists, has_entry
+
+
+def undelimited_math_lines(body: str) -> list[int]:
+    """返回疑似包含未定界数学表达式的正文行号。"""
+    findings: list[int] = []
+    in_fence = False
+    display_end: str | None = None
+    for number, original in enumerate(body.splitlines(), 1):
+        stripped = original.lstrip()
+        if stripped.startswith(("```", "~~~")):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+
+        line = original
+        if display_end:
+            if display_end in line:
+                line = line.split(display_end, 1)[1]
+                display_end = None
+            else:
+                continue
+        for start, end in (("$$", "$$"), (r"\[", r"\]")):
+            while start in line:
+                before, after = line.split(start, 1)
+                if end in after:
+                    line = before + " " + after.split(end, 1)[1]
+                else:
+                    line = before
+                    display_end = end
+                    break
+            if display_end:
+                break
+
+        line = re.sub(r"`[^`\n]*`", " ", line)
+        line = re.sub(r"\\\([^\n]*?\\\)", " ", line)
+        line = re.sub(r"(?<!\$)\$(?!\$)[^\n$]+?\$(?!\$)", " ", line)
+        line = re.sub(r"https?://\S+", " ", line)
+        subscript_math = any(not (len(match.group(1)) > 1 and match.group(1).isupper()) for match in SUBSCRIPT_PATTERN.finditer(line))
+        if subscript_math or any(pattern.search(line) for pattern in RAW_MATH_PATTERNS):
+            findings.append(number)
+    return findings
 
 
 def parse_args(argv=None):
@@ -116,6 +166,9 @@ def main(argv=None) -> int:
                 add(name, "E10", f"[ERROR E10] 页面《{name}》 缺少摘要")
             elif len(summary) > 60:
                 add(name, "W3", f"[WARN W3] 页面《{name}》 摘要超过60字")
+
+        for line_number in undelimited_math_lines(info.body):
+            add(name, "E11", f"[ERROR E11] 页面《{name}》 第{line_number}行疑似含未定界数学表达式,请使用 $...$ 或 $$...$$")
 
     # ---- E7 重复嫌疑(文件名 casefold+去空格)----
     groups: dict[str, list[str]] = {}
