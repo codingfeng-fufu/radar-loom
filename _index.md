@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-13 · 页面 90 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-13 · 页面 91 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -111,6 +111,7 @@
 ## 基础
 
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支，核心区别在于注意力方向和预训练任务。
+- [[EM算法 Expectation-Maximization]] `#基础` — EM算法是一种处理含隐变量的极大似然估计的迭代算法,通过E步求隐变量后验期望、M步最大化期望对数似然,交替进行直至收敛。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
