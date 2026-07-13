@@ -67,3 +67,15 @@
 
 - [ ] Confirm the workbench is live at `http://127.0.0.1:18080/` and both services listen only on `127.0.0.1`.
 - [ ] Report the exact verification results, commit hash, standalone fallback URLs and any residual limitation.
+
+### Task 6: Knowledge-only refresh control
+
+**Files:**
+- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+
+- [ ] Add a failing patcher contract requiring a `refreshKnowledge` icon button with `aria-label` and `title` set to `刷新知识库`, a handler that reloads `knowledgeFrame` without assigning or reloading `claudeFrame`, a temporary disabled state, and completion status text.
+- [ ] Run `node /home/u2023312337/webui/test-integrated-workbench.mjs` and confirm failure because the control is absent.
+- [ ] Add the stable 32 px icon button beside `询问 Claude`; preserve the current Viewer URL, disable the button until the iframe `load` event, then show `知识库已刷新`.
+- [ ] Apply the patch, restart 18080, and use Playwright to verify the Viewer document reloads while the Claude textarea value and current permission mode remain unchanged.
+- [ ] Run both WebUI patch tests, both `--check` commands, listener and HTTP checks.

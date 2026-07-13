@@ -46,6 +46,10 @@ The Viewer exposes the active relative file path to its parent with `postMessage
 
 Messages are accepted only from the expected localhost Viewer origin. Paths remain subject to the Viewer's existing validation rules.
 
+## Knowledge Refresh
+
+The top toolbar includes a familiar refresh icon with the accessible name and tooltip `刷新知识库`. Activating it reloads only the knowledge Viewer iframe at its current URL, so the file tree and rendered document are refreshed while the Claude iframe, conversation, permission mode and unsent input remain intact. The control is disabled briefly during reload and reports completion through the existing status region.
+
 ## Graph Access
 
 The Viewer navigation keeps the `交互图谱` entry. Opening it replaces the knowledge preview with `graph-view.html` while the Claude pane remains available. Returning to a Markdown page restores normal preview behavior.
