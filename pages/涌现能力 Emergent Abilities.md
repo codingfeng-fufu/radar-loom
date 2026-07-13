@@ -22,6 +22,7 @@ tags: [LLM机制]
 - [[上下文学习 In-context Learning]]
 - [[思维链 Chain-of-Thought]]
 - [[幻觉与可信度 Hallucination Trustworthiness]]
+- [[Scaling Law 大模型缩放律]]
 - [[TripleChecker]]
 
 ## 更新记录
