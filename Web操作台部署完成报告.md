@@ -8,8 +8,8 @@
 
 | 用途 | 本机地址 | 监听范围 |
 |---|---|---|
-| Claude Code WebUI 聊天 | `http://127.0.0.1:18080` | 仅 `127.0.0.1` |
-| 技术雷达知识库浏览 | `http://127.0.0.1:18081/viewer.html` | 仅 `127.0.0.1` |
+| 知识库与 Claude Code 一体化操作台 | `http://127.0.0.1:18080` | 仅 `127.0.0.1` |
+| 技术雷达知识库独立浏览 | `http://127.0.0.1:18081/viewer.html` | 仅 `127.0.0.1` |
 | 交互式知识图谱 | `http://127.0.0.1:18081/graph-view.html` | 仅 `127.0.0.1` |
 
 远程使用时,在 VSCode 的“端口”面板分别转发 `18080` 和 `18081`,可见性保持为“专用/本地”,再打开转发后的地址。两个服务均未开放公网,未配置域名或 HTTPS。
@@ -38,6 +38,10 @@
 
 ## Viewer 使用方式
 
+- `18080` 首屏同时显示知识库文件树、Markdown 预览和 Claude Code 对话;分隔条可拖动,两侧面板可折叠。
+- 点击知识页只更新预览;顶部“询问 Claude”会把当前相对路径和问题放入 Claude 输入框,不会自动发送。
+- Claude 区默认直接进入 `/home/u2023312337/知识库`,无需从项目列表选择中文目录。
+- 390px 等窄屏使用“文件/预览/Claude”三个标签切换,切换不会重载当前页面或聊天。
 - 无参数打开 `viewer.html` 时显示 `首页.md`。
 - 左侧目录从 `_index.md` 实时读取,按分类折叠;点击条目打开相应概念页。
 - 直接地址格式为 `viewer.html?f=pages/页面名.md`;中文和空格由浏览器进行 URL 编码。
@@ -59,6 +63,8 @@ WebUI 安装包重装后需重新应用并校验本地补丁:
 ```bash
 node /home/u2023312337/webui/patch-dangerous-mode.mjs
 node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
+node /home/u2023312337/webui/patch-integrated-workbench.mjs
+node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 ```
 
 ## 报告约定
@@ -84,12 +90,13 @@ node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
 | UI 测试摄入并恢复 | 通过 | 临时页进入索引后页面数 88→89,健康检查 0/0;随后删除并恢复至 88 页,健康检查仍为 0/0 |
 | 危险权限第四档 | 通过 | UI 可选择且显示红色警示;刷新恢复 normal;真实 API init 为 `bypassPermissions`,普通请求仍为 `default` |
 | 交互式知识图谱 | 通过 | 103 节点、470 边完成 fCoSE 布局;搜索、筛选、一跳聚焦、详情跳转及 1440×900/390×844 布局通过 |
+| 一体化知识库操作台 | 通过 | 18080 同屏显示目录、预览和 Claude;文件路径联动、询问填入、拖动/折叠、移动标签及知识库默认项目通过 |
 
 2026-07-12 的 429 历史证据保存在 `/home/u2023312337/webui/preflight.ndjson`。2026-07-13 补验收日志保存在 `/home/u2023312337/webui/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
 
 ## 已知限制
 
-1. 候选一聊天区不渲染 Markdown,也不提供知识库文件树;浏览知识页和成品报告使用 18081 入口。
+1. 18080 通过工作台壳组合知识库 Viewer 与 Claude WebUI;两者仍是独立 iframe,浏览文件不会自动把全文加入 Claude 上下文,需使用“询问 Claude”或在对话中明确要求读取页面。
 2. 火山 endpoint 曾于 2026-07-12 返回 429;2026-07-13 已恢复并完成补验收,后续额度状态仍由上游服务控制。
 3. 查看器的渲染库依赖浏览器访问 CDN。
 4. 两个服务在服务器重启后均需手动启动。

@@ -70,6 +70,14 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn('id="sidebar"', self.html)
         self.assertIsNone(re.search(r"letter-spacing\s*:\s*-", self.html))
 
+    def test_successful_render_reports_active_file_to_workbench(self):
+        self.assertRegex(self.html, r"function\s+notifyActiveFile\s*\(")
+        self.assertIn("window.parent.postMessage", self.html)
+        self.assertIn("kb-active-file", self.html)
+        self.assertIn("kb-open-navigation", self.html)
+        self.assertIn("http://127.0.0.1:18080", self.html)
+        self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file)"))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -176,6 +176,15 @@
       elements.message.className = isError ? 'error' : 'status';
     }
 
+    function notifyActiveFile(file) {
+      if (window.parent === window) return;
+      window.parent.postMessage({
+        type: 'kb-active-file',
+        file,
+        title: file.split('/').pop().replace(/\.md$/, '')
+      }, 'http://127.0.0.1:18080');
+    }
+
     function renderSidebar(groups, activeFile) {
       elements.navigation.replaceChildren();
       const graphLink = document.createElement('a');
@@ -253,6 +262,7 @@
         await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') });
         document.title = `${file.split('/').pop().replace(/\.md$/, '')} · 技术雷达`;
         setMessage('');
+        notifyActiveFile(file);
       } catch (error) {
         elements.content.replaceChildren();
         elements.frontmatter.hidden = true;
@@ -261,6 +271,10 @@
     }
 
     function closeNavigation() { document.body.classList.remove('nav-open'); }
+    window.addEventListener('message', (event) => {
+      if (event.origin !== 'http://127.0.0.1:18080' || event.data?.type !== 'kb-open-navigation') return;
+      document.body.classList.add('nav-open');
+    });
     document.querySelector('#menuButton').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     document.querySelector('#scrim').addEventListener('click', closeNavigation);
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeNavigation(); });

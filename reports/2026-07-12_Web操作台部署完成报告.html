@@ -46,8 +46,8 @@
 
       <h2 id="access">访问入口</h2>
       <table><thead><tr><th>用途</th><th>本机地址</th><th>监听范围</th></tr></thead><tbody>
-        <tr><td>Claude Code WebUI 聊天</td><td><code>http://127.0.0.1:18080</code></td><td>仅 localhost</td></tr>
-        <tr><td>技术雷达知识库浏览</td><td><code>http://127.0.0.1:18081/viewer.html</code></td><td>仅 localhost</td></tr>
+        <tr><td>知识库与 Claude Code 一体化操作台</td><td><code>http://127.0.0.1:18080</code></td><td>仅 localhost</td></tr>
+        <tr><td>技术雷达知识库独立浏览</td><td><code>http://127.0.0.1:18081/viewer.html</code></td><td>仅 localhost</td></tr>
         <tr><td>交互式知识图谱</td><td><code>http://127.0.0.1:18081/graph-view.html</code></td><td>仅 localhost</td></tr>
       </tbody></table>
       <p>远程使用时,在 VSCode“端口”面板转发 18080 和 18081,可见性保持为专用/本地。服务未开放公网。</p>
@@ -61,6 +61,7 @@
       <p>两个服务由 tmux 托管。服务器重启后需要手动执行两个 <code>start</code>;当前环境没有 root 权限或可用 user-bus,未配置系统级自启动。</p>
 
       <h2 id="viewer">Viewer 使用</h2>
+      <p><code>18080</code> 首屏同屏显示知识库目录、Markdown 预览和 Claude Code。分隔条可拖动,面板可折叠;点击文件只预览,“询问 Claude”把当前路径和问题放入输入框但不自动发送。Claude 默认进入 <code>/home/u2023312337/知识库</code>;移动端使用文件/预览/Claude 三个标签。</p>
       <ul><li>无参数时显示 <code>首页.md</code>,侧栏从 <code>_index.md</code> 生成。</li><li>概念页格式为 <code>viewer.html?f=pages/页面名.md</code>。</li><li>frontmatter 默认折叠;支持 GFM、双方括号跳转、代码高亮与 Mermaid。</li><li>KaTeX 支持行内美元/括号和块级双美元/方括号四种公式定界符。</li><li><code>graph-view.html</code> 提供 Cytoscape.js/fCoSE 交互图谱;<code>viewer.html?f=graph.md</code> 保留 Mermaid 备用图谱。</li><li>查看器只读,不含编辑、搜索和主题功能。</li></ul>
       <p>渲染库由浏览器从 CDN 加载;浏览器断网或 CDN 不可达时,Markdown 渲染不可用。</p>
 
@@ -68,7 +69,9 @@
       <p>输入框下方的按钮依次循环 normal、plan、accept edits 和 <strong style="color:#b91c1c">dangerously skip permissions</strong>。第四档允许 Claude 不经确认执行命令和修改文件,只应临时启用;刷新页面后自动回到 normal。</p>
       <pre><code># 安装包重装后重新应用并校验补丁
 node /home/u2023312337/webui/patch-dangerous-mode.mjs
-node /home/u2023312337/webui/patch-dangerous-mode.mjs --check</code></pre>
+node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
+node /home/u2023312337/webui/patch-integrated-workbench.mjs
+node /home/u2023312337/webui/patch-integrated-workbench.mjs --check</code></pre>
 
       <h2 id="reports">报告约定</h2>
       <p>面向用户的盘点、迁移和阶段汇总等成品同时保留 Markdown,并生成自包含 HTML 到 <code>reports/YYYY-MM-DD_主题.html</code>。知识库概念页仍只使用 Markdown。</p>
@@ -86,11 +89,12 @@ node /home/u2023312337/webui/patch-dangerous-mode.mjs --check</code></pre>
         <tr><td>UI 测试摄入并恢复</td><td class="pass">通过</td><td>页面数 88→89→88,创建和恢复阶段健康检查均为 0/0</td></tr>
         <tr><td>危险权限第四档</td><td class="pass">通过</td><td>红色警示、刷新复位及 bypass/default 真实 API 模式均已验证</td></tr>
         <tr><td>交互式知识图谱</td><td class="pass">通过</td><td>103 节点、470 边完成布局;搜索、筛选、聚焦、详情及桌面/移动布局通过</td></tr>
+        <tr><td>一体化知识库操作台</td><td class="pass">通过</td><td>目录、预览、Claude 同屏;路径联动、询问填入、拖动/折叠、移动标签和默认知识库项目通过</td></tr>
       </tbody></table>
       <p>7 月 12 日的 429 证据保留在 <code>/home/u2023312337/webui/preflight.ndjson</code>;7 月 13 日补验收日志保存在同目录的 retrieval、ingest 和 ingest-restore NDJSON 文件中。</p>
 
       <h2 id="limits">已知限制</h2>
-      <ol><li>聊天区不渲染 Markdown且无文件树;知识页和报告通过 18081 查看。</li><li>火山 endpoint 的后续额度状态由上游服务控制;7 月 12 日曾限流,7 月 13 日已恢复。</li><li>Viewer 浏览器端依赖 CDN。</li><li>服务器重启后需手动启动两个服务。</li><li>轻量静态服务器不提供认证,必须保持 localhost 绑定。</li><li>危险权限模式绕过工具确认,只应在明确了解操作范围时临时启用。</li></ol>
+      <ol><li>18080 通过两个 iframe 组合 Viewer 与 Claude;浏览文件不会自动把全文加入 Claude 上下文,需使用“询问 Claude”或明确要求读取。</li><li>火山 endpoint 的后续额度状态由上游服务控制;7 月 12 日曾限流,7 月 13 日已恢复。</li><li>Viewer 浏览器端依赖 CDN。</li><li>服务器重启后需手动启动两个服务。</li><li>轻量静态服务器不提供认证,必须保持 localhost 绑定。</li><li>危险权限模式绕过工具确认,只应在明确了解操作范围时临时启用。</li></ol>
     </main>
   </div>
 </body>
