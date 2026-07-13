@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-13 · 页面 93 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-13 · 页面 94 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -121,6 +121,7 @@
 - [[卷积神经网络 CNN]] `#LLM机制 #基础` — 卷积神经网络的核心思想是局部连接和权重共享。
 - [[变分自编码器 VAE Variational Autoencoder]] `#基础` — VAE用神经网络参数化隐变量后验和生成器,通过最大化ELBO训练,是EM思想在深度生成模型上的延伸,也是扩散模型的前身。
 - [[命名实体识别 NER]] `#KG #基础` — 命名实体识别是从文本中识别出具有特定意义实体的任务，是知识图谱构建的第一步。
+- [[对比学习 Contrastive Learning]] `#基础` — 对比学习通过拉近正样本对、推开负样本对学习表示,以InfoNCE为核心损失,是稠密检索与多模态对齐的基础范式。
 - [[层归一化 LayerNorm BatchNorm]] `#LLM机制 #基础` — BatchNorm与LayerNorm通过不同归一化维度稳定神经网络训练。
 - [[序列标注模型 HMM CRF]] `#KG #基础` — HMM与CRF以概率图模型方式联合预测序列中各位置的标签。
 - [[强化学习基本框架 Reinforcement Learning]] `#LLM机制 #基础` — 强化学习通过智能体与环境交互并最大化累积奖励来学习策略。
