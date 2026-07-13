@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-13 · 页面 88 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-13 · 页面 90 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -96,6 +96,7 @@
 - [[引用召回与精确率 Citation Recall Precision]] `#可信度 #TripleChecker #评测` — 引用召回率与精确率衡量生成声明是否得到充分且正确的证据支持。
 - [[归因评测 Attribution]] `#可信度 #TripleChecker #评测` — 归因评测是指验证生成内容里的具体声明（claim）是否能在指定的来源材料中找到支撑证据的过程。
 - [[提示注入 Prompt Injection]] `#可信度` — 提示注入通过恶意输入劫持LLM指令并破坏既定行为边界。
+- [[机器遗忘 Machine Unlearning]] `#可信度 #前沿` — 机器遗忘让训练好的模型精确去除特定训练数据的影响,服务隐私合规与被遗忘权。
 - [[模型校准 Calibration]] `#可信度` — 模型校准衡量的是「模型说它有80%把握的时候，是不是真的大约80%的情况下是对的」。
 - [[溯源 Provenance]] `#可信度 #EvidenceFirst` — 溯源记录数据或结论的来源、转换过程和依赖关系。
 - [[纠错RAG CRAG]] `#RAG #可信度` — CRAG先评估检索质量，再通过补充搜索和结果融合纠正RAG输入。
@@ -130,6 +131,7 @@
 - [[词性标注 POS Tagging]] `#KG #基础` — 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
+- [[马尔可夫 Markov]] `#基础` — 未来只依赖当下的建模假设,派生出马尔可夫链/HMM/MDP/MCMC等一族方法
 
 ## 评测
 
@@ -149,6 +151,7 @@
 - [[GNN-RAG 图神经网络检索增强]] `#RAG #KG #前沿` — GNN-RAG（arxiv 2024）把 GNN 引入 RAG 的检索阶段。
 - [[ReDeEP 机制可解释性]] `#可信度 #前沿` — ReDeEP（Sun et al.
 - [[StructRAG 结构化知识推理]] `#RAG #KG #前沿` — StructRAG（Li et al.
+- [[机器遗忘 Machine Unlearning]] `#可信度 #前沿` — 机器遗忘让训练好的模型精确去除特定训练数据的影响,服务隐私合规与被遗忘权。
 
 ## 项目
 

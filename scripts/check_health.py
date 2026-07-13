@@ -5,6 +5,8 @@
 检查断链、缺字段、非法 tag、概念页缺分类、重复嫌疑页等。
 退出码:全部通过 → 0;存在任一 ERROR → 1(WARN 不影响退出码)。
 """
+from __future__ import annotations
+
 import argparse
 import sys
 from pathlib import Path

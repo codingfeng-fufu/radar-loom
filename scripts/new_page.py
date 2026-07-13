@@ -4,6 +4,8 @@
 
 按模板创建新概念页,自动填充 frontmatter、连接分类/项目页。
 """
+from __future__ import annotations
+
 import argparse
 import sys
 from pathlib import Path
