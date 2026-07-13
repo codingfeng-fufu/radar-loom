@@ -46,9 +46,11 @@ VAE 在我的 KG / RAG 主线里不是直接落地算法,但作为"隐变量 + �
 - [[主题模型 LDA]]
 - [[序列标注模型 HMM CRF]]
 - [[对比学习 Contrastive Learning]]
+- [[扩散模型 Diffusion Models DDPM]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 
 ## 更新记录
 
 - 2026-07-13: 首次建页
 - 2026-07-13: 回填 对比学习 双链
+- 2026-07-13: 补 扩散模型 双链
