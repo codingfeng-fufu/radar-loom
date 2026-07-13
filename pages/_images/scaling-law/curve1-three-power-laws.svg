@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-label="L(N)、L(D)、L(C) 三条幂律曲线在 log-log 坐标下的对比">
+<rect width="720" height="260" fill="#fcfcfb"/>
+<g>
+  <text x="44" y="14" font-size="12" font-weight="600" fill="#2a78d6" font-family="system-ui, sans-serif">■ L(N) · α = 0.076</text>
+  <line x1="44"  y1="36"     x2="228" y2="36"     stroke="#e1e0d9"/>
+  <line x1="44"  y1="72.13"  x2="228" y2="72.13"  stroke="#e1e0d9"/>
+  <line x1="44"  y1="126.56" x2="228" y2="126.56" stroke="#e1e0d9"/>
+  <line x1="44"  y1="169.91" x2="228" y2="169.91" stroke="#e1e0d9"/>
+  <line x1="44"  y1="200.68" x2="228" y2="200.68" stroke="#e1e0d9"/>
+  <text x="38" y="39"     font-size="10" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">7</text>
+  <text x="38" y="75.13"  font-size="10" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">5</text>
+  <text x="38" y="129.56" font-size="10" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">3</text>
+  <text x="38" y="172.91" font-size="10" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">2</text>
+  <text x="38" y="203.68" font-size="10" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1.5</text>
+  <path d="M44,36 L44,216 L228,216" stroke="#c3c2b7" fill="none"/>
+  <text x="44"     y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e5</text>
+  <text x="105.33" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e7</text>
+  <text x="166.67" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e9</text>
+  <text x="228"    y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e11</text>
+  <text x="136"    y="252" font-size="11" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">N (参数量)</text>
+  <text transform="translate(14,126) rotate(-90)" font-size="11" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">Loss (nats)</text>
+  <line x1="44" y1="76.64" x2="228" y2="188.96" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+</g>
+<g>
+  <text x="284" y="14" font-size="12" font-weight="600" fill="#1baf7a" font-family="system-ui, sans-serif">■ L(D) · α = 0.095</text>
+  <line x1="284" y1="36"     x2="468" y2="36"     stroke="#e1e0d9"/>
+  <line x1="284" y1="72.13"  x2="468" y2="72.13"  stroke="#e1e0d9"/>
+  <line x1="284" y1="126.56" x2="468" y2="126.56" stroke="#e1e0d9"/>
+  <line x1="284" y1="169.91" x2="468" y2="169.91" stroke="#e1e0d9"/>
+  <line x1="284" y1="200.68" x2="468" y2="200.68" stroke="#e1e0d9"/>
+  <path d="M284,36 L284,216 L468,216" stroke="#c3c2b7" fill="none"/>
+  <text x="284"   y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e6</text>
+  <text x="357.6" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e8</text>
+  <text x="431.2" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e10</text>
+  <text x="376"   y="252" font-size="11" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">D (tokens)</text>
+  <line x1="284" y1="63.13" x2="468" y2="180.12" stroke="#1baf7a" stroke-width="2" stroke-linecap="round"/>
+</g>
+<g>
+  <text x="524" y="14" font-size="12" font-weight="600" fill="#c98500" font-family="system-ui, sans-serif">■ L(C) · α = 0.050</text>
+  <line x1="524" y1="36"     x2="708" y2="36"     stroke="#e1e0d9"/>
+  <line x1="524" y1="72.13"  x2="708" y2="72.13"  stroke="#e1e0d9"/>
+  <line x1="524" y1="126.56" x2="708" y2="126.56" stroke="#e1e0d9"/>
+  <line x1="524" y1="169.91" x2="708" y2="169.91" stroke="#e1e0d9"/>
+  <line x1="524" y1="200.68" x2="708" y2="200.68" stroke="#e1e0d9"/>
+  <path d="M524,36 L524,216 L708,216" stroke="#c3c2b7" fill="none"/>
+  <text x="524"    y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e-3</text>
+  <text x="576.57" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e-1</text>
+  <text x="629.14" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e1</text>
+  <text x="681.71" y="232" font-size="10" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e3</text>
+  <text x="616"    y="252" font-size="11" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">C (PF-days)</text>
+  <line x1="524" y1="102.57" x2="708" y2="188.79" stroke="#c98500" stroke-width="2" stroke-linecap="round"/>
+</g>
+</svg>

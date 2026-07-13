@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="Kaplan 2020 与 Chinchilla 2022 在固定算力下推荐的最优参数量对比">
+<rect width="720" height="360" fill="#fcfcfb"/>
+<line x1="74" y1="306" x2="696" y2="306" stroke="#e1e0d9"/>
+<line x1="74" y1="259" x2="696" y2="259" stroke="#e1e0d9"/>
+<line x1="74" y1="212" x2="696" y2="212" stroke="#e1e0d9"/>
+<line x1="74" y1="165" x2="696" y2="165" stroke="#e1e0d9"/>
+<line x1="74" y1="118" x2="696" y2="118" stroke="#e1e0d9"/>
+<line x1="74" y1="71"  x2="696" y2="71"  stroke="#e1e0d9"/>
+<line x1="74" y1="24"  x2="696" y2="24"  stroke="#e1e0d9"/>
+<text x="68" y="309" font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e7</text>
+<text x="68" y="262" font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e8</text>
+<text x="68" y="215" font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e9</text>
+<text x="68" y="168" font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e10</text>
+<text x="68" y="121" font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e11</text>
+<text x="68" y="74"  font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e12</text>
+<text x="68" y="27"  font-size="10.5" fill="#898781" text-anchor="end" font-family="system-ui, sans-serif">1e13</text>
+<path d="M74,24 L74,306 L696,306" stroke="#c3c2b7" fill="none"/>
+<text x="74"    y="322" font-size="10.5" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e18</text>
+<text x="229.5" y="322" font-size="10.5" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e20</text>
+<text x="385"   y="322" font-size="10.5" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e22</text>
+<text x="540.5" y="322" font-size="10.5" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e24</text>
+<text x="696"   y="322" font-size="10.5" fill="#898781" text-anchor="middle" font-family="system-ui, sans-serif">1e26</text>
+<text x="385" y="346" font-size="12" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">算力 C (FLOPs)</text>
+<text transform="translate(20,165) rotate(-90)" font-size="12" fill="#52514e" text-anchor="middle" font-family="system-ui, sans-serif">最优参数量 N</text>
+
+<line x1="74" y1="295.19" x2="696" y2="24" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<line x1="74" y1="266.14" x2="696" y2="77.86" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+
+<circle cx="501.28" cy="106.58" r="5.5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<text x="493" y="98" font-size="11.5" fill="#eb6834" font-weight="600" text-anchor="end" font-family="system-ui, sans-serif">GPT-3 (175B)</text>
+
+<circle cx="501.28" cy="136.71" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="493" y="152" font-size="11.5" fill="#2a78d6" font-weight="600" text-anchor="end" font-family="system-ui, sans-serif">Chinchilla-optimal · 同算力</text>
+
+<line x1="501.28" y1="106.58" x2="501.28" y2="136.71" stroke="#898781" stroke-width="1" stroke-dasharray="4 3"/>
+
+<text x="702" y="28"  font-size="12" fill="#eb6834" font-weight="600" font-family="system-ui, sans-serif">Kaplan</text>
+<text x="702" y="82"  font-size="12" fill="#2a78d6" font-weight="600" font-family="system-ui, sans-serif">Chinchilla</text>
+
+<text x="90"  y="46" font-size="11" fill="#52514e" font-family="system-ui, sans-serif">Kaplan (N ∝ C^0.73):算力翻 10× → 参数翻 5.4×、数据翻 1.9×</text>
+<text x="90"  y="62" font-size="11" fill="#52514e" font-family="system-ui, sans-serif">Chinchilla (N ∝ C^0.50):算力翻 10× → 参数与数据各翻 3.2×</text>
+</svg>
