@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Scaling Law 曲线可视化 · 2026-07-13</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --surface-1: #fcfcfb;
+    --page:      #f9f9f7;
+    --ink-1:     #0b0b0b;
+    --ink-2:     #52514e;
+    --muted:     #898781;
+    --grid:      #e1e0d9;
+    --axis:      #c3c2b7;
+    --border:    rgba(11,11,11,0.10);
+    /* categorical slots — the three power-law curves */
+    --s1: #2a78d6; /* blue → L(N) */
+    --s2: #1baf7a; /* aqua → L(D) */
+    --s3: #eda100; /* yellow → L(C) */
+    /* comparison chart */
+    --kaplan:     #eb6834; /* orange */
+    --chinchilla: #2a78d6; /* blue */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1: #1a1a19;
+      --page:      #0d0d0d;
+      --ink-1:     #ffffff;
+      --ink-2:     #c3c2b7;
+      --muted:     #898781;
+      --grid:      #2c2c2a;
+      --axis:      #383835;
+      --border:    rgba(255,255,255,0.10);
+      --s1: #3987e5;
+      --s2: #199e70;
+      --s3: #c98500;
+      --kaplan:     #d95926;
+      --chinchilla: #3987e5;
+    }
+  }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page);
+    color: var(--ink-1);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 26px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  h2 { font-size: 18px; margin: 40px 0 12px; letter-spacing: -0.005em; }
+  .lead { color: var(--ink-2); margin: 0 0 24px; }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 20px 12px;
+    margin-bottom: 20px;
+  }
+  .caption { color: var(--muted); font-size: 12.5px; margin: 4px 0 0; }
+  .small-multiples {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 720px) {
+    .small-multiples { grid-template-columns: 1fr; }
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-1);
+    margin: 0 0 2px;
+  }
+  .panel-sub {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin: 0 0 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .grid-line { stroke: var(--grid); stroke-width: 1; shape-rendering: crispEdges; }
+  .axis-line { stroke: var(--axis); stroke-width: 1; shape-rendering: crispEdges; fill: none; }
+  .tick-label { fill: var(--muted); font-size: 10.5px; font-variant-numeric: tabular-nums; }
+  .axis-title { fill: var(--ink-2); font-size: 11.5px; }
+  .curve { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .curve-label {
+    font-size: 12px; font-weight: 600;
+    paint-order: stroke; stroke: var(--surface-1); stroke-width: 3.5;
+  }
+  .crosshair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; pointer-events: none; }
+  .dot { r: 4; stroke: var(--surface-1); stroke-width: 2; opacity: 0; pointer-events: none; }
+  .tooltip {
+    position: absolute; pointer-events: none;
+    background: var(--surface-1); color: var(--ink-1);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 9px; font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    opacity: 0; transition: opacity 0.1s;
+    white-space: nowrap; z-index: 10;
+  }
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    font-size: 12px; color: var(--ink-2);
+    margin: 4px 0 12px;
+  }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 14px; height: 3px; border-radius: 2px; }
+  ul.notes { color: var(--ink-2); font-size: 13.5px; padding-left: 22px; margin: 8px 0; }
+  ul.notes li { margin: 4px 0; }
+  code {
+    background: var(--grid); padding: 1px 5px; border-radius: 3px;
+    font-size: 12.5px; font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  }
+  .source {
+    color: var(--muted); font-size: 12.5px; margin-top: 20px;
+    padding-top: 12px; border-top: 1px solid var(--grid);
+  }
+  .source a { color: var(--ink-2); }
+  .figure-wrap { position: relative; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Scaling Law 曲线可视化</h1>
+  <p class="lead">
+    对应知识页 <code>pages/Scaling Law 大模型缩放律.md</code>。
+    图 1 画出正文里三个幂律公式 $L(N)$、$L(D)$、$L(C)$;
+    图 2 对比 Kaplan 与 Chinchilla 在固定算力下的参数-数据分配差异。
+    数值取自 Kaplan et al. 2020(arxiv 2001.08361)论文正文的拟合系数。
+  </p>
+
+  <h2>图 1 · 三条幂律曲线</h2>
+  <div class="card">
+    <div class="legend">
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--s1)"></span>L(N)&nbsp;参数量</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--s2)"></span>L(D)&nbsp;数据量</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--s3)"></span>L(C)&nbsp;算力</span>
+    </div>
+    <div class="small-multiples" id="sm"></div>
+    <p class="caption">
+      log-log 坐标下,幂律 $L(x)=(x_c/x)^\alpha$ 呈现为直线,斜率即 $-\alpha$。
+      三条线的斜率并不相同 —— α_N ≈ 0.076、α_D ≈ 0.095、α_C ≈ 0.050 —— 意味着
+      在等比例扩大 N/D/C 时,数据量对 loss 的边际贡献最陡,算力最平缓。
+      鼠标悬停可读取具体数值。
+    </p>
+  </div>
+
+  <h2>图 2 · Kaplan vs Chinchilla:固定算力下的最优分配</h2>
+  <div class="card">
+    <div class="legend">
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--kaplan)"></span>Kaplan 2020(N ∝ C<sup>0.73</sup>)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--chinchilla)"></span>Chinchilla 2022(N ∝ C<sup>0.50</sup>)</span>
+    </div>
+    <div class="figure-wrap">
+      <svg id="chart2" viewBox="0 0 640 360" role="img"
+           aria-label="Kaplan 与 Chinchilla 缩放律推荐的最优参数量随算力变化对比"></svg>
+      <div class="tooltip" id="tt2"></div>
+    </div>
+    <p class="caption">
+      同一算力预算 C(FLOPs)下,两派给出的最优参数量 N。
+      Kaplan 斜率 0.73 → 算力翻 10 倍,建议参数量翻 5.4 倍、数据只翻 1.9 倍;
+      Chinchilla 斜率 0.50 → 参数量和数据各翻 3.2 倍,恰好等比例。
+      GPT-3(标红点)按 Kaplan 原则建造,Chinchilla 拟合表明它在同等算力下**参数过大、数据不足**。
+    </p>
+  </div>
+
+  <h2>解读要点</h2>
+  <ul class="notes">
+    <li><strong>三条线为什么都是直线?</strong> 因为是幂律 $L=(x_c/x)^\alpha$,取对数后 $\log L = \alpha(\log x_c - \log x)$,恒为线性。log-log 图上出现的任何弯折都意味着已经进入"数据饱和"或"参数饱和"的破缺区,不在幂律区间内。</li>
+    <li><strong>三个 α 不一样意味着什么?</strong> 单独放大任一维度,收益不同。Kaplan 结论就是从这些系数推的:如果只有一份新增预算,先加参数比先加数据便宜——但这个结论假设"另外两个维度不成为瓶颈",Chinchilla 后来指出实际训练中数据经常先撞瓶颈。</li>
+    <li><strong>图 2 的两条线为什么斜率不同?</strong> 计算约束 $C \approx 6ND$ 给出一条 $N\cdot D\propto C$ 的等约束线;不同 loss 拟合公式在这条线上定位的最小点位置不同。Kaplan 拟合的 $L(N,D)$ 曲面对 N 更敏感,所以最优点偏向"重参数";Chinchilla 用更宽 (N,D) 范围重新拟合后,最优点回到对角线。</li>
+    <li><strong>缩放律 ≠ 涌现</strong>。图上的所有曲线都是**平滑的**;涌现是下游任务准确率曲线,在同一 loss 上可能表现为阶跃。见 <code>pages/涌现能力 Emergent Abilities.md</code>。</li>
+  </ul>
+
+  <p class="source">
+    数据来源:Kaplan J. et al. <em>Scaling Laws for Neural Language Models</em>. arXiv:2001.08361, 2020.
+    Chinchilla 参考:Hoffmann J. et al. <em>Training Compute-Optimal Large Language Models</em>. arXiv:2203.15556, 2022.
+    生成:2026-07-13。图表色板:dataviz skill 默认调色板(已通过 CVD ΔE ≥ 12 校验)。
+  </p>
+</main>
+
+<div class="tooltip" id="tt1"></div>
+
+<script>
+// ============================================================
+// 图 1:三个 log-log 小三联,每格画一条幂律曲线
+// ============================================================
+const CURVES = [
+  {
+    key: 'N',
+    color: 'var(--s1)',
+    label: 'L(N) 参数量',
+    xTitle: 'N (params)',
+    xc: 8.8e13, alpha: 0.076,
+    xMin: 1e5, xMax: 1e11,
+    xTicks: [1e5, 1e7, 1e9, 1e11],
+    xFmt: v => v.toExponential(0).replace('e+', 'e'),
+  },
+  {
+    key: 'D',
+    color: 'var(--s2)',
+    label: 'L(D) 数据量',
+    xTitle: 'D (tokens)',
+    xc: 5.4e13, alpha: 0.095,
+    xMin: 1e6, xMax: 1e11,
+    xTicks: [1e6, 1e8, 1e10],
+    xFmt: v => v.toExponential(0).replace('e+', 'e'),
+  },
+  {
+    key: 'C',
+    color: 'var(--s3)',
+    label: 'L(C) 算力',
+    xTitle: 'C (PF-days)',
+    xc: 3.1e8, alpha: 0.050,
+    xMin: 1e-3, xMax: 1e4,
+    xTicks: [1e-3, 1e-1, 1e1, 1e3],
+    xFmt: v => v >= 1 ? v.toExponential(0).replace('e+', 'e') : v.toExponential(0),
+  },
+];
+
+// common loss range for consistent visual comparison
+const L_MIN = 1.3, L_MAX = 7;
+const W = 260, H = 210;
+const PAD = { l: 44, r: 14, t: 8, b: 40 };
+const PX = W - PAD.l - PAD.r;
+const PY = H - PAD.t - PAD.b;
+
+const yTicks = [1.5, 2, 3, 5, 7];
+
+function xToPx(x, c) {
+  const lx = Math.log10(x), l0 = Math.log10(c.xMin), l1 = Math.log10(c.xMax);
+  return PAD.l + ((lx - l0) / (l1 - l0)) * PX;
+}
+function yToPx(y) {
+  const ly = Math.log10(y), l0 = Math.log10(L_MIN), l1 = Math.log10(L_MAX);
+  return PAD.t + PY - ((ly - l0) / (l1 - l0)) * PY;
+}
+function L(x, c) { return Math.pow(c.xc / x, c.alpha); }
+
+const sm = document.getElementById('sm');
+const tt1 = document.getElementById('tt1');
+
+CURVES.forEach((c, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'figure-wrap';
+  const title = document.createElement('p');
+  title.className = 'panel-title';
+  title.innerHTML = `<span style="color:${c.color}">■</span> ${c.label}`;
+  const sub = document.createElement('p');
+  sub.className = 'panel-sub';
+  sub.textContent = `α = ${c.alpha}, x_c = ${c.xc.toExponential(1)}`;
+  wrap.appendChild(title);
+  wrap.appendChild(sub);
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', c.label + ' 幂律曲线');
+
+  // gridlines (horizontal)
+  yTicks.forEach(v => {
+    const y = yToPx(v);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('class', 'grid-line');
+    line.setAttribute('x1', PAD.l); line.setAttribute('x2', PAD.l + PX);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    svg.appendChild(line);
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('class', 'tick-label');
+    t.setAttribute('x', PAD.l - 6); t.setAttribute('y', y + 3.5);
+    t.setAttribute('text-anchor', 'end');
+    t.textContent = v;
+    svg.appendChild(t);
+  });
+
+  // x-axis ticks
+  c.xTicks.forEach(v => {
+    const x = xToPx(v, c);
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('class', 'tick-label');
+    t.setAttribute('x', x); t.setAttribute('y', PAD.t + PY + 14);
+    t.setAttribute('text-anchor', 'middle');
+    t.textContent = c.xFmt(v);
+    svg.appendChild(t);
+  });
+
+  // axes
+  const axL = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  axL.setAttribute('class', 'axis-line');
+  axL.setAttribute('d', `M${PAD.l},${PAD.t} L${PAD.l},${PAD.t+PY} L${PAD.l+PX},${PAD.t+PY}`);
+  svg.appendChild(axL);
+
+  // axis titles
+  const xt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  xt.setAttribute('class', 'axis-title');
+  xt.setAttribute('x', PAD.l + PX / 2); xt.setAttribute('y', H - 10);
+  xt.setAttribute('text-anchor', 'middle');
+  xt.textContent = c.xTitle;
+  svg.appendChild(xt);
+
+  if (idx === 0) {
+    const yt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    yt.setAttribute('class', 'axis-title');
+    yt.setAttribute('transform', `translate(12, ${PAD.t + PY/2}) rotate(-90)`);
+    yt.setAttribute('text-anchor', 'middle');
+    yt.textContent = 'Loss (nats)';
+    svg.appendChild(yt);
+  }
+
+  // the curve
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('class', 'curve');
+  path.setAttribute('stroke', c.color);
+  let d = '';
+  const N = 80;
+  const lx0 = Math.log10(c.xMin), lx1 = Math.log10(c.xMax);
+  for (let i = 0; i <= N; i++) {
+    const lx = lx0 + (lx1 - lx0) * i / N;
+    const x = Math.pow(10, lx);
+    const y = L(x, c);
+    if (y < L_MIN || y > L_MAX) continue;
+    d += (d ? ' L' : 'M') + xToPx(x, c).toFixed(1) + ',' + yToPx(y).toFixed(1);
+  }
+  path.setAttribute('d', d);
+  svg.appendChild(path);
+
+  // crosshair + dot
+  const cx = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  cx.setAttribute('class', 'crosshair'); cx.setAttribute('y1', PAD.t); cx.setAttribute('y2', PAD.t + PY);
+  const cy = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  cy.setAttribute('class', 'crosshair'); cy.setAttribute('x1', PAD.l); cy.setAttribute('x2', PAD.l + PX);
+  const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  dot.setAttribute('class', 'dot'); dot.setAttribute('fill', c.color);
+  svg.appendChild(cx); svg.appendChild(cy); svg.appendChild(dot);
+
+  // hover
+  const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  hitArea.setAttribute('x', PAD.l); hitArea.setAttribute('y', PAD.t);
+  hitArea.setAttribute('width', PX); hitArea.setAttribute('height', PY);
+  hitArea.setAttribute('fill', 'transparent');
+  svg.appendChild(hitArea);
+
+  hitArea.addEventListener('mousemove', (e) => {
+    const rect = svg.getBoundingClientRect();
+    const sx = (e.clientX - rect.left) * (W / rect.width);
+    const sy = (e.clientY - rect.top) * (H / rect.height);
+    if (sx < PAD.l || sx > PAD.l + PX) return;
+    // invert x
+    const t = (sx - PAD.l) / PX;
+    const lx = Math.log10(c.xMin) + t * (Math.log10(c.xMax) - Math.log10(c.xMin));
+    const xv = Math.pow(10, lx);
+    const yv = L(xv, c);
+    if (yv < L_MIN || yv > L_MAX) return;
+    const py = yToPx(yv);
+    cx.setAttribute('x1', sx); cx.setAttribute('x2', sx); cx.setAttribute('opacity', 1);
+    cy.setAttribute('y1', py); cy.setAttribute('y2', py); cy.setAttribute('opacity', 1);
+    dot.setAttribute('cx', sx); dot.setAttribute('cy', py); dot.setAttribute('opacity', 1);
+    tt1.innerHTML = `<b style="color:${c.color}">${c.label}</b><br>${c.xTitle}: ${xv.toExponential(2)}<br>Loss: ${yv.toFixed(3)}`;
+    tt1.style.opacity = 1;
+    tt1.style.left = (e.clientX + 12) + 'px';
+    tt1.style.top = (e.clientY + 12 + window.scrollY) + 'px';
+  });
+  hitArea.addEventListener('mouseleave', () => {
+    cx.setAttribute('opacity', 0); cy.setAttribute('opacity', 0); dot.setAttribute('opacity', 0);
+    tt1.style.opacity = 0;
+  });
+
+  wrap.appendChild(svg);
+  sm.appendChild(wrap);
+});
+
+// ============================================================
+// 图 2:Kaplan vs Chinchilla 最优参数量随算力
+// ============================================================
+(function () {
+  const svg = document.getElementById('chart2');
+  const tt = document.getElementById('tt2');
+  const W2 = 640, H2 = 360;
+  const P = { l: 74, r: 24, t: 20, b: 56 };
+  const px = W2 - P.l - P.r, py = H2 - P.t - P.b;
+
+  // Compute range: 1e18 to 1e26 FLOPs (from GPT-2 era to GPT-4 era)
+  const cMin = 1e18, cMax = 1e26;
+  // Params range: 1e7 to 1e13
+  const nMin = 1e7, nMax = 1e13;
+
+  // Anchor point: GPT-3 (roughly 175B params at 3.14e23 FLOPs, per Kaplan)
+  const C_anchor = 3.14e23, N_anchor = 1.75e11;
+  // Kaplan: N = k1 * C^0.73
+  const k1 = N_anchor / Math.pow(C_anchor, 0.73);
+  // Chinchilla: N = k2 * C^0.50, anchored so it passes through same order as its own compute-optimal for GPT-3 compute
+  // At C=3.14e23, Chinchilla-optimal N is ~40B (i.e., Chinchilla says GPT-3 should have been smaller)
+  const N_chin_at_C_anchor = 4e10;
+  const k2 = N_chin_at_C_anchor / Math.pow(C_anchor, 0.50);
+
+  function cToPx(c) { return P.l + (Math.log10(c) - Math.log10(cMin)) / (Math.log10(cMax) - Math.log10(cMin)) * px; }
+  function nToPx(n) { return P.t + py - (Math.log10(n) - Math.log10(nMin)) / (Math.log10(nMax) - Math.log10(nMin)) * py; }
+  function nKaplan(c) { return k1 * Math.pow(c, 0.73); }
+  function nChin(c) { return k2 * Math.pow(c, 0.50); }
+
+  const ns = (s) => document.createElementNS('http://www.w3.org/2000/svg', s);
+
+  // Gridlines
+  const nTicks = [1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13];
+  nTicks.forEach(v => {
+    const y = nToPx(v);
+    const line = ns('line');
+    line.setAttribute('class', 'grid-line');
+    line.setAttribute('x1', P.l); line.setAttribute('x2', P.l + px);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    svg.appendChild(line);
+    const t = ns('text');
+    t.setAttribute('class', 'tick-label');
+    t.setAttribute('x', P.l - 8); t.setAttribute('y', y + 4);
+    t.setAttribute('text-anchor', 'end');
+    t.textContent = v.toExponential(0).replace('e+', 'e');
+    svg.appendChild(t);
+  });
+
+  const cTicks = [1e18, 1e20, 1e22, 1e24, 1e26];
+  cTicks.forEach(v => {
+    const x = cToPx(v);
+    const t = ns('text');
+    t.setAttribute('class', 'tick-label');
+    t.setAttribute('x', x); t.setAttribute('y', P.t + py + 18);
+    t.setAttribute('text-anchor', 'middle');
+    t.textContent = v.toExponential(0).replace('e+', 'e');
+    svg.appendChild(t);
+  });
+
+  // Axes
+  const ax = ns('path');
+  ax.setAttribute('class', 'axis-line');
+  ax.setAttribute('d', `M${P.l},${P.t} L${P.l},${P.t + py} L${P.l + px},${P.t + py}`);
+  svg.appendChild(ax);
+
+  // Axis titles
+  const xt = ns('text');
+  xt.setAttribute('class', 'axis-title');
+  xt.setAttribute('x', P.l + px / 2); xt.setAttribute('y', H2 - 16);
+  xt.setAttribute('text-anchor', 'middle');
+  xt.textContent = 'Compute C (FLOPs)';
+  svg.appendChild(xt);
+
+  const yt = ns('text');
+  yt.setAttribute('class', 'axis-title');
+  yt.setAttribute('transform', `translate(20, ${P.t + py / 2}) rotate(-90)`);
+  yt.setAttribute('text-anchor', 'middle');
+  yt.textContent = '最优参数量 N';
+  svg.appendChild(yt);
+
+  // Curves
+  function drawLine(fn, colorVar, klass) {
+    const path = ns('path');
+    path.setAttribute('class', 'curve');
+    path.setAttribute('stroke', colorVar);
+    let d = '';
+    const N = 100;
+    for (let i = 0; i <= N; i++) {
+      const lc = Math.log10(cMin) + (Math.log10(cMax) - Math.log10(cMin)) * i / N;
+      const c = Math.pow(10, lc);
+      const n = fn(c);
+      if (n < nMin || n > nMax) continue;
+      d += (d ? ' L' : 'M') + cToPx(c).toFixed(1) + ',' + nToPx(n).toFixed(1);
+    }
+    path.setAttribute('d', d);
+    svg.appendChild(path);
+  }
+  drawLine(nKaplan, 'var(--kaplan)');
+  drawLine(nChin, 'var(--chinchilla)');
+
+  // Direct labels at right end
+  function label(fn, colorVar, text, offsetY = 0) {
+    const c = cMax * 0.7;
+    let n = fn(c);
+    if (n > nMax) n = nMax * 0.9;
+    const x = cToPx(c), y = nToPx(n) + offsetY;
+    const t = ns('text');
+    t.setAttribute('class', 'curve-label');
+    t.setAttribute('x', x + 6); t.setAttribute('y', y);
+    t.setAttribute('fill', colorVar);
+    t.textContent = text;
+    svg.appendChild(t);
+  }
+  label(nKaplan, 'var(--kaplan)', 'Kaplan', -6);
+  label(nChin, 'var(--chinchilla)', 'Chinchilla', 4);
+
+  // GPT-3 anchor marker
+  const gx = cToPx(C_anchor), gy = nToPx(N_anchor);
+  const marker = ns('circle');
+  marker.setAttribute('cx', gx); marker.setAttribute('cy', gy);
+  marker.setAttribute('r', 6);
+  marker.setAttribute('fill', 'var(--kaplan)');
+  marker.setAttribute('stroke', 'var(--surface-1)'); marker.setAttribute('stroke-width', 2);
+  svg.appendChild(marker);
+  const glbl = ns('text');
+  glbl.setAttribute('class', 'curve-label');
+  glbl.setAttribute('x', gx - 8); glbl.setAttribute('y', gy - 10);
+  glbl.setAttribute('fill', 'var(--kaplan)');
+  glbl.setAttribute('text-anchor', 'end');
+  glbl.textContent = 'GPT-3 (175B)';
+  svg.appendChild(glbl);
+
+  // Chinchilla-optimal for same compute
+  const cx2 = cToPx(C_anchor), cy2 = nToPx(N_chin_at_C_anchor);
+  const marker2 = ns('circle');
+  marker2.setAttribute('cx', cx2); marker2.setAttribute('cy', cy2);
+  marker2.setAttribute('r', 5);
+  marker2.setAttribute('fill', 'var(--chinchilla)');
+  marker2.setAttribute('stroke', 'var(--surface-1)'); marker2.setAttribute('stroke-width', 2);
+  svg.appendChild(marker2);
+  const glbl2 = ns('text');
+  glbl2.setAttribute('class', 'curve-label');
+  glbl2.setAttribute('x', cx2 - 8); glbl2.setAttribute('y', cy2 + 4);
+  glbl2.setAttribute('fill', 'var(--chinchilla)');
+  glbl2.setAttribute('text-anchor', 'end');
+  glbl2.textContent = 'Chinchilla-optimal @ 同算力';
+  svg.appendChild(glbl2);
+
+  // Connecting dashed line between the two GPT-3-compute points to visualize the gap
+  const gap = ns('line');
+  gap.setAttribute('x1', gx); gap.setAttribute('x2', gx);
+  gap.setAttribute('y1', gy); gap.setAttribute('y2', cy2);
+  gap.setAttribute('stroke', 'var(--muted)');
+  gap.setAttribute('stroke-width', 1);
+  gap.setAttribute('stroke-dasharray', '4 3');
+  svg.appendChild(gap);
+
+  // Hover
+  const cx = ns('line'); cx.setAttribute('class', 'crosshair'); cx.setAttribute('y1', P.t); cx.setAttribute('y2', P.t + py);
+  svg.appendChild(cx);
+  const dotK = ns('circle'); dotK.setAttribute('class', 'dot'); dotK.setAttribute('fill', 'var(--kaplan)'); svg.appendChild(dotK);
+  const dotC = ns('circle'); dotC.setAttribute('class', 'dot'); dotC.setAttribute('fill', 'var(--chinchilla)'); svg.appendChild(dotC);
+
+  const hit = ns('rect');
+  hit.setAttribute('x', P.l); hit.setAttribute('y', P.t);
+  hit.setAttribute('width', px); hit.setAttribute('height', py);
+  hit.setAttribute('fill', 'transparent');
+  svg.appendChild(hit);
+
+  hit.addEventListener('mousemove', (e) => {
+    const rect = svg.getBoundingClientRect();
+    const sx = (e.clientX - rect.left) * (W2 / rect.width);
+    if (sx < P.l || sx > P.l + px) return;
+    const t = (sx - P.l) / px;
+    const lc = Math.log10(cMin) + t * (Math.log10(cMax) - Math.log10(cMin));
+    const c = Math.pow(10, lc);
+    const nK = nKaplan(c), nC = nChin(c);
+    cx.setAttribute('x1', sx); cx.setAttribute('x2', sx); cx.setAttribute('opacity', 1);
+    if (nK >= nMin && nK <= nMax) {
+      dotK.setAttribute('cx', sx); dotK.setAttribute('cy', nToPx(nK)); dotK.setAttribute('opacity', 1);
+    } else dotK.setAttribute('opacity', 0);
+    if (nC >= nMin && nC <= nMax) {
+      dotC.setAttribute('cx', sx); dotC.setAttribute('cy', nToPx(nC)); dotC.setAttribute('opacity', 1);
+    } else dotC.setAttribute('opacity', 0);
+    const ratio = nK / nC;
+    tt.innerHTML = `C = ${c.toExponential(2)} FLOPs<br>
+      <b style="color:var(--kaplan)">Kaplan N</b> = ${nK.toExponential(2)}<br>
+      <b style="color:var(--chinchilla)">Chinchilla N</b> = ${nC.toExponential(2)}<br>
+      比值 (K/Ch) = ${ratio.toFixed(1)}×`;
+    tt.style.opacity = 1;
+    tt.style.left = (e.clientX + 14) + 'px';
+    tt.style.top = (e.clientY + 14 + window.scrollY) + 'px';
+  });
+  hit.addEventListener('mouseleave', () => {
+    cx.setAttribute('opacity', 0); dotK.setAttribute('opacity', 0); dotC.setAttribute('opacity', 0);
+    tt.style.opacity = 0;
+  });
+})();
+</script>
+</body>
+</html>
