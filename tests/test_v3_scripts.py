@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import json
 import subprocess
 import sys
 import unittest
@@ -22,6 +23,7 @@ class CommonV3Tests(unittest.TestCase):
         )
         self.assertIn("CoMaGRAG", rc.PROJECT_TAGS)
         self.assertEqual(rc.INDEX_FILE, ROOT / "_index.md")
+        self.assertEqual(rc.GRAPH_DATA_FILE, ROOT / "graph-data.json")
         self.assertEqual(set(rc.GRAPH_DIR_FILES), rc.CATEGORY_TAGS)
 
     def test_parse_source_types_and_local_path(self):
@@ -75,6 +77,41 @@ class IndexV3Tests(unittest.TestCase):
 
 
 class GraphV3Tests(unittest.TestCase):
+    def test_graph_data_json_is_complete_and_deterministic(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        edges, broken, degree = graph.graph_data(pages)
+        first = graph.render_graph_data(pages, edges, broken, degree)
+        second = graph.render_graph_data(pages, edges, broken, degree)
+        self.assertEqual(first, second)
+        payload = json.loads(first)
+        self.assertEqual(payload["stats"]["nodes"], len(pages))
+        self.assertEqual(payload["stats"]["edges"], len(edges))
+        self.assertEqual(len(payload["nodes"]), len(pages))
+        self.assertEqual(len(payload["edges"]), len(edges))
+        node_ids = [node["id"] for node in payload["nodes"]]
+        self.assertEqual(node_ids, sorted(node_ids))
+        self.assertEqual([edge["id"] for edge in payload["edges"]], sorted(edge["id"] for edge in payload["edges"]))
+        self.assertEqual({edge["source"] for edge in payload["edges"]} | {edge["target"] for edge in payload["edges"]}, set(node_ids))
+
+    def test_graph_data_json_exposes_workspace_metadata(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        edges, broken, degree = graph.graph_data(pages)
+        payload = json.loads(graph.render_graph_data(pages, edges, broken, degree))
+        by_id = {node["id"]: node for node in payload["nodes"]}
+        self.assertEqual(by_id["首页"]["kind"], "moc")
+        self.assertEqual(by_id["EvidenceFirst"]["kind"], "project")
+        self.assertEqual(by_id["GraphRAG 架构"]["kind"], "concept")
+        self.assertEqual(by_id["GraphRAG 架构"]["category"], "RAG")
+        for node in payload["nodes"]:
+            self.assertEqual(
+                set(node),
+                {"id", "label", "kind", "tags", "category", "confidence", "summary", "degree", "href"},
+            )
+            self.assertTrue(node["href"].startswith("viewer.html?f="))
+        self.assertEqual(set(payload["categories"]), rc.CATEGORY_TAGS)
+
     def test_overview_contains_both_statistics_and_broken_links(self):
         graph = importlib.import_module("render_graph")
         pages = rc.scan_pages()

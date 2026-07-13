@@ -10,6 +10,7 @@
 |---|---|---|
 | Claude Code WebUI 聊天 | `http://127.0.0.1:18080` | 仅 `127.0.0.1` |
 | 技术雷达知识库浏览 | `http://127.0.0.1:18081/viewer.html` | 仅 `127.0.0.1` |
+| 交互式知识图谱 | `http://127.0.0.1:18081/graph-view.html` | 仅 `127.0.0.1` |
 
 远程使用时,在 VSCode 的“端口”面板分别转发 `18080` 和 `18081`,可见性保持为“专用/本地”,再打开转发后的地址。两个服务均未开放公网,未配置域名或 HTTPS。
 
@@ -44,6 +45,7 @@
 - 正文按 GFM 渲染,双方括号链接可跳转,代码块启用 highlight.js,Mermaid 代码块生成图形。
 - 数学公式由 KaTeX 渲染,支持行内 `$...$`、`\\(...\\)` 和块级 `$$...$$`、`\\[...\\]`;错误公式保留原文且不阻断页面。
 - `viewer.html?f=graph.md` 打开全库核心图谱。
+- `graph-view.html` 打开 Cytoscape.js/fCoSE 交互图谱,支持搜索、分类/项目筛选、一跳邻居、详情和 Viewer 跳转;数据由 `python3 scripts/render_graph.py` 生成到 `graph-data.json`。
 - 查看器为只读工具,不提供编辑、搜索或主题切换。
 
 查看器的 marked、DOMPurify、highlight.js 和 Mermaid 由用户浏览器从 CDN 加载。静态服务器本身不安装 npm 包;浏览器断网或 CDN 不可达时,Markdown 渲染功能不可用。
@@ -81,6 +83,7 @@ node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
 | UI 真实检索对话 | 通过 | 2026-07-13 补验收:实际读取 `_index.md` 与 `pages/GraphRAG 架构.md`,返回完整答案 |
 | UI 测试摄入并恢复 | 通过 | 临时页进入索引后页面数 88→89,健康检查 0/0;随后删除并恢复至 88 页,健康检查仍为 0/0 |
 | 危险权限第四档 | 通过 | UI 可选择且显示红色警示;刷新恢复 normal;真实 API init 为 `bypassPermissions`,普通请求仍为 `default` |
+| 交互式知识图谱 | 通过 | 103 节点、470 边完成 fCoSE 布局;搜索、筛选、一跳聚焦、详情跳转及 1440×900/390×844 布局通过 |
 
 2026-07-12 的 429 历史证据保存在 `/home/u2023312337/webui/preflight.ndjson`。2026-07-13 补验收日志保存在 `/home/u2023312337/webui/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
 

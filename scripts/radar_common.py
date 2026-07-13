@@ -20,6 +20,7 @@ VAULT_ROOT = Path(__file__).resolve().parent.parent
 PAGES_DIR = VAULT_ROOT / "pages"
 TEMPLATE_FILE = VAULT_ROOT / "templates" / "概念页模板.md"
 GRAPH_FILE = VAULT_ROOT / "graph.md"
+GRAPH_DATA_FILE = VAULT_ROOT / "graph-data.json"
 INDEX_FILE = VAULT_ROOT / "_index.md"
 
 WIKILINK_RE = re.compile(r"\[\[([^\]|#\n]+?)(?:\|[^\]]*)?\]\]")

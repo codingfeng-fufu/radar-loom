@@ -9,7 +9,7 @@
 1. 一个概念一个页面，放在 `pages/` 下，文件名即概念名。
 2. 同一概念的新进展回到原页面追加“更新记录”，不建第二页。
 3. 页面关系使用双方括号链接；机器生成的 `_index.md` 是 CC 的检索入口，不手工编辑。
-4. `python3 scripts/render_graph.py` 按需生成核心概览和八个分类子图。
+4. `python3 scripts/render_graph.py` 按需生成交互图谱数据、核心概览和八个分类子图。
 5. 来源必须真实可达，并尽量记录 PDF 页码或章节。
 
 ## 向 CC 提问
@@ -35,7 +35,11 @@ python3 scripts/new_page.py "概念名 EnglishName" \
 | 脚本 | 用途 | 命令 |
 |---|---|---|
 | `build_index.py` | 从 frontmatter 生成 `_index.md` 检索索引 | `python3 scripts/build_index.py` |
-| `render_graph.py` | 生成核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+| `render_graph.py` | 生成 `graph-data.json`、核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+
+## 图谱工作台
+
+知识库静态服务启动后打开 `http://127.0.0.1:18081/graph-view.html`。工作台使用 Cytoscape.js 与 fCoSE 布局，支持节点搜索、分类/项目筛选、一跳邻居聚焦、标签显示和 Viewer 详情跳转。数据来自 `graph-data.json`，页面变更后运行 `python3 scripts/render_graph.py` 刷新；`viewer.html?f=graph.md` 及八个分类 Mermaid 图保留为可审计备用视图。
 | `new_page.py` | 按模板建页并刷新索引 | 见“给 CC 喂料” |
 | `check_health.py` | 检查格式、链接、来源、摘要和索引一致性 | `python3 scripts/check_health.py` |
 

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>技术雷达 · 交互图谱</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20242a;
+      --muted: #68717d;
+      --line: #d8dde3;
+      --paper: #fff;
+      --panel: #f5f7f8;
+      --canvas: #111820;
+      --accent: #0b6b57;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body { color: var(--ink); background: var(--paper); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .app { display: grid; grid-template-rows: 56px minmax(0, 1fr); height: 100dvh; }
+    .toolbar {
+      position: relative; z-index: 40; display: grid; grid-template-columns: auto minmax(220px, 520px) auto;
+      align-items: center; gap: 18px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--paper);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand a { color: var(--ink); text-decoration: none; }
+    .brand strong { white-space: nowrap; font-size: 16px; }
+    .statline { color: var(--muted); white-space: nowrap; font-size: 12px; }
+    .search-wrap { position: relative; min-width: 0; }
+    .search { width: 100%; height: 36px; border: 1px solid #bfc7cf; border-radius: 4px; padding: 0 34px 0 11px; color: var(--ink); background: var(--paper); outline: 0; }
+    .search:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgb(11 107 87 / 14%); }
+    .search-results { position: absolute; z-index: 60; top: 40px; left: 0; right: 0; max-height: 300px; overflow: auto; border: 1px solid var(--line); background: var(--paper); box-shadow: 0 10px 28px rgb(0 0 0 / 14%); }
+    .search-results[hidden] { display: none; }
+    .search-result { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: var(--paper); padding: 8px 10px; text-align: left; }
+    .search-result:hover, .search-result:focus { background: #eaf4f1; }
+    .search-result small { display: block; color: var(--muted); }
+    .tools { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+    .tool-button { min-width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); padding: 0 9px; }
+    .tool-button:hover { border-color: #9ca7b2; background: var(--panel); }
+    .icon-button { width: 34px; padding: 0; font-size: 18px; }
+    .mobile-filter { display: none; }
+    .workspace { display: grid; grid-template-columns: 250px minmax(0, 1fr) 300px; min-height: 0; }
+    .filters, .details { min-height: 0; overflow: auto; background: var(--paper); }
+    .filters { border-right: 1px solid var(--line); padding: 16px; }
+    .details { border-left: 1px solid var(--line); padding: 18px; }
+    .panel-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 14px; font-size: 14px; }
+    .panel-close { display: none; width: 30px; height: 30px; border: 0; background: transparent; font-size: 20px; }
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-bottom: 18px; background: var(--line); border: 1px solid var(--line); }
+    .metric { background: var(--paper); padding: 9px; }
+    .metric strong { display: block; font-size: 18px; line-height: 1.2; }
+    .metric span { color: var(--muted); font-size: 11px; }
+    .filter-section { border-top: 1px solid var(--line); padding: 14px 0; }
+    .filter-section h3 { margin: 0 0 9px; color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .check-list { display: grid; gap: 7px; }
+    .check-row { display: grid; grid-template-columns: 16px 12px minmax(0, 1fr) auto; align-items: center; gap: 7px; }
+    .swatch { width: 10px; height: 10px; border-radius: 50%; }
+    .count { color: var(--muted); font-size: 11px; }
+    .switch-row { display: flex; align-items: flex-start; gap: 8px; color: var(--ink); }
+    .graph-shell { position: relative; min-width: 0; min-height: 0; background: var(--canvas); }
+    .graph { position: absolute; inset: 0; }
+    .overlay { position: absolute; z-index: 20; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(17 24 32 / 88%); color: #e8edf2; text-align: center; padding: 24px; }
+    .overlay[hidden] { display: none; }
+    .overlay-box { max-width: 420px; }
+    .overlay h2 { margin: 0 0 8px; font-size: 18px; }
+    .overlay p { margin: 0 0 12px; color: #b9c2cb; }
+    .overlay a { color: #75d5bc; }
+    .spinner { width: 30px; height: 30px; margin: 0 auto 12px; border: 3px solid #56616d; border-top-color: #75d5bc; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .detail-empty { color: var(--muted); }
+    .node-title { margin: 0; font-size: 19px; line-height: 1.3; overflow-wrap: anywhere; }
+    .node-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+    .badge { border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; color: var(--muted); font-size: 11px; }
+    .summary { margin: 0 0 16px; color: #3f4750; }
+    .detail-grid { display: grid; grid-template-columns: 1fr auto; gap: 7px; margin-bottom: 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 10px 0; }
+    .detail-grid span:nth-child(even) { font-weight: 700; }
+    .open-link { display: block; width: 100%; border: 0; border-radius: 4px; background: var(--accent); color: white; padding: 9px 12px; text-align: center; text-decoration: none; font-weight: 700; }
+    .neighbors { margin-top: 18px; }
+    .neighbors h3 { margin: 0 0 8px; font-size: 12px; }
+    .neighbor-list { display: grid; gap: 5px; }
+    .neighbor-button { border: 0; border-left: 2px solid var(--line); background: transparent; padding: 4px 7px; text-align: left; color: var(--ink); overflow-wrap: anywhere; }
+    .neighbor-button:hover { border-color: var(--accent); color: var(--accent); }
+    .mobile-scrim { display: none; }
+    @media (max-width: 1000px) {
+      .workspace { grid-template-columns: 220px minmax(0, 1fr); }
+      .details { position: absolute; z-index: 35; right: 12px; top: 68px; bottom: 12px; width: min(320px, calc(100vw - 24px)); box-shadow: 0 12px 36px rgb(0 0 0 / 24%); transform: translateX(calc(100% + 28px)); transition: transform 160ms ease; }
+      body.details-open .details { transform: translateX(0); }
+      .details .panel-close { display: block; }
+    }
+    @media (max-width: 760px) {
+      .app { grid-template-rows: 104px minmax(0, 1fr); }
+      .toolbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 48px 48px; gap: 0 8px; padding: 4px 10px; }
+      .brand .statline { display: none; }
+      .search-wrap { grid-column: 1 / -1; grid-row: 2; }
+      .tools .text-button, .tools label { display: none; }
+      .mobile-filter { display: inline-block; }
+      .workspace { display: block; position: relative; }
+      .graph-shell { position: absolute; inset: 0; }
+      .filters { position: fixed; z-index: 50; top: 0; bottom: 0; left: 0; width: min(300px, 86vw); transform: translateX(-102%); transition: transform 160ms ease; box-shadow: 8px 0 28px rgb(0 0 0 / 24%); }
+      body.filters-open .filters { transform: translateX(0); }
+      .filters .panel-close { display: block; }
+      .details { position: fixed; z-index: 50; top: auto; right: 0; bottom: 0; left: 0; width: auto; max-height: 58vh; transform: translateY(105%); transition: transform 160ms ease; border-top: 1px solid var(--line); box-shadow: 0 -8px 28px rgb(0 0 0 / 24%); }
+      body.details-open .details { transform: translateY(0); }
+      body.filters-open .mobile-scrim, body.details-open .mobile-scrim { display: block; position: fixed; z-index: 45; inset: 0; border: 0; background: rgb(0 0 0 / 38%); }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.31.2/dist/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/layout-base@2.0.1/layout-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cose-base@2.2.0/cose-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-fcose@2.2.0/cytoscape-fcose.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="toolbar" id="toolbar">
+      <div class="brand"><a href="viewer.html" title="返回知识库">←</a><strong>交互图谱</strong><span class="statline" id="toolbarStats">载入中</span></div>
+      <div class="search-wrap">
+        <input class="search" id="search" type="search" placeholder="搜索概念、项目或 MOC" autocomplete="off" aria-label="搜索节点">
+        <div class="search-results" id="searchResults" hidden></div>
+      </div>
+      <div class="tools">
+        <button class="tool-button icon-button mobile-filter" id="filterButton" type="button" aria-label="打开筛选" title="打开筛选">☷</button>
+        <button class="tool-button icon-button" id="fitButton" type="button" title="适应视图" aria-label="适应视图">⌗</button>
+        <button class="tool-button text-button" id="layoutButton" type="button">重新布局</button>
+        <label class="switch-row"><input id="labelsToggle" type="checkbox"> 全部标签</label>
+      </div>
+    </header>
+    <div class="workspace">
+      <aside class="filters" id="filters" aria-label="图谱筛选">
+        <h2 class="panel-title">筛选与概览 <button class="panel-close" id="closeFilters" type="button" aria-label="关闭筛选">×</button></h2>
+        <div class="metrics">
+          <div class="metric"><strong id="nodeCount">–</strong><span>节点</span></div>
+          <div class="metric"><strong id="edgeCount">–</strong><span>边</span></div>
+          <div class="metric"><strong id="visibleCount">–</strong><span>当前可见</span></div>
+          <div class="metric"><strong id="brokenCount">–</strong><span>断链</span></div>
+        </div>
+        <section class="filter-section"><h3>分类</h3><div class="check-list" id="categoryFilters"></div></section>
+        <section class="filter-section"><h3>项目</h3><div class="check-list" id="projectFilters"></div></section>
+        <section class="filter-section"><label class="switch-row"><input id="neighborOnly" type="checkbox" disabled> 仅显示选中节点及一跳邻居</label></section>
+      </aside>
+
+      <main class="graph-shell">
+        <div class="graph" id="graph" aria-label="知识图谱画布"></div>
+        <div class="overlay" id="loading"><div class="overlay-box"><div class="spinner"></div><p>正在载入并布局图谱...</p></div></div>
+        <div class="overlay" id="errorState" hidden><div class="overlay-box"><h2>图谱载入失败</h2><p id="errorText"></p><a href="viewer.html?f=graph.md">打开 Mermaid 备用图谱</a></div></div>
+        <div class="overlay" id="emptyState" hidden><div class="overlay-box"><h2>没有匹配节点</h2><p>调整分类、项目或一跳筛选条件。</p></div></div>
+      </main>
+
+      <aside class="details" id="details" aria-label="节点详情">
+        <h2 class="panel-title">节点详情 <button class="panel-close" id="closeDetails" type="button" aria-label="关闭详情">×</button></h2>
+        <div id="detailContent" class="detail-empty">选择一个节点查看摘要、标签和邻居。</div>
+      </aside>
+    </div>
+  </div>
+  <button class="mobile-scrim" id="mobileScrim" aria-label="关闭面板"></button>
+
+  <script>
+    const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
+    const state = { payload: null, cy: null, selected: null, showAllLabels: false, lastTap: { id: null, at: 0 } };
+    const el = Object.fromEntries([
+      'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
+      'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
+      'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails', 'mobileScrim'
+    ].map((id) => [id, document.getElementById(id)]));
+
+    function createText(tag, text, className) {
+      const node = document.createElement(tag);
+      node.textContent = text;
+      if (className) node.className = className;
+      return node;
+    }
+
+    function closePanels() {
+      document.body.classList.remove('filters-open', 'details-open');
+    }
+
+    function checkboxRow({ value, label, color, count, checked, group }) {
+      const row = document.createElement('label');
+      row.className = 'check-row';
+      const input = document.createElement('input');
+      input.type = 'checkbox'; input.value = value; input.checked = checked; input.dataset.group = group;
+      input.addEventListener('change', applyFilters);
+      const swatch = createText('span', '', 'swatch'); swatch.style.background = color;
+      row.append(input, swatch, createText('span', label), createText('span', String(count), 'count'));
+      return row;
+    }
+
+    function buildFilters() {
+      const nodes = state.payload.nodes;
+      for (const [category, color] of Object.entries(state.payload.categories)) {
+        const count = nodes.filter((node) => node.category === category).length;
+        el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: true, group: 'category' }));
+      }
+      for (const project of PROJECT_TAGS) {
+        const count = nodes.filter((node) => node.tags.includes(project)).length;
+        el.projectFilters.append(checkboxRow({ value: project, label: project, color: '#8a5da2', count, checked: false, group: 'project' }));
+      }
+    }
+
+    function checkedValues(group) {
+      return new Set([...document.querySelectorAll(`input[data-group="${group}"]:checked`)].map((input) => input.value));
+    }
+
+    function baseNodeVisible(node, categories, projects) {
+      const categoryMatch = !node.data('category') || categories.has(node.data('category'));
+      const projectMatch = projects.size === 0 || node.data('tags').some((tag) => projects.has(tag));
+      return categoryMatch && projectMatch;
+    }
+
+    function applyFilters() {
+      if (!state.cy) return;
+      const categories = checkedValues('category');
+      const projects = checkedValues('project');
+      let allowed = new Set(state.cy.nodes().filter((node) => baseNodeVisible(node, categories, projects)).map((node) => node.id()));
+      if (el.neighborOnly.checked && state.selected) {
+        const focus = state.selected.closedNeighborhood().nodes();
+        const focused = new Set(focus.map((node) => node.id()));
+        allowed = new Set([...allowed].filter((id) => focused.has(id)));
+      }
+      state.cy.batch(() => {
+        state.cy.nodes().forEach((node) => node.toggleClass('filtered', !allowed.has(node.id())));
+        state.cy.edges().forEach((edge) => edge.toggleClass('filtered', !allowed.has(edge.source().id()) || !allowed.has(edge.target().id())));
+      });
+      const visible = state.cy.nodes().not('.filtered').length;
+      el.visibleCount.textContent = visible;
+      el.emptyState.hidden = visible !== 0;
+      updateLabels();
+    }
+
+    function updateLabels() {
+      if (!state.cy) return;
+      state.cy.nodes().forEach((node) => {
+        const important = Number(node.data('degree')) >= 18;
+        const highlighted = node.hasClass('selected') || node.hasClass('neighbor') || node.hasClass('search-hit');
+        node.toggleClass('show-label', state.showAllLabels || important || highlighted);
+      });
+    }
+
+    function runLayout(animate = true) {
+      if (!state.cy) return;
+      state.cy.layout({
+        name: 'fcose', quality: 'default', randomize: true, animate, animationDuration: 650,
+        fit: true, padding: 44, nodeRepulsion: 9000, idealEdgeLength: 95, edgeElasticity: 0.35,
+        nestingFactor: 0.1, gravity: 0.3, numIter: 2500, tile: true
+      }).run();
+    }
+
+    function clearFocus({ close = false } = {}) {
+      if (!state.cy) return;
+      state.cy.elements().removeClass('selected neighbor faded search-hit');
+      state.selected = null;
+      el.neighborOnly.checked = false; el.neighborOnly.disabled = true;
+      el.detailContent.replaceChildren(createText('div', '选择一个节点查看摘要、标签和邻居。', 'detail-empty'));
+      if (close) document.body.classList.remove('details-open');
+      applyFilters();
+    }
+
+    function focusNode(node, { center = true } = {}) {
+      state.cy.elements().removeClass('selected neighbor faded search-hit');
+      state.selected = node;
+      const neighborhood = node.closedNeighborhood();
+      node.addClass('selected');
+      neighborhood.nodes().not(node).addClass('neighbor');
+      state.cy.elements().not(neighborhood).addClass('faded');
+      el.neighborOnly.disabled = false;
+      renderDetails(node);
+      applyFilters();
+      if (center) state.cy.animate({ fit: { eles: neighborhood.not('.filtered'), padding: 80 }, duration: 420 });
+      if (window.innerWidth <= 1000) document.body.classList.add('details-open');
+    }
+
+    function renderDetails(node) {
+      const data = node.data();
+      const content = document.createDocumentFragment();
+      content.append(createText('h3', data.label, 'node-title'));
+      const meta = createText('div', '', 'node-meta');
+      meta.append(createText('span', data.kind === 'project' ? '项目' : data.kind === 'moc' ? 'MOC' : '概念', 'badge'));
+      for (const tag of data.tags) meta.append(createText('span', tag, 'badge'));
+      if (data.confidence) meta.append(createText('span', `信度 ${data.confidence}`, 'badge'));
+      content.append(meta, createText('p', data.summary || '该页面暂无摘要。', 'summary'));
+      const grid = createText('div', '', 'detail-grid');
+      grid.append(createText('span', '连接数'), createText('span', String(data.degree)), createText('span', '主分类'), createText('span', data.category || '结构页'));
+      content.append(grid);
+      const link = createText('a', '在 Viewer 打开', 'open-link');
+      link.href = node.data('href');
+      content.append(link);
+      const neighbors = node.neighborhood('node').sort((a, b) => Number(b.data('degree')) - Number(a.data('degree')));
+      const section = createText('section', '', 'neighbors');
+      section.append(createText('h3', `邻居 ${neighbors.length}`));
+      const list = createText('div', '', 'neighbor-list');
+      neighbors.slice(0, 20).forEach((neighbor) => {
+        const button = createText('button', neighbor.data('label'), 'neighbor-button');
+        button.type = 'button'; button.addEventListener('click', () => focusNode(neighbor));
+        list.append(button);
+      });
+      section.append(list); content.append(section);
+      el.detailContent.replaceChildren(content);
+    }
+
+    function renderSearchResults(query) {
+      el.searchResults.replaceChildren();
+      if (!query.trim()) { el.searchResults.hidden = true; state.cy?.nodes().removeClass('search-hit'); updateLabels(); return; }
+      const key = query.trim().toLocaleLowerCase();
+      const matches = state.cy.nodes().filter((node) => node.data('label').toLocaleLowerCase().includes(key)).sort((a, b) => Number(b.data('degree')) - Number(a.data('degree'))).slice(0, 8);
+      state.cy.nodes().removeClass('search-hit'); matches.addClass('search-hit'); updateLabels();
+      for (const node of matches) {
+        const button = createText('button', node.data('label'), 'search-result');
+        button.type = 'button'; button.append(createText('small', `${node.data('category') || '结构页'} · 度 ${node.data('degree')}`));
+        button.addEventListener('click', () => { el.search.value = node.data('label'); el.searchResults.hidden = true; focusNode(node); });
+        el.searchResults.append(button);
+      }
+      el.searchResults.hidden = matches.length === 0;
+    }
+
+    function initGraph(payload) {
+      state.payload = payload; buildFilters();
+      const elements = [
+        ...payload.nodes.map((node) => ({ group: 'nodes', data: node })),
+        ...payload.edges.map((edge) => ({ group: 'edges', data: edge }))
+      ];
+      state.cy = cytoscape({
+        container: document.getElementById('graph'), elements,
+        minZoom: 0.12, maxZoom: 3.2,
+        style: [
+          { selector: 'node', style: {
+            'background-color': (node) => node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
+            'width': (node) => Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'height': (node) => Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'shape': (node) => node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
+            'border-width': 1, 'border-color': '#dce4ea', 'label': '', 'color': '#f7fafc', 'font-size': 10,
+            'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130,
+            'text-valign': 'bottom', 'text-margin-y': 8
+          }},
+          { selector: 'node.show-label', style: { 'label': 'data(label)' } },
+          { selector: 'edge', style: { 'width': 1, 'line-color': '#5b6875', 'target-arrow-color': '#5b6875', 'target-arrow-shape': 'triangle', 'arrow-scale': .55, 'curve-style': 'bezier', 'opacity': .38 } },
+          { selector: '.selected', style: { 'border-width': 4, 'border-color': '#fff', 'z-index': 20 } },
+          { selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#9ee8d4', 'z-index': 10 } },
+          { selector: '.faded', style: { 'opacity': .09 } },
+          { selector: '.filtered', style: { 'display': 'none' } },
+          { selector: '.search-hit', style: { 'border-width': 4, 'border-color': '#f5cf69' } }
+        ]
+      });
+      state.cy.on('tap', 'node', (event) => {
+        const node = event.target; const now = Date.now();
+        if (state.lastTap.id === node.id() && now - state.lastTap.at < 350) location.href = node.data('href');
+        else focusNode(node);
+        state.lastTap = { id: node.id(), at: now };
+      });
+      state.cy.on('tap', (event) => { if (event.target === state.cy) clearFocus({ close: true }); });
+      state.cy.on('layoutstop', () => { el.loading.hidden = true; state.cy.fit(state.cy.elements().not('.filtered'), 42); });
+      el.nodeCount.textContent = payload.stats.nodes; el.edgeCount.textContent = payload.stats.edges;
+      el.brokenCount.textContent = payload.stats.broken; el.visibleCount.textContent = payload.stats.nodes;
+      el.toolbarStats.textContent = `${payload.stats.nodes} 节点 · ${payload.stats.edges} 边`;
+      updateLabels(); runLayout(false);
+    }
+
+    async function start() {
+      try {
+        if (typeof cytoscape !== 'function') throw new Error('Cytoscape 未能从 CDN 加载');
+        if (typeof cytoscapeFcose === 'function') cytoscape.use(cytoscapeFcose);
+        const response = await fetch('graph-data.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`graph-data.json: HTTP ${response.status}`);
+        initGraph(await response.json());
+      } catch (error) {
+        console.error('Graph initialization failed:', error);
+        el.loading.hidden = true; el.errorText.textContent = error?.message || String(error); el.errorState.hidden = false;
+      }
+    }
+
+    el.search.addEventListener('input', () => renderSearchResults(el.search.value));
+    el.search.addEventListener('keydown', (event) => { if (event.key === 'Escape') { el.search.value = ''; renderSearchResults(''); } });
+    el.fitButton.addEventListener('click', () => state.cy?.fit(state.cy.elements().not('.filtered'), 42));
+    el.layoutButton.addEventListener('click', () => runLayout(true));
+    el.labelsToggle.addEventListener('change', () => { state.showAllLabels = el.labelsToggle.checked; updateLabels(); });
+    el.neighborOnly.addEventListener('change', applyFilters);
+    el.filterButton.addEventListener('click', () => document.body.classList.add('filters-open'));
+    el.closeFilters.addEventListener('click', () => document.body.classList.remove('filters-open'));
+    el.closeDetails.addEventListener('click', () => document.body.classList.remove('details-open'));
+    el.mobileScrim.addEventListener('click', closePanels);
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closePanels(); el.searchResults.hidden = true; } });
+    start();
+  </script>
+</body>
+</html>

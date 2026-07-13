@@ -178,6 +178,12 @@
 
     function renderSidebar(groups, activeFile) {
       elements.navigation.replaceChildren();
+      const graphLink = document.createElement('a');
+      graphLink.href = 'graph-view.html';
+      graphLink.textContent = '交互图谱';
+      graphLink.className = 'nav-list';
+      graphLink.style.padding = '8px';
+      elements.navigation.append(graphLink);
       for (const [index, group] of groups.entries()) {
         const details = document.createElement('details');
         details.className = 'nav-group';

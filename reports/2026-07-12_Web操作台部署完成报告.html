@@ -48,6 +48,7 @@
       <table><thead><tr><th>用途</th><th>本机地址</th><th>监听范围</th></tr></thead><tbody>
         <tr><td>Claude Code WebUI 聊天</td><td><code>http://127.0.0.1:18080</code></td><td>仅 localhost</td></tr>
         <tr><td>技术雷达知识库浏览</td><td><code>http://127.0.0.1:18081/viewer.html</code></td><td>仅 localhost</td></tr>
+        <tr><td>交互式知识图谱</td><td><code>http://127.0.0.1:18081/graph-view.html</code></td><td>仅 localhost</td></tr>
       </tbody></table>
       <p>远程使用时,在 VSCode“端口”面板转发 18080 和 18081,可见性保持为专用/本地。服务未开放公网。</p>
 
@@ -60,7 +61,7 @@
       <p>两个服务由 tmux 托管。服务器重启后需要手动执行两个 <code>start</code>;当前环境没有 root 权限或可用 user-bus,未配置系统级自启动。</p>
 
       <h2 id="viewer">Viewer 使用</h2>
-      <ul><li>无参数时显示 <code>首页.md</code>,侧栏从 <code>_index.md</code> 生成。</li><li>概念页格式为 <code>viewer.html?f=pages/页面名.md</code>。</li><li>frontmatter 默认折叠;支持 GFM、双方括号跳转、代码高亮与 Mermaid。</li><li>KaTeX 支持行内美元/括号和块级双美元/方括号四种公式定界符。</li><li><code>viewer.html?f=graph.md</code> 打开核心图谱。</li><li>查看器只读,不含编辑、搜索和主题功能。</li></ul>
+      <ul><li>无参数时显示 <code>首页.md</code>,侧栏从 <code>_index.md</code> 生成。</li><li>概念页格式为 <code>viewer.html?f=pages/页面名.md</code>。</li><li>frontmatter 默认折叠;支持 GFM、双方括号跳转、代码高亮与 Mermaid。</li><li>KaTeX 支持行内美元/括号和块级双美元/方括号四种公式定界符。</li><li><code>graph-view.html</code> 提供 Cytoscape.js/fCoSE 交互图谱;<code>viewer.html?f=graph.md</code> 保留 Mermaid 备用图谱。</li><li>查看器只读,不含编辑、搜索和主题功能。</li></ul>
       <p>渲染库由浏览器从 CDN 加载;浏览器断网或 CDN 不可达时,Markdown 渲染不可用。</p>
 
       <h2 id="permissions">WebUI 权限模式</h2>
@@ -84,6 +85,7 @@ node /home/u2023312337/webui/patch-dangerous-mode.mjs --check</code></pre>
         <tr><td>UI 真实检索</td><td class="pass">通过</td><td>2026-07-13 实际读取索引和 GraphRAG 页面并返回完整答案</td></tr>
         <tr><td>UI 测试摄入并恢复</td><td class="pass">通过</td><td>页面数 88→89→88,创建和恢复阶段健康检查均为 0/0</td></tr>
         <tr><td>危险权限第四档</td><td class="pass">通过</td><td>红色警示、刷新复位及 bypass/default 真实 API 模式均已验证</td></tr>
+        <tr><td>交互式知识图谱</td><td class="pass">通过</td><td>103 节点、470 边完成布局;搜索、筛选、聚焦、详情及桌面/移动布局通过</td></tr>
       </tbody></table>
       <p>7 月 12 日的 429 证据保留在 <code>/home/u2023312337/webui/preflight.ndjson</code>;7 月 13 日补验收日志保存在同目录的 retrieval、ingest 和 ingest-restore NDJSON 文件中。</p>
 
