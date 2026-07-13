@@ -33,7 +33,9 @@ EM 在我的 KG / RAG 项目里不是主线算法,但作为"隐变量 + 迭代�
 - [[主题模型 LDA]]
 - [[高斯混合模型 GMM Gaussian Mixture Model]]
 - [[序列标注模型 HMM CRF]]
+- [[变分自编码器 VAE Variational Autoencoder]]
 
 ## 更新记录
 
 - 2026-07-13: 首次建页
+- 2026-07-13: 补充 VAE 交叉引用,打通"EM → 深度生成模型"链
