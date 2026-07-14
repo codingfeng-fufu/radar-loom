@@ -36,7 +36,9 @@ class KnowledgeBuilder:
         )
 
     def source_paths(self) -> list[Path]:
-        paths = sorted((self.root / "pages").glob("*.md"))
+        pages = self.root / "pages"
+        paths = [pages] if pages.exists() else []
+        paths.extend(sorted(pages.glob("*.md")))
         home = self.root / "首页.md"
         if home.exists():
             paths.append(home)

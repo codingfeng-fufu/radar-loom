@@ -81,6 +81,16 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
 
+    def test_deleting_a_page_marks_generated_outputs_as_stale(self):
+        self.builder.refresh(force=True)
+
+        (self.root / "pages" / "Example.md").unlink()
+        refreshed = self.builder.refresh()
+
+        self.assertTrue(refreshed["rebuilt"])
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
+
     def test_failed_generator_raises_refresh_error_without_false_success(self):
         (self.root / "scripts" / "render_graph.py").write_text(
             "import sys\nprint('render failed', file=sys.stderr)\nsys.exit(3)\n",
