@@ -1,0 +1,4 @@
+interface:
+  display_name: "创建高质量知识页"
+  short_description: "查重并核验来源，创建或更新结构完整、可追溯的技术知识页面"
+  default_prompt: "Use $create-knowledge-page to create or update a verified technical knowledge page."
