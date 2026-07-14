@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-13 · 页面 96 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-14 · 页面 98 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -155,7 +155,9 @@
 
 ## 前沿
 
+- [[BigQuery Dremel 宽表建模 BigQuery-Dremel]] `#前沿` — Google Dremel/BigQuery 提出的嵌套列式宽表反规范化数仓范式
 - [[GNN-RAG 图神经网络检索增强]] `#RAG #KG #前沿` — GNN-RAG（arxiv 2024）把 GNN 引入 RAG 的检索阶段。
+- [[Google Bigtable 宽表模型 Bigtable]] `#前沿` — Google 2006 论文提出的稀疏分布式多维排序 Map 宽列存储
 - [[ReDeEP 机制可解释性]] `#可信度 #前沿` — ReDeEP（Sun et al.
 - [[StructRAG 结构化知识推理]] `#RAG #KG #前沿` — StructRAG（Li et al.
 - [[机器遗忘 Machine Unlearning]] `#可信度 #前沿` — 机器遗忘让训练好的模型精确去除特定训练数据的影响,服务隐私合规与被遗忘权。
