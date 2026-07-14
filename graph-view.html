@@ -158,7 +158,10 @@
 
   <script>
     const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
-    const state = { payload: null, cy: null, selected: null, showAllLabels: false, lastTap: { id: null, at: 0 } };
+    const state = {
+      payload: null, cy: null, selected: null, showAllLabels: false,
+      revision: null, refreshing: false, lastTap: { id: null, at: 0 }
+    };
     const el = Object.fromEntries([
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
@@ -315,7 +318,17 @@
     }
 
     function initGraph(payload) {
-      state.payload = payload; buildFilters();
+      state.payload = payload;
+      state.selected = null;
+      el.categoryFilters.replaceChildren();
+      el.projectFilters.replaceChildren();
+      el.search.value = '';
+      el.searchResults.replaceChildren();
+      el.searchResults.hidden = true;
+      el.neighborOnly.checked = false;
+      el.neighborOnly.disabled = true;
+      el.detailContent.replaceChildren(createText('div', '选择一个节点查看摘要、标签和邻居。', 'detail-empty'));
+      buildFilters();
       const elements = [
         ...payload.nodes.map((node) => ({ group: 'nodes', data: node })),
         ...payload.edges.map((edge) => ({ group: 'edges', data: edge }))
@@ -356,13 +369,49 @@
       updateLabels(); runLayout(false);
     }
 
+    async function fetchRevision() {
+      const response = await fetch('/api/revision', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`revision: HTTP ${response.status}`);
+      const status = await response.json();
+      if (!status.ok || typeof status.revision !== 'string') throw new Error(status.error || '图谱版本响应无效');
+      return status;
+    }
+
+    async function loadGraph(revision) {
+      if (state.refreshing) return;
+      state.refreshing = true;
+      el.loading.hidden = false;
+      try {
+        const response = await fetch('graph-data.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`graph-data.json: HTTP ${response.status}`);
+        const payload = await response.json();
+        state.cy?.destroy();
+        state.cy = null;
+        initGraph(payload);
+        state.revision = revision;
+        el.errorState.hidden = true;
+      } finally {
+        state.refreshing = false;
+      }
+    }
+
+    async function checkForUpdates() {
+      if (state.refreshing) return;
+      try {
+        const status = await fetchRevision();
+        if (state.revision && status.revision !== state.revision) await loadGraph(status.revision);
+        else if (!state.revision) state.revision = status.revision;
+      } catch (error) {
+        console.warn('Graph refresh check failed:', error);
+      }
+    }
+
     async function start() {
       try {
         if (typeof cytoscape !== 'function') throw new Error('Cytoscape 未能从 CDN 加载');
         if (typeof cytoscapeFcose === 'function') cytoscape.use(cytoscapeFcose);
-        const response = await fetch('graph-data.json', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`graph-data.json: HTTP ${response.status}`);
-        initGraph(await response.json());
+        const status = await fetchRevision();
+        await loadGraph(status.revision);
       } catch (error) {
         console.error('Graph initialization failed:', error);
         el.loading.hidden = true; el.errorText.textContent = error?.message || String(error); el.errorState.hidden = false;
@@ -380,7 +429,12 @@
     el.closeDetails.addEventListener('click', () => document.body.classList.remove('details-open'));
     el.mobileScrim.addEventListener('click', closePanels);
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closePanels(); el.searchResults.hidden = true; } });
+    window.addEventListener('message', (event) => {
+      if (event.origin !== 'http://127.0.0.1:18080') return;
+      if (event.data?.type === 'kb-refresh') location.reload();
+    });
     start();
+    setInterval(checkForUpdates, 4000);
   </script>
 </body>
 </html>

@@ -47,6 +47,23 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("details-open", self.html)
         self.assertIsNone(re.search(r"letter-spacing\s*:\s*-", self.html))
 
+    def test_live_refresh_polls_revision_and_replaces_the_graph_safely(self):
+        self.assertIn("/api/revision", self.html)
+        self.assertRegex(self.html, r"setInterval\([^,]+,\s*4000\)")
+        self.assertRegex(self.html, r"async function\s+loadGraph\s*\(")
+        self.assertRegex(self.html, r"async function\s+checkForUpdates\s*\(")
+        self.assertIn("state.refreshing", self.html)
+        self.assertIn("state.cy?.destroy()", self.html)
+        self.assertIn("el.categoryFilters.replaceChildren()", self.html)
+        self.assertIn("el.projectFilters.replaceChildren()", self.html)
+        self.assertIn("status.revision !== state.revision", self.html)
+
+    def test_workbench_refresh_message_is_supported_by_the_graph_page(self):
+        self.assertIn("window.addEventListener('message'", self.html)
+        self.assertIn("http://127.0.0.1:18080", self.html)
+        self.assertIn("event.data?.type === 'kb-refresh'", self.html)
+        self.assertIn("location.reload()", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
