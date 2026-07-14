@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-14 · 页面 98 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-14 · 页面 99 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -66,6 +66,7 @@
 - [[人类反馈强化学习 RLHF]] `#LLM机制` — RLHF是让LLM对齐人类偏好的核心技术，ChatGPT就是用RLHF做的对齐。
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
 - [[卷积神经网络 CNN]] `#LLM机制 #基础` — 卷积神经网络的核心思想是局部连接和权重共享。
+- [[后训练 Post-training]] `#LLM机制` — 预训练之后的SFT+偏好对齐+RL阶段，把基座模型改造成可用、可控、可对齐的对话或推理模型。
 - [[层归一化 LayerNorm BatchNorm]] `#LLM机制 #基础` — BatchNorm与LayerNorm通过不同归一化维度稳定神经网络训练。
 - [[强化学习基本框架 Reinforcement Learning]] `#LLM机制 #基础` — 强化学习通过智能体与环境交互并最大化累积奖励来学习策略。
 - [[循环神经网络 RNN LSTM]] `#LLM机制 #基础` — 循环神经网络在每个时间步用相同的权重处理序列，当前隐藏状态由当前输入和上一时间步的隐藏状态共同决定。
