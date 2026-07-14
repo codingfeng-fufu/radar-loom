@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANUAL = ROOT / "Web操作台使用与维护说明书.md"
 README = ROOT / "README.md"
+KBSERVE_CONTROL = Path("/home/u2023312337/webui/kbserve-control")
 
 
 class WebConsoleManualTests(unittest.TestCase):
@@ -86,6 +87,20 @@ class WebConsoleManualTests(unittest.TestCase):
 
     def test_readme_links_to_manual(self):
         self.assertIn("[Web 操作台使用与维护说明书](Web操作台使用与维护说明书.md)", self.readme)
+
+    def test_live_graph_refresh_is_documented_and_deployed(self):
+        for phrase in (
+            "POST /api/refresh",
+            "GET /api/revision",
+            "每 4 秒",
+            "自动重建",
+            "scripts/serve_kb.py",
+        ):
+            self.assertIn(phrase, self.manual)
+
+        control = KBSERVE_CONTROL.read_text(encoding="utf-8")
+        self.assertIn("scripts/serve_kb.py", control)
+        self.assertNotIn("python3 -m http.server", control)
 
 
 if __name__ == "__main__":

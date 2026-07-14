@@ -17,7 +17,7 @@
 | 服务 | 端口 | 作用 | 控制脚本 |
 |---|---:|---|---|
 | 一体化操作台 | `18080` | 外层工作台与右侧 Claude Code WebUI | `/home/u2023312337/webui/webui-control` |
-| 知识库静态服务 | `18081` | Viewer、Markdown 文件和交互图谱 | `/home/u2023312337/webui/kbserve-control` |
+| 知识库服务 | `18081` | Viewer、Markdown、交互图谱及索引/图谱刷新 API | `/home/u2023312337/webui/kbserve-control` |
 
 `18080` 的左侧通过 iframe 加载 `18081` 的 Viewer，右侧加载 Claude Code WebUI。两个 iframe 相互独立，外层工作台只传递当前文件路径、知识库刷新命令和待插入的提示词。
 
@@ -46,7 +46,7 @@
 /home/u2023312337/webui/webui-control status
 /home/u2023312337/webui/webui-control logs 100
 
-# 知识库静态服务
+# 知识库服务
 /home/u2023312337/webui/kbserve-control start
 /home/u2023312337/webui/kbserve-control stop
 /home/u2023312337/webui/kbserve-control restart
@@ -71,12 +71,17 @@
 
 ### 刷新知识库
 
-“刷新知识库”只刷新 Viewer，不刷新右侧 Claude iframe。Claude 当前会话、未发送输入和权限模式会保留。页面文件发生变化而目录没有更新时，先运行索引脚本，再点击刷新：
+“刷新知识库”会先请求 `POST /api/refresh`，由本机知识库服务顺序运行索引和图谱生成脚本；只有生成成功后才会重载当前 Viewer 或图谱页。右侧 Claude iframe 不刷新，当前会话、未发送输入和权限模式会保留。
+
+对应的固定生成命令是：
 
 ```bash
 cd /home/u2023312337/知识库
 python3 scripts/build_index.py
+python3 scripts/render_graph.py
 ```
+
+按钮不向服务传递脚本名、路径或命令；服务只允许执行上述两个项目脚本。失败时页面不重载，顶部状态条会显示简短错误。
 
 ### 询问当前页面
 
@@ -126,7 +131,9 @@ Viewer 支持：
 
 数学表达必须使用 LaTeX。行内公式使用 `$...$`，块级公式使用独立成行的 `$$...$$`。写完数学页面后必须运行健康检查，并在 Viewer 中实际确认公式渲染。
 
-交互式图谱使用 Cytoscape.js 和 fCoSE 布局，支持搜索、分类和项目筛选、一跳邻居聚焦、详情查看与 Viewer 跳转。页面关系变化后运行：
+交互式图谱使用 Cytoscape.js 和 fCoSE 布局，支持搜索、分类和项目筛选、一跳邻居聚焦、详情查看与 Viewer 跳转。图谱页每 4 秒请求一次 `GET /api/revision`；服务发现 Markdown 页面比 `_index.md` 或 `graph-data.json` 新时会自动重建，版本变化后图谱画布自动更新。版本未变化时不会重新布局。
+
+需要手工验证生成结果时仍可运行：
 
 ```bash
 cd /home/u2023312337/知识库
@@ -241,6 +248,8 @@ chmod 600 /home/u2023312337/webui/runtime.env
        -> 右侧 Claude Code -> 火山 Coding Plan
        -> 左侧 Viewer iframe -> 127.0.0.1:18081
   -> 127.0.0.1:18081 独立 Viewer / 图谱 / Markdown 文件
+       -> GET /api/revision 检查页面变化并按需重建
+       -> POST /api/refresh 强制重建索引和图谱
 ```
 
 检查监听地址：
@@ -323,7 +332,7 @@ node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 
 ### 图谱内容过期
 
-运行 `python3 scripts/render_graph.py`，然后刷新 `graph-view.html`。不要手工修补 `graph-data.json` 或 `graph*.md`。
+先点击操作台顶部“刷新知识库”。如果状态条报错，查看 `/home/u2023312337/webui/kbserve-control logs 100`；也可分别运行 `python3 scripts/build_index.py` 和 `python3 scripts/render_graph.py` 查看完整脚本输出。不要手工修补 `graph-data.json` 或 `graph*.md`。
 
 ### Claude 返回 HTTP 401
 
@@ -376,6 +385,7 @@ tr '\0' '\n' <"/proc/$pid/environ" | grep -E '^(CLAUDE_CONFIG_DIR|ANTHROPIC_BASE
 | `scripts/new_page.py` | 新建页面骨架 |
 | `scripts/build_index.py` | 生成 `_index.md` |
 | `scripts/render_graph.py` | 生成图谱数据和审计视图 |
+| `scripts/serve_kb.py` | 提供静态页面、固定刷新 API 和图谱版本检查 |
 | `scripts/check_health.py` | 检查元数据、链接、来源、索引和公式 |
 | `viewer.html` | 单文件 Markdown Viewer |
 | `graph-view.html` | 交互式知识图谱 |
