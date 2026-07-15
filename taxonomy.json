@@ -1,0 +1,2298 @@
+{
+  "algorithm_version": "taxonomy-v1",
+  "categories": {
+    "cat_seed_agents": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 多智能体 的初始种子类别。",
+      "id": "cat_seed_agents",
+      "last_stable_at": "2026-07-15",
+      "name": "多智能体系统 Multi-Agent Systems",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_evaluation": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 评测 的初始种子类别。",
+      "id": "cat_seed_evaluation",
+      "last_stable_at": "2026-07-15",
+      "name": "评测方法 Evaluation Methods",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_foundations": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 基础 的初始种子类别。",
+      "id": "cat_seed_foundations",
+      "last_stable_at": "2026-07-15",
+      "name": "机器学习与NLP基础 ML-NLP Foundations",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_frontier": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 前沿 的初始种子类别。",
+      "id": "cat_seed_frontier",
+      "last_stable_at": "2026-07-15",
+      "name": "前沿趋势 Frontier",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_kg": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 KG 的初始种子类别。",
+      "id": "cat_seed_kg",
+      "last_stable_at": "2026-07-15",
+      "name": "知识图谱 KG",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_llm": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 LLM机制 的初始种子类别。",
+      "id": "cat_seed_llm",
+      "last_stable_at": "2026-07-15",
+      "name": "大模型机制与推理 LLM Mechanisms",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_rag": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 RAG 的初始种子类别。",
+      "id": "cat_seed_rag",
+      "last_stable_at": "2026-07-15",
+      "name": "检索增强生成 RAG-GraphRAG",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    },
+    "cat_seed_trust": {
+      "algorithm_version": "taxonomy-v1",
+      "aliases": [],
+      "created_at": "2026-07-15",
+      "definition": "历史分类标签 可信度 的初始种子类别。",
+      "id": "cat_seed_trust",
+      "last_stable_at": "2026-07-15",
+      "name": "幻觉与可信度 Hallucination Trustworthiness",
+      "naming_status": "ready",
+      "parents": [],
+      "redirect_to": null,
+      "related": [],
+      "stable_runs": 2,
+      "status": "stable",
+      "updated_at": "2026-07-15"
+    }
+  },
+  "changes_since_global": 0,
+  "events": [
+    {
+      "category_ids": [
+        "cat_seed_agents"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_evaluation"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_foundations"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_frontier"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_kg"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_llm"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_rag"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-07-15",
+      "reason": "从历史分类标签迁移",
+      "type": "create"
+    }
+  ],
+  "generated_at": "2026-07-15",
+  "last_global_at": "2026-07-15",
+  "memberships": [
+    {
+      "category_id": "cat_seed_agents",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Agent 记忆架构.md",
+      "reason": "历史人工标签 多智能体",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/BERT与GPT的区别 BERT vs GPT.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/BERT与GPT的区别 BERT vs GPT.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/BigQuery Dremel 宽表建模 BigQuery-Dremel.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/EM算法 Expectation-Maximization.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/FinGraph 财务知识图谱.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/GNN-RAG 图神经网络检索增强.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/GNN-RAG 图神经网络检索增强.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/GNN-RAG 图神经网络检索增强.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Google Bigtable 宽表模型 Bigtable.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Graph Fusion 图融合.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/GraphRAG 架构.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/KG-RAG 工作原理.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/KG-RAG 工作原理.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/K近邻 KNN K-Nearest Neighbors.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/K近邻 KNN K-Nearest Neighbors.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/LLM 推理优化 KV Cache Quantization.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/LightRAG.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/McNemar检验.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/RAG 评测指标 EM Recall MRR.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/RAG 评测指标 EM Recall MRR.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/RAGChecker.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/RAGChecker.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_agents",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/ReAct Agent 工作原理.md",
+      "reason": "历史人工标签 多智能体",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/ReDeEP 机制可解释性.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/ReDeEP 机制可解释性.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/SHA-256 产物指纹.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Scaling Law 大模型缩放律.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Scaling Law 大模型缩放律.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Self-RAG.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/StructRAG 结构化知识推理.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/StructRAG 结构化知识推理.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/StructRAG 结构化知识推理.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/TransE 图嵌入.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Transformer 自注意力机制.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/Transformer 自注意力机制.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/上下文学习 In-context Learning.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/不确定性量化 Uncertainty Quantification.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/主流知识图谱 Mainstream KGs.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/主题模型 LDA.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/交替检索推理 IRCoT.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/人类反馈强化学习 RLHF.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/人类反馈的知识图谱构建 Human-in-the-Loop KG.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/位置编码 Positional Encoding.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/位置编码 Positional Encoding.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/依存句法分析 Dependency Parsing.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/依存句法分析 Dependency Parsing.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/信息检索 IR基础模型 Information Retrieval.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/信息检索 IR基础模型 Information Retrieval.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/关系图卷积网络 RGCN.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/关联规则挖掘 Apriori.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/分层评测 Stratified Evaluation.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/分层评测 Stratified Evaluation.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/分布偏移 Distribution Shift.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/分布偏移 Distribution Shift.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/卷积神经网络 CNN.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/卷积神经网络 CNN.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/反事实评测 Counterfactual Evaluation.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/反事实评测 Counterfactual Evaluation.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/变分自编码器 VAE Variational Autoencoder.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/可审计性 Auditability.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/可观测性 Observability.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/可验证性 Verifiability.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/后训练 Post-training.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/命名实体识别 NER.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/命名实体识别 NER.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/图神经网络 GNN.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/图结构一致性 Graph Structure Consistency.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/基准数据集 Benchmark.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/实体对齐 Entity Alignment.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/实体消歧 Entity Disambiguation.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/实验可复现性 Reproducibility.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/审计风险队列 Audit Risk Queue.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/对抗样本 Adversarial Examples.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/对比学习 Contrastive Learning.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/层归一化 LayerNorm BatchNorm.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/层归一化 LayerNorm BatchNorm.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/序列标注模型 HMM CRF.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/序列标注模型 HMM CRF.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/开放信息抽取 OpenIE.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/异构图 Heterogeneous Graph.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/引用召回与精确率 Citation Recall Precision.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/引用召回与精确率 Citation Recall Precision.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/强化学习基本框架 Reinforcement Learning.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/强化学习基本框架 Reinforcement Learning.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/归一化 Normalization.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/归一化 Normalization.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/归因评测 Attribution.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/归因评测 Attribution.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/循环神经网络 RNN LSTM.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/循环神经网络 RNN LSTM.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/思维链 Chain-of-Thought.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/扩散模型 Diffusion Models DDPM.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/提示工程 Prompt Engineering.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/提示注入 Prompt Injection.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/数据增强 Data Augmentation.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/数据增强 Data Augmentation.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/文本摘要 Text Summarization.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/文本摘要 Text Summarization.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/文本蕴含与自然语言推理 NLI.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/旋转位置编码 RoPE.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/旋转位置编码 RoPE.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/本体 Ontology.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/机器翻译 Machine Translation.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/机器翻译 Machine Translation.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/机器遗忘 Machine Unlearning.md",
+      "reason": "历史人工标签 前沿",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/机器遗忘 Machine Unlearning.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/模型校准 Calibration.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/消融实验 Ablation Study.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/涌现能力 Emergent Abilities.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/混合检索 Hybrid Retrieval.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/溯源 Provenance.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/激活函数 Activation Functions.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/激活函数 Activation Functions.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识冲突 Knowledge Conflict.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识冲突 Knowledge Conflict.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识图谱构建流程 KG Construction Pipeline.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识图谱补全 Knowledge Graph Completion.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识图谱质量评估维度.md",
+      "reason": "历史人工标签 评测",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识图谱质量评估维度.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识接地 Grounding.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/知识接地 Grounding.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/确定性状态机 Deterministic State Machine.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/神经符号方法 Neuro-Symbolic AI.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/符号人工智能 Symbolic AI.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/纠错RAG CRAG.md",
+      "reason": "历史人工标签 RAG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/纠错RAG CRAG.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/红队测试 Red-teaming.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/置信度评分 Confidence Scoring.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/词性标注 POS Tagging.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/词性标注 POS Tagging.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/语言模型困惑度 Perplexity.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/资源描述框架 RDF OWL SPARQL.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/过拟合 Overfitting.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/过拟合 Overfitting.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/选择性预测 Selective Prediction.md",
+      "reason": "历史人工标签 可信度",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/链接预测 Link Prediction.md",
+      "reason": "历史人工标签 KG",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/预训练与微调 Pretrain vs Finetune.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/预训练与微调 Pretrain vs Finetune.md",
+      "reason": "历史人工标签 LLM机制",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/马尔可夫 Markov.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-15",
+      "page": "pages/高斯混合模型 GMM Gaussian Mixture Model.md",
+      "reason": "历史人工标签 基础",
+      "score": 1.0,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.0,
+        "tags": 1.0
+      }
+    }
+  ],
+  "page_fingerprints": {
+    "pages/Agent 记忆架构.md": "df69bba9db493d992944a586552bebb3ff186fdb18819c001e017f77e739f117",
+    "pages/BERT与GPT的区别 BERT vs GPT.md": "bc955a37c7096e0e1c2132262f77e0a37f0c71037aed11ceeda4498e023f9253",
+    "pages/BigQuery Dremel 宽表建模 BigQuery-Dremel.md": "7d46fa1d0f46d208806c652ebb9a96ad5e23bfd98c7da48a861afc3528c73a97",
+    "pages/ChronoLink.md": "8b92af539cf7b7e2628f970c0271c090b355066f7b47a0c883d33f829ed09cfe",
+    "pages/CoMaGRAG.md": "edec7888fe020355b81437e2fda9158976748d9d5e17ae1912590149477635cb",
+    "pages/EM算法 Expectation-Maximization.md": "d927b60e2dcf8993922c7c35d5ea0d2240e69928a1d23467ef7d0ed8fc532615",
+    "pages/EvidenceFirst.md": "223778a8c41d5cd3b21636df20c2ae0de3d0505c0b241073fb05de5280e28910",
+    "pages/FinGraph 财务知识图谱.md": "25a115d44621cc2247ee4ed9ebb526c09c9c10e9396521f107de987943757302",
+    "pages/GNN-RAG 图神经网络检索增强.md": "6cda25a7cbec71a66db83a3988dc477d9ffca49670d04008c9d728d262cb441d",
+    "pages/GSAD.md": "654aafb3a01cb01566c3c1c3767784dde6a48fa3a8ab9c934e4839aa8a33b44a",
+    "pages/Google Bigtable 宽表模型 Bigtable.md": "15f38a8fd4ac579a1a334595111d7f4da0f5344036e814bc34c21b1b77e5d013",
+    "pages/Graph Fusion 图融合.md": "04791748b88d96f993bc2544a599bca0afdbdfc7a243730f291487bbd485a2f6",
+    "pages/GraphRAG 架构.md": "0c9d3358901326f5ccbe30da3bd7965c00d26d5640bccfa8bac118f485959f8b",
+    "pages/KG-RAG 工作原理.md": "28cdb5de212e91e03fbf50933ce1abeb2eba690e20f8a7e4859bf9e6c220e2a2",
+    "pages/K近邻 KNN K-Nearest Neighbors.md": "34a0b8dfcee89852d2e97d09418389642b36bafe27dcac52dff9aebfb5b67d00",
+    "pages/LLM 推理优化 KV Cache Quantization.md": "62189f52af5b6b21a2f7f2796c2516fa70150f1214183f075ac759d94199f24e",
+    "pages/LightRAG.md": "6c18899f5f3214edb589947012ecc7551c83d9edcb5fc3637507c7446fd3029b",
+    "pages/McNemar检验.md": "718ca27acc6700591bc7f315de2f3cedf496a9d1b93151decd7add1bc9a2ad94",
+    "pages/RAG 评测指标 EM Recall MRR.md": "fdb67de7bedf44ae7722a2de9ca3ccfe2caa5e965046a86e13f359c1a5a6e733",
+    "pages/RAGChecker.md": "7a5a6dfec257a463b78d381b2d6dfbd77864cbc41d327f5103f0f3d7a302fdaf",
+    "pages/ReAct Agent 工作原理.md": "f98d4a38a3d12a5b8bcf747543d493e726b519771c659c0ca400e23fe0d4f5c1",
+    "pages/ReDeEP 机制可解释性.md": "0d78e7e3ce5bb359e99f0e0e55667ae86e9035b30554e1c3fe16c284139d1fc6",
+    "pages/SHA-256 产物指纹.md": "8c2cae964d25d058fd2e6d747a5c0264a619fd690574e3dba18139a76e5dbbc4",
+    "pages/Scaling Law 大模型缩放律.md": "f1562fe357e96fd63f5afba3e258e6952df291f06f3675d30a00edf9b79d1846",
+    "pages/Self-RAG.md": "1af4e09961e70a3fdaad69ff8d86f198414693dcdd17db552395383252d0b037",
+    "pages/StructRAG 结构化知识推理.md": "d5f47aa79f26193c00df55382198d3f0b2b8957a75be3040fbecc749c581a769",
+    "pages/TransE 图嵌入.md": "583fd72b5031a387f499eb17ca167e32be5e2ba8bc1bf1c68195392837bae3f5",
+    "pages/Transformer 自注意力机制.md": "37d5fc653d1db0e6c8074998594db0f9635aa73701497197f065859e344e45b9",
+    "pages/TripleChecker.md": "1d2e374a636f903debac523db4beb81ae6866436dda16772455c40547bbf87bb",
+    "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
+    "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
+    "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
+    "pages/主题模型 LDA.md": "9f4e3feee0e83f2a1308d9daab6ab46adab2f8f61d54e254ce82169449bf61ea",
+    "pages/交替检索推理 IRCoT.md": "e39fe8bce0f407d9e65eda94036b183d58a66be45bf3f6ed0386175ad40067f9",
+    "pages/人类反馈强化学习 RLHF.md": "39b766b1696c8b026d4c2b0390b1242df114c9553f1411a69f1c7716c1d7ee69",
+    "pages/人类反馈的知识图谱构建 Human-in-the-Loop KG.md": "9d37b915b2b90bad9d0035fed4367f1e8383e679f8961d1d6ba4da0de0c33d7e",
+    "pages/位置编码 Positional Encoding.md": "59dc873a2262da500ddf6169d5c04d525ff80957452727c6fb35b97493644795",
+    "pages/依存句法分析 Dependency Parsing.md": "b4b9b30995ba4a81142396d0d27c8e27d2b002a917defd748eeb6c8d0d0d55a4",
+    "pages/信息检索 IR基础模型 Information Retrieval.md": "e99ad6d859909f649fefc18507220851cb8bd1890cc1a18ed4575dc21943d4c0",
+    "pages/关系图卷积网络 RGCN.md": "9cc5311522aad9d5c3c07ef1e44e906d7d869375e870fad5e82ae1be898dd92f",
+    "pages/关联规则挖掘 Apriori.md": "ee707cae2f4b4278a6d730e5914cb78b1a0ca133e31129a07260c049b3cd491f",
+    "pages/分层评测 Stratified Evaluation.md": "94032ead236e6a67d8cae944c4fa40db119c0ad82f7d42d9a1596b19627401b2",
+    "pages/分布偏移 Distribution Shift.md": "9b7a01aacc8b721973201c968749e3b901f17203f30f9e0b52a031dc4caf662e",
+    "pages/前沿趋势 Frontier.md": "09b0c7ce03547952d78f0949d7b22f1cb1d1c1683ab48ee3c53788904a18b469",
+    "pages/卷积神经网络 CNN.md": "5fa3ba414ea2576070e1da3d08fa9ea1bebdc8052388ea67465e131dff0530b0",
+    "pages/反事实评测 Counterfactual Evaluation.md": "46c8cbb10db07a99726957e2d987f93a52daee3010fdd5c1c53d143fdbd62097",
+    "pages/变分自编码器 VAE Variational Autoencoder.md": "e04ba8d970e3d24546734b93c4cf944ccfa85ff3e5d78007a0562a13208e52cc",
+    "pages/可审计性 Auditability.md": "66d2a7e11b23d52d6830999b97618309396febd48aa3ffd7fe40d00608acaeab",
+    "pages/可观测性 Observability.md": "4e4033905da2804ba51ced43b3ccdbabe0244a7935e854a5cafc8df7b02646bc",
+    "pages/可验证性 Verifiability.md": "350ad9c24ab0ec4d7290968f089b83b3c0b35f5d2bf652c43c8e800b74e42817",
+    "pages/后训练 Post-training.md": "4711ea30fd2f28e8287c30ea0ed6427272fd1de1d31f249f0165c83a89ce8d32",
+    "pages/命名实体识别 NER.md": "a69bc95be80add76e876c19073ccb778bad7c2cefb832dd89ed21c043547dcef",
+    "pages/图神经网络 GNN.md": "93e0962e0b2b516a4bdd54688e6aedf7ae592194108d6fca2c98ab06e9c7d8d2",
+    "pages/图结构一致性 Graph Structure Consistency.md": "b1d15a0d0508605217919083ef60c431d6fe5575cb25577f63282ed937e82348",
+    "pages/基准数据集 Benchmark.md": "b44367dc2d360a17057779793016afe6a56a4d7c1a337c21662415c58e45bff1",
+    "pages/多智能体系统 Multi-Agent Systems.md": "88df1dd163b2bc4b2044fcbd81d8c4937e8f125fd817bd3c9959aec21c435cb4",
+    "pages/大模型机制与推理 LLM Mechanisms.md": "31439dd3820de1682e85cb38eb7925f5936ca33a22e358a47db0b9b3c9dadcd5",
+    "pages/实体对齐 Entity Alignment.md": "123eb3b09db529791d951ed73eaf8f6c818c1fb7ede16dc66fd531e1f15e8507",
+    "pages/实体消歧 Entity Disambiguation.md": "f4f30e9bc0d3c3bfdfd69a95be647c71a42507395b34347425a7ec148a052dcf",
+    "pages/实验可复现性 Reproducibility.md": "ddb6679ed0f5b9d68e791b82068f91512cd0251861f6800d88b668385f2ef61f",
+    "pages/审计风险队列 Audit Risk Queue.md": "0c6d0c136a94ae510b23a63d1e4b77d0dba27b7c66950a7f70b74fc72525ad80",
+    "pages/对抗样本 Adversarial Examples.md": "82cc573d80b736b266ac7d55ad8ee2be58bc3af70d7f76ee61ffaf644bba8cbd",
+    "pages/对比学习 Contrastive Learning.md": "02d2dab6219d39d846ef80ae78bf39506f5db603fb1bd6de6c90c82e4df070d5",
+    "pages/层归一化 LayerNorm BatchNorm.md": "b0732e5cea1d0e8ec4b0aca712b6d3ea06592349a81d245392c9a4a512959a0e",
+    "pages/幻觉与可信度 Hallucination Trustworthiness.md": "b1d3d2885ad0ad92a8fd0386d67f5479108fdac387f65f03ec21e460c01e4677",
+    "pages/序列标注模型 HMM CRF.md": "b50dfe999fc0c28af379e02fdd4eb1abe314d559f55a530f9aec899b273a9c89",
+    "pages/开放信息抽取 OpenIE.md": "49ed87e93ea7034af74bd496b439afa2e9c419a1c19dc8e51cc14a5d5294b06b",
+    "pages/异构图 Heterogeneous Graph.md": "a08d243ed356bdddda957d0e1e0714831e3c4cde69b7e72ebca849ae32797cc9",
+    "pages/引用召回与精确率 Citation Recall Precision.md": "6e87766408cb296847db38c8a59811cba4b69e82be972f1f983a666600b72eff",
+    "pages/强化学习基本框架 Reinforcement Learning.md": "54a6dea8e21687682dce93305a38394b68bd0ead5afc54ceea5cbb14ab600501",
+    "pages/归一化 Normalization.md": "002aaebf3a0f6053bdf24c2933e480bb30f30e2eada2596269a0ba7b5851c204",
+    "pages/归因评测 Attribution.md": "730e64ff07f441b30c4ad45540ab3618718bb22ab59200bed2b7d4e477f97d87",
+    "pages/循环神经网络 RNN LSTM.md": "39f9983fc12a5ffff46f66dce0c1dda918bd0475e1a7907a1dd830f8b6499d4c",
+    "pages/思维链 Chain-of-Thought.md": "c36baf9d4bc3676223eeb381e551a7644e1f2815cafe5a6ff6d861b039e35d4a",
+    "pages/扩散模型 Diffusion Models DDPM.md": "947822998f727bdea281a1ca23d8ab36cc5f96606db2d77637498c4ae529644f",
+    "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
+    "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
+    "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",
+    "pages/文本摘要 Text Summarization.md": "47340443576aa55e024c00c9e4e42000f0f39be8870c6a3425eed2b8b028c52e",
+    "pages/文本蕴含与自然语言推理 NLI.md": "0087e5bfc4b22f64b860c3a29b14b2dd50a58f61b80a7107d819e0cec0801fd6",
+    "pages/旋转位置编码 RoPE.md": "6db591807f1f443943119a399e12d93f8248504e83649fe4d36834f9779c85b4",
+    "pages/本体 Ontology.md": "3edcf86ec96d83c9df78844966936d3d492c748103c3acaa8e9bae1bc10292d0",
+    "pages/机器学习与NLP基础 ML-NLP Foundations.md": "6f3a4c28cf41013a27f0d2bca4a816e39e6e1c353b08885350aa50174b227ef7",
+    "pages/机器翻译 Machine Translation.md": "66c8eb4aec24b8dbce9078894fe85b9b5a6edebaed0d06428f5693d41f933a40",
+    "pages/机器遗忘 Machine Unlearning.md": "89cb7cf9418a5244222bf5bf4f473c75386b98be75d1a76ec69cfe146c65dfae",
+    "pages/检索增强生成 RAG-GraphRAG.md": "11c99786cff99720db20ab34c6d3490bb2549261ce0456a53ba9a4fe3e8b3db4",
+    "pages/模型校准 Calibration.md": "9dfec39b832c196245882d18fc5aa97039bf4662cdae775ca6dc52fe81558845",
+    "pages/消融实验 Ablation Study.md": "741354806de95a22ed810f55142b79cddec76a23c49edfcb69895fe1d903f9ca",
+    "pages/涌现能力 Emergent Abilities.md": "bfec65f6f13b9b069a5ee259a588ea3f752b7d111901497e8c32ec0dc9e16e62",
+    "pages/混合检索 Hybrid Retrieval.md": "5634321db3f7efe91c083ad06259c45341a0db051a71e29e2efcb3cf5545120d",
+    "pages/溯源 Provenance.md": "09235cce2b29a577de69b67e63bffeaa8e8d4eabf4e4398f0a7cb9e06398e52c",
+    "pages/激活函数 Activation Functions.md": "61ede10b3dc8bd90b560edd90559fd4bf5ece05f85700761eeaebfbac6994206",
+    "pages/知识冲突 Knowledge Conflict.md": "68a71d26dcb7293904eec3322b6f6e40641205151d3ac2a6d2e14a7bd9134635",
+    "pages/知识图谱 KG.md": "d14a41175dd0bb10ebc11e0a5ac1306b45bcdd5ba4ae906e2e3d18dc05ffe20d",
+    "pages/知识图谱构建流程 KG Construction Pipeline.md": "10e222891544d16f6952f6f601be98f289b349066d7683fb4722ed968594fc7f",
+    "pages/知识图谱补全 Knowledge Graph Completion.md": "315b6af95daa3866a0c9365abc91c85765a75b72c13bb81f3f0970984e28463d",
+    "pages/知识图谱质量评估维度.md": "8a4b0b927f1e84ce309ccccae799754c18fbab39834d01aaedd4ac34d6721418",
+    "pages/知识接地 Grounding.md": "2db0a67453aeef39453e8eb9337ecc673890614a1cd59abace9c924f3fe5edfa",
+    "pages/确定性状态机 Deterministic State Machine.md": "83f4fd4ce56298e34d09c879837e5ed27b1ceb3e1c5f5c414d1d95f2ff63ee2c",
+    "pages/神经符号方法 Neuro-Symbolic AI.md": "5034ef158179e22bf427f14d7cd65f743a682f35751581cc9540e116af9524bb",
+    "pages/符号人工智能 Symbolic AI.md": "41ed92ab3316ce9d406c5d109b286789201ac8e74c67320c67ff497cab284293",
+    "pages/纠错RAG CRAG.md": "1991d58958538c9bcf689ec4404ea5420c1f66e2016b2986d7a5dcac402d51b4",
+    "pages/红队测试 Red-teaming.md": "97ea212529f53fadefbeb5f7527de0236fc35f4598c727ae62f20d98ade7d16f",
+    "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
+    "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
+    "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",
+    "pages/语言模型困惑度 Perplexity.md": "cced8b4fd4d9082b4cd4c4b66c752516c993b363419ed69a41986a4687891836",
+    "pages/资源描述框架 RDF OWL SPARQL.md": "f1923ad7f20020e7db58ff33f36599d1826ee256b6088fb6fc98da6ac6768de5",
+    "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
+    "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
+    "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
+    "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
+    "pages/马尔可夫 Markov.md": "3a12bea9b62ce126594b4ae01ceb07a4bcc9340a55ea8209b134b72947b153cd",
+    "pages/高斯混合模型 GMM Gaussian Mixture Model.md": "55e6f06cf474fa2a68cc69bf683f3d77eb3f4cd31bb62a2b8baf2c33a6944646",
+    "首页.md": "033acabc99e22d45c4e4ef7fac3a89f5a5022c5bab218028030eb37d40f000c9"
+  },
+  "parameters_hash": "189455c2bb5056db384c917e909fd8e52d7af7a0d6654abc94c4e24f7d7e04f6",
+  "pending_pages": [],
+  "schema_version": 1
+}
