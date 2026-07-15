@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-14 · 页面 99 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-15 · 页面 100 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -43,6 +43,7 @@
 - [[GNN-RAG 图神经网络检索增强]] `#RAG #KG #前沿` — GNN-RAG（arxiv 2024）把 GNN 引入 RAG 的检索阶段。
 - [[GraphRAG 架构]] `#RAG` — 微软GraphRAG是2024年引爆GraphRAG方向的经典工作。
 - [[KG-RAG 工作原理]] `#KG #RAG` — KG-RAG在普通RAG的向量检索之外，额外引入知识图谱作为结构化检索层。
+- [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
 - [[LightRAG]] `#RAG` — LightRAG以实体图上的局部和全局检索简化GraphRAG流程。
 - [[RAG 评测指标 EM Recall MRR]] `#RAG #评测` — RAG评测分别衡量检索召回、排序质量和最终答案准确性。
 - [[RAGChecker]] `#RAG #可信度` — RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。
@@ -114,6 +115,7 @@
 
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支，核心区别在于注意力方向和预训练任务。
 - [[EM算法 Expectation-Maximization]] `#基础` — EM算法是一种处理含隐变量的极大似然估计的迭代算法,通过E步求隐变量后验期望、M步最大化期望对数似然,交替进行直至收敛。
+- [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
