@@ -33,6 +33,21 @@ with (root / 'runs.log').open('a', encoding='utf-8') as handle:
 print('graph rebuilt')
 """
 
+TAXONOMY_CLI = """import json
+import sys
+from pathlib import Path
+root = Path(__file__).resolve().parents[1]
+command = sys.argv[1]
+if command == 'status':
+    print(json.dumps({'categories': 2, 'pending_pages': 0, 'changes_since_global': 0}))
+elif command == 'validate':
+    print('valid')
+else:
+    with (root / 'runs.log').open('a', encoding='utf-8') as handle:
+        handle.write(('global' if command == 'global' else 'taxonomy') + '\\n')
+    print(command + ' complete')
+"""
+
 
 class KnowledgeBuilderTests(unittest.TestCase):
     def setUp(self):
@@ -44,7 +59,9 @@ class KnowledgeBuilderTests(unittest.TestCase):
         (self.root / "首页.md").write_text("# Home\n", encoding="utf-8")
         (self.root / "scripts" / "build_index.py").write_text(BUILD_INDEX, encoding="utf-8")
         (self.root / "scripts" / "render_graph.py").write_text(RENDER_GRAPH, encoding="utf-8")
-        self.builder = serve_kb.KnowledgeBuilder(self.root, timeout=5)
+        (self.root / "scripts" / "taxonomy_cli.py").write_text(TAXONOMY_CLI, encoding="utf-8")
+        self.now = [0.0]
+        self.builder = serve_kb.KnowledgeBuilder(self.root, timeout=5, clock=lambda: self.now[0])
 
     def tearDown(self):
         self.temp.cleanup()
@@ -68,7 +85,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(first["rebuilt"])
         self.assertFalse(second["rebuilt"])
         self.assertEqual(second["revision"], first["revision"])
-        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "index\ngraph\n")
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "taxonomy\nindex\ngraph\n")
         self.assertIn("index rebuilt", first["output"])
         self.assertIn("graph rebuilt", first["output"])
 
@@ -78,6 +95,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
 
         self.assertTrue(first["rebuilt"])
         self.assertTrue(second["rebuilt"])
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
 
@@ -88,6 +106,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
         refreshed = self.builder.refresh()
 
         self.assertTrue(refreshed["rebuilt"])
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
 
@@ -100,6 +119,29 @@ class KnowledgeBuilderTests(unittest.TestCase):
         with self.assertRaisesRegex(serve_kb.RefreshError, "render failed"):
             self.builder.refresh(force=True)
 
+    def test_weekly_due_check_runs_even_when_pages_and_outputs_are_fresh(self):
+        self.builder.refresh(force=True)
+        self.now[0] = 61.0
+
+        refreshed = self.builder.refresh(force=False)
+
+        self.assertFalse(refreshed["rebuilt"])
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
+
+    def test_taxonomy_failure_keeps_last_static_outputs_available(self):
+        self.builder.refresh(force=True)
+        (self.root / "scripts" / "taxonomy_cli.py").write_text(
+            "import sys\nprint('taxonomy failed', file=sys.stderr)\nsys.exit(5)\n",
+            encoding="utf-8",
+        )
+        (self.root / "pages" / "Example.md").write_text("# Changed\n", encoding="utf-8")
+
+        refreshed = self.builder.refresh()
+
+        self.assertTrue(refreshed["rebuilt"])
+        self.assertIn("taxonomy failed", refreshed["output"])
+        self.assertTrue((self.root / "graph-data.json").exists())
+
 
 class KnowledgeServerTests(unittest.TestCase):
     def setUp(self):
@@ -111,6 +153,7 @@ class KnowledgeServerTests(unittest.TestCase):
         (self.root / "viewer.html").write_text("viewer", encoding="utf-8")
         (self.root / "scripts" / "build_index.py").write_text(BUILD_INDEX, encoding="utf-8")
         (self.root / "scripts" / "render_graph.py").write_text(RENDER_GRAPH, encoding="utf-8")
+        (self.root / "scripts" / "taxonomy_cli.py").write_text(TAXONOMY_CLI, encoding="utf-8")
         self.builder = serve_kb.KnowledgeBuilder(self.root, timeout=5)
         self.server = serve_kb.create_server("127.0.0.1", 0, self.root, self.builder)
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
@@ -160,6 +203,27 @@ class KnowledgeServerTests(unittest.TestCase):
         with urlopen(self.base + "/viewer.html", timeout=5) as response:
             self.assertEqual(response.read(), b"viewer")
             self.assertEqual(response.headers["Cache-Control"], "no-store")
+
+    def test_taxonomy_status_and_rebuild_endpoints_return_json(self):
+        _, status = self.request_json("/api/taxonomy/status")
+        _, rebuilt = self.request_json("/api/taxonomy/rebuild", method="POST")
+
+        self.assertTrue(status["ok"])
+        self.assertEqual(status["categories"], 2)
+        self.assertTrue(rebuilt["ok"])
+        self.assertEqual(rebuilt["mode"], "global")
+
+    def test_taxonomy_rebuild_failure_keeps_static_service_available(self):
+        (self.root / "scripts" / "taxonomy_cli.py").write_text(
+            "import sys\nprint('global failed', file=sys.stderr)\nsys.exit(6)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaises(HTTPError) as caught:
+            self.request_json("/api/taxonomy/rebuild", method="POST")
+        self.assertEqual(caught.exception.code, 500)
+
+        with urlopen(self.base + "/viewer.html", timeout=5) as response:
+            self.assertEqual(response.status, 200)
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ class TaxonomyConfigTests(unittest.TestCase):
         self.assertEqual(config["forming_min_pages"], 3)
         self.assertEqual(config["global_after_changes"], 5)
         self.assertEqual(config["due_check_seconds"], 60)
+        self.assertEqual(config.get("command_timeout_seconds"), 900)
         self.assertEqual(sum(config["signal_weights"].values()), 1.0)
         self.assertIn(".cache/taxonomy/", (ROOT / ".gitignore").read_text(encoding="utf-8"))
 

@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import ipaddress
 import json
 import subprocess
 import sys
 import threading
+import time
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -22,10 +24,13 @@ class RefreshError(RuntimeError):
 
 
 class KnowledgeBuilder:
-    def __init__(self, root: Path | str, timeout: int = 30):
+    def __init__(self, root: Path | str, timeout: int = 30, clock=None):
         self.root = Path(root).resolve()
         self.timeout = timeout
+        self._clock = clock or time.monotonic
+        self._last_taxonomy_check = float("-inf")
         self._lock = threading.Lock()
+        self._taxonomy_script = self.root / "scripts" / "taxonomy_cli.py"
         self._scripts = (
             self.root / "scripts" / "build_index.py",
             self.root / "scripts" / "render_graph.py",
@@ -34,6 +39,16 @@ class KnowledgeBuilder:
             self.root / "_index.md",
             self.root / "graph-data.json",
         )
+        self.taxonomy_check_interval = 60
+        self.taxonomy_timeout = 900
+        config_path = self.root / "config" / "taxonomy.json"
+        if config_path.exists():
+            try:
+                config = json.loads(config_path.read_text(encoding="utf-8"))
+                self.taxonomy_check_interval = int(config.get("due_check_seconds", 60))
+                self.taxonomy_timeout = int(config.get("command_timeout_seconds", 900))
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
 
     def source_paths(self) -> list[Path]:
         pages = self.root / "pages"
@@ -42,6 +57,9 @@ class KnowledgeBuilder:
         home = self.root / "首页.md"
         if home.exists():
             paths.append(home)
+        for path in (self.root / "config" / "taxonomy.json", self.root / "taxonomy.json"):
+            if path.exists():
+                paths.append(path)
         return paths
 
     def is_stale(self) -> bool:
@@ -60,37 +78,100 @@ class KnowledgeBuilder:
             raise RefreshError("graph-data.json was not generated")
         return hashlib.sha256(graph_data.read_bytes()).hexdigest()[:16]
 
+    def _run_script(self, script: Path, *args: str, timeout: int | None = None) -> str:
+        if not script.exists():
+            raise RefreshError(f"missing generator: {script.relative_to(self.root)}")
+        try:
+            completed = subprocess.run(
+                [sys.executable, str(script), *args],
+                cwd=self.root,
+                capture_output=True,
+                text=True,
+                timeout=timeout or self.timeout,
+                check=False,
+            )
+        except subprocess.TimeoutExpired as error:
+            limit = timeout or self.timeout
+            raise RefreshError(f"{script.name} timed out after {limit}s") from error
+        combined = "\n".join(part for part in (completed.stdout.strip(), completed.stderr.strip()) if part)
+        if completed.returncode != 0:
+            detail = combined or f"exit status {completed.returncode}"
+            raise RefreshError(f"{script.name}: {detail}")
+        return combined
+
+    def _run_generators(self) -> list[str]:
+        output_lines = []
+        for script in self._scripts:
+            combined = self._run_script(script)
+            if combined:
+                output_lines.append(combined)
+        return output_lines
+
     def refresh(self, force: bool = False) -> dict[str, object]:
         with self._lock:
-            if not force and not self.is_stale():
-                return {"rebuilt": False, "revision": self.revision(), "output": ""}
-
+            source_stale = self.is_stale()
+            now = self._clock()
+            taxonomy_due = force or source_stale or now - self._last_taxonomy_check >= self.taxonomy_check_interval
             output_lines = []
-            for script in self._scripts:
-                if not script.exists():
-                    raise RefreshError(f"missing generator: {script.relative_to(self.root)}")
+            if taxonomy_due:
                 try:
-                    completed = subprocess.run(
-                        [sys.executable, str(script)],
-                        cwd=self.root,
-                        capture_output=True,
-                        text=True,
-                        timeout=self.timeout,
-                        check=False,
+                    combined = self._run_script(
+                        self._taxonomy_script, "sync", timeout=self.taxonomy_timeout
                     )
-                except subprocess.TimeoutExpired as error:
-                    raise RefreshError(f"{script.name} timed out after {self.timeout}s") from error
-                combined = "\n".join(part for part in (completed.stdout.strip(), completed.stderr.strip()) if part)
-                if completed.returncode != 0:
-                    detail = combined or f"exit status {completed.returncode}"
-                    raise RefreshError(f"{script.name}: {detail}")
-                if combined:
-                    output_lines.append(combined)
+                    if combined:
+                        output_lines.append(combined)
+                except RefreshError as error:
+                    output_lines.append(str(error))
+                self._last_taxonomy_check = now
 
+            if not force and not self.is_stale():
+                return {
+                    "rebuilt": False,
+                    "revision": self.revision(),
+                    "output": "\n".join(output_lines),
+                }
+
+            output_lines.extend(self._run_generators())
             return {
                 "rebuilt": True,
                 "revision": self.revision(),
                 "output": "\n".join(output_lines),
+            }
+
+    def taxonomy_status(self) -> dict[str, object]:
+        with self._lock:
+            output = self._run_script(
+                self._taxonomy_script, "status", "--json", timeout=self.taxonomy_timeout
+            )
+            try:
+                payload = json.loads(output)
+            except json.JSONDecodeError as error:
+                raise RefreshError("taxonomy status returned invalid JSON") from error
+            if not isinstance(payload, dict):
+                raise RefreshError("taxonomy status must be a JSON object")
+            return payload
+
+    def taxonomy_rebuild(self) -> dict[str, object]:
+        with self._lock:
+            output_lines = [
+                self._run_script(
+                    self._taxonomy_script, "global", timeout=self.taxonomy_timeout
+                )
+            ]
+            output_lines.extend(self._run_generators())
+            self._last_taxonomy_check = self._clock()
+            status_output = self._run_script(
+                self._taxonomy_script, "status", "--json", timeout=self.taxonomy_timeout
+            )
+            try:
+                status = json.loads(status_output)
+            except json.JSONDecodeError as error:
+                raise RefreshError("taxonomy status returned invalid JSON") from error
+            return {
+                "mode": "global",
+                "revision": self.revision(),
+                "output": "\n".join(line for line in output_lines if line),
+                **status,
             }
 
 
@@ -119,8 +200,17 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return 500, {"ok": False, "error": str(error)}
         return 200, {"ok": True, **result}
 
+    def taxonomy_allowed(self, require_origin: bool = False) -> bool:
+        try:
+            loopback = ipaddress.ip_address(self.client_address[0]).is_loopback
+        except ValueError:
+            loopback = False
+        if not loopback:
+            return False
+        return not require_origin or self.headers.get("Origin") == ALLOWED_ORIGIN
+
     def do_OPTIONS(self) -> None:
-        if urlsplit(self.path).path != "/api/refresh":
+        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild"}:
             self.send_error(404)
             return
         self.send_response(204)
@@ -129,7 +219,19 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self) -> None:
-        if urlsplit(self.path).path != "/api/refresh":
+        path = urlsplit(self.path).path
+        if path == "/api/taxonomy/rebuild":
+            if not self.taxonomy_allowed(require_origin=True):
+                self.send_json(403, {"ok": False, "error": "localhost origin required"})
+                return
+            try:
+                result = self.builder.taxonomy_rebuild()
+            except RefreshError as error:
+                self.send_json(500, {"ok": False, "error": str(error)})
+                return
+            self.send_json(200, {"ok": True, **result})
+            return
+        if path != "/api/refresh":
             self.send_error(404)
             return
         status, payload = self.refresh_payload(force=True)
@@ -141,6 +243,17 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             status, payload = self.refresh_payload(force=False)
             payload.pop("output", None)
             self.send_json(status, payload)
+            return
+        if path == "/api/taxonomy/status":
+            if not self.taxonomy_allowed():
+                self.send_json(403, {"ok": False, "error": "localhost client required"})
+                return
+            try:
+                result = self.builder.taxonomy_status()
+            except RefreshError as error:
+                self.send_json(500, {"ok": False, "error": str(error)})
+                return
+            self.send_json(200, {"ok": True, **result})
             return
         if path in {"/_index.md", "/graph-data.json"}:
             status, payload = self.refresh_payload(force=False)
