@@ -10,6 +10,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
+import taxonomy_models as tm  # noqa: E402
 
 
 CATEGORY_COLORS = {
@@ -61,7 +62,76 @@ def viewer_href(page):
     return f"viewer.html?f={quote(relative, safe='')}"
 
 
-def render_graph_data(pages, edges, broken, degree):
+def _taxonomy_payload(registry):
+    if registry is None:
+        return {
+            "schemaVersion": 1,
+            "generatedAt": None,
+            "categories": [],
+            "memberships": [],
+            "events": [],
+            "stats": {"categories": 0, "activeCategories": 0, "memberships": 0, "forming": 0, "pendingPages": 0},
+        }
+    categories = []
+    for category_id in sorted(registry.categories):
+        category = registry.categories[category_id]
+        categories.append({
+            "id": category.id,
+            "name": category.name,
+            "definition": category.definition,
+            "status": category.status,
+            "namingStatus": category.naming_status,
+            "parents": sorted(category.parents),
+            "related": sorted(category.related),
+            "aliases": sorted(category.aliases),
+            "redirectTo": category.redirect_to,
+            "createdAt": category.created_at,
+            "updatedAt": category.updated_at,
+            "lastStableAt": category.last_stable_at,
+            "stableRuns": category.stable_runs,
+            "algorithmVersion": category.algorithm_version,
+        })
+    memberships = []
+    for membership in sorted(registry.memberships, key=lambda item: (item.page, item.category_id)):
+        memberships.append({
+            "page": Path(membership.page).stem,
+            "category": membership.category_id,
+            "score": membership.score,
+            "signals": dict(sorted(membership.signals.items())),
+            "reason": membership.reason,
+            "firstAssignedAt": membership.first_assigned_at,
+            "lastConfirmedAt": membership.last_confirmed_at,
+        })
+    sorted_events = sorted(
+        registry.events,
+        key=lambda event: (event.created_at, event.type, tuple(event.category_ids)),
+    )[-100:]
+    events = [
+        {
+            "type": event.type,
+            "categoryIds": sorted(event.category_ids),
+            "reason": event.reason,
+            "createdAt": event.created_at,
+        }
+        for event in sorted_events
+    ]
+    return {
+        "schemaVersion": registry.schema_version,
+        "generatedAt": registry.generated_at,
+        "categories": categories,
+        "memberships": memberships,
+        "events": events,
+        "stats": {
+            "categories": len(categories),
+            "activeCategories": sum(category["status"] != "merged" for category in categories),
+            "memberships": len(memberships),
+            "forming": sum(category["status"] == "forming" for category in categories),
+            "pendingPages": len(registry.pending_pages),
+        },
+    }
+
+
+def render_graph_data(pages, edges, broken, degree, registry=None):
     isolated = [name for name, value in degree.items() if value == 0 and name != "首页"]
     nodes = []
     for name in sorted(pages):
@@ -92,6 +162,7 @@ def render_graph_data(pages, edges, broken, degree):
         "categories": CATEGORY_COLORS,
         "nodes": nodes,
         "edges": graph_edges,
+        "taxonomy": _taxonomy_payload(registry),
     }
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 
@@ -158,10 +229,16 @@ def parse_args(argv=None):
 def main(argv=None) -> int:
     parse_args(argv)
     pages = rc.scan_pages()
+    registry = tm.load_registry(rc.VAULT_ROOT / "taxonomy.json")
+    existing_pages = {
+        page.path.relative_to(rc.VAULT_ROOT).as_posix()
+        for page in pages.values()
+    }
+    tm.validate_registry(registry, existing_pages)
     edges, broken, degree = graph_data(pages)
     rc.GRAPH_FILE.write_text(render_overview(pages, edges, broken, degree), encoding="utf-8")
     rc.GRAPH_DATA_FILE.write_text(
-        render_graph_data(pages, edges, broken, degree),
+        render_graph_data(pages, edges, broken, degree, registry),
         encoding="utf-8",
     )
     print(f"已生成 graph.md | 概览节点 {min(15, len(pages))}")

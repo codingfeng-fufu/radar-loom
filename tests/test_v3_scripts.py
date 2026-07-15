@@ -14,6 +14,7 @@ sys.path.insert(0, str(SCRIPTS))
 
 import radar_common as rc  # noqa: E402
 import check_health  # noqa: E402
+import taxonomy_models as tm  # noqa: E402
 
 
 class CommonV3Tests(unittest.TestCase):
@@ -133,6 +134,31 @@ class GraphV3Tests(unittest.TestCase):
             )
             self.assertTrue(node["href"].startswith("viewer.html?f="))
         self.assertEqual(set(payload["categories"]), rc.CATEGORY_TAGS)
+
+    def test_graph_data_contains_taxonomy_nodes_memberships_and_relations(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        edges, broken, degree = graph.graph_data(pages)
+        registry = tm.load_registry(ROOT / "taxonomy.json")
+        payload = json.loads(graph.render_graph_data(pages, edges, broken, degree, registry))
+
+        self.assertEqual(payload["taxonomy"]["schemaVersion"], 1)
+        self.assertTrue(payload["taxonomy"]["categories"])
+        self.assertTrue(payload["taxonomy"]["memberships"])
+        self.assertIn("status", payload["taxonomy"]["categories"][0])
+        self.assertIn("signals", payload["taxonomy"]["memberships"][0])
+
+    def test_graph_data_taxonomy_references_existing_pages_and_categories(self):
+        graph = importlib.import_module("render_graph")
+        pages = rc.scan_pages()
+        edges, broken, degree = graph.graph_data(pages)
+        registry = tm.load_registry(ROOT / "taxonomy.json")
+        payload = json.loads(graph.render_graph_data(pages, edges, broken, degree, registry))
+        category_ids = {item["id"] for item in payload["taxonomy"]["categories"]}
+        page_ids = {item["id"] for item in payload["nodes"]}
+        for membership in payload["taxonomy"]["memberships"]:
+            self.assertIn(membership["category"], category_ids)
+            self.assertIn(membership["page"], page_ids)
 
     def test_overview_contains_both_statistics_and_broken_links(self):
         graph = importlib.import_module("render_graph")
