@@ -102,6 +102,29 @@ class WebConsoleManualTests(unittest.TestCase):
         self.assertIn("scripts/serve_kb.py", control)
         self.assertNotIn("python3 -m http.server", control)
 
+    def test_evolving_taxonomy_operation_is_documented(self):
+        for phrase in (
+            "taxonomy.json",
+            ".cache/taxonomy/",
+            "taxonomy_cli.py migrate",
+            "taxonomy_cli.py sync",
+            "taxonomy_cli.py global",
+            "taxonomy_cli.py status",
+            "taxonomy_cli.py validate",
+            "累计新增或修改 5 个页面",
+            "每周",
+            "知识关系",
+            "分类结构",
+            "综合视图",
+            "claude-taxonomy-namer",
+            "global --no-llm",
+            "intfloat/multilingual-e5-small",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.manual)
+        self.assertIn("taxonomy.json", self.readme)
+        self.assertIn("自动归属", self.readme)
+
 
 if __name__ == "__main__":
     unittest.main()

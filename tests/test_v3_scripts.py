@@ -116,6 +116,7 @@ class GraphV3Tests(unittest.TestCase):
         self.assertEqual(node_ids, sorted(node_ids))
         self.assertEqual([edge["id"] for edge in payload["edges"]], sorted(edge["id"] for edge in payload["edges"]))
         self.assertEqual({edge["source"] for edge in payload["edges"]} | {edge["target"] for edge in payload["edges"]}, set(node_ids))
+        self.assertTrue(all(edge["source"] != edge["target"] for edge in payload["edges"]))
 
     def test_graph_data_json_exposes_workspace_metadata(self):
         graph = importlib.import_module("render_graph")

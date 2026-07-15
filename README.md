@@ -13,6 +13,7 @@ Web 端的启动、使用、Claude 配置、知识页创建和故障排查见 [W
 3. 页面关系使用双方括号链接；机器生成的 `_index.md` 是 CC 的检索入口，不手工编辑。
 4. `python3 scripts/render_graph.py` 按需生成交互图谱数据、核心概览和八个分类子图。
 5. 来源必须真实可达，并尽量记录 PDF 页码或章节。
+6. 页面保留人工标签作为历史证据；动态自动归属保存在可审计、可回滚的 `taxonomy.json`，不反复改写页面 frontmatter。
 
 ## 向 CC 提问
 
@@ -40,12 +41,26 @@ python3 scripts/new_page.py "概念名 EnglishName" \
 |---|---|---|
 | `build_index.py` | 从 frontmatter 生成 `_index.md` 检索索引 | `python3 scripts/build_index.py` |
 | `render_graph.py` | 生成 `graph-data.json`、核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+| `taxonomy_cli.py` | 迁移、增量分类、全局重组、状态和校验 | `python3 scripts/taxonomy_cli.py --help` |
+| `new_page.py` | 按模板建页并刷新索引 | 见“给 CC 喂料” |
+| `check_health.py` | 检查格式、链接、来源、摘要和索引一致性 | `python3 scripts/check_health.py` |
 
 ## 图谱工作台
 
-知识库静态服务启动后打开 `http://127.0.0.1:18081/graph-view.html`。工作台使用 Cytoscape.js 与 fCoSE 布局，支持节点搜索、分类/项目筛选、一跳邻居聚焦、标签显示和 Viewer 详情跳转。数据来自 `graph-data.json`，页面变更后运行 `python3 scripts/render_graph.py` 刷新；`viewer.html?f=graph.md` 及八个分类 Mermaid 图保留为可审计备用视图。
-| `new_page.py` | 按模板建页并刷新索引 | 见“给 CC 喂料” |
-| `check_health.py` | 检查格式、链接、来源、摘要和索引一致性 | `python3 scripts/check_health.py` |
+知识库静态服务启动后打开 `http://127.0.0.1:18081/graph-view.html`。工作台使用 Cytoscape.js 与 fCoSE 布局，提供知识关系、分类结构和综合视图，支持节点搜索、动态分类导航、一跳聚焦、归属分数与信号详情和 Viewer 跳转。数据来自 `graph-data.json` 与 `taxonomy.json`；`viewer.html?f=graph.md` 及八个分类 Mermaid 图保留为可审计备用视图。
+
+## 可演化分类
+
+首次迁移及日常检查：
+
+```bash
+python3 scripts/taxonomy_cli.py migrate
+python3 scripts/taxonomy_cli.py sync
+python3 scripts/taxonomy_cli.py status
+python3 scripts/taxonomy_cli.py validate
+```
+
+页面保存后的增量分类只处理变化页面；累计变化达到 5 页或距上次全局运行满 7 天时自动重组，也可在图谱页手动触发。向量和中间缓存位于未提交的 `.cache/taxonomy/`，分类快照、稳定 ID、别名、重定向和事件保存在提交到 Git 的 `taxonomy.json`。
 
 ## 标签与信度
 

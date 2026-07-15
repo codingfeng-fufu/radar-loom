@@ -18,6 +18,7 @@ class GraphViewContractTests(unittest.TestCase):
         for value in ("cytoscape.min.js", "cytoscape-fcose", "graph-data.json", "name: 'fcose'"):
             with self.subTest(value=value):
                 self.assertIn(value, self.html)
+        self.assertIn("spacingFactor", self.html)
 
     def test_workspace_has_stable_full_screen_regions(self):
         for element_id in ("toolbar", "filters", "graph", "details", "loading", "errorState", "emptyState"):
@@ -25,6 +26,7 @@ class GraphViewContractTests(unittest.TestCase):
                 self.assertIn(f'id="{element_id}"', self.html)
         self.assertIn("100dvh", self.html)
         self.assertIn("minmax(0, 1fr)", self.html)
+        self.assertIn('rel="icon" href="data:,"', self.html)
 
     def test_search_filters_focus_and_layout_controls_are_implemented(self):
         for function in ("applyFilters", "focusNode", "clearFocus", "runLayout", "renderDetails"):
@@ -41,6 +43,7 @@ class GraphViewContractTests(unittest.TestCase):
 
     def test_mobile_drawers_and_accessible_controls_exist(self):
         self.assertIn("@media (max-width: 760px)", self.html)
+        self.assertRegex(self.html, r"@media \(max-width: 760px\)[\s\S]*?\.graph \{ aspect-ratio: auto; \}")
         self.assertIn('aria-label="打开筛选"', self.html)
         self.assertIn('aria-label="关闭详情"', self.html)
         self.assertIn("filters-open", self.html)
@@ -81,6 +84,28 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("replaceGraphElements", self.html)
         self.assertIn("bindModeIndependentHandlersOnce", self.html)
         self.assertIn("aspect-ratio", self.html)
+        self.assertIn("seedInitialPositions", self.html)
+
+    def test_root_only_taxonomy_uses_a_responsive_compact_grid(self):
+        self.assertIn("const compactMobile = state.cy.width() <= 480", self.html)
+        self.assertIn("const compactGraph = window.matchMedia('(max-width: 760px)').matches", self.html)
+        self.assertIn("const gridWidth = Math.min(state.cy.width(), compactMobile ? 260 : 660)", self.html)
+        self.assertIn("const gridHeight = Math.min(state.cy.height(), compactMobile ? 480 : 500)", self.html)
+        self.assertIn("compactGraph ? 84 : Math.min(70", self.html)
+        self.assertIn("'font-size': compactGraph ? 20 : 14", self.html)
+        self.assertIn("state.cy.one('layoutstop'", self.html)
+        self.assertIn("state.cy.zoom(0.72)", self.html)
+        self.assertIn("state.cy.center()", self.html)
+        self.assertIn("Math.min(70, 42 + Math.sqrt(Number(node.data('degree')) + 1) * 4)", self.html)
+        self.assertRegex(
+            self.html,
+            re.compile(
+                r"name: 'grid'.*?padding: 50,.*?avoidOverlapPadding: 30, "
+                r"spacingFactor: 1\.25,.*?boundingBox: \{ x1: 0, y1: 0, w: gridWidth, h: gridHeight \},.*?"
+                r"cols: compactMobile \? 2 : Math\.min\(3, state\.cy\.nodes\(\)\.length\)",
+                re.DOTALL,
+            ),
+        )
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 # 技术雷达知识库 Web 操作台使用与维护说明书
 
 > 适用环境：`/home/u2023312337/知识库` 及 `/home/u2023312337/webui`  
-> 更新日期：2026-07-14  
+> 更新日期：2026-07-15
 > 读者：知识库日常使用者、Claude Code 使用者和后续维护者
 
 ## 项目定位与系统组成
@@ -71,12 +71,13 @@
 
 ### 刷新知识库
 
-“刷新知识库”会先请求 `POST /api/refresh`，由本机知识库服务顺序运行索引和图谱生成脚本；只有生成成功后才会重载当前 Viewer 或图谱页。右侧 Claude iframe 不刷新，当前会话、未发送输入和权限模式会保留。
+“刷新知识库”会先请求 `POST /api/refresh`，由本机知识库服务依次执行增量分类、索引和图谱生成；只有索引与图谱生成成功后才会重载当前 Viewer 或图谱页。右侧 Claude iframe 不刷新，当前会话、未发送输入和权限模式会保留。
 
 对应的固定生成命令是：
 
 ```bash
 cd /home/u2023312337/知识库
+python3 scripts/taxonomy_cli.py sync
 python3 scripts/build_index.py
 python3 scripts/render_graph.py
 ```
@@ -131,7 +132,9 @@ Viewer 支持：
 
 数学表达必须使用 LaTeX。行内公式使用 `$...$`，块级公式使用独立成行的 `$$...$$`。写完数学页面后必须运行健康检查，并在 Viewer 中实际确认公式渲染。
 
-交互式图谱使用 Cytoscape.js 和 fCoSE 布局，支持搜索、分类和项目筛选、一跳邻居聚焦、详情查看与 Viewer 跳转。图谱页每 4 秒请求一次 `GET /api/revision`；服务发现 Markdown 页面比 `_index.md` 或 `graph-data.json` 新时会自动重建，版本变化后图谱画布自动更新。版本未变化时不会重新布局。
+交互式图谱使用 Cytoscape.js 和 fCoSE 布局，提供三种模式：**知识关系**显示页面与双方括号链接；**分类结构**显示类别的多上位、相关和重定向关系；**综合视图**同时显示页面、类别、知识链接和全部动态归属。分类详情包含边界、生命周期、成员数、上下位、相关类别和最近事件；页面详情显示所有归属、分数和语义/双链/标签/项目信号。
+
+图谱页每 4 秒请求一次 `GET /api/revision`；服务发现 Markdown、`taxonomy.json` 或生成物变化时会自动重建，版本变化后图谱画布自动更新。版本未变化时不会重新布局。图谱工具栏的重组按钮调用本机 `POST /api/taxonomy/rebuild`，按钮在运行期间显示忙碌状态，成功后重新加载图谱数据。
 
 需要手工验证生成结果时仍可运行：
 
@@ -141,6 +144,45 @@ python3 scripts/render_graph.py
 ```
 
 图谱数据写入 `graph-data.json`；`graph.md` 和分类 Mermaid 图保留为可审计备用视图，不手工编辑。
+
+## 可演化分类图谱
+
+### 数据和模型
+
+自动分类结果位于根目录 `taxonomy.json`，该文件提交到 Git，记录稳定类别 ID、名称、定义、父/相关关系、页面多归属、分项信号、别名、重定向和变更事件。页面原有八类标签不会被自动删除或批量重写，继续作为历史和人工信号。嵌入向量及清单位于 Git 忽略的 `.cache/taxonomy/`。
+
+默认语义模型是 `intfloat/multilingual-e5-small`。首次使用执行：
+
+```bash
+cd /home/u2023312337/知识库
+python3 -m pip install --user -r requirements-taxonomy.txt
+python3 -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('intfloat/multilingual-e5-small'); print('模型缓存完成')"
+```
+
+模型下载完成后可离线复用本机 Hugging Face 缓存。更换 `config/taxonomy.json` 中的模型会改变参数指纹，并要求重建向量缓存。
+
+### 自动运行和 CLI
+
+页面保存后执行增量分类。累计新增或修改 5 个页面时触发全局重组；知识库服务也每 60 秒做一次低成本到期检查，距上次全局运行满每周 7 天时触发。图谱页可手动触发同一全局流程。
+
+```bash
+python3 scripts/taxonomy_cli.py migrate --dry-run
+python3 scripts/taxonomy_cli.py migrate
+python3 scripts/taxonomy_cli.py sync --page "pages/页面名.md"
+python3 scripts/taxonomy_cli.py sync --no-global
+python3 scripts/taxonomy_cli.py global
+python3 scripts/taxonomy_cli.py global --no-llm
+python3 scripts/taxonomy_cli.py status --json
+python3 scripts/taxonomy_cli.py validate
+```
+
+`migrate` 从八个历史分类建立种子；`sync` 处理新增、修改和删除；`global` 运行 HDBSCAN、Louvain、结构融合与生命周期更新；`status` 纯读状态；`validate` 检查引用、父关系环、重定向和分数。`global --no-llm` 完全使用本地关键词回退，不调用命名模型。
+
+### 命名和故障边界
+
+本地向量、近邻、聚类和图社区不使用付费 API。只有新增或实质变化的类别进入命名预算。知识库服务只接收非密钥变量 `TAXONOMY_NAMER_COMMAND=/home/u2023312337/webui/claude-taxonomy-namer`；权限为 `700` 的 `claude-taxonomy-namer` 才读取 `runtime.env`，服务进程不读取或记录 API Key、完整提示词。
+
+嵌入、聚类、schema 或引用校验失败时保留上一版有效 `taxonomy.json`，不发布部分结果。单页增量分类失败会把页面放入待重试队列，不回滚已经保存的 Markdown 页面。Claude 命名遇到 HTTP 429、超时、非法 JSON 或调用预算耗尽时，类别仍成立并使用确定性关键词名称，`naming_status` 标记为 `pending`。
 
 ## Claude Code 对话区
 
@@ -267,6 +309,7 @@ ss -ltnp '( sport = :18080 or sport = :18081 )'
 ```bash
 cd /home/u2023312337/知识库
 python3 scripts/build_index.py
+python3 scripts/taxonomy_cli.py sync
 python3 scripts/render_graph.py
 python3 scripts/check_health.py
 ```
@@ -385,6 +428,10 @@ tr '\0' '\n' <"/proc/$pid/environ" | grep -E '^(CLAUDE_CONFIG_DIR|ANTHROPIC_BASE
 | `scripts/new_page.py` | 新建页面骨架 |
 | `scripts/build_index.py` | 生成 `_index.md` |
 | `scripts/render_graph.py` | 生成图谱数据和审计视图 |
+| `scripts/taxonomy_cli.py` | 分类迁移、增量同步、全局重组、状态和校验 |
+| `scripts/taxonomy_engine.py` | 分类流程编排和原子发布 |
+| `config/taxonomy.json` | 模型、阈值、权重、预算和调度配置 |
+| `taxonomy.json` | 提交到 Git 的动态分类注册表 |
 | `scripts/serve_kb.py` | 提供静态页面、固定刷新 API 和图谱版本检查 |
 | `scripts/check_health.py` | 检查元数据、链接、来源、索引和公式 |
 | `viewer.html` | 单文件 Markdown Viewer |
@@ -392,6 +439,7 @@ tr '\0' '\n' <"/proc/$pid/environ" | grep -E '^(CLAUDE_CONFIG_DIR|ANTHROPIC_BASE
 | `/home/u2023312337/webui/webui-control` | 一体化操作台生命周期管理 |
 | `/home/u2023312337/webui/kbserve-control` | 知识库静态服务生命周期管理 |
 | `/home/u2023312337/webui/runtime.env` | 火山 Coding Plan 环境和密钥 |
+| `/home/u2023312337/webui/claude-taxonomy-namer` | 隔离密钥的分类命名包装器 |
 | `/home/u2023312337/webui/claude-config/settings.json` | WebUI 专用 Claude 设置 |
 | `/home/u2023312337/webui/patch-integrated-workbench.mjs` | 一体化工作台、创建入口、Markdown 和对话主题补丁 |
 | `/home/u2023312337/webui/patch-dangerous-mode.mjs` | 第四档权限模式补丁 |

@@ -58,8 +58,14 @@ class DeterministicTestEncoder:
 
         vectors = []
         for text in texts:
-            digest = hashlib.sha256(text.encode("utf-8")).digest()
-            vectors.append([byte + 1 for byte in digest[:16]])
+            vector = np.zeros(64, dtype=np.float32)
+            tokens = re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", text.casefold())
+            for token in tokens:
+                digest = hashlib.sha256(token.encode("utf-8")).digest()
+                vector[int.from_bytes(digest[:2], "big") % len(vector)] += 1.0
+            if not vector.any():
+                vector[0] = 1.0
+            vectors.append(vector)
         return np.asarray(vectors, dtype=np.float32)
 
 
