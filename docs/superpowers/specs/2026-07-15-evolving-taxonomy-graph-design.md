@@ -78,7 +78,7 @@
 - 到达每周调度时间；
 - 用户手动触发。
 
-全局流程使用 `hdbscan` 的 HDBSCAN 实现产生语义密度群组，使用 `networkx.algorithms.community.louvain_communities` 产生双链社区，再根据成员一致性进行融合。所有带随机性的步骤使用配置中的固定随机种子。新群组与旧类别通过成员 Jaccard 重合、类别中心相似度和图结构相似度匹配，以区分延续、新建、合并和拆分。
+全局流程使用 `sklearn.cluster.HDBSCAN` 产生语义密度群组，使用 `networkx.algorithms.community.louvain_communities` 产生双链社区，再根据成员一致性进行融合。所有带随机性的步骤使用配置中的固定随机种子。新群组与旧类别通过成员 Jaccard 重合、类别中心相似度和图结构相似度匹配，以区分延续、新建、合并和拆分。
 
 类别内部具有明显多个群组时自动拆分；类别高度重叠时自动合并；包含与被包含关系足够稳定时建立多上位关系；语义相关但不存在稳定包含时建立 `related` 关系。
 
