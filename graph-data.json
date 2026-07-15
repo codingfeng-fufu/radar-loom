@@ -397,2361 +397,2391 @@
     },
     {
       "id": "e0078",
-      "source": "SHA-256 产物指纹",
+      "source": "Robust Scaler 鲁棒缩放",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0079",
-      "source": "SHA-256 产物指纹",
-      "target": "可审计性 Auditability"
+      "source": "Robust Scaler 鲁棒缩放",
+      "target": "K近邻 KNN K-Nearest Neighbors"
     },
     {
       "id": "e0080",
-      "source": "SHA-256 产物指纹",
-      "target": "可验证性 Verifiability"
+      "source": "Robust Scaler 鲁棒缩放",
+      "target": "归一化 Normalization"
     },
     {
       "id": "e0081",
-      "source": "SHA-256 产物指纹",
-      "target": "实验可复现性 Reproducibility"
+      "source": "Robust Scaler 鲁棒缩放",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
       "id": "e0082",
-      "source": "SHA-256 产物指纹",
-      "target": "知识图谱 KG"
+      "source": "Robust Scaler 鲁棒缩放",
+      "target": "混合检索 Hybrid Retrieval"
     },
     {
       "id": "e0083",
-      "source": "Scaling Law 大模型缩放律",
+      "source": "SHA-256 产物指纹",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0084",
-      "source": "Scaling Law 大模型缩放律",
-      "target": "TripleChecker"
+      "source": "SHA-256 产物指纹",
+      "target": "可审计性 Auditability"
     },
     {
       "id": "e0085",
-      "source": "Scaling Law 大模型缩放律",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "source": "SHA-256 产物指纹",
+      "target": "可验证性 Verifiability"
     },
     {
       "id": "e0086",
-      "source": "Scaling Law 大模型缩放律",
-      "target": "涌现能力 Emergent Abilities"
+      "source": "SHA-256 产物指纹",
+      "target": "实验可复现性 Reproducibility"
     },
     {
       "id": "e0087",
-      "source": "Scaling Law 大模型缩放律",
-      "target": "语言模型困惑度 Perplexity"
+      "source": "SHA-256 产物指纹",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0088",
       "source": "Scaling Law 大模型缩放律",
-      "target": "预训练与微调 Pretrain vs Finetune"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0089",
+      "source": "Scaling Law 大模型缩放律",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0090",
+      "source": "Scaling Law 大模型缩放律",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0091",
+      "source": "Scaling Law 大模型缩放律",
+      "target": "涌现能力 Emergent Abilities"
+    },
+    {
+      "id": "e0092",
+      "source": "Scaling Law 大模型缩放律",
+      "target": "语言模型困惑度 Perplexity"
+    },
+    {
+      "id": "e0093",
+      "source": "Scaling Law 大模型缩放律",
+      "target": "预训练与微调 Pretrain vs Finetune"
+    },
+    {
+      "id": "e0094",
       "source": "Self-RAG",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0090",
+      "id": "e0095",
       "source": "Self-RAG",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0091",
+      "id": "e0096",
       "source": "Self-RAG",
       "target": "提示注入 Prompt Injection"
     },
     {
-      "id": "e0092",
+      "id": "e0097",
       "source": "Self-RAG",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0093",
+      "id": "e0098",
       "source": "StructRAG 结构化知识推理",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0094",
+      "id": "e0099",
       "source": "StructRAG 结构化知识推理",
       "target": "FinGraph 财务知识图谱"
     },
     {
-      "id": "e0095",
+      "id": "e0100",
       "source": "StructRAG 结构化知识推理",
       "target": "前沿趋势 Frontier"
     },
     {
-      "id": "e0096",
+      "id": "e0101",
       "source": "StructRAG 结构化知识推理",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0097",
+      "id": "e0102",
       "source": "StructRAG 结构化知识推理",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0098",
+      "id": "e0103",
       "source": "TransE 图嵌入",
       "target": "图神经网络 GNN"
     },
     {
-      "id": "e0099",
+      "id": "e0104",
       "source": "TransE 图嵌入",
       "target": "实体对齐 Entity Alignment"
     },
     {
-      "id": "e0100",
+      "id": "e0105",
       "source": "TransE 图嵌入",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0101",
+      "id": "e0106",
       "source": "TransE 图嵌入",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0102",
+      "id": "e0107",
       "source": "TransE 图嵌入",
       "target": "链接预测 Link Prediction"
-    },
-    {
-      "id": "e0103",
-      "source": "Transformer 自注意力机制",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0104",
-      "source": "Transformer 自注意力机制",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0105",
-      "source": "Transformer 自注意力机制",
-      "target": "位置编码 Positional Encoding"
-    },
-    {
-      "id": "e0106",
-      "source": "Transformer 自注意力机制",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0107",
-      "source": "Transformer 自注意力机制",
-      "target": "层归一化 LayerNorm BatchNorm"
     },
     {
       "id": "e0108",
       "source": "Transformer 自注意力机制",
-      "target": "神经符号方法 Neuro-Symbolic AI"
-    },
-    {
-      "id": "e0109",
-      "source": "上下文学习 In-context Learning",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0110",
-      "source": "上下文学习 In-context Learning",
+      "id": "e0109",
+      "source": "Transformer 自注意力机制",
       "target": "TripleChecker"
     },
     {
+      "id": "e0110",
+      "source": "Transformer 自注意力机制",
+      "target": "位置编码 Positional Encoding"
+    },
+    {
       "id": "e0111",
-      "source": "上下文学习 In-context Learning",
+      "source": "Transformer 自注意力机制",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0112",
-      "source": "上下文学习 In-context Learning",
-      "target": "思维链 Chain-of-Thought"
+      "source": "Transformer 自注意力机制",
+      "target": "层归一化 LayerNorm BatchNorm"
     },
     {
       "id": "e0113",
-      "source": "上下文学习 In-context Learning",
-      "target": "提示工程 Prompt Engineering"
+      "source": "Transformer 自注意力机制",
+      "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
       "id": "e0114",
-      "source": "不确定性量化 Uncertainty Quantification",
+      "source": "上下文学习 In-context Learning",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0115",
+      "source": "上下文学习 In-context Learning",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0116",
+      "source": "上下文学习 In-context Learning",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0117",
+      "source": "上下文学习 In-context Learning",
+      "target": "思维链 Chain-of-Thought"
+    },
+    {
+      "id": "e0118",
+      "source": "上下文学习 In-context Learning",
+      "target": "提示工程 Prompt Engineering"
+    },
+    {
+      "id": "e0119",
+      "source": "不确定性量化 Uncertainty Quantification",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0120",
       "source": "不确定性量化 Uncertainty Quantification",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0116",
+      "id": "e0121",
       "source": "不确定性量化 Uncertainty Quantification",
       "target": "模型校准 Calibration"
     },
     {
-      "id": "e0117",
+      "id": "e0122",
       "source": "不确定性量化 Uncertainty Quantification",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0118",
+      "id": "e0123",
       "source": "不确定性量化 Uncertainty Quantification",
       "target": "选择性预测 Selective Prediction"
     },
     {
-      "id": "e0119",
+      "id": "e0124",
       "source": "主流知识图谱 Mainstream KGs",
       "target": "FinGraph 财务知识图谱"
     },
     {
-      "id": "e0120",
+      "id": "e0125",
       "source": "主流知识图谱 Mainstream KGs",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0121",
+      "id": "e0126",
       "source": "主流知识图谱 Mainstream KGs",
       "target": "知识图谱补全 Knowledge Graph Completion"
     },
     {
-      "id": "e0122",
+      "id": "e0127",
       "source": "主流知识图谱 Mainstream KGs",
       "target": "链接预测 Link Prediction"
     },
     {
-      "id": "e0123",
+      "id": "e0128",
       "source": "主题模型 LDA",
       "target": "GraphRAG 架构"
     },
     {
-      "id": "e0124",
+      "id": "e0129",
       "source": "主题模型 LDA",
       "target": "关联规则挖掘 Apriori"
     },
     {
-      "id": "e0125",
+      "id": "e0130",
       "source": "主题模型 LDA",
       "target": "图神经网络 GNN"
     },
     {
-      "id": "e0126",
+      "id": "e0131",
       "source": "主题模型 LDA",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0127",
+      "id": "e0132",
       "source": "交替检索推理 IRCoT",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0128",
+      "id": "e0133",
       "source": "交替检索推理 IRCoT",
       "target": "KG-RAG 工作原理"
     },
     {
-      "id": "e0129",
+      "id": "e0134",
       "source": "交替检索推理 IRCoT",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0130",
+      "id": "e0135",
       "source": "交替检索推理 IRCoT",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0131",
+      "id": "e0136",
       "source": "人类反馈强化学习 RLHF",
       "target": "人类反馈的知识图谱构建 Human-in-the-Loop KG"
     },
     {
-      "id": "e0132",
+      "id": "e0137",
       "source": "人类反馈强化学习 RLHF",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0133",
+      "id": "e0138",
       "source": "人类反馈强化学习 RLHF",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0134",
+      "id": "e0139",
       "source": "人类反馈强化学习 RLHF",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0135",
+      "id": "e0140",
       "source": "人类反馈的知识图谱构建 Human-in-the-Loop KG",
       "target": "TripleChecker"
     },
     {
-      "id": "e0136",
+      "id": "e0141",
       "source": "人类反馈的知识图谱构建 Human-in-the-Loop KG",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0137",
-      "source": "位置编码 Positional Encoding",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0138",
-      "source": "位置编码 Positional Encoding",
-      "target": "Transformer 自注意力机制"
-    },
-    {
-      "id": "e0139",
-      "source": "位置编码 Positional Encoding",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0140",
-      "source": "位置编码 Positional Encoding",
-      "target": "旋转位置编码 RoPE"
-    },
-    {
-      "id": "e0141",
-      "source": "位置编码 Positional Encoding",
-      "target": "神经符号方法 Neuro-Symbolic AI"
-    },
-    {
       "id": "e0142",
-      "source": "依存句法分析 Dependency Parsing",
+      "source": "位置编码 Positional Encoding",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0143",
-      "source": "依存句法分析 Dependency Parsing",
-      "target": "TripleChecker"
+      "source": "位置编码 Positional Encoding",
+      "target": "Transformer 自注意力机制"
     },
     {
       "id": "e0144",
-      "source": "依存句法分析 Dependency Parsing",
-      "target": "实体消歧 Entity Disambiguation"
+      "source": "位置编码 Positional Encoding",
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0145",
-      "source": "依存句法分析 Dependency Parsing",
-      "target": "开放信息抽取 OpenIE"
+      "source": "位置编码 Positional Encoding",
+      "target": "旋转位置编码 RoPE"
     },
     {
       "id": "e0146",
-      "source": "依存句法分析 Dependency Parsing",
-      "target": "知识图谱 KG"
+      "source": "位置编码 Positional Encoding",
+      "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
       "id": "e0147",
       "source": "依存句法分析 Dependency Parsing",
-      "target": "词性标注 POS Tagging"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0148",
+      "source": "依存句法分析 Dependency Parsing",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0149",
+      "source": "依存句法分析 Dependency Parsing",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0150",
+      "source": "依存句法分析 Dependency Parsing",
+      "target": "开放信息抽取 OpenIE"
+    },
+    {
+      "id": "e0151",
+      "source": "依存句法分析 Dependency Parsing",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0152",
+      "source": "依存句法分析 Dependency Parsing",
+      "target": "词性标注 POS Tagging"
+    },
+    {
+      "id": "e0153",
       "source": "信息检索 IR基础模型 Information Retrieval",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0149",
+      "id": "e0154",
       "source": "信息检索 IR基础模型 Information Retrieval",
       "target": "KG-RAG 工作原理"
     },
     {
-      "id": "e0150",
+      "id": "e0155",
       "source": "信息检索 IR基础模型 Information Retrieval",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0151",
+      "id": "e0156",
       "source": "信息检索 IR基础模型 Information Retrieval",
       "target": "混合检索 Hybrid Retrieval"
     },
     {
-      "id": "e0152",
+      "id": "e0157",
       "source": "关系图卷积网络 RGCN",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0153",
+      "id": "e0158",
       "source": "关系图卷积网络 RGCN",
       "target": "图神经网络 GNN"
     },
     {
-      "id": "e0154",
-      "source": "关系图卷积网络 RGCN",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0155",
-      "source": "关系图卷积网络 RGCN",
-      "target": "确定性状态机 Deterministic State Machine"
-    },
-    {
-      "id": "e0156",
-      "source": "关系图卷积网络 RGCN",
-      "target": "链接预测 Link Prediction"
-    },
-    {
-      "id": "e0157",
-      "source": "关联规则挖掘 Apriori",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0158",
-      "source": "关联规则挖掘 Apriori",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
       "id": "e0159",
-      "source": "关联规则挖掘 Apriori",
+      "source": "关系图卷积网络 RGCN",
       "target": "知识图谱 KG"
     },
     {
       "id": "e0160",
-      "source": "分层评测 Stratified Evaluation",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0161",
-      "source": "分层评测 Stratified Evaluation",
-      "target": "RAG 评测指标 EM Recall MRR"
-    },
-    {
-      "id": "e0162",
-      "source": "分层评测 Stratified Evaluation",
-      "target": "审计风险队列 Audit Risk Queue"
-    },
-    {
-      "id": "e0163",
-      "source": "分层评测 Stratified Evaluation",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
-    },
-    {
-      "id": "e0164",
-      "source": "分层评测 Stratified Evaluation",
+      "source": "关系图卷积网络 RGCN",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
+      "id": "e0161",
+      "source": "关系图卷积网络 RGCN",
+      "target": "链接预测 Link Prediction"
+    },
+    {
+      "id": "e0162",
+      "source": "关联规则挖掘 Apriori",
+      "target": "FinGraph 财务知识图谱"
+    },
+    {
+      "id": "e0163",
+      "source": "关联规则挖掘 Apriori",
+      "target": "图结构一致性 Graph Structure Consistency"
+    },
+    {
+      "id": "e0164",
+      "source": "关联规则挖掘 Apriori",
+      "target": "知识图谱 KG"
+    },
+    {
       "id": "e0165",
-      "source": "分布偏移 Distribution Shift",
+      "source": "分层评测 Stratified Evaluation",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0166",
-      "source": "分布偏移 Distribution Shift",
-      "target": "可观测性 Observability"
+      "source": "分层评测 Stratified Evaluation",
+      "target": "RAG 评测指标 EM Recall MRR"
     },
     {
       "id": "e0167",
-      "source": "分布偏移 Distribution Shift",
-      "target": "对抗样本 Adversarial Examples"
+      "source": "分层评测 Stratified Evaluation",
+      "target": "审计风险队列 Audit Risk Queue"
     },
     {
       "id": "e0168",
-      "source": "分布偏移 Distribution Shift",
+      "source": "分层评测 Stratified Evaluation",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0169",
-      "source": "分布偏移 Distribution Shift",
-      "target": "检索增强生成 RAG-GraphRAG"
+      "source": "分层评测 Stratified Evaluation",
+      "target": "确定性状态机 Deterministic State Machine"
     },
     {
       "id": "e0170",
       "source": "分布偏移 Distribution Shift",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0171",
+      "source": "分布偏移 Distribution Shift",
+      "target": "可观测性 Observability"
+    },
+    {
+      "id": "e0172",
+      "source": "分布偏移 Distribution Shift",
+      "target": "对抗样本 Adversarial Examples"
+    },
+    {
+      "id": "e0173",
+      "source": "分布偏移 Distribution Shift",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
+      "id": "e0174",
+      "source": "分布偏移 Distribution Shift",
+      "target": "检索增强生成 RAG-GraphRAG"
+    },
+    {
+      "id": "e0175",
+      "source": "分布偏移 Distribution Shift",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0176",
       "source": "卷积神经网络 CNN",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0172",
+      "id": "e0177",
       "source": "卷积神经网络 CNN",
       "target": "图神经网络 GNN"
     },
     {
-      "id": "e0173",
+      "id": "e0178",
       "source": "卷积神经网络 CNN",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0174",
+      "id": "e0179",
       "source": "反事实评测 Counterfactual Evaluation",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0175",
+      "id": "e0180",
       "source": "反事实评测 Counterfactual Evaluation",
       "target": "McNemar检验"
     },
     {
-      "id": "e0176",
+      "id": "e0181",
       "source": "反事实评测 Counterfactual Evaluation",
       "target": "分层评测 Stratified Evaluation"
     },
     {
-      "id": "e0177",
+      "id": "e0182",
       "source": "反事实评测 Counterfactual Evaluation",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0178",
+      "id": "e0183",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0179",
+      "id": "e0184",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "TripleChecker"
     },
     {
-      "id": "e0180",
+      "id": "e0185",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "主题模型 LDA"
     },
     {
-      "id": "e0181",
+      "id": "e0186",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "对比学习 Contrastive Learning"
     },
     {
-      "id": "e0182",
+      "id": "e0187",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0183",
+      "id": "e0188",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "扩散模型 Diffusion Models DDPM"
     },
     {
-      "id": "e0184",
+      "id": "e0189",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0185",
+      "id": "e0190",
       "source": "变分自编码器 VAE Variational Autoencoder",
       "target": "高斯混合模型 GMM Gaussian Mixture Model"
     },
     {
-      "id": "e0186",
+      "id": "e0191",
       "source": "可审计性 Auditability",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0187",
+      "id": "e0192",
       "source": "可审计性 Auditability",
       "target": "SHA-256 产物指纹"
     },
     {
-      "id": "e0188",
+      "id": "e0193",
       "source": "可审计性 Auditability",
       "target": "可观测性 Observability"
     },
     {
-      "id": "e0189",
+      "id": "e0194",
       "source": "可审计性 Auditability",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0190",
+      "id": "e0195",
       "source": "可审计性 Auditability",
       "target": "实验可复现性 Reproducibility"
     },
     {
-      "id": "e0191",
-      "source": "可审计性 Auditability",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
-    },
-    {
-      "id": "e0192",
-      "source": "可观测性 Observability",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0193",
-      "source": "可观测性 Observability",
-      "target": "SHA-256 产物指纹"
-    },
-    {
-      "id": "e0194",
-      "source": "可观测性 Observability",
-      "target": "可审计性 Auditability"
-    },
-    {
-      "id": "e0195",
-      "source": "可观测性 Observability",
-      "target": "可验证性 Verifiability"
-    },
-    {
       "id": "e0196",
-      "source": "可观测性 Observability",
+      "source": "可审计性 Auditability",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0197",
       "source": "可观测性 Observability",
-      "target": "确定性状态机 Deterministic State Machine"
-    },
-    {
-      "id": "e0198",
-      "source": "可验证性 Verifiability",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0199",
-      "source": "可验证性 Verifiability",
-      "target": "TripleChecker"
+      "id": "e0198",
+      "source": "可观测性 Observability",
+      "target": "SHA-256 产物指纹"
     },
     {
-      "id": "e0200",
-      "source": "可验证性 Verifiability",
+      "id": "e0199",
+      "source": "可观测性 Observability",
       "target": "可审计性 Auditability"
     },
     {
+      "id": "e0200",
+      "source": "可观测性 Observability",
+      "target": "可验证性 Verifiability"
+    },
+    {
       "id": "e0201",
-      "source": "可验证性 Verifiability",
-      "target": "可观测性 Observability"
+      "source": "可观测性 Observability",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0202",
-      "source": "可验证性 Verifiability",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "source": "可观测性 Observability",
+      "target": "确定性状态机 Deterministic State Machine"
     },
     {
       "id": "e0203",
       "source": "可验证性 Verifiability",
-      "target": "文本蕴含与自然语言推理 NLI"
-    },
-    {
-      "id": "e0204",
-      "source": "后训练 Post-training",
-      "target": "CoMaGRAG"
-    },
-    {
-      "id": "e0205",
-      "source": "后训练 Post-training",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0206",
-      "source": "后训练 Post-training",
-      "target": "GSAD"
-    },
-    {
-      "id": "e0207",
-      "source": "后训练 Post-training",
+      "id": "e0204",
+      "source": "可验证性 Verifiability",
       "target": "TripleChecker"
     },
     {
+      "id": "e0205",
+      "source": "可验证性 Verifiability",
+      "target": "可审计性 Auditability"
+    },
+    {
+      "id": "e0206",
+      "source": "可验证性 Verifiability",
+      "target": "可观测性 Observability"
+    },
+    {
+      "id": "e0207",
+      "source": "可验证性 Verifiability",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
       "id": "e0208",
-      "source": "后训练 Post-training",
-      "target": "人类反馈强化学习 RLHF"
+      "source": "可验证性 Verifiability",
+      "target": "文本蕴含与自然语言推理 NLI"
     },
     {
       "id": "e0209",
       "source": "后训练 Post-training",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "target": "CoMaGRAG"
     },
     {
       "id": "e0210",
       "source": "后训练 Post-training",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0211",
       "source": "后训练 Post-training",
-      "target": "强化学习基本框架 Reinforcement Learning"
+      "target": "GSAD"
     },
     {
       "id": "e0212",
       "source": "后训练 Post-training",
-      "target": "思维链 Chain-of-Thought"
+      "target": "TripleChecker"
     },
     {
       "id": "e0213",
       "source": "后训练 Post-training",
-      "target": "提示工程 Prompt Engineering"
+      "target": "人类反馈强化学习 RLHF"
     },
     {
       "id": "e0214",
       "source": "后训练 Post-training",
-      "target": "预训练与微调 Pretrain vs Finetune"
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0215",
+      "source": "后训练 Post-training",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
+      "id": "e0216",
+      "source": "后训练 Post-training",
+      "target": "强化学习基本框架 Reinforcement Learning"
+    },
+    {
+      "id": "e0217",
+      "source": "后训练 Post-training",
+      "target": "思维链 Chain-of-Thought"
+    },
+    {
+      "id": "e0218",
+      "source": "后训练 Post-training",
+      "target": "提示工程 Prompt Engineering"
+    },
+    {
+      "id": "e0219",
+      "source": "后训练 Post-training",
+      "target": "预训练与微调 Pretrain vs Finetune"
+    },
+    {
+      "id": "e0220",
       "source": "命名实体识别 NER",
       "target": "FinGraph 财务知识图谱"
     },
     {
-      "id": "e0216",
+      "id": "e0221",
       "source": "命名实体识别 NER",
       "target": "TripleChecker"
     },
     {
-      "id": "e0217",
+      "id": "e0222",
       "source": "命名实体识别 NER",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0218",
+      "id": "e0223",
       "source": "命名实体识别 NER",
       "target": "开放信息抽取 OpenIE"
     },
     {
-      "id": "e0219",
+      "id": "e0224",
       "source": "命名实体识别 NER",
       "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0220",
-      "source": "图神经网络 GNN",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0221",
-      "source": "图神经网络 GNN",
-      "target": "关系图卷积网络 RGCN"
-    },
-    {
-      "id": "e0222",
-      "source": "图神经网络 GNN",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0223",
-      "source": "图神经网络 GNN",
-      "target": "确定性状态机 Deterministic State Machine"
-    },
-    {
-      "id": "e0224",
-      "source": "图神经网络 GNN",
-      "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
       "id": "e0225",
       "source": "图神经网络 GNN",
-      "target": "链接预测 Link Prediction"
-    },
-    {
-      "id": "e0226",
-      "source": "图结构一致性 Graph Structure Consistency",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0227",
-      "source": "图结构一致性 Graph Structure Consistency",
-      "target": "TripleChecker"
+      "id": "e0226",
+      "source": "图神经网络 GNN",
+      "target": "关系图卷积网络 RGCN"
     },
     {
-      "id": "e0228",
-      "source": "图结构一致性 Graph Structure Consistency",
+      "id": "e0227",
+      "source": "图神经网络 GNN",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0229",
-      "source": "图结构一致性 Graph Structure Consistency",
+      "id": "e0228",
+      "source": "图神经网络 GNN",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
+      "id": "e0229",
+      "source": "图神经网络 GNN",
+      "target": "神经符号方法 Neuro-Symbolic AI"
+    },
+    {
       "id": "e0230",
-      "source": "图结构一致性 Graph Structure Consistency",
-      "target": "置信度评分 Confidence Scoring"
+      "source": "图神经网络 GNN",
+      "target": "链接预测 Link Prediction"
     },
     {
       "id": "e0231",
-      "source": "基准数据集 Benchmark",
+      "source": "图结构一致性 Graph Structure Consistency",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0232",
-      "source": "基准数据集 Benchmark",
-      "target": "RAG 评测指标 EM Recall MRR"
-    },
-    {
-      "id": "e0233",
-      "source": "基准数据集 Benchmark",
+      "source": "图结构一致性 Graph Structure Consistency",
       "target": "TripleChecker"
     },
     {
+      "id": "e0233",
+      "source": "图结构一致性 Graph Structure Consistency",
+      "target": "知识图谱 KG"
+    },
+    {
       "id": "e0234",
-      "source": "基准数据集 Benchmark",
-      "target": "前沿趋势 Frontier"
+      "source": "图结构一致性 Graph Structure Consistency",
+      "target": "确定性状态机 Deterministic State Machine"
     },
     {
       "id": "e0235",
-      "source": "基准数据集 Benchmark",
-      "target": "实验可复现性 Reproducibility"
+      "source": "图结构一致性 Graph Structure Consistency",
+      "target": "置信度评分 Confidence Scoring"
     },
     {
       "id": "e0236",
       "source": "基准数据集 Benchmark",
-      "target": "消融实验 Ablation Study"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0237",
+      "source": "基准数据集 Benchmark",
+      "target": "RAG 评测指标 EM Recall MRR"
+    },
+    {
+      "id": "e0238",
+      "source": "基准数据集 Benchmark",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0239",
+      "source": "基准数据集 Benchmark",
+      "target": "前沿趋势 Frontier"
+    },
+    {
+      "id": "e0240",
+      "source": "基准数据集 Benchmark",
+      "target": "实验可复现性 Reproducibility"
+    },
+    {
+      "id": "e0241",
+      "source": "基准数据集 Benchmark",
+      "target": "消融实验 Ablation Study"
+    },
+    {
+      "id": "e0242",
       "source": "多智能体系统 Multi-Agent Systems",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0238",
-      "source": "实体对齐 Entity Alignment",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0239",
-      "source": "实体对齐 Entity Alignment",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0240",
-      "source": "实体对齐 Entity Alignment",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0241",
-      "source": "实体对齐 Entity Alignment",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0242",
-      "source": "实体对齐 Entity Alignment",
-      "target": "知识图谱构建流程 KG Construction Pipeline"
-    },
-    {
       "id": "e0243",
-      "source": "实体消歧 Entity Disambiguation",
+      "source": "实体对齐 Entity Alignment",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0244",
-      "source": "实体消歧 Entity Disambiguation",
-      "target": "KG-RAG 工作原理"
+      "source": "实体对齐 Entity Alignment",
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0245",
-      "source": "实体消歧 Entity Disambiguation",
-      "target": "实体对齐 Entity Alignment"
+      "source": "实体对齐 Entity Alignment",
+      "target": "实体消歧 Entity Disambiguation"
     },
     {
       "id": "e0246",
-      "source": "实体消歧 Entity Disambiguation",
+      "source": "实体对齐 Entity Alignment",
       "target": "知识图谱 KG"
     },
     {
       "id": "e0247",
-      "source": "实验可复现性 Reproducibility",
-      "target": "EvidenceFirst"
+      "source": "实体对齐 Entity Alignment",
+      "target": "知识图谱构建流程 KG Construction Pipeline"
     },
     {
       "id": "e0248",
-      "source": "实验可复现性 Reproducibility",
-      "target": "SHA-256 产物指纹"
+      "source": "实体消歧 Entity Disambiguation",
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0249",
-      "source": "实验可复现性 Reproducibility",
-      "target": "前沿趋势 Frontier"
+      "source": "实体消歧 Entity Disambiguation",
+      "target": "KG-RAG 工作原理"
     },
     {
       "id": "e0250",
-      "source": "实验可复现性 Reproducibility",
-      "target": "可审计性 Auditability"
+      "source": "实体消歧 Entity Disambiguation",
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0251",
-      "source": "实验可复现性 Reproducibility",
-      "target": "红队测试 Red-teaming"
+      "source": "实体消歧 Entity Disambiguation",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0252",
-      "source": "审计风险队列 Audit Risk Queue",
+      "source": "实验可复现性 Reproducibility",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0253",
-      "source": "审计风险队列 Audit Risk Queue",
-      "target": "分层评测 Stratified Evaluation"
+      "source": "实验可复现性 Reproducibility",
+      "target": "SHA-256 产物指纹"
     },
     {
       "id": "e0254",
-      "source": "审计风险队列 Audit Risk Queue",
-      "target": "可观测性 Observability"
+      "source": "实验可复现性 Reproducibility",
+      "target": "前沿趋势 Frontier"
     },
     {
       "id": "e0255",
-      "source": "审计风险队列 Audit Risk Queue",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "source": "实验可复现性 Reproducibility",
+      "target": "可审计性 Auditability"
     },
     {
       "id": "e0256",
-      "source": "审计风险队列 Audit Risk Queue",
+      "source": "实验可复现性 Reproducibility",
       "target": "红队测试 Red-teaming"
     },
     {
       "id": "e0257",
-      "source": "对抗样本 Adversarial Examples",
+      "source": "审计风险队列 Audit Risk Queue",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0258",
+      "source": "审计风险队列 Audit Risk Queue",
+      "target": "分层评测 Stratified Evaluation"
+    },
+    {
+      "id": "e0259",
+      "source": "审计风险队列 Audit Risk Queue",
+      "target": "可观测性 Observability"
+    },
+    {
+      "id": "e0260",
+      "source": "审计风险队列 Audit Risk Queue",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
+      "id": "e0261",
+      "source": "审计风险队列 Audit Risk Queue",
+      "target": "红队测试 Red-teaming"
+    },
+    {
+      "id": "e0262",
+      "source": "对抗样本 Adversarial Examples",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0263",
       "source": "对抗样本 Adversarial Examples",
       "target": "TripleChecker"
     },
     {
-      "id": "e0259",
+      "id": "e0264",
       "source": "对抗样本 Adversarial Examples",
       "target": "分布偏移 Distribution Shift"
     },
     {
-      "id": "e0260",
+      "id": "e0265",
       "source": "对抗样本 Adversarial Examples",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0261",
+      "id": "e0266",
       "source": "对抗样本 Adversarial Examples",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0262",
+      "id": "e0267",
       "source": "对比学习 Contrastive Learning",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0263",
+      "id": "e0268",
       "source": "对比学习 Contrastive Learning",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0264",
+      "id": "e0269",
       "source": "对比学习 Contrastive Learning",
       "target": "TripleChecker"
     },
     {
-      "id": "e0265",
+      "id": "e0270",
       "source": "对比学习 Contrastive Learning",
       "target": "变分自编码器 VAE Variational Autoencoder"
     },
     {
-      "id": "e0266",
+      "id": "e0271",
       "source": "对比学习 Contrastive Learning",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0267",
+      "id": "e0272",
       "source": "层归一化 LayerNorm BatchNorm",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0268",
+      "id": "e0273",
       "source": "层归一化 LayerNorm BatchNorm",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0269",
+      "id": "e0274",
       "source": "层归一化 LayerNorm BatchNorm",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0270",
+      "id": "e0275",
       "source": "层归一化 LayerNorm BatchNorm",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0271",
+      "id": "e0276",
       "source": "幻觉与可信度 Hallucination Trustworthiness",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0272",
+      "id": "e0277",
       "source": "幻觉与可信度 Hallucination Trustworthiness",
       "target": "TripleChecker"
-    },
-    {
-      "id": "e0273",
-      "source": "序列标注模型 HMM CRF",
-      "target": "EM算法 Expectation-Maximization"
-    },
-    {
-      "id": "e0274",
-      "source": "序列标注模型 HMM CRF",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0275",
-      "source": "序列标注模型 HMM CRF",
-      "target": "命名实体识别 NER"
-    },
-    {
-      "id": "e0276",
-      "source": "序列标注模型 HMM CRF",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0277",
-      "source": "序列标注模型 HMM CRF",
-      "target": "知识图谱 KG"
     },
     {
       "id": "e0278",
       "source": "序列标注模型 HMM CRF",
-      "target": "词性标注 POS Tagging"
+      "target": "EM算法 Expectation-Maximization"
     },
     {
       "id": "e0279",
-      "source": "开放信息抽取 OpenIE",
+      "source": "序列标注模型 HMM CRF",
       "target": "TripleChecker"
     },
     {
       "id": "e0280",
+      "source": "序列标注模型 HMM CRF",
+      "target": "命名实体识别 NER"
+    },
+    {
+      "id": "e0281",
+      "source": "序列标注模型 HMM CRF",
+      "target": "图结构一致性 Graph Structure Consistency"
+    },
+    {
+      "id": "e0282",
+      "source": "序列标注模型 HMM CRF",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0283",
+      "source": "序列标注模型 HMM CRF",
+      "target": "词性标注 POS Tagging"
+    },
+    {
+      "id": "e0284",
+      "source": "开放信息抽取 OpenIE",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0285",
       "source": "开放信息抽取 OpenIE",
       "target": "文本蕴含与自然语言推理 NLI"
     },
     {
-      "id": "e0281",
+      "id": "e0286",
       "source": "开放信息抽取 OpenIE",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0282",
+      "id": "e0287",
       "source": "开放信息抽取 OpenIE",
       "target": "知识图谱构建流程 KG Construction Pipeline"
-    },
-    {
-      "id": "e0283",
-      "source": "异构图 Heterogeneous Graph",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0284",
-      "source": "异构图 Heterogeneous Graph",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0285",
-      "source": "异构图 Heterogeneous Graph",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0286",
-      "source": "异构图 Heterogeneous Graph",
-      "target": "关系图卷积网络 RGCN"
-    },
-    {
-      "id": "e0287",
-      "source": "异构图 Heterogeneous Graph",
-      "target": "图神经网络 GNN"
     },
     {
       "id": "e0288",
       "source": "异构图 Heterogeneous Graph",
-      "target": "知识图谱 KG"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0289",
+      "source": "异构图 Heterogeneous Graph",
+      "target": "FinGraph 财务知识图谱"
+    },
+    {
+      "id": "e0290",
+      "source": "异构图 Heterogeneous Graph",
+      "target": "Graph Fusion 图融合"
+    },
+    {
+      "id": "e0291",
+      "source": "异构图 Heterogeneous Graph",
+      "target": "关系图卷积网络 RGCN"
+    },
+    {
+      "id": "e0292",
+      "source": "异构图 Heterogeneous Graph",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0293",
+      "source": "异构图 Heterogeneous Graph",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0294",
       "source": "引用召回与精确率 Citation Recall Precision",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0290",
+      "id": "e0295",
       "source": "引用召回与精确率 Citation Recall Precision",
       "target": "TripleChecker"
     },
     {
-      "id": "e0291",
+      "id": "e0296",
       "source": "引用召回与精确率 Citation Recall Precision",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0292",
+      "id": "e0297",
       "source": "引用召回与精确率 Citation Recall Precision",
       "target": "归因评测 Attribution"
     },
     {
-      "id": "e0293",
+      "id": "e0298",
       "source": "引用召回与精确率 Citation Recall Precision",
       "target": "溯源 Provenance"
-    },
-    {
-      "id": "e0294",
-      "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "Agent 记忆架构"
-    },
-    {
-      "id": "e0295",
-      "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0296",
-      "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0297",
-      "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "人类反馈强化学习 RLHF"
-    },
-    {
-      "id": "e0298",
-      "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "多智能体系统 Multi-Agent Systems"
     },
     {
       "id": "e0299",
       "source": "强化学习基本框架 Reinforcement Learning",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "target": "Agent 记忆架构"
     },
     {
       "id": "e0300",
-      "source": "归一化 Normalization",
+      "source": "强化学习基本框架 Reinforcement Learning",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0301",
-      "source": "归一化 Normalization",
-      "target": "K近邻 KNN K-Nearest Neighbors"
-    },
-    {
-      "id": "e0302",
-      "source": "归一化 Normalization",
-      "target": "Transformer 自注意力机制"
-    },
-    {
-      "id": "e0303",
-      "source": "归一化 Normalization",
+      "source": "强化学习基本框架 Reinforcement Learning",
       "target": "TripleChecker"
     },
     {
+      "id": "e0302",
+      "source": "强化学习基本框架 Reinforcement Learning",
+      "target": "人类反馈强化学习 RLHF"
+    },
+    {
+      "id": "e0303",
+      "source": "强化学习基本框架 Reinforcement Learning",
+      "target": "多智能体系统 Multi-Agent Systems"
+    },
+    {
       "id": "e0304",
-      "source": "归一化 Normalization",
-      "target": "对比学习 Contrastive Learning"
+      "source": "强化学习基本框架 Reinforcement Learning",
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0305",
       "source": "归一化 Normalization",
-      "target": "层归一化 LayerNorm BatchNorm"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0306",
       "source": "归一化 Normalization",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "K近邻 KNN K-Nearest Neighbors"
     },
     {
       "id": "e0307",
       "source": "归一化 Normalization",
-      "target": "检索增强生成 RAG-GraphRAG"
+      "target": "Robust Scaler 鲁棒缩放"
     },
     {
       "id": "e0308",
       "source": "归一化 Normalization",
-      "target": "混合检索 Hybrid Retrieval"
+      "target": "Transformer 自注意力机制"
     },
     {
       "id": "e0309",
-      "source": "归因评测 Attribution",
+      "source": "归一化 Normalization",
       "target": "TripleChecker"
     },
     {
       "id": "e0310",
+      "source": "归一化 Normalization",
+      "target": "对比学习 Contrastive Learning"
+    },
+    {
+      "id": "e0311",
+      "source": "归一化 Normalization",
+      "target": "层归一化 LayerNorm BatchNorm"
+    },
+    {
+      "id": "e0312",
+      "source": "归一化 Normalization",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0313",
+      "source": "归一化 Normalization",
+      "target": "检索增强生成 RAG-GraphRAG"
+    },
+    {
+      "id": "e0314",
+      "source": "归一化 Normalization",
+      "target": "混合检索 Hybrid Retrieval"
+    },
+    {
+      "id": "e0315",
+      "source": "归因评测 Attribution",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0316",
       "source": "归因评测 Attribution",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0311",
+      "id": "e0317",
       "source": "归因评测 Attribution",
       "target": "引用召回与精确率 Citation Recall Precision"
     },
     {
-      "id": "e0312",
+      "id": "e0318",
       "source": "归因评测 Attribution",
       "target": "文本蕴含与自然语言推理 NLI"
     },
     {
-      "id": "e0313",
+      "id": "e0319",
       "source": "归因评测 Attribution",
       "target": "溯源 Provenance"
     },
     {
-      "id": "e0314",
+      "id": "e0320",
       "source": "循环神经网络 RNN LSTM",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0315",
+      "id": "e0321",
       "source": "循环神经网络 RNN LSTM",
       "target": "位置编码 Positional Encoding"
     },
     {
-      "id": "e0316",
+      "id": "e0322",
       "source": "循环神经网络 RNN LSTM",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0317",
+      "id": "e0323",
       "source": "思维链 Chain-of-Thought",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0318",
+      "id": "e0324",
       "source": "思维链 Chain-of-Thought",
       "target": "上下文学习 In-context Learning"
     },
     {
-      "id": "e0319",
+      "id": "e0325",
       "source": "思维链 Chain-of-Thought",
       "target": "交替检索推理 IRCoT"
     },
     {
-      "id": "e0320",
+      "id": "e0326",
       "source": "思维链 Chain-of-Thought",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0321",
+      "id": "e0327",
       "source": "思维链 Chain-of-Thought",
       "target": "提示工程 Prompt Engineering"
     },
     {
-      "id": "e0322",
+      "id": "e0328",
       "source": "扩散模型 Diffusion Models DDPM",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0323",
+      "id": "e0329",
       "source": "扩散模型 Diffusion Models DDPM",
       "target": "TripleChecker"
     },
     {
-      "id": "e0324",
+      "id": "e0330",
       "source": "扩散模型 Diffusion Models DDPM",
       "target": "变分自编码器 VAE Variational Autoencoder"
     },
     {
-      "id": "e0325",
+      "id": "e0331",
       "source": "扩散模型 Diffusion Models DDPM",
       "target": "对比学习 Contrastive Learning"
     },
     {
-      "id": "e0326",
+      "id": "e0332",
       "source": "扩散模型 Diffusion Models DDPM",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0327",
+      "id": "e0333",
       "source": "提示工程 Prompt Engineering",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0328",
+      "id": "e0334",
       "source": "提示工程 Prompt Engineering",
       "target": "TripleChecker"
     },
     {
-      "id": "e0329",
+      "id": "e0335",
       "source": "提示工程 Prompt Engineering",
       "target": "上下文学习 In-context Learning"
     },
     {
-      "id": "e0330",
+      "id": "e0336",
       "source": "提示工程 Prompt Engineering",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0331",
+      "id": "e0337",
       "source": "提示工程 Prompt Engineering",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0332",
+      "id": "e0338",
       "source": "提示注入 Prompt Injection",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0333",
+      "id": "e0339",
       "source": "提示注入 Prompt Injection",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0334",
+      "id": "e0340",
       "source": "提示注入 Prompt Injection",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0335",
+      "id": "e0341",
       "source": "提示注入 Prompt Injection",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0336",
+      "id": "e0342",
       "source": "提示注入 Prompt Injection",
       "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
-      "id": "e0337",
+      "id": "e0343",
       "source": "提示注入 Prompt Injection",
       "target": "红队测试 Red-teaming"
     },
     {
-      "id": "e0338",
+      "id": "e0344",
       "source": "数据增强 Data Augmentation",
       "target": "FinGraph 财务知识图谱"
     },
     {
-      "id": "e0339",
+      "id": "e0345",
       "source": "数据增强 Data Augmentation",
       "target": "TripleChecker"
     },
     {
-      "id": "e0340",
+      "id": "e0346",
       "source": "数据增强 Data Augmentation",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0341",
+      "id": "e0347",
       "source": "数据增强 Data Augmentation",
       "target": "过拟合 Overfitting"
     },
     {
-      "id": "e0342",
+      "id": "e0348",
       "source": "数据增强 Data Augmentation",
       "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
-      "id": "e0343",
+      "id": "e0349",
       "source": "文本摘要 Text Summarization",
       "target": "KG-RAG 工作原理"
     },
     {
-      "id": "e0344",
+      "id": "e0350",
       "source": "文本摘要 Text Summarization",
       "target": "TripleChecker"
     },
     {
-      "id": "e0345",
+      "id": "e0351",
       "source": "文本摘要 Text Summarization",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0346",
+      "id": "e0352",
       "source": "文本摘要 Text Summarization",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
-    },
-    {
-      "id": "e0347",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0348",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0349",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0350",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "McNemar检验"
-    },
-    {
-      "id": "e0351",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "RAGChecker"
-    },
-    {
-      "id": "e0352",
-      "source": "文本蕴含与自然语言推理 NLI",
-      "target": "TripleChecker"
     },
     {
       "id": "e0353",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "上下文学习 In-context Learning"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0354",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "不确定性量化 Uncertainty Quantification"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0355",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "可验证性 Verifiability"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0356",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "target": "McNemar检验"
     },
     {
       "id": "e0357",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "引用召回与精确率 Citation Recall Precision"
+      "target": "RAGChecker"
     },
     {
       "id": "e0358",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "归因评测 Attribution"
+      "target": "TripleChecker"
     },
     {
       "id": "e0359",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "提示工程 Prompt Engineering"
+      "target": "上下文学习 In-context Learning"
     },
     {
       "id": "e0360",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "提示注入 Prompt Injection"
+      "target": "不确定性量化 Uncertainty Quantification"
     },
     {
       "id": "e0361",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "知识图谱 KG"
+      "target": "可验证性 Verifiability"
     },
     {
       "id": "e0362",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "知识图谱质量评估维度"
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0363",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "知识接地 Grounding"
+      "target": "引用召回与精确率 Citation Recall Precision"
     },
     {
       "id": "e0364",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "归因评测 Attribution"
     },
     {
       "id": "e0365",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "选择性预测 Selective Prediction"
+      "target": "提示工程 Prompt Engineering"
     },
     {
       "id": "e0366",
       "source": "文本蕴含与自然语言推理 NLI",
-      "target": "链接预测 Link Prediction"
+      "target": "提示注入 Prompt Injection"
     },
     {
       "id": "e0367",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0368",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "知识图谱质量评估维度"
+    },
+    {
+      "id": "e0369",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "知识接地 Grounding"
+    },
+    {
+      "id": "e0370",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0371",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "选择性预测 Selective Prediction"
+    },
+    {
+      "id": "e0372",
+      "source": "文本蕴含与自然语言推理 NLI",
+      "target": "链接预测 Link Prediction"
+    },
+    {
+      "id": "e0373",
       "source": "旋转位置编码 RoPE",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0368",
+      "id": "e0374",
       "source": "旋转位置编码 RoPE",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0369",
+      "id": "e0375",
       "source": "旋转位置编码 RoPE",
       "target": "位置编码 Positional Encoding"
     },
     {
-      "id": "e0370",
+      "id": "e0376",
       "source": "旋转位置编码 RoPE",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0371",
+      "id": "e0377",
       "source": "旋转位置编码 RoPE",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0372",
+      "id": "e0378",
       "source": "本体 Ontology",
       "target": "TripleChecker"
     },
     {
-      "id": "e0373",
+      "id": "e0379",
       "source": "本体 Ontology",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0374",
+      "id": "e0380",
       "source": "机器翻译 Machine Translation",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0375",
+      "id": "e0381",
       "source": "机器翻译 Machine Translation",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0376",
-      "source": "机器翻译 Machine Translation",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0377",
-      "source": "机器翻译 Machine Translation",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0378",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0379",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "SHA-256 产物指纹"
-    },
-    {
-      "id": "e0380",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0381",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "人类反馈强化学习 RLHF"
-    },
-    {
       "id": "e0382",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "前沿趋势 Frontier"
+      "source": "机器翻译 Machine Translation",
+      "target": "TripleChecker"
     },
     {
       "id": "e0383",
-      "source": "机器遗忘 Machine Unlearning",
-      "target": "可审计性 Auditability"
+      "source": "机器翻译 Machine Translation",
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0384",
       "source": "机器遗忘 Machine Unlearning",
-      "target": "对抗样本 Adversarial Examples"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0385",
       "source": "机器遗忘 Machine Unlearning",
-      "target": "提示注入 Prompt Injection"
+      "target": "SHA-256 产物指纹"
     },
     {
       "id": "e0386",
       "source": "机器遗忘 Machine Unlearning",
-      "target": "溯源 Provenance"
+      "target": "TripleChecker"
     },
     {
       "id": "e0387",
       "source": "机器遗忘 Machine Unlearning",
-      "target": "预训练与微调 Pretrain vs Finetune"
+      "target": "人类反馈强化学习 RLHF"
     },
     {
       "id": "e0388",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "前沿趋势 Frontier"
+    },
+    {
+      "id": "e0389",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "可审计性 Auditability"
+    },
+    {
+      "id": "e0390",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "对抗样本 Adversarial Examples"
+    },
+    {
+      "id": "e0391",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "提示注入 Prompt Injection"
+    },
+    {
+      "id": "e0392",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "溯源 Provenance"
+    },
+    {
+      "id": "e0393",
+      "source": "机器遗忘 Machine Unlearning",
+      "target": "预训练与微调 Pretrain vs Finetune"
+    },
+    {
+      "id": "e0394",
       "source": "检索增强生成 RAG-GraphRAG",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0389",
+      "id": "e0395",
       "source": "检索增强生成 RAG-GraphRAG",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0390",
+      "id": "e0396",
       "source": "模型校准 Calibration",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0391",
+      "id": "e0397",
       "source": "模型校准 Calibration",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0392",
+      "id": "e0398",
       "source": "模型校准 Calibration",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0393",
+      "id": "e0399",
       "source": "模型校准 Calibration",
       "target": "选择性预测 Selective Prediction"
     },
     {
-      "id": "e0394",
+      "id": "e0400",
       "source": "消融实验 Ablation Study",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0395",
+      "id": "e0401",
       "source": "消融实验 Ablation Study",
       "target": "TripleChecker"
     },
     {
-      "id": "e0396",
+      "id": "e0402",
       "source": "消融实验 Ablation Study",
       "target": "前沿趋势 Frontier"
     },
     {
-      "id": "e0397",
+      "id": "e0403",
       "source": "消融实验 Ablation Study",
       "target": "基准数据集 Benchmark"
     },
     {
-      "id": "e0398",
+      "id": "e0404",
       "source": "消融实验 Ablation Study",
       "target": "实验可复现性 Reproducibility"
     },
     {
-      "id": "e0399",
+      "id": "e0405",
       "source": "涌现能力 Emergent Abilities",
       "target": "Scaling Law 大模型缩放律"
     },
     {
-      "id": "e0400",
+      "id": "e0406",
       "source": "涌现能力 Emergent Abilities",
       "target": "TripleChecker"
     },
     {
-      "id": "e0401",
+      "id": "e0407",
       "source": "涌现能力 Emergent Abilities",
       "target": "上下文学习 In-context Learning"
     },
     {
-      "id": "e0402",
+      "id": "e0408",
       "source": "涌现能力 Emergent Abilities",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0403",
+      "id": "e0409",
       "source": "涌现能力 Emergent Abilities",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0404",
+      "id": "e0410",
       "source": "涌现能力 Emergent Abilities",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0405",
+      "id": "e0411",
       "source": "混合检索 Hybrid Retrieval",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0406",
+      "id": "e0412",
       "source": "混合检索 Hybrid Retrieval",
       "target": "KG-RAG 工作原理"
     },
     {
-      "id": "e0407",
+      "id": "e0413",
       "source": "混合检索 Hybrid Retrieval",
       "target": "审计风险队列 Audit Risk Queue"
     },
     {
-      "id": "e0408",
+      "id": "e0414",
       "source": "混合检索 Hybrid Retrieval",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0409",
+      "id": "e0415",
       "source": "溯源 Provenance",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0410",
+      "id": "e0416",
       "source": "溯源 Provenance",
       "target": "TripleChecker"
     },
     {
-      "id": "e0411",
+      "id": "e0417",
       "source": "溯源 Provenance",
       "target": "可审计性 Auditability"
     },
     {
-      "id": "e0412",
+      "id": "e0418",
       "source": "溯源 Provenance",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0413",
+      "id": "e0419",
       "source": "溯源 Provenance",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0414",
+      "id": "e0420",
       "source": "溯源 Provenance",
       "target": "引用召回与精确率 Citation Recall Precision"
     },
     {
-      "id": "e0415",
+      "id": "e0421",
       "source": "激活函数 Activation Functions",
       "target": "Transformer 自注意力机制"
     },
     {
-      "id": "e0416",
+      "id": "e0422",
       "source": "激活函数 Activation Functions",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0417",
+      "id": "e0423",
       "source": "激活函数 Activation Functions",
       "target": "层归一化 LayerNorm BatchNorm"
     },
     {
-      "id": "e0418",
+      "id": "e0424",
       "source": "知识冲突 Knowledge Conflict",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0419",
+      "id": "e0425",
       "source": "知识冲突 Knowledge Conflict",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0420",
+      "id": "e0426",
       "source": "知识冲突 Knowledge Conflict",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0421",
+      "id": "e0427",
       "source": "知识冲突 Knowledge Conflict",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0422",
+      "id": "e0428",
       "source": "知识冲突 Knowledge Conflict",
       "target": "选择性预测 Selective Prediction"
     },
     {
-      "id": "e0423",
+      "id": "e0429",
       "source": "知识图谱 KG",
       "target": "ChronoLink"
     },
     {
-      "id": "e0424",
+      "id": "e0430",
       "source": "知识图谱 KG",
       "target": "GSAD"
     },
     {
-      "id": "e0425",
+      "id": "e0431",
       "source": "知识图谱 KG",
       "target": "TripleChecker"
     },
     {
-      "id": "e0426",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0427",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0428",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0429",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "开放信息抽取 OpenIE"
-    },
-    {
-      "id": "e0430",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0431",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "TransE 图嵌入"
-    },
-    {
       "id": "e0432",
-      "source": "知识图谱补全 Knowledge Graph Completion",
+      "source": "知识图谱构建流程 KG Construction Pipeline",
       "target": "TripleChecker"
     },
     {
       "id": "e0433",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "知识图谱 KG"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0434",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "置信度评分 Confidence Scoring"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "实体消歧 Entity Disambiguation"
     },
     {
       "id": "e0435",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "链接预测 Link Prediction"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "开放信息抽取 OpenIE"
     },
     {
       "id": "e0436",
-      "source": "知识图谱质量评估维度",
-      "target": "EvidenceFirst"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0437",
-      "source": "知识图谱质量评估维度",
-      "target": "Graph Fusion 图融合"
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0438",
-      "source": "知识图谱质量评估维度",
+      "source": "知识图谱补全 Knowledge Graph Completion",
       "target": "TripleChecker"
     },
     {
       "id": "e0439",
-      "source": "知识图谱质量评估维度",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0440",
-      "source": "知识图谱质量评估维度",
+      "source": "知识图谱补全 Knowledge Graph Completion",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0441",
-      "source": "知识图谱质量评估维度",
+      "id": "e0440",
+      "source": "知识图谱补全 Knowledge Graph Completion",
       "target": "置信度评分 Confidence Scoring"
     },
     {
+      "id": "e0441",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "链接预测 Link Prediction"
+    },
+    {
       "id": "e0442",
-      "source": "知识接地 Grounding",
+      "source": "知识图谱质量评估维度",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0443",
-      "source": "知识接地 Grounding",
-      "target": "TripleChecker"
+      "source": "知识图谱质量评估维度",
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0444",
-      "source": "知识接地 Grounding",
-      "target": "归因评测 Attribution"
+      "source": "知识图谱质量评估维度",
+      "target": "TripleChecker"
     },
     {
       "id": "e0445",
-      "source": "知识接地 Grounding",
-      "target": "检索增强生成 RAG-GraphRAG"
+      "source": "知识图谱质量评估维度",
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0446",
-      "source": "知识接地 Grounding",
-      "target": "溯源 Provenance"
-    },
-    {
-      "id": "e0447",
-      "source": "知识接地 Grounding",
+      "source": "知识图谱质量评估维度",
       "target": "知识图谱 KG"
     },
     {
+      "id": "e0447",
+      "source": "知识图谱质量评估维度",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
       "id": "e0448",
-      "source": "确定性状态机 Deterministic State Machine",
+      "source": "知识接地 Grounding",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0449",
+      "source": "知识接地 Grounding",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0450",
+      "source": "知识接地 Grounding",
+      "target": "归因评测 Attribution"
+    },
+    {
+      "id": "e0451",
+      "source": "知识接地 Grounding",
+      "target": "检索增强生成 RAG-GraphRAG"
+    },
+    {
+      "id": "e0452",
+      "source": "知识接地 Grounding",
+      "target": "溯源 Provenance"
+    },
+    {
+      "id": "e0453",
+      "source": "知识接地 Grounding",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0454",
+      "source": "确定性状态机 Deterministic State Machine",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0455",
       "source": "确定性状态机 Deterministic State Machine",
       "target": "可验证性 Verifiability"
     },
     {
-      "id": "e0450",
+      "id": "e0456",
       "source": "确定性状态机 Deterministic State Machine",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0451",
+      "id": "e0457",
       "source": "确定性状态机 Deterministic State Machine",
       "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
-      "id": "e0452",
-      "source": "确定性状态机 Deterministic State Machine",
-      "target": "符号人工智能 Symbolic AI"
-    },
-    {
-      "id": "e0453",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0454",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0455",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0456",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "图神经网络 GNN"
-    },
-    {
-      "id": "e0457",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "知识图谱 KG"
-    },
-    {
       "id": "e0458",
-      "source": "神经符号方法 Neuro-Symbolic AI",
+      "source": "确定性状态机 Deterministic State Machine",
       "target": "符号人工智能 Symbolic AI"
     },
     {
       "id": "e0459",
-      "source": "符号人工智能 Symbolic AI",
+      "source": "神经符号方法 Neuro-Symbolic AI",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0460",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "FinGraph 财务知识图谱"
+    },
+    {
+      "id": "e0461",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0462",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0463",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0464",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "符号人工智能 Symbolic AI"
+    },
+    {
+      "id": "e0465",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0466",
       "source": "符号人工智能 Symbolic AI",
       "target": "TripleChecker"
     },
     {
-      "id": "e0461",
+      "id": "e0467",
       "source": "符号人工智能 Symbolic AI",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0462",
+      "id": "e0468",
       "source": "符号人工智能 Symbolic AI",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0463",
+      "id": "e0469",
       "source": "符号人工智能 Symbolic AI",
       "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
-      "id": "e0464",
+      "id": "e0470",
       "source": "纠错RAG CRAG",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0465",
+      "id": "e0471",
       "source": "纠错RAG CRAG",
       "target": "RAGChecker"
     },
     {
-      "id": "e0466",
+      "id": "e0472",
       "source": "纠错RAG CRAG",
       "target": "Self-RAG"
     },
     {
-      "id": "e0467",
+      "id": "e0473",
       "source": "纠错RAG CRAG",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0468",
+      "id": "e0474",
       "source": "纠错RAG CRAG",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0469",
+      "id": "e0475",
       "source": "红队测试 Red-teaming",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0470",
+      "id": "e0476",
       "source": "红队测试 Red-teaming",
       "target": "审计风险队列 Audit Risk Queue"
     },
     {
-      "id": "e0471",
+      "id": "e0477",
       "source": "红队测试 Red-teaming",
       "target": "对抗样本 Adversarial Examples"
     },
     {
-      "id": "e0472",
+      "id": "e0478",
       "source": "红队测试 Red-teaming",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0473",
+      "id": "e0479",
       "source": "红队测试 Red-teaming",
       "target": "提示注入 Prompt Injection"
     },
     {
-      "id": "e0474",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0475",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0476",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0477",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "文本蕴含与自然语言推理 NLI"
-    },
-    {
-      "id": "e0478",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0479",
-      "source": "词性标注 POS Tagging",
-      "target": "EvidenceFirst"
-    },
-    {
       "id": "e0480",
-      "source": "词性标注 POS Tagging",
+      "source": "置信度评分 Confidence Scoring",
       "target": "TripleChecker"
     },
     {
       "id": "e0481",
-      "source": "词性标注 POS Tagging",
-      "target": "依存句法分析 Dependency Parsing"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0482",
-      "source": "词性标注 POS Tagging",
-      "target": "命名实体识别 NER"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0483",
-      "source": "词性标注 POS Tagging",
-      "target": "序列标注模型 HMM CRF"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "文本蕴含与自然语言推理 NLI"
     },
     {
       "id": "e0484",
-      "source": "词性标注 POS Tagging",
-      "target": "开放信息抽取 OpenIE"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0485",
-      "source": "语言模型困惑度 Perplexity",
+      "source": "词性标注 POS Tagging",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0486",
+      "source": "词性标注 POS Tagging",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0487",
+      "source": "词性标注 POS Tagging",
+      "target": "依存句法分析 Dependency Parsing"
+    },
+    {
+      "id": "e0488",
+      "source": "词性标注 POS Tagging",
+      "target": "命名实体识别 NER"
+    },
+    {
+      "id": "e0489",
+      "source": "词性标注 POS Tagging",
+      "target": "序列标注模型 HMM CRF"
+    },
+    {
+      "id": "e0490",
+      "source": "词性标注 POS Tagging",
+      "target": "开放信息抽取 OpenIE"
+    },
+    {
+      "id": "e0491",
+      "source": "语言模型困惑度 Perplexity",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0492",
       "source": "语言模型困惑度 Perplexity",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0487",
+      "id": "e0493",
       "source": "语言模型困惑度 Perplexity",
       "target": "TripleChecker"
     },
     {
-      "id": "e0488",
+      "id": "e0494",
       "source": "语言模型困惑度 Perplexity",
       "target": "分层评测 Stratified Evaluation"
     },
     {
-      "id": "e0489",
-      "source": "语言模型困惑度 Perplexity",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0490",
-      "source": "语言模型困惑度 Perplexity",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
-    },
-    {
-      "id": "e0491",
-      "source": "资源描述框架 RDF OWL SPARQL",
-      "target": "本体 Ontology"
-    },
-    {
-      "id": "e0492",
-      "source": "资源描述框架 RDF OWL SPARQL",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0493",
-      "source": "资源描述框架 RDF OWL SPARQL",
-      "target": "知识图谱构建流程 KG Construction Pipeline"
-    },
-    {
-      "id": "e0494",
-      "source": "过拟合 Overfitting",
-      "target": "EvidenceFirst"
-    },
-    {
       "id": "e0495",
-      "source": "过拟合 Overfitting",
+      "source": "语言模型困惑度 Perplexity",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0496",
+      "source": "语言模型困惑度 Perplexity",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
+      "id": "e0497",
+      "source": "资源描述框架 RDF OWL SPARQL",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0498",
+      "source": "资源描述框架 RDF OWL SPARQL",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0499",
+      "source": "资源描述框架 RDF OWL SPARQL",
+      "target": "知识图谱构建流程 KG Construction Pipeline"
+    },
+    {
+      "id": "e0500",
+      "source": "过拟合 Overfitting",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0501",
+      "source": "过拟合 Overfitting",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0502",
       "source": "过拟合 Overfitting",
       "target": "知识图谱质量评估维度"
     },
     {
-      "id": "e0497",
+      "id": "e0503",
       "source": "过拟合 Overfitting",
       "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
-      "id": "e0498",
+      "id": "e0504",
       "source": "选择性预测 Selective Prediction",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0499",
+      "id": "e0505",
       "source": "选择性预测 Selective Prediction",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0500",
+      "id": "e0506",
       "source": "选择性预测 Selective Prediction",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0501",
+      "id": "e0507",
       "source": "选择性预测 Selective Prediction",
       "target": "模型校准 Calibration"
     },
     {
-      "id": "e0502",
+      "id": "e0508",
       "source": "选择性预测 Selective Prediction",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0503",
-      "source": "链接预测 Link Prediction",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0504",
-      "source": "链接预测 Link Prediction",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0505",
-      "source": "链接预测 Link Prediction",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0506",
-      "source": "链接预测 Link Prediction",
-      "target": "GraphRAG 架构"
-    },
-    {
-      "id": "e0507",
-      "source": "链接预测 Link Prediction",
-      "target": "KG-RAG 工作原理"
-    },
-    {
-      "id": "e0508",
-      "source": "链接预测 Link Prediction",
-      "target": "TransE 图嵌入"
-    },
-    {
       "id": "e0509",
       "source": "链接预测 Link Prediction",
-      "target": "TripleChecker"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0510",
       "source": "链接预测 Link Prediction",
-      "target": "关系图卷积网络 RGCN"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0511",
       "source": "链接预测 Link Prediction",
-      "target": "图神经网络 GNN"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0512",
       "source": "链接预测 Link Prediction",
-      "target": "图结构一致性 Graph Structure Consistency"
+      "target": "GraphRAG 架构"
     },
     {
       "id": "e0513",
       "source": "链接预测 Link Prediction",
-      "target": "实体对齐 Entity Alignment"
+      "target": "KG-RAG 工作原理"
     },
     {
       "id": "e0514",
       "source": "链接预测 Link Prediction",
-      "target": "实体消歧 Entity Disambiguation"
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0515",
       "source": "链接预测 Link Prediction",
-      "target": "开放信息抽取 OpenIE"
+      "target": "TripleChecker"
     },
     {
       "id": "e0516",
       "source": "链接预测 Link Prediction",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "关系图卷积网络 RGCN"
     },
     {
       "id": "e0517",
       "source": "链接预测 Link Prediction",
-      "target": "本体 Ontology"
+      "target": "图神经网络 GNN"
     },
     {
       "id": "e0518",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱 KG"
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0519",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱补全 Knowledge Graph Completion"
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0520",
       "source": "链接预测 Link Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "实体消歧 Entity Disambiguation"
     },
     {
       "id": "e0521",
       "source": "链接预测 Link Prediction",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "开放信息抽取 OpenIE"
     },
     {
       "id": "e0522",
+      "source": "链接预测 Link Prediction",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0523",
+      "source": "链接预测 Link Prediction",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0524",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0525",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱补全 Knowledge Graph Completion"
+    },
+    {
+      "id": "e0526",
+      "source": "链接预测 Link Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0527",
+      "source": "链接预测 Link Prediction",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0528",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0523",
+      "id": "e0529",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "TripleChecker"
     },
     {
-      "id": "e0524",
+      "id": "e0530",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "人类反馈强化学习 RLHF"
     },
     {
-      "id": "e0525",
+      "id": "e0531",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0526",
+      "id": "e0532",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0527",
+      "id": "e0533",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "提示工程 Prompt Engineering"
     },
     {
-      "id": "e0528",
+      "id": "e0534",
       "source": "首页",
       "target": "ChronoLink"
     },
     {
-      "id": "e0529",
+      "id": "e0535",
       "source": "首页",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0530",
-      "source": "首页",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0531",
-      "source": "首页",
-      "target": "GSAD"
-    },
-    {
-      "id": "e0532",
-      "source": "首页",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0533",
-      "source": "首页",
-      "target": "前沿趋势 Frontier"
-    },
-    {
-      "id": "e0534",
-      "source": "首页",
-      "target": "多智能体系统 Multi-Agent Systems"
-    },
-    {
-      "id": "e0535",
-      "source": "首页",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
       "id": "e0536",
       "source": "首页",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0537",
       "source": "首页",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "GSAD"
     },
     {
       "id": "e0538",
       "source": "首页",
-      "target": "检索增强生成 RAG-GraphRAG"
+      "target": "TripleChecker"
     },
     {
       "id": "e0539",
       "source": "首页",
-      "target": "知识图谱 KG"
+      "target": "前沿趋势 Frontier"
     },
     {
       "id": "e0540",
       "source": "首页",
-      "target": "评测方法 Evaluation Methods"
+      "target": "多智能体系统 Multi-Agent Systems"
     },
     {
       "id": "e0541",
+      "source": "首页",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0542",
+      "source": "首页",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
+    },
+    {
+      "id": "e0543",
+      "source": "首页",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0544",
+      "source": "首页",
+      "target": "检索增强生成 RAG-GraphRAG"
+    },
+    {
+      "id": "e0545",
+      "source": "首页",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0546",
+      "source": "首页",
+      "target": "评测方法 Evaluation Methods"
+    },
+    {
+      "id": "e0547",
       "source": "马尔可夫 Markov",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0542",
+      "id": "e0548",
       "source": "马尔可夫 Markov",
       "target": "TripleChecker"
     },
     {
-      "id": "e0543",
+      "id": "e0549",
       "source": "马尔可夫 Markov",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0544",
+      "id": "e0550",
       "source": "马尔可夫 Markov",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0545",
+      "id": "e0551",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0546",
+      "id": "e0552",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "TripleChecker"
     },
     {
-      "id": "e0547",
+      "id": "e0553",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "主题模型 LDA"
     },
     {
-      "id": "e0548",
+      "id": "e0554",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0549",
+      "id": "e0555",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
@@ -2840,7 +2870,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 71,
+      "degree": 72,
       "href": "viewer.html?f=pages%2FEvidenceFirst.md",
       "id": "EvidenceFirst",
       "kind": "project",
@@ -2947,7 +2977,7 @@
     {
       "category": "RAG",
       "confidence": "高",
-      "degree": 6,
+      "degree": 7,
       "href": "viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md",
       "id": "K近邻 KNN K-Nearest Neighbors",
       "kind": "concept",
@@ -3050,6 +3080,19 @@
       "tags": [
         "可信度",
         "前沿"
+      ]
+    },
+    {
+      "category": "基础",
+      "confidence": "高",
+      "degree": 6,
+      "href": "viewer.html?f=pages%2FRobust%20Scaler%20%E9%B2%81%E6%A3%92%E7%BC%A9%E6%94%BE.md",
+      "id": "Robust Scaler 鲁棒缩放",
+      "kind": "concept",
+      "label": "Robust Scaler 鲁棒缩放",
+      "summary": "Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。",
+      "tags": [
+        "基础"
       ]
     },
     {
@@ -3703,7 +3746,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 9,
+      "degree": 11,
       "href": "viewer.html?f=pages%2F%E5%BD%92%E4%B8%80%E5%8C%96%20Normalization.md",
       "id": "归一化 Normalization",
       "kind": "concept",
@@ -3867,7 +3910,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8ENLP%E5%9F%BA%E7%A1%80%20ML-NLP%20Foundations.md",
       "id": "机器学习与NLP基础 ML-NLP Foundations",
       "kind": "moc",
@@ -3960,7 +4003,7 @@
     {
       "category": "RAG",
       "confidence": "中",
-      "degree": 8,
+      "degree": 9,
       "href": "viewer.html?f=pages%2F%E6%B7%B7%E5%90%88%E6%A3%80%E7%B4%A2%20Hybrid%20Retrieval.md",
       "id": "混合检索 Hybrid Retrieval",
       "kind": "concept",
@@ -4310,9 +4353,9 @@
   ],
   "stats": {
     "broken": 0,
-    "edges": 549,
+    "edges": 555,
     "isolated": 0,
-    "nodes": 115
+    "nodes": 116
   },
   "taxonomy": {
     "categories": [

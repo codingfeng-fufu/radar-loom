@@ -24,7 +24,7 @@ tags: [基础, LLM机制]
 - **Z-score 标准化(Standardization)**:$x'=\frac{x-\mu}{\sigma}$。把每列变成均值 0、方差 1;假设近似高斯,适合 SVM、线性/逻辑回归、PCA、KMeans、[[K近邻 KNN K-Nearest Neighbors]] 等对量纲敏感的算法。
 - **Min-Max 缩放**:$x'=\frac{x-x_{\min}}{x_{\max}-x_{\min}}$,把每列压到 $[0,1]$。保留分布形状,但对异常值极敏感——一个离群点会把大多数样本挤到很窄区间。
 - **MaxAbs**:$x'=x/\max(|x|)$,不平移只缩放,保留稀疏结构,适合稀疏矩阵(如 TF-IDF)。
-- **Robust Scaler**:$x'=\frac{x-\text{median}}{\text{IQR}}$,用中位数与四分位距代替均值方差,对异常值鲁棒。
+- **Robust Scaler**:$x'=\frac{x-\text{median}}{\text{IQR}}$,用中位数与四分位距代替均值方差,对异常值鲁棒,详见 [[Robust Scaler 鲁棒缩放]]。
 - **L2 归一化(样本级)**:$x'=x/\lVert x\rVert_2$,把每个样本向量投到单位球面上,使内积等价于余弦相似度。稠密向量检索、[[对比学习 Contrastive Learning]] 的标准前处理。
 
 **关键工程细则**:
@@ -82,6 +82,7 @@ $\gamma,\beta$ 是可学习的仿射参数,负责恢复表征能力;$\epsilon$ �
 - [[K近邻 KNN K-Nearest Neighbors]]
 - [[对比学习 Contrastive Learning]]
 - [[混合检索 Hybrid Retrieval]]
+- [[Robust Scaler 鲁棒缩放]]
 - [[Transformer 自注意力机制]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 
