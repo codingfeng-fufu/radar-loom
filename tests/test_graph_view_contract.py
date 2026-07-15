@@ -64,6 +64,24 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("event.data?.type === 'kb-refresh'", self.html)
         self.assertIn("location.reload()", self.html)
 
+    def test_graph_has_three_stable_modes_and_manual_rebuild(self):
+        for value in ('data-mode="knowledge"', 'data-mode="taxonomy"', 'data-mode="combined"'):
+            self.assertIn(value, self.html)
+        self.assertIn('id="rebuildTaxonomy"', self.html)
+        self.assertIn("/api/taxonomy/rebuild", self.html)
+
+    def test_taxonomy_elements_and_details_are_rendered_without_inner_html(self):
+        for function in ("taxonomyElements", "combinedElements", "renderCategoryDetails", "renderMembershipDetails"):
+            self.assertRegex(self.html, rf"function\s+{function}\s*\(")
+        self.assertIn("data(status)", self.html)
+        self.assertNotRegex(self.html, r"detailContent[^\n]*innerHTML")
+
+    def test_mode_switch_does_not_resize_workspace_or_duplicate_handlers(self):
+        self.assertIn("state.mode", self.html)
+        self.assertIn("replaceGraphElements", self.html)
+        self.assertIn("bindModeIndependentHandlersOnce", self.html)
+        self.assertIn("aspect-ratio", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()

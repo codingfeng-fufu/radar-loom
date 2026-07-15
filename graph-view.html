@@ -23,8 +23,8 @@
     button { cursor: pointer; }
     .app { display: grid; grid-template-rows: 56px minmax(0, 1fr); height: 100dvh; }
     .toolbar {
-      position: relative; z-index: 40; display: grid; grid-template-columns: auto minmax(220px, 520px) auto;
-      align-items: center; gap: 18px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--paper);
+      position: relative; z-index: 40; display: grid; grid-template-columns: auto auto minmax(180px, 440px) auto;
+      align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--paper);
     }
     .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .brand a { color: var(--ink); text-decoration: none; }
@@ -39,6 +39,10 @@
     .search-result:hover, .search-result:focus { background: #eaf4f1; }
     .search-result small { display: block; color: var(--muted); }
     .tools { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+    .mode-switch { display: grid; grid-template-columns: repeat(3, auto); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .mode-button { height: 32px; border: 0; border-right: 1px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--muted); white-space: nowrap; }
+    .mode-button:last-child { border-right: 0; }
+    .mode-button[aria-pressed="true"] { background: #dcefe9; color: #075545; font-weight: 700; }
     .tool-button { min-width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); padding: 0 9px; }
     .tool-button:hover { border-color: #9ca7b2; background: var(--panel); }
     .icon-button { width: 34px; padding: 0; font-size: 18px; }
@@ -56,12 +60,20 @@
     .filter-section { border-top: 1px solid var(--line); padding: 14px 0; }
     .filter-section h3 { margin: 0 0 9px; color: var(--muted); font-size: 11px; text-transform: uppercase; }
     .check-list { display: grid; gap: 7px; }
+    .taxonomy-reference { margin-left: calc(var(--depth, 0) * 12px); }
     .check-row { display: grid; grid-template-columns: 16px 12px minmax(0, 1fr) auto; align-items: center; gap: 7px; }
     .swatch { width: 10px; height: 10px; border-radius: 50%; }
     .count { color: var(--muted); font-size: 11px; }
     .switch-row { display: flex; align-items: flex-start; gap: 8px; color: var(--ink); }
     .graph-shell { position: relative; min-width: 0; min-height: 0; background: var(--canvas); }
-    .graph { position: absolute; inset: 0; }
+    .graph { position: absolute; inset: 0; aspect-ratio: 16 / 9; }
+    .graph-legend { position: absolute; z-index: 12; left: 12px; bottom: 12px; display: flex; flex-wrap: wrap; gap: 10px; max-width: calc(100% - 24px); padding: 7px 9px; border: 1px solid rgb(255 255 255 / 14%); border-radius: 4px; background: rgb(17 24 32 / 78%); color: #d9e1e8; font-size: 11px; pointer-events: none; }
+    .legend-item { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-line { width: 18px; border-top: 2px solid #8da0ae; }
+    .legend-line.related { border-top-style: dashed; border-color: #d7a85a; }
+    .legend-line.membership { border-color: #6dc5ad; }
+    .toast { position: absolute; z-index: 30; top: 12px; left: 50%; transform: translateX(-50%); max-width: min(520px, calc(100% - 24px)); border-radius: 4px; padding: 9px 12px; background: #f7fafc; color: var(--ink); box-shadow: 0 8px 28px rgb(0 0 0 / 28%); }
+    .toast[hidden] { display: none; }
     .overlay { position: absolute; z-index: 20; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(17 24 32 / 88%); color: #e8edf2; text-align: center; padding: 24px; }
     .overlay[hidden] { display: none; }
     .overlay-box { max-width: 420px; }
@@ -92,9 +104,12 @@
     }
     @media (max-width: 760px) {
       .app { grid-template-rows: 104px minmax(0, 1fr); }
-      .toolbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 48px 48px; gap: 0 8px; padding: 4px 10px; }
+      .app { grid-template-rows: 144px minmax(0, 1fr); }
+      .toolbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 44px 44px 48px; gap: 0 8px; padding: 4px 10px; }
       .brand .statline { display: none; }
-      .search-wrap { grid-column: 1 / -1; grid-row: 2; }
+      .mode-switch { grid-column: 1 / -1; grid-row: 2; width: 100%; }
+      .mode-button { width: 100%; padding: 0 4px; }
+      .search-wrap { grid-column: 1 / -1; grid-row: 3; }
       .tools .text-button, .tools label { display: none; }
       .mobile-filter { display: inline-block; }
       .workspace { display: block; position: relative; }
@@ -116,6 +131,11 @@
   <div class="app">
     <header class="toolbar" id="toolbar">
       <div class="brand"><a href="viewer.html" title="返回知识库">←</a><strong>交互图谱</strong><span class="statline" id="toolbarStats">载入中</span></div>
+      <div class="mode-switch" id="modeSwitch" role="group" aria-label="图谱视图">
+        <button class="mode-button" type="button" data-mode="knowledge" aria-pressed="true">知识关系</button>
+        <button class="mode-button" type="button" data-mode="taxonomy" aria-pressed="false">分类结构</button>
+        <button class="mode-button" type="button" data-mode="combined" aria-pressed="false">综合视图</button>
+      </div>
       <div class="search-wrap">
         <input class="search" id="search" type="search" placeholder="搜索概念、项目或 MOC" autocomplete="off" aria-label="搜索节点">
         <div class="search-results" id="searchResults" hidden></div>
@@ -123,6 +143,7 @@
       <div class="tools">
         <button class="tool-button icon-button mobile-filter" id="filterButton" type="button" aria-label="打开筛选" title="打开筛选">☷</button>
         <button class="tool-button icon-button" id="fitButton" type="button" title="适应视图" aria-label="适应视图">⌗</button>
+        <button class="tool-button icon-button" id="rebuildTaxonomy" type="button" title="全局重组分类" aria-label="全局重组分类">↻</button>
         <button class="tool-button text-button" id="layoutButton" type="button">重新布局</button>
         <label class="switch-row"><input id="labelsToggle" type="checkbox"> 全部标签</label>
       </div>
@@ -143,6 +164,8 @@
 
       <main class="graph-shell">
         <div class="graph" id="graph" aria-label="知识图谱画布"></div>
+        <div class="graph-legend" id="graphLegend" aria-hidden="true"></div>
+        <div class="toast" id="toast" role="status" hidden></div>
         <div class="overlay" id="loading"><div class="overlay-box"><div class="spinner"></div><p>正在载入并布局图谱...</p></div></div>
         <div class="overlay" id="errorState" hidden><div class="overlay-box"><h2>图谱载入失败</h2><p id="errorText"></p><a href="viewer.html?f=graph.md">打开 Mermaid 备用图谱</a></div></div>
         <div class="overlay" id="emptyState" hidden><div class="overlay-box"><h2>没有匹配节点</h2><p>调整分类、项目或一跳筛选条件。</p></div></div>
@@ -158,14 +181,16 @@
 
   <script>
     const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
+    const CATEGORY_COLOR = '#d3924a';
     const state = {
-      payload: null, cy: null, selected: null, showAllLabels: false,
-      revision: null, refreshing: false, lastTap: { id: null, at: 0 }
+      payload: null, cy: null, selected: null, showAllLabels: false, mode: 'knowledge',
+      revision: null, refreshing: false, handlersBound: false, lastTap: { id: null, at: 0 }
     };
     const el = Object.fromEntries([
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
-      'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails', 'mobileScrim'
+      'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails',
+      'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'graphLegend', 'toast'
     ].map((id) => [id, document.getElementById(id)]));
 
     function createText(tag, text, className) {
@@ -175,13 +200,12 @@
       return node;
     }
 
-    function closePanels() {
-      document.body.classList.remove('filters-open', 'details-open');
-    }
+    function closePanels() { document.body.classList.remove('filters-open', 'details-open'); }
 
-    function checkboxRow({ value, label, color, count, checked, group }) {
+    function checkboxRow({ value, label, color, count, checked, group, depth = 0 }) {
       const row = document.createElement('label');
-      row.className = 'check-row';
+      row.className = group === 'taxonomy' ? 'check-row taxonomy-reference' : 'check-row';
+      row.style.setProperty('--depth', String(depth));
       const input = document.createElement('input');
       input.type = 'checkbox'; input.value = value; input.checked = checked; input.dataset.group = group;
       input.addEventListener('change', applyFilters);
@@ -190,16 +214,85 @@
       return row;
     }
 
+    function taxonomyMaps() {
+      const categories = state.payload.taxonomy?.categories || [];
+      const byId = new Map(categories.map((category) => [category.id, category]));
+      const children = new Map(categories.map((category) => [category.id, []]));
+      categories.forEach((category) => category.parents.forEach((parent) => children.get(parent)?.push(category.id)));
+      return { categories, byId, children };
+    }
+
+    function appendCategoryReference(categoryId, depth, visited, maps) {
+      const category = maps.byId.get(categoryId);
+      if (!category || category.status === 'merged') return;
+      const count = state.payload.taxonomy.memberships.filter((item) => item.category === categoryId).length;
+      el.categoryFilters.append(checkboxRow({ value: categoryId, label: category.name, color: CATEGORY_COLOR, count, checked: true, group: 'taxonomy', depth }));
+      if (visited.has(categoryId)) return;
+      const nextVisited = new Set(visited); nextVisited.add(categoryId);
+      (maps.children.get(categoryId) || []).sort().forEach((child) => appendCategoryReference(child, depth + 1, nextVisited, maps));
+    }
+
     function buildFilters() {
-      const nodes = state.payload.nodes;
-      for (const [category, color] of Object.entries(state.payload.categories)) {
-        const count = nodes.filter((node) => node.category === category).length;
-        el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: true, group: 'category' }));
+      el.categoryFilters.replaceChildren();
+      el.projectFilters.replaceChildren();
+      if (state.mode === 'knowledge') {
+        for (const [category, color] of Object.entries(state.payload.categories)) {
+          const count = state.payload.nodes.filter((node) => node.category === category).length;
+          el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: true, group: 'category' }));
+        }
+      } else {
+        const maps = taxonomyMaps();
+        const roots = maps.categories.filter((category) => category.status !== 'merged' && !category.parents.some((parent) => maps.byId.get(parent)?.status !== 'merged'));
+        roots.sort((a, b) => a.name.localeCompare(b.name)).forEach((root) => appendCategoryReference(root.id, 0, new Set(), maps));
       }
       for (const project of PROJECT_TAGS) {
-        const count = nodes.filter((node) => node.tags.includes(project)).length;
+        const count = state.payload.nodes.filter((node) => node.tags.includes(project)).length;
         el.projectFilters.append(checkboxRow({ value: project, label: project, color: '#8a5da2', count, checked: false, group: 'project' }));
       }
+    }
+
+    function knowledgeElements(payload) {
+      return [
+        ...payload.nodes.map((node) => ({ group: 'nodes', data: { ...node, nodeType: 'page' } })),
+        ...payload.edges.map((edge) => ({ group: 'edges', data: { ...edge, edgeType: 'knowledge' } }))
+      ];
+    }
+
+    function taxonomyElements(payload) {
+      const categories = payload.taxonomy?.categories || [];
+      const active = categories.filter((category) => category.status !== 'merged');
+      const activeIds = new Set(active.map((category) => category.id));
+      const memberCounts = new Map();
+      (payload.taxonomy?.memberships || []).forEach((item) => memberCounts.set(item.category, (memberCounts.get(item.category) || 0) + 1));
+      const nodes = active.map((category) => ({ group: 'nodes', data: {
+        ...category, id: `category:${category.id}`, categoryId: category.id, label: category.name,
+        nodeType: 'category', degree: memberCounts.get(category.id) || 0
+      }}));
+      const edges = [];
+      active.forEach((category) => {
+        category.parents.filter((parent) => activeIds.has(parent)).forEach((parent) => edges.push({ group: 'edges', data: {
+          id: `parent:${category.id}:${parent}`, source: `category:${category.id}`, target: `category:${parent}`, edgeType: 'parent'
+        }}));
+        category.related.filter((related) => activeIds.has(related) && category.id < related).forEach((related) => edges.push({ group: 'edges', data: {
+          id: `related:${category.id}:${related}`, source: `category:${category.id}`, target: `category:${related}`, edgeType: 'related'
+        }}));
+      });
+      return [...nodes, ...edges];
+    }
+
+    function combinedElements(payload) {
+      const elements = [...knowledgeElements(payload), ...taxonomyElements(payload)];
+      (payload.taxonomy?.memberships || []).forEach((membership) => elements.push({ group: 'edges', data: {
+        id: `membership:${membership.page}:${membership.category}`, source: membership.page,
+        target: `category:${membership.category}`, edgeType: 'membership', score: membership.score
+      }}));
+      return elements;
+    }
+
+    function elementsFor(mode) {
+      if (mode === 'taxonomy') return taxonomyElements(state.payload);
+      if (mode === 'combined') return combinedElements(state.payload);
+      return knowledgeElements(state.payload);
     }
 
     function checkedValues(group) {
@@ -207,19 +300,23 @@
     }
 
     function baseNodeVisible(node, categories, projects) {
-      const categoryMatch = !node.data('category') || categories.has(node.data('category'));
-      const projectMatch = projects.size === 0 || node.data('tags').some((tag) => projects.has(tag));
-      return categoryMatch && projectMatch;
+      if (node.data('nodeType') === 'category') return categories.has(node.data('categoryId'));
+      const categoryMatch = state.mode !== 'knowledge' || !node.data('category') || categories.has(node.data('category'));
+      const tags = node.data('tags') || [];
+      const projectMatch = projects.size === 0 || tags.some((tag) => projects.has(tag));
+      if (state.mode !== 'combined') return categoryMatch && projectMatch;
+      const memberships = state.payload.taxonomy.memberships.filter((item) => item.page === node.id());
+      return projectMatch && (memberships.length === 0 || memberships.some((item) => categories.has(item.category)));
     }
 
     function applyFilters() {
       if (!state.cy) return;
-      const categories = checkedValues('category');
+      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const categories = checkedValues(group);
       const projects = checkedValues('project');
       let allowed = new Set(state.cy.nodes().filter((node) => baseNodeVisible(node, categories, projects)).map((node) => node.id()));
       if (el.neighborOnly.checked && state.selected) {
-        const focus = state.selected.closedNeighborhood().nodes();
-        const focused = new Set(focus.map((node) => node.id()));
+        const focused = new Set(state.selected.closedNeighborhood().nodes().map((node) => node.id()));
         allowed = new Set([...allowed].filter((id) => focused.has(id)));
       }
       state.cy.batch(() => {
@@ -235,18 +332,18 @@
     function updateLabels() {
       if (!state.cy) return;
       state.cy.nodes().forEach((node) => {
-        const important = Number(node.data('degree')) >= 18;
+        const important = node.data('nodeType') === 'category' || Number(node.data('degree')) >= 18;
         const highlighted = node.hasClass('selected') || node.hasClass('neighbor') || node.hasClass('search-hit');
         node.toggleClass('show-label', state.showAllLabels || important || highlighted);
       });
     }
 
     function runLayout(animate = true) {
-      if (!state.cy) return;
+      if (!state.cy || state.cy.nodes().length === 0) return;
       state.cy.layout({
         name: 'fcose', quality: 'default', randomize: true, animate, animationDuration: 650,
-        fit: true, padding: 44, nodeRepulsion: 9000, idealEdgeLength: 95, edgeElasticity: 0.35,
-        nestingFactor: 0.1, gravity: 0.3, numIter: 2500, tile: true
+        fit: true, padding: 44, nodeRepulsion: 9000, idealEdgeLength: state.mode === 'combined' ? 75 : 95,
+        edgeElasticity: 0.35, nestingFactor: 0.1, gravity: 0.3, numIter: 2500, tile: true
       }).run();
     }
 
@@ -255,7 +352,7 @@
       state.cy.elements().removeClass('selected neighbor faded search-hit');
       state.selected = null;
       el.neighborOnly.checked = false; el.neighborOnly.disabled = true;
-      el.detailContent.replaceChildren(createText('div', '选择一个节点查看摘要、标签和邻居。', 'detail-empty'));
+      el.detailContent.replaceChildren(createText('div', '选择节点查看关系与归属。', 'detail-empty'));
       if (close) document.body.classList.remove('details-open');
       applyFilters();
     }
@@ -264,39 +361,89 @@
       state.cy.elements().removeClass('selected neighbor faded search-hit');
       state.selected = node;
       const neighborhood = node.closedNeighborhood();
-      node.addClass('selected');
-      neighborhood.nodes().not(node).addClass('neighbor');
+      node.addClass('selected'); neighborhood.nodes().not(node).addClass('neighbor');
       state.cy.elements().not(neighborhood).addClass('faded');
       el.neighborOnly.disabled = false;
-      renderDetails(node);
-      applyFilters();
+      renderDetails(node); applyFilters();
       if (center) state.cy.animate({ fit: { eles: neighborhood.not('.filtered'), padding: 80 }, duration: 420 });
       if (window.innerWidth <= 1000) document.body.classList.add('details-open');
     }
 
+    function relationButton(categoryId) {
+      const category = state.payload.taxonomy.categories.find((item) => item.id === categoryId);
+      const button = createText('button', category?.name || categoryId, 'neighbor-button');
+      button.type = 'button';
+      button.addEventListener('click', () => { const node = state.cy.getElementById(`category:${categoryId}`); if (node.length) focusNode(node); });
+      return button;
+    }
+
+    function renderCategoryDetails(data) {
+      const content = document.createDocumentFragment();
+      content.append(createText('h3', data.label, 'node-title'));
+      const meta = createText('div', '', 'node-meta');
+      meta.append(createText('span', '分类', 'badge'), createText('span', data.status, 'badge'), createText('span', data.namingStatus, 'badge'));
+      content.append(meta, createText('p', data.definition || '暂无边界定义。', 'summary'));
+      const grid = createText('div', '', 'detail-grid');
+      grid.append(
+        createText('span', '页面数'), createText('span', String(data.degree || 0)),
+        createText('span', '最近变化'), createText('span', data.updatedAt || '—'),
+        createText('span', '稳定轮次'), createText('span', String(data.stableRuns || 0))
+      );
+      content.append(grid);
+      const relations = [
+        ['上位分类', data.parents || []],
+        ['下位分类', state.payload.taxonomy.categories.filter((item) => item.parents.includes(data.categoryId)).map((item) => item.id)],
+        ['相关分类', data.related || []]
+      ];
+      relations.forEach(([label, ids]) => {
+        if (!ids.length) return;
+        const section = createText('section', '', 'neighbors'); section.append(createText('h3', label));
+        const list = createText('div', '', 'neighbor-list'); ids.forEach((id) => list.append(relationButton(id)));
+        section.append(list); content.append(section);
+      });
+      if (data.aliases?.length) content.append(createText('p', `别名：${data.aliases.join('、')}`, 'summary'));
+      const recent = state.payload.taxonomy.events.filter((event) => event.categoryIds.includes(data.categoryId)).slice(-5).reverse();
+      if (recent.length) content.append(createText('p', recent.map((event) => `${event.createdAt} ${event.type}：${event.reason}`).join('\n'), 'summary'));
+      el.detailContent.replaceChildren(content);
+    }
+
+    function renderMembershipDetails(data, content) {
+      const memberships = state.payload.taxonomy.memberships.filter((item) => item.page === data.id).sort((a, b) => b.score - a.score);
+      if (!memberships.length) return;
+      const section = createText('section', '', 'neighbors'); section.append(createText('h3', `动态分类 ${memberships.length}`));
+      const list = createText('div', '', 'neighbor-list');
+      memberships.forEach((membership) => {
+        const category = state.payload.taxonomy.categories.find((item) => item.id === membership.category);
+        const signals = Object.entries(membership.signals).map(([name, value]) => `${name} ${Number(value).toFixed(2)}`).join(' · ');
+        const button = createText('button', `${category?.name || membership.category} · ${Number(membership.score).toFixed(2)}\n${membership.reason}\n${signals}`, 'neighbor-button');
+        button.type = 'button';
+        button.addEventListener('click', () => { const node = state.cy.getElementById(`category:${membership.category}`); if (node.length) focusNode(node); });
+        list.append(button);
+      });
+      section.append(list); content.append(section);
+    }
+
     function renderDetails(node) {
       const data = node.data();
+      if (data.nodeType === 'category') { renderCategoryDetails(data); return; }
       const content = document.createDocumentFragment();
       content.append(createText('h3', data.label, 'node-title'));
       const meta = createText('div', '', 'node-meta');
       meta.append(createText('span', data.kind === 'project' ? '项目' : data.kind === 'moc' ? 'MOC' : '概念', 'badge'));
-      for (const tag of data.tags) meta.append(createText('span', tag, 'badge'));
+      for (const tag of data.tags || []) meta.append(createText('span', tag, 'badge'));
       if (data.confidence) meta.append(createText('span', `信度 ${data.confidence}`, 'badge'));
       content.append(meta, createText('p', data.summary || '该页面暂无摘要。', 'summary'));
       const grid = createText('div', '', 'detail-grid');
       grid.append(createText('span', '连接数'), createText('span', String(data.degree)), createText('span', '主分类'), createText('span', data.category || '结构页'));
       content.append(grid);
-      const link = createText('a', '在 Viewer 打开', 'open-link');
-      link.href = node.data('href');
-      content.append(link);
-      const neighbors = node.neighborhood('node').sort((a, b) => Number(b.data('degree')) - Number(a.data('degree')));
-      const section = createText('section', '', 'neighbors');
-      section.append(createText('h3', `邻居 ${neighbors.length}`));
+      const link = createText('a', '在 Viewer 打开', 'open-link'); link.href = node.data('href'); content.append(link);
+      renderMembershipDetails(data, content);
+      const neighbors = node.neighborhood('node').filter((item) => item.data('nodeType') === 'page').sort((a, b) => Number(b.data('degree')) - Number(a.data('degree')));
+      const section = createText('section', '', 'neighbors'); section.append(createText('h3', `知识邻居 ${neighbors.length}`));
       const list = createText('div', '', 'neighbor-list');
       neighbors.slice(0, 20).forEach((neighbor) => {
-        const button = createText('button', neighbor.data('label'), 'neighbor-button');
-        button.type = 'button'; button.addEventListener('click', () => focusNode(neighbor));
-        list.append(button);
+        const button = createText('button', neighbor.data('label'), 'neighbor-button'); button.type = 'button';
+        button.addEventListener('click', () => focusNode(neighbor)); list.append(button);
       });
       section.append(list); content.append(section);
       el.detailContent.replaceChildren(content);
@@ -306,67 +453,89 @@
       el.searchResults.replaceChildren();
       if (!query.trim()) { el.searchResults.hidden = true; state.cy?.nodes().removeClass('search-hit'); updateLabels(); return; }
       const key = query.trim().toLocaleLowerCase();
-      const matches = state.cy.nodes().filter((node) => node.data('label').toLocaleLowerCase().includes(key)).sort((a, b) => Number(b.data('degree')) - Number(a.data('degree'))).slice(0, 8);
+      const matches = state.cy.nodes().filter((node) => {
+        const aliases = node.data('aliases') || [];
+        return node.data('label').toLocaleLowerCase().includes(key) || aliases.some((alias) => alias.toLocaleLowerCase().includes(key));
+      }).sort((a, b) => Number(b.data('degree')) - Number(a.data('degree'))).slice(0, 8);
       state.cy.nodes().removeClass('search-hit'); matches.addClass('search-hit'); updateLabels();
       for (const node of matches) {
-        const button = createText('button', node.data('label'), 'search-result');
-        button.type = 'button'; button.append(createText('small', `${node.data('category') || '结构页'} · 度 ${node.data('degree')}`));
+        const button = createText('button', node.data('label'), 'search-result'); button.type = 'button';
+        button.append(createText('small', node.data('nodeType') === 'category' ? `${node.data('status')} · ${node.data('degree')} 页` : `${node.data('category') || '结构页'} · 度 ${node.data('degree')}`));
         button.addEventListener('click', () => { el.search.value = node.data('label'); el.searchResults.hidden = true; focusNode(node); });
         el.searchResults.append(button);
       }
       el.searchResults.hidden = matches.length === 0;
     }
 
-    function initGraph(payload) {
-      state.payload = payload;
-      state.selected = null;
-      el.categoryFilters.replaceChildren();
-      el.projectFilters.replaceChildren();
-      el.search.value = '';
-      el.searchResults.replaceChildren();
-      el.searchResults.hidden = true;
-      el.neighborOnly.checked = false;
-      el.neighborOnly.disabled = true;
-      el.detailContent.replaceChildren(createText('div', '选择一个节点查看摘要、标签和邻居。', 'detail-empty'));
-      buildFilters();
-      const elements = [
-        ...payload.nodes.map((node) => ({ group: 'nodes', data: node })),
-        ...payload.edges.map((edge) => ({ group: 'edges', data: edge }))
-      ];
-      state.cy = cytoscape({
-        container: document.getElementById('graph'), elements,
-        minZoom: 0.12, maxZoom: 3.2,
-        style: [
-          { selector: 'node', style: {
-            'background-color': (node) => node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
-            'width': (node) => Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'height': (node) => Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'shape': (node) => node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
-            'border-width': 1, 'border-color': '#dce4ea', 'label': '', 'color': '#f7fafc', 'font-size': 10,
-            'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130,
-            'text-valign': 'bottom', 'text-margin-y': 8
-          }},
-          { selector: 'node.show-label', style: { 'label': 'data(label)' } },
-          { selector: 'edge', style: { 'width': 1, 'line-color': '#5b6875', 'target-arrow-color': '#5b6875', 'target-arrow-shape': 'triangle', 'arrow-scale': .55, 'curve-style': 'bezier', 'opacity': .38 } },
-          { selector: '.selected', style: { 'border-width': 4, 'border-color': '#fff', 'z-index': 20 } },
-          { selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#9ee8d4', 'z-index': 10 } },
-          { selector: '.faded', style: { 'opacity': .09 } },
-          { selector: '.filtered', style: { 'display': 'none' } },
-          { selector: '.search-hit', style: { 'border-width': 4, 'border-color': '#f5cf69' } }
-        ]
+    function updateLegend() {
+      el.graphLegend.replaceChildren();
+      const items = state.mode === 'knowledge' ? [['知识双链', '']] : state.mode === 'taxonomy'
+        ? [['上位关系', ''], ['相关关系', 'related']]
+        : [['知识双链', ''], ['分类归属', 'membership'], ['相关关系', 'related']];
+      items.forEach(([label, kind]) => {
+        const item = createText('span', '', 'legend-item'); item.append(createText('span', '', `legend-line ${kind}`.trim()), createText('span', label)); el.graphLegend.append(item);
       });
+    }
+
+    function replaceGraphElements(mode) {
+      if (!state.cy || !state.payload) return;
+      state.mode = mode;
+      state.selected = null;
+      state.cy.batch(() => { state.cy.elements().remove(); state.cy.add(elementsFor(mode)); });
+      [...el.modeSwitch.querySelectorAll('[data-mode]')].forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
+      buildFilters(); updateLegend(); clearFocus();
+      const nodes = state.cy.nodes().length; const edges = state.cy.edges().length;
+      el.nodeCount.textContent = nodes; el.edgeCount.textContent = edges; el.visibleCount.textContent = nodes;
+      el.brokenCount.textContent = state.payload.stats.broken;
+      el.toolbarStats.textContent = `${nodes} 节点 · ${edges} 边`;
+      bindModeIndependentHandlersOnce(); runLayout(false);
+    }
+
+    function bindModeIndependentHandlersOnce() {
+      if (!state.cy || state.handlersBound) return;
+      state.handlersBound = true;
       state.cy.on('tap', 'node', (event) => {
         const node = event.target; const now = Date.now();
-        if (state.lastTap.id === node.id() && now - state.lastTap.at < 350) location.href = node.data('href');
+        if (node.data('href') && state.lastTap.id === node.id() && now - state.lastTap.at < 350) location.href = node.data('href');
         else focusNode(node);
         state.lastTap = { id: node.id(), at: now };
       });
       state.cy.on('tap', (event) => { if (event.target === state.cy) clearFocus({ close: true }); });
       state.cy.on('layoutstop', () => { el.loading.hidden = true; state.cy.fit(state.cy.elements().not('.filtered'), 42); });
-      el.nodeCount.textContent = payload.stats.nodes; el.edgeCount.textContent = payload.stats.edges;
-      el.brokenCount.textContent = payload.stats.broken; el.visibleCount.textContent = payload.stats.nodes;
-      el.toolbarStats.textContent = `${payload.stats.nodes} 节点 · ${payload.stats.edges} 边`;
-      updateLabels(); runLayout(false);
+    }
+
+    function initGraph(payload) {
+      state.payload = payload; state.selected = null; state.handlersBound = false;
+      el.categoryFilters.replaceChildren(); el.projectFilters.replaceChildren();
+      el.search.value = ''; el.searchResults.replaceChildren(); el.searchResults.hidden = true;
+      el.neighborOnly.checked = false; el.neighborOnly.disabled = true;
+      el.detailContent.replaceChildren(createText('div', '选择节点查看关系与归属。', 'detail-empty'));
+      state.cy = cytoscape({
+        container: document.getElementById('graph'), elements: [], minZoom: 0.12, maxZoom: 3.2,
+        style: [
+          { selector: 'node', style: {
+            'background-color': (node) => node.data('nodeType') === 'category' ? CATEGORY_COLOR : node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
+            'width': (node) => node.data('nodeType') === 'category' ? Math.min(62, 30 + Math.sqrt(Number(node.data('degree')) + 1) * 4) : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'height': (node) => node.data('nodeType') === 'category' ? Math.min(62, 30 + Math.sqrt(Number(node.data('degree')) + 1) * 4) : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'shape': (node) => node.data('nodeType') === 'category' ? 'round-rectangle' : node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
+            'border-width': 1, 'border-color': '#dce4ea', 'label': '', 'color': '#f7fafc', 'font-size': 10,
+            'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130, 'text-valign': 'bottom', 'text-margin-y': 8
+          }},
+          { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3' } },
+          { selector: 'node[status = "forming"]', style: { 'border-style': 'dashed' } },
+          { selector: 'node.show-label', style: { 'label': 'data(label)' } },
+          { selector: 'edge', style: { 'width': 1, 'line-color': '#5b6875', 'target-arrow-color': '#5b6875', 'target-arrow-shape': 'triangle', 'arrow-scale': .55, 'curve-style': 'bezier', 'opacity': .38 } },
+          { selector: 'edge[edgeType = "parent"]', style: { 'width': 2, 'line-color': '#aab8c3', 'target-arrow-color': '#aab8c3', 'opacity': .75 } },
+          { selector: 'edge[edgeType = "related"]', style: { 'line-style': 'dashed', 'line-color': '#d7a85a', 'target-arrow-shape': 'none', 'opacity': .72 } },
+          { selector: 'edge[edgeType = "membership"]', style: { 'line-color': '#6dc5ad', 'target-arrow-color': '#6dc5ad', 'target-arrow-shape': 'none', 'opacity': .28 } },
+          { selector: '.selected', style: { 'border-width': 4, 'border-color': '#fff', 'z-index': 20 } },
+          { selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#9ee8d4', 'z-index': 10 } },
+          { selector: '.faded', style: { 'opacity': .09 } }, { selector: '.filtered', style: { 'display': 'none' } },
+          { selector: '.search-hit', style: { 'border-width': 4, 'border-color': '#f5cf69' } }
+        ]
+      });
+      // data(status) determines forming/stable lifecycle styling through Cytoscape selectors.
+      replaceGraphElements(state.mode);
     }
 
     async function fetchRevision() {
@@ -406,6 +575,32 @@
       }
     }
 
+    function showToast(message) {
+      el.toast.textContent = message;
+      el.toast.hidden = false;
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => { el.toast.hidden = true; }, 4200);
+    }
+
+    async function rebuildTaxonomy() {
+      if (el.rebuildTaxonomy.disabled) return;
+      el.rebuildTaxonomy.disabled = true;
+      el.rebuildTaxonomy.setAttribute('aria-busy', 'true');
+      showToast('正在执行全局分类重组...');
+      try {
+        const response = await fetch('/api/taxonomy/rebuild', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.error || `HTTP ${response.status}`);
+        await loadGraph(result.revision);
+        showToast(`分类重组完成：${result.active_categories ?? result.categories ?? 0} 个有效类别`);
+      } catch (error) {
+        showToast(`分类重组失败：${error?.message || String(error)}`);
+      } finally {
+        el.rebuildTaxonomy.disabled = false;
+        el.rebuildTaxonomy.removeAttribute('aria-busy');
+      }
+    }
+
     async function start() {
       try {
         if (typeof cytoscape !== 'function') throw new Error('Cytoscape 未能从 CDN 加载');
@@ -422,6 +617,11 @@
     el.search.addEventListener('keydown', (event) => { if (event.key === 'Escape') { el.search.value = ''; renderSearchResults(''); } });
     el.fitButton.addEventListener('click', () => state.cy?.fit(state.cy.elements().not('.filtered'), 42));
     el.layoutButton.addEventListener('click', () => runLayout(true));
+    el.modeSwitch.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-mode]');
+      if (button && button.dataset.mode !== state.mode) replaceGraphElements(button.dataset.mode);
+    });
+    el.rebuildTaxonomy.addEventListener('click', rebuildTaxonomy);
     el.labelsToggle.addEventListener('change', () => { state.showAllLabels = el.labelsToggle.checked; updateLabels(); });
     el.neighborOnly.addEventListener('change', applyFilters);
     el.filterButton.addEventListener('click', () => document.body.classList.add('filters-open'));
