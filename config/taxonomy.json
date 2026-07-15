@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "random_seed": 20260715,
+  "forming_min_pages": 3,
+  "stable_min_pages": 5,
+  "stable_min_runs": 2,
+  "assignment_threshold": 0.62,
+  "forming_cohesion_threshold": 0.78,
+  "cluster_match_threshold": 0.55,
+  "cluster_fusion_jaccard": 0.35,
+  "related_threshold": 0.75,
+  "parent_containment_threshold": 0.8,
+  "global_after_changes": 5,
+  "global_after_days": 7,
+  "due_check_seconds": 60,
+  "max_naming_calls": 8,
+  "naming_change_jaccard": 0.8,
+  "signal_weights": {
+    "semantic": 0.6,
+    "links": 0.25,
+    "tags": 0.1,
+    "projects": 0.05
+  }
+}

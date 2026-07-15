@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .worktrees/
+.cache/taxonomy/
 papers/*.pdf
 papers/_images/
