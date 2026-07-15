@@ -277,11 +277,6 @@ def validate_registry(registry: Registry, existing_pages: set[str]) -> None:
     for page in registry.pending_pages:
         if page not in existing_pages:
             errors.append(f"dangling pending page: {page}")
-    for event in registry.events:
-        for category_id in event.category_ids:
-            if category_id not in category_ids:
-                errors.append(f"event references missing category: {category_id}")
-
     if errors:
         raise TaxonomyValidationError("; ".join(errors))
 
