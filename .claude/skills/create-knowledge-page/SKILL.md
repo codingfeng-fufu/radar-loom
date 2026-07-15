@@ -99,10 +99,13 @@ python3 scripts/new_page.py "概念中文名 EnglishName" \
 运行：
 
 ```bash
+python3 scripts/taxonomy_cli.py sync --page "pages/<实际文件名>.md"
 python3 scripts/build_index.py
 python3 scripts/render_graph.py
 python3 scripts/check_health.py
 ```
+
+分类同步必须在页面正文和 frontmatter 已最终确定后执行。同步成功时读取 `taxonomy.json` 中该页面的归属，报告动态分类归属、分数或新形成的 `forming` 类别。分类失败不回滚已完成的知识页；记录错误，并继续使用上一版有效分类注册表生成索引、图谱和健康检查结果。
 
 健康检查必须达到 `ERROR 0`、`WARN 0`。含数学内容时，在 Viewer 中实际打开页面，确认 KaTeX 正常渲染且代码区域未被误解析。
 
@@ -116,7 +119,7 @@ python3 scripts/check_health.py
 git commit -m "radar: <知识主题与本次变化>"
 ```
 
-最后报告页面路径、来源、主要新增内容、健康检查结果和提交哈希。
+最后报告页面路径、来源、主要新增内容、动态分类归属、健康检查结果和提交哈希。
 
 ## 暂停条件
 

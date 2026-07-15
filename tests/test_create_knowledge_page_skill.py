@@ -75,6 +75,14 @@ class CreateKnowledgePageSkillTests(unittest.TestCase):
         self.assertNotRegex(self.body, r"\b(?:TBD|TODO)\b")
         self.assertNotIn("{TITLE}", self.body)
 
+    def test_completion_syncs_taxonomy_after_final_page_content(self):
+        self.assertIn("python3 scripts/taxonomy_cli.py sync --page", self.body)
+        sync = self.body.index("python3 scripts/taxonomy_cli.py sync --page")
+        health = self.body.index("python3 scripts/check_health.py")
+        self.assertLess(sync, health)
+        self.assertIn("分类失败不回滚已完成的知识页", self.body)
+        self.assertIn("报告动态分类归属", self.body)
+
     def test_agent_metadata_is_present(self):
         metadata = AGENT_META.read_text(encoding="utf-8")
         self.assertIn('display_name: "创建高质量知识页"', metadata)
