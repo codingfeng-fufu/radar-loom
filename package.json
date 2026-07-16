@@ -1,0 +1,10 @@
+{
+  "name": "tech-radar-knowledge-base-tests",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test tests/web_workbench.spec.cjs --config tests/playwright.config.cjs --reporter=line"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
+  }
+}
