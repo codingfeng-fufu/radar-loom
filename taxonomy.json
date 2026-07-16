@@ -130,7 +130,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 0,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -2635,7 +2635,7 @@
     "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
     "pages/马尔可夫 Markov.md": "3a12bea9b62ce126594b4ae01ceb07a4bcc9340a55ea8209b134b72947b153cd",
     "pages/高斯混合模型 GMM Gaussian Mixture Model.md": "55e6f06cf474fa2a68cc69bf683f3d77eb3f4cd31bb62a2b8baf2c33a6944646",
-    "首页.md": "033acabc99e22d45c4e4ef7fac3a89f5a5022c5bab218028030eb37d40f000c9"
+    "首页.md": "63f9dd208548235a5254b492964718543c28bb0c3f0a96f50f6997e98f39a114"
   },
   "parameters_hash": "189455c2bb5056db384c917e909fd8e52d7af7a0d6654abc94c4e24f7d7e04f6",
   "pending_pages": [],
