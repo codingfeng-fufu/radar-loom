@@ -65,7 +65,7 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("window.addEventListener('message'", self.html)
         self.assertIn("http://127.0.0.1:18080", self.html)
         self.assertIn("event.data?.type === 'kb-refresh'", self.html)
-        self.assertIn("location.reload()", self.html)
+        self.assertIn("fetchRevision().then", self.html)
 
     def test_graph_has_three_stable_modes_and_manual_rebuild(self):
         for value in ('data-mode="knowledge"', 'data-mode="taxonomy"', 'data-mode="combined"'):

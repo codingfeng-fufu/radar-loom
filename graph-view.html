@@ -44,9 +44,10 @@
     .mode-button { height: 32px; border: 0; border-right: 1px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--muted); white-space: nowrap; }
     .mode-button:last-child { border-right: 0; }
     .mode-button[aria-pressed="true"] { background: #dcefe9; color: #075545; font-weight: 700; }
-    .tool-button { min-width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); padding: 0 9px; }
+    .tool-button { min-width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); padding: 0 9px; }
     .tool-button:hover { border-color: #9ca7b2; background: var(--panel); }
-    .icon-button { width: 34px; padding: 0; font-size: 18px; }
+    .icon-button { width: 36px; padding: 0; display: inline-grid; place-items: center; }
+    .icon-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .mobile-filter { display: none; }
     .workspace { display: grid; grid-template-columns: 250px minmax(0, 1fr) 300px; min-height: 0; }
     .filters, .details { min-height: 0; overflow: auto; background: var(--paper); }
@@ -142,9 +143,9 @@
         <div class="search-results" id="searchResults" hidden></div>
       </div>
       <div class="tools">
-        <button class="tool-button icon-button mobile-filter" id="filterButton" type="button" aria-label="打开筛选" title="打开筛选">☷</button>
-        <button class="tool-button icon-button" id="fitButton" type="button" title="适应视图" aria-label="适应视图">⌗</button>
-        <button class="tool-button icon-button" id="rebuildTaxonomy" type="button" title="全局重组分类" aria-label="全局重组分类">↻</button>
+        <button class="tool-button icon-button mobile-filter" id="filterButton" type="button" aria-label="打开筛选" title="打开筛选"><svg data-icon="filter" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M7 12h10M10 19h4"/></svg></button>
+        <button class="tool-button icon-button" id="fitButton" type="button" title="适应视图" aria-label="适应视图"><svg data-icon="fit" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"/></svg></button>
+        <button class="tool-button icon-button" id="rebuildTaxonomy" type="button" title="全局重组分类" aria-label="全局重组分类"><svg data-icon="refresh" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7"/></svg></button>
         <button class="tool-button text-button" id="layoutButton" type="button">重新布局</button>
         <label class="switch-row"><input id="labelsToggle" type="checkbox"> 全部标签</label>
       </div>
@@ -183,10 +184,30 @@
   <script>
     const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
     const CATEGORY_COLOR = '#d3924a';
+    const GRAPH_STATE_KEY = 'radar-graph-state-v1';
+    const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
+    function readPersistedState() {
+      try {
+        const value = JSON.parse(sessionStorage.getItem(GRAPH_STATE_KEY) || 'null');
+        if (!value || value.version !== 1 || !['knowledge', 'taxonomy', 'combined'].includes(value.mode)) return null;
+        const finite = (number) => Number.isFinite(number) ? number : null;
+        return {
+          version: 1, mode: value.mode,
+          categories: Array.isArray(value.categories) ? value.categories.filter((item) => typeof item === 'string') : [],
+          projects: Array.isArray(value.projects) ? value.projects.filter((item) => typeof item === 'string') : [],
+          neighborOnly: Boolean(value.neighborOnly), showAllLabels: Boolean(value.showAllLabels),
+          selectedNodeId: typeof value.selectedNodeId === 'string' ? value.selectedNodeId : null,
+          zoom: finite(value.zoom),
+          pan: value.pan && finite(value.pan.x) !== null && finite(value.pan.y) !== null ? { x: value.pan.x, y: value.pan.y } : null
+        };
+      } catch (_error) { return null; }
+    }
     const state = {
       payload: null, cy: null, selected: null, showAllLabels: false, mode: 'knowledge',
-      revision: null, refreshing: false, handlersBound: false, lastTap: { id: null, at: 0 }
+      revision: null, refreshing: false, handlersBound: false, restoring: false,
+      restore: readPersistedState(), lastTap: { id: null, at: 0 }
     };
+    if (state.restore) { state.mode = state.restore.mode; state.showAllLabels = state.restore.showAllLabels; }
     const el = Object.fromEntries([
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
@@ -227,7 +248,8 @@
       const category = maps.byId.get(categoryId);
       if (!category || category.status === 'merged') return;
       const count = state.payload.taxonomy.memberships.filter((item) => item.category === categoryId).length;
-      el.categoryFilters.append(checkboxRow({ value: categoryId, label: category.name, color: CATEGORY_COLOR, count, checked: true, group: 'taxonomy', depth }));
+      const restored = state.restore?.mode === state.mode ? state.restore.categories : [];
+      el.categoryFilters.append(checkboxRow({ value: categoryId, label: category.name, color: CATEGORY_COLOR, count, checked: restored.length ? restored.includes(categoryId) : true, group: 'taxonomy', depth }));
       if (visited.has(categoryId)) return;
       const nextVisited = new Set(visited); nextVisited.add(categoryId);
       (maps.children.get(categoryId) || []).sort().forEach((child) => appendCategoryReference(child, depth + 1, nextVisited, maps));
@@ -239,7 +261,8 @@
       if (state.mode === 'knowledge') {
         for (const [category, color] of Object.entries(state.payload.categories)) {
           const count = state.payload.nodes.filter((node) => node.category === category).length;
-          el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: true, group: 'category' }));
+          const restored = state.restore?.mode === state.mode ? state.restore.categories : [];
+          el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: restored.length ? restored.includes(category) : true, group: 'category' }));
         }
       } else {
         const maps = taxonomyMaps();
@@ -248,7 +271,7 @@
       }
       for (const project of PROJECT_TAGS) {
         const count = state.payload.nodes.filter((node) => node.tags.includes(project)).length;
-        el.projectFilters.append(checkboxRow({ value: project, label: project, color: '#8a5da2', count, checked: false, group: 'project' }));
+        el.projectFilters.append(checkboxRow({ value: project, label: project, color: '#8a5da2', count, checked: state.restore?.projects.includes(project) || false, group: 'project' }));
       }
     }
 
@@ -300,6 +323,40 @@
       return new Set([...document.querySelectorAll(`input[data-group="${group}"]:checked`)].map((input) => input.value));
     }
 
+    function persistGraphState() {
+      if (!state.cy || state.restoring) return;
+      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const pan = state.cy.pan();
+      sessionStorage.setItem(GRAPH_STATE_KEY, JSON.stringify({
+        version: 1, mode: state.mode, categories: [...checkedValues(group)], projects: [...checkedValues('project')],
+        neighborOnly: el.neighborOnly.checked, showAllLabels: state.showAllLabels,
+        selectedNodeId: state.selected?.id() || null, zoom: state.cy.zoom(), pan: { x: pan.x, y: pan.y }
+      }));
+    }
+
+    function restoreGraphViewport(restored = state.restore) {
+      if (!state.cy || !restored) return;
+      if (restored.zoom !== null) state.cy.zoom(restored.zoom);
+      if (restored.pan) state.cy.pan(restored.pan);
+    }
+
+    function notifyGraphContext() {
+      if (window.parent === window || !state.cy) return;
+      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const visibleNodes = state.cy.nodes().not('.filtered');
+      const visibleEdges = state.cy.edges().not('.filtered');
+      const selected = state.selected ? {
+        id: state.selected.id(), label: state.selected.data('label'),
+        nodeType: state.selected.data('nodeType') || state.selected.data('kind') || 'node',
+        neighbors: state.selected.closedNeighborhood().nodes().not(state.selected).map((node) => node.data('label')).filter(Boolean).slice(0, 20)
+      } : null;
+      const modeLabel = el.modeSwitch.querySelector(`[data-mode="${state.mode}"]`)?.textContent?.trim() || state.mode;
+      window.parent.postMessage({ type: 'kb-context', context: {
+        kind: 'graph', mode: state.mode, modeLabel, visibleNodes: visibleNodes.length,
+        visibleEdges: visibleEdges.length, categories: [...checkedValues(group)], projects: [...checkedValues('project')], selected
+      } }, WORKBENCH_ORIGIN);
+    }
+
     function baseNodeVisible(node, categories, projects) {
       if (node.data('nodeType') === 'category') return categories.has(node.data('categoryId'));
       const categoryMatch = state.mode !== 'knowledge' || !node.data('category') || categories.has(node.data('category'));
@@ -328,6 +385,8 @@
       el.visibleCount.textContent = visible;
       el.emptyState.hidden = visible !== 0;
       updateLabels();
+      persistGraphState();
+      notifyGraphContext();
     }
 
     function updateLabels() {
@@ -504,6 +563,8 @@
 
     function replaceGraphElements(mode) {
       if (!state.cy || !state.payload) return;
+      const restored = state.restore?.mode === mode ? state.restore : null;
+      state.restoring = Boolean(restored);
       state.mode = mode;
       state.selected = null;
       state.cy.batch(() => {
@@ -513,11 +574,23 @@
       });
       [...el.modeSwitch.querySelectorAll('[data-mode]')].forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
       buildFilters(); updateLegend(); clearFocus();
+      state.showAllLabels = restored ? restored.showAllLabels : state.showAllLabels;
+      el.labelsToggle.checked = state.showAllLabels;
+      if (restored?.selectedNodeId) {
+        const selected = state.cy.getElementById(restored.selectedNodeId);
+        if (selected.length) focusNode(selected, { center: false });
+      }
+      if (restored?.neighborOnly && state.selected) { el.neighborOnly.checked = true; applyFilters(); }
       const nodes = state.cy.nodes().length; const edges = state.cy.edges().length;
       el.nodeCount.textContent = nodes; el.edgeCount.textContent = edges; el.visibleCount.textContent = nodes;
       el.brokenCount.textContent = state.payload.stats.broken;
       el.toolbarStats.textContent = `${nodes} 节点 · ${edges} 边`;
-      bindModeIndependentHandlersOnce(); runLayout(false);
+      bindModeIndependentHandlersOnce();
+      if (restored) state.cy.one('layoutstop', () => setTimeout(() => {
+        restoreGraphViewport(restored); state.restoring = false; state.restore = null; persistGraphState(); notifyGraphContext();
+      }, 0));
+      else { state.restoring = false; persistGraphState(); notifyGraphContext(); }
+      runLayout(false);
     }
 
     function bindModeIndependentHandlersOnce() {
@@ -530,7 +603,8 @@
         state.lastTap = { id: node.id(), at: now };
       });
       state.cy.on('tap', (event) => { if (event.target === state.cy) clearFocus({ close: true }); });
-      state.cy.on('layoutstop', () => { el.loading.hidden = true; state.cy.fit(state.cy.elements().not('.filtered'), 42); });
+      state.cy.on('layoutstop', () => { el.loading.hidden = true; state.cy.fit(state.cy.elements().not('.filtered'), 42); persistGraphState(); });
+      state.cy.on('pan zoom', () => { window.clearTimeout(persistGraphState.timer); persistGraphState.timer = window.setTimeout(persistGraphState, 120); });
     }
 
     function initGraph(payload) {
@@ -578,17 +652,23 @@
 
     async function loadGraph(revision) {
       if (state.refreshing) return;
+      if (state.cy) { persistGraphState(); state.restore = readPersistedState(); }
       state.refreshing = true;
       el.loading.hidden = false;
       try {
         const response = await fetch('graph-data.json', { cache: 'no-store' });
         if (!response.ok) throw new Error(`graph-data.json: HTTP ${response.status}`);
         const payload = await response.json();
+        if (!payload || !Array.isArray(payload.nodes) || !Array.isArray(payload.edges) || !payload.categories || !payload.stats) throw new Error('graph-data.json 结构无效');
         state.cy?.destroy();
         state.cy = null;
         initGraph(payload);
-        state.revision = revision;
+        state.revision = revision || state.revision;
         el.errorState.hidden = true;
+      } catch (error) {
+        if (state.cy) showToast(`图谱刷新失败，已保留当前视图：${error?.message || String(error)}`);
+        else { el.loading.hidden = true; el.errorText.textContent = error?.message || String(error); el.errorState.hidden = false; }
+        throw error;
       } finally {
         state.refreshing = false;
       }
@@ -633,7 +713,7 @@
 
     async function start() {
       try {
-        if (typeof cytoscape !== 'function') throw new Error('Cytoscape 未能从 CDN 加载');
+        if (typeof cytoscape !== 'function') throw new Error('Cytoscape 本地资源加载失败，请重新运行 scripts/vendor_web_assets.sh');
         if (typeof cytoscapeFcose === 'function') cytoscape.use(cytoscapeFcose);
         const status = await fetchRevision();
         await loadGraph(status.revision);
@@ -652,7 +732,7 @@
       if (button && button.dataset.mode !== state.mode) replaceGraphElements(button.dataset.mode);
     });
     el.rebuildTaxonomy.addEventListener('click', rebuildTaxonomy);
-    el.labelsToggle.addEventListener('change', () => { state.showAllLabels = el.labelsToggle.checked; updateLabels(); });
+    el.labelsToggle.addEventListener('change', () => { state.showAllLabels = el.labelsToggle.checked; updateLabels(); persistGraphState(); notifyGraphContext(); });
     el.neighborOnly.addEventListener('change', applyFilters);
     el.filterButton.addEventListener('click', () => document.body.classList.add('filters-open'));
     el.closeFilters.addEventListener('click', () => document.body.classList.remove('filters-open'));
@@ -660,8 +740,8 @@
     el.mobileScrim.addEventListener('click', closePanels);
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closePanels(); el.searchResults.hidden = true; } });
     window.addEventListener('message', (event) => {
-      if (event.origin !== 'http://127.0.0.1:18080') return;
-      if (event.data?.type === 'kb-refresh') location.reload();
+      if (event.origin !== WORKBENCH_ORIGIN) return;
+      if (event.data?.type === 'kb-refresh') fetchRevision().then((status) => loadGraph(status.revision)).catch((error) => console.warn('Workbench graph refresh failed:', error));
     });
     start();
     setInterval(checkForUpdates, 4000);
