@@ -79,12 +79,12 @@ class ViewerContractTests(unittest.TestCase):
     def test_successful_render_reports_active_file_to_workbench(self):
         self.assertRegex(self.html, r"function\s+notifyActiveFile\s*\(")
         self.assertIn("window.parent.postMessage", self.html)
-        self.assertIn("kb-active-file", self.html)
+        self.assertIn("kb-context", self.html)
         self.assertIn("kb-open-navigation", self.html)
         self.assertIn("kb-refresh", self.html)
-        self.assertIn("location.reload()", self.html)
+        self.assertIn("retryIndexLoad()", self.html)
         self.assertIn("http://127.0.0.1:18080", self.html)
-        self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file)"))
+        self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file, pageTitle)"))
 
     def test_uses_only_local_browser_dependencies(self):
         self.assertNotIn("cdn.jsdelivr.net", self.html)

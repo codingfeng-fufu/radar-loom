@@ -31,6 +31,19 @@
     }
     .brand { margin: 0 0 18px; font-size: 18px; line-height: 1.3; }
     .brand a { color: var(--ink); text-decoration: none; }
+    .nav-tools { position: sticky; top: -20px; z-index: 4; margin: 0 -4px 12px; padding: 8px 4px; background: var(--sidebar); }
+    .nav-search-row { display: grid; grid-template-columns: minmax(0, 1fr) 34px; gap: 6px; }
+    .nav-search { width: 100%; height: 36px; border: 1px solid #b7c0c8; border-radius: 4px; padding: 0 10px; background: var(--paper); color: var(--ink); }
+    .nav-search:focus { border-color: var(--accent); outline: 2px solid rgb(11 107 87 / 14%); outline-offset: 0; }
+    .nav-tool-button { width: 34px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
+    .nav-tool-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .search-results-list { display: grid; gap: 6px; }
+    .search-card { display: block; border: 1px solid var(--line); border-radius: 4px; padding: 8px; background: var(--paper); color: var(--ink); text-decoration: none; }
+    .search-card:hover, .search-card[aria-current="page"] { border-color: var(--accent); background: var(--accent-soft); }
+    .search-card strong, .search-card small { display: block; }
+    .search-card small { margin-top: 3px; color: var(--muted); line-height: 1.35; }
+    .search-tags { margin-top: 5px; color: var(--accent); font-size: 11px; }
+    .nav-retry { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); padding: 6px 9px; cursor: pointer; }
     .nav-group { border-top: 1px solid var(--line); padding: 8px 0; }
     .nav-group summary { cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 700; }
     .nav-list { list-style: none; margin: 7px 0 0; padding: 0; }
@@ -80,7 +93,13 @@
   <div class="shell">
     <aside class="sidebar" id="sidebar" aria-label="知识库目录">
       <h1 class="brand"><a href="viewer.html">技术雷达知识库</a></h1>
-      <nav id="navigation"><p class="status">正在读取索引...</p></nav>
+      <div class="nav-tools">
+        <div class="nav-search-row">
+          <input class="nav-search" id="navigationSearch" type="search" aria-label="搜索知识页" placeholder="搜索标题、摘要或标签" autocomplete="off">
+          <button class="nav-tool-button" id="collapseAll" type="button" aria-label="全部折叠" title="全部折叠"><svg data-icon="collapse" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 15 5-5 5 5"/><path d="M7 20h10M7 4h10"/></svg></button>
+        </div>
+      </div>
+      <nav id="navigation" aria-live="polite"><div class="nav-skeleton"><p class="status">正在读取索引...</p></div></nav>
     </aside>
     <button class="scrim" id="scrim" aria-label="关闭导航"></button>
     <main class="main">
@@ -106,8 +125,13 @@
       frontmatter: document.querySelector('#frontmatter'),
       frontmatterText: document.querySelector('#frontmatterText'),
       message: document.querySelector('#message'),
-      navigation: document.querySelector('#navigation')
+      navigation: document.querySelector('#navigation'),
+      navigationSearch: document.querySelector('#navigationSearch'),
+      collapseAll: document.querySelector('#collapseAll')
     };
+    const NAVIGATION_STATE_KEY = 'radar-viewer-navigation-v1';
+    const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
+    const navigationState = { groups: [], entries: [], activeFile: DEFAULT_FILE, expanded: new Set(), initialized: false };
 
     function validatePath(value) {
       if (!value || typeof value !== 'string' || value.startsWith('/') || value.includes('\\')) return false;
@@ -206,6 +230,7 @@
     function parseIndex(markdown) {
       const groups = [];
       let current = null;
+      const entries = new Map();
       for (const line of markdown.split(/\r?\n/)) {
         const heading = line.match(/^##\s+(.+?)\s*$/);
         if (heading) {
@@ -213,10 +238,22 @@
           groups.push(current);
           continue;
         }
-        const item = line.match(/^-\s+\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/);
-        if (current && item) current.pages.push(item[1].trim());
+        const item = line.match(/^-\s+\[\[([^\]|]+)(?:\|([^\]]+))?\]\](?:\s+`([^`]*)`)?(?:\s+—\s+(.*))?$/);
+        if (!current || !item) continue;
+        const title = item[1].trim();
+        const file = `pages/${title}.md`;
+        const tags = (item[3] || '').match(/#[^\s#]+/g)?.map((tag) => tag.slice(1)) || [];
+        const aliases = item[2] ? [item[2].trim()] : [];
+        const entry = entries.get(file) || { title, file, summary: '', tags: [], aliases: [], categories: [] };
+        if (item[4]) entry.summary = item[4].trim();
+        entry.tags = [...new Set([...entry.tags, ...tags])];
+        entry.aliases = [...new Set([...entry.aliases, ...aliases])];
+        if (!entry.categories.includes(current.name)) entry.categories.push(current.name);
+        entry.searchText = normalizeSearch([entry.title, entry.summary, ...entry.tags, ...entry.aliases].join(' '));
+        entries.set(file, entry);
+        current.pages.push(entry);
       }
-      return groups.filter((group) => group.pages.length);
+      return { groups: groups.filter((group) => group.pages.length), entries: [...entries.values()] };
     }
 
     function setMessage(text, isError = false) {
@@ -225,16 +262,50 @@
       elements.message.className = isError ? 'error' : 'status';
     }
 
-    function notifyActiveFile(file) {
+    function notifyActiveFile(file, title) {
       if (window.parent === window) return;
       window.parent.postMessage({
-        type: 'kb-active-file',
-        file,
-        title: file.split('/').pop().replace(/\.md$/, '')
-      }, 'http://127.0.0.1:18080');
+        type: 'kb-context',
+        context: { kind: 'page', file, title: title || file.split('/').pop().replace(/\.md$/, '') }
+      }, WORKBENCH_ORIGIN);
     }
 
-    function renderSidebar(groups, activeFile) {
+    function normalizeSearch(value) {
+      return String(value || '').normalize('NFKC').toLocaleLowerCase('zh-CN').trim();
+    }
+
+    function restoreNavigationState() {
+      try {
+        const parsed = JSON.parse(sessionStorage.getItem(NAVIGATION_STATE_KEY) || '{}');
+        if (Array.isArray(parsed.expanded)) navigationState.expanded = new Set(parsed.expanded.filter((item) => typeof item === 'string'));
+      } catch (_error) {
+        navigationState.expanded = new Set();
+      }
+    }
+
+    function saveNavigationState() {
+      sessionStorage.setItem(NAVIGATION_STATE_KEY, JSON.stringify({ expanded: [...navigationState.expanded] }));
+    }
+
+    function pageLink(entry, className = '') {
+      const link = document.createElement('a');
+      link.href = `viewer.html?f=${encodeURIComponent(entry.file)}`;
+      link.dataset.file = entry.file;
+      link.className = className;
+      link.textContent = entry.title;
+      if (entry.file === navigationState.activeFile) link.setAttribute('aria-current', 'page');
+      return link;
+    }
+
+    function updateActiveNavigation(file) {
+      navigationState.activeFile = file;
+      elements.navigation.querySelectorAll('a[data-file]').forEach((link) => {
+        if (link.dataset.file === file) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    function renderCategorizedNavigation() {
       elements.navigation.replaceChildren();
       const graphLink = document.createElement('a');
       graphLink.href = 'graph-view.html';
@@ -242,37 +313,113 @@
       graphLink.className = 'nav-list';
       graphLink.style.padding = '8px';
       elements.navigation.append(graphLink);
-      for (const [index, group] of groups.entries()) {
+      for (const group of navigationState.groups) {
         const details = document.createElement('details');
         details.className = 'nav-group';
-        details.open = index < 2 || group.pages.some((name) => `pages/${name}.md` === activeFile);
+        details.dataset.group = group.name;
+        const containsActive = group.pages.some((entry) => entry.file === navigationState.activeFile);
+        details.open = navigationState.initialized ? navigationState.expanded.has(group.name) : containsActive;
         const summary = document.createElement('summary');
         summary.textContent = group.name;
         const list = document.createElement('ul');
         list.className = 'nav-list';
-        for (const name of group.pages) {
-          const link = document.createElement('a');
-          const file = `pages/${name}.md`;
-          link.href = viewerHref(name);
-          link.textContent = name;
-          if (file === activeFile) link.setAttribute('aria-current', 'page');
+        for (const entry of group.pages) {
+          const link = pageLink(entry);
           const item = document.createElement('li');
           item.append(link);
           list.append(item);
         }
+        details.addEventListener('toggle', () => {
+          if (details.open) navigationState.expanded.add(group.name);
+          else navigationState.expanded.delete(group.name);
+          saveNavigationState();
+        });
         details.append(summary, list);
         elements.navigation.append(details);
+      }
+      navigationState.initialized = true;
+    }
+
+    function renderSearchResults(matches) {
+      elements.navigation.replaceChildren();
+      const results = document.createElement('div');
+      results.className = 'search-results-list';
+      const active = navigationState.entries.find((entry) => entry.file === navigationState.activeFile);
+      const ordered = active && !matches.some((entry) => entry.file === active.file) ? [active, ...matches] : matches;
+      if (!ordered.length) {
+        const empty = document.createElement('p');
+        empty.className = 'status';
+        empty.textContent = '未找到匹配页面';
+        elements.navigation.append(empty);
+        return;
+      }
+      for (const entry of ordered) {
+        const card = pageLink(entry, 'search-card');
+        card.textContent = '';
+        const title = document.createElement('strong');
+        title.textContent = entry.file === navigationState.activeFile && !matches.includes(entry) ? `当前页面 · ${entry.title}` : entry.title;
+        card.append(title);
+        if (entry.summary) {
+          const summary = document.createElement('small');
+          summary.textContent = entry.summary;
+          card.append(summary);
+        }
+        if (entry.tags.length) {
+          const tags = document.createElement('div');
+          tags.className = 'search-tags';
+          tags.textContent = entry.tags.map((tag) => `#${tag}`).join(' ');
+          card.append(tags);
+        }
+        results.append(card);
+      }
+      elements.navigation.append(results);
+    }
+
+    function filterNavigation(query) {
+      const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
+      if (!terms.length) {
+        renderCategorizedNavigation();
+        return;
+      }
+      const matches = navigationState.entries
+        .filter((entry) => terms.every((term) => entry.searchText.includes(term)))
+        .sort((left, right) => {
+          const normalized = normalizeSearch(query);
+          const score = (entry) => normalizeSearch(entry.title).startsWith(normalized) ? 0
+            : normalizeSearch(entry.title).includes(normalized) ? 1
+              : entry.aliases.some((alias) => normalizeSearch(alias).includes(normalized)) ? 2
+                : entry.tags.some((tag) => normalizeSearch(tag).includes(normalized)) ? 3 : 4;
+          return score(left) - score(right) || left.title.localeCompare(right.title, 'zh-CN');
+        });
+      renderSearchResults(matches);
+    }
+
+    async function retryIndexLoad() {
+      try {
+        const response = await fetch('_index.md', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const parsed = parseIndex(await response.text());
+        navigationState.groups = parsed.groups;
+        navigationState.entries = parsed.entries;
+        restoreNavigationState();
+        filterNavigation(elements.navigationSearch.value);
+      } catch (error) {
+        elements.navigation.replaceChildren();
+        const message = document.createElement('p');
+        message.className = 'error';
+        message.textContent = `索引载入失败：${error.message}`;
+        const retry = document.createElement('button');
+        retry.className = 'nav-retry';
+        retry.type = 'button';
+        retry.textContent = '重试';
+        retry.addEventListener('click', retryIndexLoad);
+        elements.navigation.append(message, retry);
       }
     }
 
     async function loadSidebar(activeFile) {
-      try {
-        const response = await fetch('_index.md', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        renderSidebar(parseIndex(await response.text()), activeFile);
-      } catch (error) {
-        elements.navigation.textContent = `索引载入失败：${error.message}`;
-      }
+      navigationState.activeFile = activeFile;
+      await retryIndexLoad();
     }
 
     async function renderMarkdown(file) {
@@ -309,9 +456,11 @@
           block.parentElement.replaceWith(container);
         });
         await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') });
-        document.title = `${file.split('/').pop().replace(/\.md$/, '')} · 技术雷达`;
+        const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
+        document.title = `${pageTitle} · 技术雷达`;
         setMessage('');
-        notifyActiveFile(file);
+        updateActiveNavigation(file);
+        notifyActiveFile(file, pageTitle);
       } catch (error) {
         elements.content.replaceChildren();
         elements.frontmatter.hidden = true;
@@ -321,19 +470,71 @@
 
     function closeNavigation() { document.body.classList.remove('nav-open'); }
     window.addEventListener('message', (event) => {
-      if (event.origin !== 'http://127.0.0.1:18080') return;
+      if (event.origin !== WORKBENCH_ORIGIN) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
-      if (event.data?.type === 'kb-refresh') location.reload();
+      if (event.data?.type === 'kb-refresh') retryIndexLoad();
     });
     document.querySelector('#menuButton').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     document.querySelector('#scrim').addEventListener('click', closeNavigation);
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeNavigation(); });
+    elements.navigationSearch.addEventListener('input', () => filterNavigation(elements.navigationSearch.value));
+    elements.collapseAll.addEventListener('click', () => {
+      navigationState.expanded.clear();
+      saveNavigationState();
+      elements.navigationSearch.value = '';
+      renderCategorizedNavigation();
+    });
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('a[href^="viewer.html?f="]');
+      if (!link) return;
+      const file = link.dataset.file || new URL(link.href).searchParams.get('f');
+      if (!validatePath(file)) return;
+      event.preventDefault();
+      history.pushState({ file }, '', `viewer.html?f=${encodeURIComponent(file)}`);
+      renderMarkdown(file);
+      closeNavigation();
+    });
+    window.addEventListener('popstate', () => {
+      const file = new URLSearchParams(location.search).get('f') || DEFAULT_FILE;
+      renderMarkdown(file);
+    });
+    document.addEventListener('keydown', (event) => {
+      const editable = event.target.matches('input,textarea,[contenteditable="true"]');
+      if (event.key === '/' && !editable) {
+        event.preventDefault();
+        elements.navigationSearch.focus();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        elements.navigationSearch.focus();
+      }
+      if (event.key === 'Escape') {
+        if (elements.navigationSearch.value) {
+          elements.navigationSearch.value = '';
+          filterNavigation('');
+        } else closeNavigation();
+      }
+    });
 
-    marked.setOptions({ mangle: false, headerIds: false });
-    mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
-    const requestedFile = new URLSearchParams(location.search).get('f') || DEFAULT_FILE;
-    loadSidebar(requestedFile);
-    renderMarkdown(requestedFile);
+    function requireRuntime(name, value) {
+      if (!value) throw new Error(`${name} 本地资源加载失败，请重新运行 scripts/vendor_web_assets.sh`);
+      return value;
+    }
+
+    try {
+      requireRuntime('Marked', window.marked);
+      requireRuntime('DOMPurify', window.DOMPurify);
+      requireRuntime('Highlight.js', window.hljs);
+      requireRuntime('Mermaid', window.mermaid);
+      requireRuntime('KaTeX', window.katex);
+      requireRuntime('KaTeX auto-render', window.renderMathInElement);
+      marked.setOptions({ mangle: false, headerIds: false });
+      mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
+      const requestedFile = new URLSearchParams(location.search).get('f') || DEFAULT_FILE;
+      loadSidebar(requestedFile);
+      renderMarkdown(requestedFile);
+    } catch (error) {
+      setMessage(error.message, true);
+    }
   </script>
 </body>
 </html>
