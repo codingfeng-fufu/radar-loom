@@ -130,7 +130,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -195,10 +195,25 @@
       "created_at": "2026-07-15",
       "reason": "从历史分类标签迁移",
       "type": "create"
+    },
+    {
+      "category_ids": [
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-07-16",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
   "generated_at": "2026-07-16",
-  "last_global_at": "2026-07-15",
+  "last_global_at": "2026-07-16",
   "memberships": [
     {
       "category_id": "cat_seed_agents",
@@ -217,28 +232,42 @@
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-16",
       "page": "pages/BERT与GPT的区别 BERT vs GPT.md",
-      "reason": "历史人工标签 基础",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7490572816447207,
       "signals": {
-        "links": 0.0,
+        "links": 0.2631578947368421,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9721130132675171,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/BERT与GPT的区别 BERT vs GPT.md",
+      "reason": "语义 0.96，双链 0.26",
+      "score": 0.6407823092059085,
+      "signals": {
+        "links": 0.2631578947368421,
+        "projects": 0.0,
+        "semantic": 0.9583213925361633,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-16",
       "page": "pages/BERT与GPT的区别 BERT vs GPT.md",
-      "reason": "历史人工标签 LLM机制",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7758985337458157,
       "signals": {
-        "links": 0.0,
+        "links": 0.3684210526315789,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9729887843132019,
         "tags": 1.0
       }
     },
@@ -762,29 +791,57 @@
     },
     {
       "category_id": "cat_seed_foundations",
-      "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
-      "page": "pages/Transformer 自注意力机制.md",
-      "reason": "历史人工标签 基础",
-      "score": 1.0,
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/Transformer 架构 Architecture.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.7656829758123918,
       "signals": {
-        "links": 0.0,
+        "links": 0.3181818181818182,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9768958687782288,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/Transformer 架构 Architecture.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.7885767600753091,
+      "signals": {
+        "links": 0.4090909090909091,
+        "projects": 0.0,
+        "semantic": 0.977173388004303,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/Transformer 自注意力机制.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.7456563830375671,
+      "signals": {
+        "links": 0.3,
+        "projects": 0.0,
+        "semantic": 0.9510939717292786,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-07-16",
       "page": "pages/Transformer 自注意力机制.md",
-      "reason": "历史人工标签 LLM机制",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.7497460722923278,
       "signals": {
-        "links": 0.0,
+        "links": 0.3,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9579101204872131,
         "tags": 1.0
       }
     },
@@ -1056,6 +1113,34 @@
     },
     {
       "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/前馈网络 FFN Feed-Forward Network.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7737978133288297,
+      "signals": {
+        "links": 0.36363636363636365,
+        "projects": 0.0,
+        "semantic": 0.971481204032898,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/前馈网络 FFN Feed-Forward Network.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.772621324929324,
+      "signals": {
+        "links": 0.36363636363636365,
+        "projects": 0.0,
+        "semantic": 0.9695203900337219,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
       "last_confirmed_at": "2026-07-15",
       "page": "pages/卷积神经网络 CNN.md",
@@ -1247,6 +1332,34 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/多头注意力 Multi-Head Attention.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7856589237848917,
+      "signals": {
+        "links": 0.4166666666666667,
+        "projects": 0.0,
+        "semantic": 0.9691537618637085,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/多头注意力 Multi-Head Attention.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8064444780349731,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9690741300582886,
         "tags": 1.0
       }
     },
@@ -1825,6 +1938,34 @@
       }
     },
     {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/残差连接 Residual Connection.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8409529891881075,
+      "signals": {
+        "links": 0.6363636363636364,
+        "projects": 0.0,
+        "semantic": 0.9697701334953308,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/残差连接 Residual Connection.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8421279755505647,
+      "signals": {
+        "links": 0.6363636363636364,
+        "projects": 0.0,
+        "semantic": 0.9717284440994263,
+        "tags": 1.0
+      }
+    },
+    {
       "category_id": "cat_seed_evaluation",
       "first_assigned_at": "2026-07-15",
       "last_confirmed_at": "2026-07-15",
@@ -2105,6 +2246,34 @@
       }
     },
     {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/编码器-解码器结构 Encoder-Decoder Architecture.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.8524200598398843,
+      "signals": {
+        "links": 0.6666666666666666,
+        "projects": 0.0,
+        "semantic": 0.9762556552886963,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/编码器-解码器结构 Encoder-Decoder Architecture.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.868895145257314,
+      "signals": {
+        "links": 0.7333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9759363532066345,
+        "tags": 1.0
+      }
+    },
+    {
       "category_id": "cat_seed_kg",
       "first_assigned_at": "2026-07-15",
       "last_confirmed_at": "2026-07-15",
@@ -2116,6 +2285,62 @@
         "projects": 0.0,
         "semantic": 0.0,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/词嵌入 Word Embedding.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.780414342880249,
+      "signals": {
+        "links": 0.375,
+        "projects": 0.0,
+        "semantic": 0.977773904800415,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/词嵌入 Word Embedding.md",
+      "reason": "语义 0.97，双链 0.31",
+      "score": 0.6585904717445373,
+      "signals": {
+        "links": 0.3125,
+        "projects": 0.0,
+        "semantic": 0.9674424529075623,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/词嵌入 Word Embedding.md",
+      "reason": "语义 0.98，双链 0.19",
+      "score": 0.6319184303283691,
+      "signals": {
+        "links": 0.1875,
+        "projects": 0.0,
+        "semantic": 0.9750723838806152,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-16",
+      "last_confirmed_at": "2026-07-16",
+      "page": "pages/词嵌入 Word Embedding.md",
+      "reason": "语义 0.97，双链 0.25",
+      "score": 0.6438433766365051,
+      "signals": {
+        "links": 0.25,
+        "projects": 0.0,
+        "semantic": 0.9689056277275085,
+        "tags": 0.0
       }
     },
     {
@@ -2289,7 +2514,7 @@
   ],
   "page_fingerprints": {
     "pages/Agent 记忆架构.md": "df69bba9db493d992944a586552bebb3ff186fdb18819c001e017f77e739f117",
-    "pages/BERT与GPT的区别 BERT vs GPT.md": "bc955a37c7096e0e1c2132262f77e0a37f0c71037aed11ceeda4498e023f9253",
+    "pages/BERT与GPT的区别 BERT vs GPT.md": "caea5ea776727e024794c6ddb4a0de40cd97b264b5828fd478aa706525c20105",
     "pages/BigQuery Dremel 宽表建模 BigQuery-Dremel.md": "7d46fa1d0f46d208806c652ebb9a96ad5e23bfd98c7da48a861afc3528c73a97",
     "pages/ChronoLink.md": "8b92af539cf7b7e2628f970c0271c090b355066f7b47a0c883d33f829ed09cfe",
     "pages/CoMaGRAG.md": "edec7888fe020355b81437e2fda9158976748d9d5e17ae1912590149477635cb",
@@ -2317,7 +2542,8 @@
     "pages/Self-RAG.md": "1af4e09961e70a3fdaad69ff8d86f198414693dcdd17db552395383252d0b037",
     "pages/StructRAG 结构化知识推理.md": "d5f47aa79f26193c00df55382198d3f0b2b8957a75be3040fbecc749c581a769",
     "pages/TransE 图嵌入.md": "583fd72b5031a387f499eb17ca167e32be5e2ba8bc1bf1c68195392837bae3f5",
-    "pages/Transformer 自注意力机制.md": "37d5fc653d1db0e6c8074998594db0f9635aa73701497197f065859e344e45b9",
+    "pages/Transformer 架构 Architecture.md": "38bccc185c955ec6fde11f80d978456b6d1abe5bf6b594b933e5c3238967d45d",
+    "pages/Transformer 自注意力机制.md": "b75cfbc67470e29dc318adc72df26cec17fd5f78c81c1abe08742b3caeba1702",
     "pages/TripleChecker.md": "1d2e374a636f903debac523db4beb81ae6866436dda16772455c40547bbf87bb",
     "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
@@ -2334,6 +2560,7 @@
     "pages/分层评测 Stratified Evaluation.md": "94032ead236e6a67d8cae944c4fa40db119c0ad82f7d42d9a1596b19627401b2",
     "pages/分布偏移 Distribution Shift.md": "9b7a01aacc8b721973201c968749e3b901f17203f30f9e0b52a031dc4caf662e",
     "pages/前沿趋势 Frontier.md": "09b0c7ce03547952d78f0949d7b22f1cb1d1c1683ab48ee3c53788904a18b469",
+    "pages/前馈网络 FFN Feed-Forward Network.md": "e8f25d762aea55752b7234be202bae5cba4e06d6a2999dfbdc01a79636819c43",
     "pages/卷积神经网络 CNN.md": "5fa3ba414ea2576070e1da3d08fa9ea1bebdc8052388ea67465e131dff0530b0",
     "pages/反事实评测 Counterfactual Evaluation.md": "46c8cbb10db07a99726957e2d987f93a52daee3010fdd5c1c53d143fdbd62097",
     "pages/变分自编码器 VAE Variational Autoencoder.md": "e04ba8d970e3d24546734b93c4cf944ccfa85ff3e5d78007a0562a13208e52cc",
@@ -2345,6 +2572,7 @@
     "pages/图神经网络 GNN.md": "93e0962e0b2b516a4bdd54688e6aedf7ae592194108d6fca2c98ab06e9c7d8d2",
     "pages/图结构一致性 Graph Structure Consistency.md": "b1d15a0d0508605217919083ef60c431d6fe5575cb25577f63282ed937e82348",
     "pages/基准数据集 Benchmark.md": "b44367dc2d360a17057779793016afe6a56a4d7c1a337c21662415c58e45bff1",
+    "pages/多头注意力 Multi-Head Attention.md": "c40adf92f686240a8145ad97cecea484175a3cafb0e90dd34e1d64f395975596",
     "pages/多智能体系统 Multi-Agent Systems.md": "88df1dd163b2bc4b2044fcbd81d8c4937e8f125fd817bd3c9959aec21c435cb4",
     "pages/大模型机制与推理 LLM Mechanisms.md": "31439dd3820de1682e85cb38eb7925f5936ca33a22e358a47db0b9b3c9dadcd5",
     "pages/实体对齐 Entity Alignment.md": "123eb3b09db529791d951ed73eaf8f6c818c1fb7ede16dc66fd531e1f15e8507",
@@ -2377,6 +2605,7 @@
     "pages/机器遗忘 Machine Unlearning.md": "89cb7cf9418a5244222bf5bf4f473c75386b98be75d1a76ec69cfe146c65dfae",
     "pages/检索增强生成 RAG-GraphRAG.md": "11c99786cff99720db20ab34c6d3490bb2549261ce0456a53ba9a4fe3e8b3db4",
     "pages/模型校准 Calibration.md": "9dfec39b832c196245882d18fc5aa97039bf4662cdae775ca6dc52fe81558845",
+    "pages/残差连接 Residual Connection.md": "c6c4fb31f4184e0ab98360c45dca3e615dddba8197b01489bee4209fe6ba3b5f",
     "pages/消融实验 Ablation Study.md": "741354806de95a22ed810f55142b79cddec76a23c49edfcb69895fe1d903f9ca",
     "pages/涌现能力 Emergent Abilities.md": "bfec65f6f13b9b069a5ee259a588ea3f752b7d111901497e8c32ec0dc9e16e62",
     "pages/混合检索 Hybrid Retrieval.md": "5634321db3f7efe91c083ad06259c45341a0db051a71e29e2efcb3cf5545120d",
@@ -2393,8 +2622,10 @@
     "pages/符号人工智能 Symbolic AI.md": "41ed92ab3316ce9d406c5d109b286789201ac8e74c67320c67ff497cab284293",
     "pages/纠错RAG CRAG.md": "1991d58958538c9bcf689ec4404ea5420c1f66e2016b2986d7a5dcac402d51b4",
     "pages/红队测试 Red-teaming.md": "97ea212529f53fadefbeb5f7527de0236fc35f4598c727ae62f20d98ade7d16f",
+    "pages/编码器-解码器结构 Encoder-Decoder Architecture.md": "04dd940fce137e0fac9feedee1a6098f176cb427bd337b4c5c538bca41bbca0f",
     "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
     "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
+    "pages/词嵌入 Word Embedding.md": "c038b73223b0fd3301192318a762d8dfe1c5c8eb4358949e4d4e4d8f95619538",
     "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",
     "pages/语言模型困惑度 Perplexity.md": "cced8b4fd4d9082b4cd4c4b66c752516c993b363419ed69a41986a4687891836",
     "pages/资源描述框架 RDF OWL SPARQL.md": "f1923ad7f20020e7db58ff33f36599d1826ee256b6088fb6fc98da6ac6768de5",

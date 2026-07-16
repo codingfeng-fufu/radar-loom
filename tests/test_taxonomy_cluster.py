@@ -137,6 +137,24 @@ class TaxonomyClusterTests(unittest.TestCase):
         )
         self.assertEqual(first.to_dict(), second.to_dict())
 
+    def test_reconciliation_uses_explicit_root_page_path(self):
+        vectors = {
+            "首页": unit([1.0, 0.0]),
+            "A": unit([1.0, 0.01]),
+            "B": unit([1.0, -0.01]),
+        }
+        result = tc.reconcile_clusters(
+            tm.Registry.empty("hash", "2026-07-01"),
+            [{"首页", "A", "B"}],
+            vectors,
+            CONFIG,
+            "2026-07-16",
+            page_paths={"首页": "首页.md", "A": "pages/A.md", "B": "pages/B.md"},
+        )
+
+        self.assertIn("首页.md", {item.page for item in result.memberships})
+        self.assertNotIn("pages/首页.md", {item.page for item in result.memberships})
+
     def test_parent_relations_are_acyclic_and_related_relations_are_symmetric(self):
         groups = {
             "a": {"1", "2"},

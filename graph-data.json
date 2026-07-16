@@ -5218,6 +5218,21 @@
         "createdAt": "2026-07-15",
         "reason": "从历史分类标签迁移",
         "type": "create"
+      },
+      {
+        "categoryIds": [
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-07-16",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
     "generatedAt": "2026-07-16",
@@ -5242,11 +5257,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "BERT与GPT的区别 BERT vs GPT",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.762395599641298,
+        "score": 0.7490572816447207,
         "signals": {
-          "links": 0.3157894736842105,
+          "links": 0.2631578947368421,
           "projects": 0.0,
-          "semantic": 0.9724137187004089,
+          "semantic": 0.9721130132675171,
           "tags": 1.0
         }
       },
@@ -5256,11 +5271,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "BERT与GPT的区别 BERT vs GPT",
         "reason": "语义 0.96，双链 0.26",
-        "score": 0.6407822734431217,
+        "score": 0.6407823092059085,
         "signals": {
           "links": 0.2631578947368421,
           "projects": 0.0,
-          "semantic": 0.9583213329315186,
+          "semantic": 0.9583213925361633,
           "tags": 0.0
         }
       },
@@ -5270,11 +5285,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "BERT与GPT的区别 BERT vs GPT",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7890508852506938,
+        "score": 0.7758985337458157,
         "signals": {
-          "links": 0.42105263157894735,
+          "links": 0.3684210526315789,
           "projects": 0.0,
-          "semantic": 0.9729795455932617,
+          "semantic": 0.9729887843132019,
           "tags": 1.0
         }
       },
@@ -5508,11 +5523,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "LRU 缓存替换 Least Recently Used",
         "reason": "语义 0.96，双链 0.20",
-        "score": 0.6274892210960389,
+        "score": 0.6274892568588257,
         "signals": {
           "links": 0.2,
           "projects": 0.0,
-          "semantic": 0.9624820351600647,
+          "semantic": 0.9624820947647095,
           "tags": 0.0
         }
       },
@@ -5522,11 +5537,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "LRU 缓存替换 Least Recently Used",
         "reason": "语义 0.96，双链 0.20",
-        "score": 0.6255788087844849,
+        "score": 0.6255788445472718,
         "signals": {
           "links": 0.2,
           "projects": 0.0,
-          "semantic": 0.9592980146408081,
+          "semantic": 0.9592980742454529,
           "tags": 0.0
         }
       },
@@ -5798,29 +5813,57 @@
       },
       {
         "category": "cat_seed_foundations",
-        "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
-        "page": "Transformer 自注意力机制",
-        "reason": "历史人工标签 基础",
-        "score": 1.0,
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "Transformer 架构 Architecture",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.7656829758123918,
         "signals": {
-          "links": 0.0,
+          "links": 0.3181818181818182,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9768958687782288,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "Transformer 架构 Architecture",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.7885767600753091,
+        "signals": {
+          "links": 0.4090909090909091,
+          "projects": 0.0,
+          "semantic": 0.977173388004303,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "Transformer 自注意力机制",
+        "reason": "人工标签 1.00，语义 0.95",
+        "score": 0.7456563830375671,
+        "signals": {
+          "links": 0.3,
+          "projects": 0.0,
+          "semantic": 0.9510939717292786,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-07-16",
         "page": "Transformer 自注意力机制",
-        "reason": "历史人工标签 LLM机制",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.7497460722923278,
         "signals": {
-          "links": 0.0,
+          "links": 0.3,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9579101204872131,
           "tags": 1.0
         }
       },
@@ -6092,6 +6135,34 @@
       },
       {
         "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "前馈网络 FFN Feed-Forward Network",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7737978133288297,
+        "signals": {
+          "links": 0.36363636363636365,
+          "projects": 0.0,
+          "semantic": 0.971481204032898,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "前馈网络 FFN Feed-Forward Network",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.772621324929324,
+        "signals": {
+          "links": 0.36363636363636365,
+          "projects": 0.0,
+          "semantic": 0.9695203900337219,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
         "page": "卷积神经网络 CNN",
@@ -6283,6 +6354,34 @@
           "links": 0.0,
           "projects": 0.0,
           "semantic": 0.0,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "多头注意力 Multi-Head Attention",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7856589237848917,
+        "signals": {
+          "links": 0.4166666666666667,
+          "projects": 0.0,
+          "semantic": 0.9691537618637085,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "多头注意力 Multi-Head Attention",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.8064444780349731,
+        "signals": {
+          "links": 0.5,
+          "projects": 0.0,
+          "semantic": 0.9690741300582886,
           "tags": 1.0
         }
       },
@@ -6861,6 +6960,34 @@
         }
       },
       {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "残差连接 Residual Connection",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.8409529891881075,
+        "signals": {
+          "links": 0.6363636363636364,
+          "projects": 0.0,
+          "semantic": 0.9697701334953308,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "残差连接 Residual Connection",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.8421279755505647,
+        "signals": {
+          "links": 0.6363636363636364,
+          "projects": 0.0,
+          "semantic": 0.9717284440994263,
+          "tags": 1.0
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7141,6 +7268,34 @@
         }
       },
       {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "编码器-解码器结构 Encoder-Decoder Architecture",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.8524200598398843,
+        "signals": {
+          "links": 0.6666666666666666,
+          "projects": 0.0,
+          "semantic": 0.9762556552886963,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "编码器-解码器结构 Encoder-Decoder Architecture",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.868895145257314,
+        "signals": {
+          "links": 0.7333333333333333,
+          "projects": 0.0,
+          "semantic": 0.9759363532066345,
+          "tags": 1.0
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7160,11 +7315,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "词嵌入 Word Embedding",
         "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7797296643257141,
+        "score": 0.780414342880249,
         "signals": {
           "links": 0.375,
           "projects": 0.0,
-          "semantic": 0.9766327738761902,
+          "semantic": 0.977773904800415,
           "tags": 1.0
         }
       },
@@ -7187,12 +7342,12 @@
         "firstAssignedAt": "2026-07-16",
         "lastConfirmedAt": "2026-07-16",
         "page": "词嵌入 Word Embedding",
-        "reason": "语义 0.97，双链 0.19",
-        "score": 0.6307069659233093,
+        "reason": "语义 0.98，双链 0.19",
+        "score": 0.6319184303283691,
         "signals": {
           "links": 0.1875,
           "projects": 0.0,
-          "semantic": 0.9730532765388489,
+          "semantic": 0.9750723838806152,
           "tags": 0.0
         }
       },
@@ -7202,11 +7357,11 @@
         "lastConfirmedAt": "2026-07-16",
         "page": "词嵌入 Word Embedding",
         "reason": "语义 0.97，双链 0.25",
-        "score": 0.6438433408737182,
+        "score": 0.6438433766365051,
         "signals": {
           "links": 0.25,
           "projects": 0.0,
-          "semantic": 0.9689055681228638,
+          "semantic": 0.9689056277275085,
           "tags": 0.0
         }
       },
@@ -7384,7 +7539,7 @@
       "activeCategories": 8,
       "categories": 8,
       "forming": 0,
-      "memberships": 154,
+      "memberships": 164,
       "pendingPages": 0
     }
   }

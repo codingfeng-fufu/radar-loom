@@ -113,6 +113,22 @@ class TaxonomyEngineTests(unittest.TestCase):
         registry.last_global_at = "2026-07-14"
         self.assertFalse(te.global_due(registry, CONFIG, "2026-07-15"))
 
+    def test_pathological_global_collapse_is_rejected(self):
+        before = tm.Registry.empty("hash", "2026-07-15")
+        before.categories = {
+            f"cat_{index}": tm.Category(f"cat_{index}", str(index), str(index), "stable")
+            for index in range(8)
+        }
+        after = tm.Registry.empty("hash", "2026-07-16")
+        after.categories = {"cat_new": tm.Category("cat_new", "new", "new", "forming")}
+
+        self.assertTrue(te.pathological_global_collapse(before, after))
+        after.categories.update({
+            f"cat_{index}": tm.Category(f"cat_{index}", str(index), str(index), "stable")
+            for index in range(4)
+        })
+        self.assertFalse(te.pathological_global_collapse(before, after))
+
     def test_status_and_validate_do_not_construct_encoder(self):
         self.engine.migrate(today="2026-07-15")
         reader = te.TaxonomyEngine(self.root, CONFIG)

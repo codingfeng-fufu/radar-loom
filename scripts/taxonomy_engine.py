@@ -49,6 +49,12 @@ def global_due(registry: Registry, config: dict, now: str | dt.date) -> bool:
     return (current - baseline).days >= int(config["global_after_days"])
 
 
+def pathological_global_collapse(before: Registry, after: Registry) -> bool:
+    before_count = sum(category.status != "merged" for category in before.categories.values())
+    after_count = sum(category.status != "merged" for category in after.categories.values())
+    return before_count >= 4 and after_count < max(2, (before_count + 1) // 2)
+
+
 class DeterministicTestEncoder:
     model_name = "taxonomy-test-deterministic"
     max_chars = 8192
@@ -315,7 +321,29 @@ class TaxonomyEngine:
             result.last_global_at = timestamp
             result.changes_since_global = 0
         else:
-            result = tc.reconcile_clusters(registry, clusters, vectors, self.config, timestamp)
+            result = tc.reconcile_clusters(
+                registry,
+                clusters,
+                vectors,
+                self.config,
+                timestamp,
+                page_paths={name: self._stable_path(page) for name, page in pages.items()},
+            )
+
+        if pathological_global_collapse(registry, result):
+            result = Registry.from_dict(registry.to_dict())
+            result.generated_at = timestamp
+            result.last_global_at = timestamp
+            result.changes_since_global = 0
+            result.events.append(TaxonomyEvent(
+                "reject",
+                sorted(result.categories),
+                "拒绝全局重组：候选结构丢失超过一半有效类别",
+                timestamp,
+            ))
+            existing_paths = self._existing_paths(pages)
+            write_registry(self.registry_path, result, existing_paths)
+            return result
 
         old_members = {}
         for item in registry.memberships:

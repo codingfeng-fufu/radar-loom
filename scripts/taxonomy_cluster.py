@@ -167,7 +167,10 @@ def reconcile_clusters(
     vectors: dict[str, np.ndarray],
     config: dict,
     today: str,
+    page_paths: dict[str, str] | None = None,
 ) -> Registry:
+    page_paths = page_paths or {}
+    path_for = lambda name: page_paths.get(name, f"pages/{name}.md")
     result = Registry.from_dict(registry.to_dict())
     old_members = _member_map(registry)
     active_ids = sorted(old_members)
@@ -202,7 +205,7 @@ def reconcile_clusters(
     occupied = set(registry.categories)
     for index, cluster in enumerate(clusters):
         if index not in new_ids:
-            category_id = new_category_id([f"pages/{name}.md" for name in cluster], occupied)
+            category_id = new_category_id([path_for(name) for name in cluster], occupied)
             occupied.add(category_id)
             new_ids[index] = category_id
 
@@ -282,7 +285,7 @@ def reconcile_clusters(
             score = _cosine(vectors[name], centroid)
             memberships.append(
                 Membership(
-                    page=f"pages/{name}.md",
+                    page=path_for(name),
                     category_id=category_id,
                     score=score,
                     signals={"semantic": score, "links": 0.0, "tags": 0.0, "projects": 0.0},
