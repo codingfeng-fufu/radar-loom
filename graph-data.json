@@ -2547,356 +2547,436 @@
     },
     {
       "id": "e0508",
+      "source": "词嵌入 Word Embedding",
+      "target": "BERT与GPT的区别 BERT vs GPT"
+    },
+    {
+      "id": "e0509",
+      "source": "词嵌入 Word Embedding",
+      "target": "CoMaGRAG"
+    },
+    {
+      "id": "e0510",
+      "source": "词嵌入 Word Embedding",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0511",
+      "source": "词嵌入 Word Embedding",
+      "target": "GSAD"
+    },
+    {
+      "id": "e0512",
+      "source": "词嵌入 Word Embedding",
+      "target": "K近邻 KNN K-Nearest Neighbors"
+    },
+    {
+      "id": "e0513",
+      "source": "词嵌入 Word Embedding",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0514",
+      "source": "词嵌入 Word Embedding",
+      "target": "Transformer 自注意力机制"
+    },
+    {
+      "id": "e0515",
+      "source": "词嵌入 Word Embedding",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0516",
+      "source": "词嵌入 Word Embedding",
+      "target": "信息检索 IR基础模型 Information Retrieval"
+    },
+    {
+      "id": "e0517",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0518",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0519",
+      "source": "词嵌入 Word Embedding",
+      "target": "对比学习 Contrastive Learning"
+    },
+    {
+      "id": "e0520",
+      "source": "词嵌入 Word Embedding",
+      "target": "归一化 Normalization"
+    },
+    {
+      "id": "e0521",
+      "source": "词嵌入 Word Embedding",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0522",
+      "source": "词嵌入 Word Embedding",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0523",
+      "source": "词嵌入 Word Embedding",
+      "target": "混合检索 Hybrid Retrieval"
+    },
+    {
+      "id": "e0524",
       "source": "词性标注 POS Tagging",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0509",
+      "id": "e0525",
       "source": "词性标注 POS Tagging",
       "target": "TripleChecker"
     },
     {
-      "id": "e0510",
+      "id": "e0526",
       "source": "词性标注 POS Tagging",
       "target": "依存句法分析 Dependency Parsing"
     },
     {
-      "id": "e0511",
+      "id": "e0527",
       "source": "词性标注 POS Tagging",
       "target": "命名实体识别 NER"
     },
     {
-      "id": "e0512",
+      "id": "e0528",
       "source": "词性标注 POS Tagging",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0513",
+      "id": "e0529",
       "source": "词性标注 POS Tagging",
       "target": "开放信息抽取 OpenIE"
     },
     {
-      "id": "e0514",
+      "id": "e0530",
       "source": "语言模型困惑度 Perplexity",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0515",
+      "id": "e0531",
       "source": "语言模型困惑度 Perplexity",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0516",
+      "id": "e0532",
       "source": "语言模型困惑度 Perplexity",
       "target": "TripleChecker"
     },
     {
-      "id": "e0517",
+      "id": "e0533",
       "source": "语言模型困惑度 Perplexity",
       "target": "分层评测 Stratified Evaluation"
     },
     {
-      "id": "e0518",
+      "id": "e0534",
       "source": "语言模型困惑度 Perplexity",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0519",
+      "id": "e0535",
       "source": "语言模型困惑度 Perplexity",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0520",
+      "id": "e0536",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "本体 Ontology"
     },
     {
-      "id": "e0521",
+      "id": "e0537",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0522",
+      "id": "e0538",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱构建流程 KG Construction Pipeline"
     },
     {
-      "id": "e0523",
+      "id": "e0539",
       "source": "过拟合 Overfitting",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0524",
+      "id": "e0540",
       "source": "过拟合 Overfitting",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0525",
+      "id": "e0541",
       "source": "过拟合 Overfitting",
       "target": "知识图谱质量评估维度"
     },
     {
-      "id": "e0526",
+      "id": "e0542",
       "source": "过拟合 Overfitting",
       "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
-      "id": "e0527",
+      "id": "e0543",
       "source": "选择性预测 Selective Prediction",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0528",
+      "id": "e0544",
       "source": "选择性预测 Selective Prediction",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0529",
+      "id": "e0545",
       "source": "选择性预测 Selective Prediction",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0530",
+      "id": "e0546",
       "source": "选择性预测 Selective Prediction",
       "target": "模型校准 Calibration"
     },
     {
-      "id": "e0531",
+      "id": "e0547",
       "source": "选择性预测 Selective Prediction",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0532",
-      "source": "链接预测 Link Prediction",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0533",
-      "source": "链接预测 Link Prediction",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0534",
-      "source": "链接预测 Link Prediction",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0535",
-      "source": "链接预测 Link Prediction",
-      "target": "GraphRAG 架构"
-    },
-    {
-      "id": "e0536",
-      "source": "链接预测 Link Prediction",
-      "target": "KG-RAG 工作原理"
-    },
-    {
-      "id": "e0537",
-      "source": "链接预测 Link Prediction",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0538",
-      "source": "链接预测 Link Prediction",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0539",
-      "source": "链接预测 Link Prediction",
-      "target": "关系图卷积网络 RGCN"
-    },
-    {
-      "id": "e0540",
-      "source": "链接预测 Link Prediction",
-      "target": "图神经网络 GNN"
-    },
-    {
-      "id": "e0541",
-      "source": "链接预测 Link Prediction",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0542",
-      "source": "链接预测 Link Prediction",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0543",
-      "source": "链接预测 Link Prediction",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0544",
-      "source": "链接预测 Link Prediction",
-      "target": "开放信息抽取 OpenIE"
-    },
-    {
-      "id": "e0545",
-      "source": "链接预测 Link Prediction",
-      "target": "文本蕴含与自然语言推理 NLI"
-    },
-    {
-      "id": "e0546",
-      "source": "链接预测 Link Prediction",
-      "target": "本体 Ontology"
-    },
-    {
-      "id": "e0547",
-      "source": "链接预测 Link Prediction",
-      "target": "知识图谱 KG"
-    },
-    {
       "id": "e0548",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱补全 Knowledge Graph Completion"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0549",
       "source": "链接预测 Link Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0550",
       "source": "链接预测 Link Prediction",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0551",
+      "source": "链接预测 Link Prediction",
+      "target": "GraphRAG 架构"
+    },
+    {
+      "id": "e0552",
+      "source": "链接预测 Link Prediction",
+      "target": "KG-RAG 工作原理"
+    },
+    {
+      "id": "e0553",
+      "source": "链接预测 Link Prediction",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0554",
+      "source": "链接预测 Link Prediction",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0555",
+      "source": "链接预测 Link Prediction",
+      "target": "关系图卷积网络 RGCN"
+    },
+    {
+      "id": "e0556",
+      "source": "链接预测 Link Prediction",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0557",
+      "source": "链接预测 Link Prediction",
+      "target": "图结构一致性 Graph Structure Consistency"
+    },
+    {
+      "id": "e0558",
+      "source": "链接预测 Link Prediction",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0559",
+      "source": "链接预测 Link Prediction",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0560",
+      "source": "链接预测 Link Prediction",
+      "target": "开放信息抽取 OpenIE"
+    },
+    {
+      "id": "e0561",
+      "source": "链接预测 Link Prediction",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0562",
+      "source": "链接预测 Link Prediction",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0563",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0564",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱补全 Knowledge Graph Completion"
+    },
+    {
+      "id": "e0565",
+      "source": "链接预测 Link Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0566",
+      "source": "链接预测 Link Prediction",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0567",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0552",
+      "id": "e0568",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "TripleChecker"
     },
     {
-      "id": "e0553",
+      "id": "e0569",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "人类反馈强化学习 RLHF"
     },
     {
-      "id": "e0554",
+      "id": "e0570",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0555",
+      "id": "e0571",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0556",
+      "id": "e0572",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "提示工程 Prompt Engineering"
     },
     {
-      "id": "e0557",
+      "id": "e0573",
       "source": "首页",
       "target": "ChronoLink"
     },
     {
-      "id": "e0558",
+      "id": "e0574",
       "source": "首页",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0559",
+      "id": "e0575",
       "source": "首页",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0560",
+      "id": "e0576",
       "source": "首页",
       "target": "GSAD"
     },
     {
-      "id": "e0561",
+      "id": "e0577",
       "source": "首页",
       "target": "TripleChecker"
     },
     {
-      "id": "e0562",
+      "id": "e0578",
       "source": "首页",
       "target": "前沿趋势 Frontier"
     },
     {
-      "id": "e0563",
+      "id": "e0579",
       "source": "首页",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0564",
+      "id": "e0580",
       "source": "首页",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0565",
+      "id": "e0581",
       "source": "首页",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0566",
+      "id": "e0582",
       "source": "首页",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0567",
+      "id": "e0583",
       "source": "首页",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0568",
+      "id": "e0584",
       "source": "首页",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0569",
+      "id": "e0585",
       "source": "首页",
       "target": "评测方法 Evaluation Methods"
     },
     {
-      "id": "e0570",
+      "id": "e0586",
       "source": "马尔可夫 Markov",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0571",
+      "id": "e0587",
       "source": "马尔可夫 Markov",
       "target": "TripleChecker"
     },
     {
-      "id": "e0572",
+      "id": "e0588",
       "source": "马尔可夫 Markov",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0573",
+      "id": "e0589",
       "source": "马尔可夫 Markov",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0574",
+      "id": "e0590",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0575",
+      "id": "e0591",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "TripleChecker"
     },
     {
-      "id": "e0576",
+      "id": "e0592",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "主题模型 LDA"
     },
     {
-      "id": "e0577",
+      "id": "e0593",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0578",
+      "id": "e0594",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
@@ -2919,7 +2999,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 19,
+      "degree": 20,
       "href": "viewer.html?f=pages%2FBERT%E4%B8%8EGPT%E7%9A%84%E5%8C%BA%E5%88%AB%20BERT%20vs%20GPT.md",
       "id": "BERT与GPT的区别 BERT vs GPT",
       "kind": "concept",
@@ -2959,7 +3039,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 6,
+      "degree": 7,
       "href": "viewer.html?f=pages%2FCoMaGRAG.md",
       "id": "CoMaGRAG",
       "kind": "project",
@@ -2985,7 +3065,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 74,
+      "degree": 75,
       "href": "viewer.html?f=pages%2FEvidenceFirst.md",
       "id": "EvidenceFirst",
       "kind": "project",
@@ -3026,7 +3106,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 4,
+      "degree": 5,
       "href": "viewer.html?f=pages%2FGSAD.md",
       "id": "GSAD",
       "kind": "project",
@@ -3092,7 +3172,7 @@
     {
       "category": "RAG",
       "confidence": "高",
-      "degree": 7,
+      "degree": 8,
       "href": "viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md",
       "id": "K近邻 KNN K-Nearest Neighbors",
       "kind": "concept",
@@ -3282,7 +3362,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 8,
+      "degree": 9,
       "href": "viewer.html?f=pages%2FTransE%20%E5%9B%BE%E5%B5%8C%E5%85%A5.md",
       "id": "TransE 图嵌入",
       "kind": "concept",
@@ -3295,7 +3375,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 16,
+      "degree": 17,
       "href": "viewer.html?f=pages%2FTransformer%20%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6.md",
       "id": "Transformer 自注意力机制",
       "kind": "concept",
@@ -3309,7 +3389,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 52,
+      "degree": 53,
       "href": "viewer.html?f=pages%2FTripleChecker.md",
       "id": "TripleChecker",
       "kind": "project",
@@ -3441,7 +3521,7 @@
     {
       "category": "RAG",
       "confidence": "高",
-      "degree": 6,
+      "degree": 7,
       "href": "viewer.html?f=pages%2F%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%20IR%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%20Information%20Retrieval.md",
       "id": "信息检索 IR基础模型 Information Retrieval",
       "kind": "concept",
@@ -3699,7 +3779,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 10,
+      "degree": 11,
       "href": "viewer.html?f=pages%2F%E5%AE%9E%E4%BD%93%E5%AF%B9%E9%BD%90%20Entity%20Alignment.md",
       "id": "实体对齐 Entity Alignment",
       "kind": "concept",
@@ -3712,7 +3792,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2F%E5%AE%9E%E4%BD%93%E6%B6%88%E6%AD%A7%20Entity%20Disambiguation.md",
       "id": "实体消歧 Entity Disambiguation",
       "kind": "concept",
@@ -3765,7 +3845,7 @@
     {
       "category": "基础",
       "confidence": "高",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2F%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%20Contrastive%20Learning.md",
       "id": "对比学习 Contrastive Learning",
       "kind": "concept",
@@ -3874,7 +3954,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 12,
+      "degree": 13,
       "href": "viewer.html?f=pages%2F%E5%BD%92%E4%B8%80%E5%8C%96%20Normalization.md",
       "id": "归一化 Normalization",
       "kind": "concept",
@@ -3997,7 +4077,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 26,
+      "degree": 27,
       "href": "viewer.html?f=pages%2F%E6%96%87%E6%9C%AC%E8%95%B4%E5%90%AB%E4%B8%8E%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E6%8E%A8%E7%90%86%20NLI.md",
       "id": "文本蕴含与自然语言推理 NLI",
       "kind": "concept",
@@ -4038,7 +4118,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 11,
+      "degree": 12,
       "href": "viewer.html?f=pages%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8ENLP%E5%9F%BA%E7%A1%80%20ML-NLP%20Foundations.md",
       "id": "机器学习与NLP基础 ML-NLP Foundations",
       "kind": "moc",
@@ -4131,7 +4211,7 @@
     {
       "category": "RAG",
       "confidence": "中",
-      "degree": 11,
+      "degree": 12,
       "href": "viewer.html?f=pages%2F%E6%B7%B7%E5%90%88%E6%A3%80%E7%B4%A2%20Hybrid%20Retrieval.md",
       "id": "混合检索 Hybrid Retrieval",
       "kind": "concept",
@@ -4346,6 +4426,19 @@
       ]
     },
     {
+      "category": "基础",
+      "confidence": "高",
+      "degree": 16,
+      "href": "viewer.html?f=pages%2F%E8%AF%8D%E5%B5%8C%E5%85%A5%20Word%20Embedding.md",
+      "id": "词嵌入 Word Embedding",
+      "kind": "concept",
+      "label": "词嵌入 Word Embedding",
+      "summary": "词嵌入把词映射为低维稠密向量,让语义可计算,从Word2Vec到BERT上下文嵌入是NLP表示学习的基石。",
+      "tags": [
+        "基础"
+      ]
+    },
+    {
       "category": "KG",
       "confidence": "高",
       "degree": 9,
@@ -4481,9 +4574,9 @@
   ],
   "stats": {
     "broken": 0,
-    "edges": 578,
+    "edges": 594,
     "isolated": 0,
-    "nodes": 117
+    "nodes": 118
   },
   "taxonomy": {
     "categories": [
@@ -4701,28 +4794,42 @@
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-07-16",
         "page": "BERT与GPT的区别 BERT vs GPT",
-        "reason": "历史人工标签 基础",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.762395599641298,
         "signals": {
-          "links": 0.0,
+          "links": 0.3157894736842105,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9724137187004089,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_kg",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "BERT与GPT的区别 BERT vs GPT",
+        "reason": "语义 0.96，双链 0.26",
+        "score": 0.6407822734431217,
+        "signals": {
+          "links": 0.2631578947368421,
+          "projects": 0.0,
+          "semantic": 0.9583213329315186,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-07-16",
         "page": "BERT与GPT的区别 BERT vs GPT",
-        "reason": "历史人工标签 LLM机制",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7890508852506938,
         "signals": {
-          "links": 0.0,
+          "links": 0.42105263157894735,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9729795455932617,
           "tags": 1.0
         }
       },
@@ -6776,7 +6883,7 @@
       "activeCategories": 8,
       "categories": 8,
       "forming": 0,
-      "memberships": 149,
+      "memberships": 150,
       "pendingPages": 0
     }
   }
