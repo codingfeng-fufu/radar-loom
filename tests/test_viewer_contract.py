@@ -20,7 +20,7 @@ class ViewerContractTests(unittest.TestCase):
                 self.assertIn(library, self.html.lower())
 
     def test_highlight_uses_a_browser_bundle(self):
-        self.assertIn("cdnjs.cloudflare.com/ajax/libs/highlight.js", self.html)
+        self.assertIn("vendor/highlight/highlight.min.js", self.html)
         self.assertNotIn("highlight.js@11.11.1/lib/common.min.js", self.html)
 
     def test_katex_assets_and_all_supported_delimiters_are_present(self):
