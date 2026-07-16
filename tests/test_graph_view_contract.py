@@ -107,6 +107,32 @@ class GraphViewContractTests(unittest.TestCase):
             ),
         )
 
+    def test_persists_and_restores_graph_workspace(self):
+        self.assertIn("radar-graph-state-v1", self.html)
+        for function in (
+            "readPersistedState",
+            "persistGraphState",
+            "restoreGraphViewport",
+            "notifyGraphContext",
+        ):
+            with self.subTest(function=function):
+                self.assertRegex(self.html, rf"function\s+{function}\s*\(")
+        self.assertIn("selectedNodeId", self.html)
+        self.assertIn("state.cy.on('pan zoom'", self.html)
+
+    def test_refreshes_in_place_and_uses_local_dependencies(self):
+        self.assertNotIn("cdn.jsdelivr.net", self.html)
+        self.assertNotIn("location.reload()", self.html)
+        self.assertIn("await loadGraph", self.html)
+        self.assertIn("vendor/cytoscape/cytoscape.min.js", self.html)
+
+    def test_reports_graph_context_and_uses_stable_tool_icons(self):
+        self.assertIn("kb-context", self.html)
+        self.assertIn("kind: 'graph'", self.html)
+        self.assertIn("visibleNodes", self.html)
+        self.assertIn("data-icon=", self.html)
+        self.assertNotIn(">⌗<", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()

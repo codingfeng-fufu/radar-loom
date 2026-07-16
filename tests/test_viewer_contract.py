@@ -86,6 +86,39 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("http://127.0.0.1:18080", self.html)
         self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file)"))
 
+    def test_uses_only_local_browser_dependencies(self):
+        self.assertNotIn("cdn.jsdelivr.net", self.html)
+        self.assertNotIn("cdnjs.cloudflare.com", self.html)
+        for asset in (
+            "vendor/marked/marked.min.js",
+            "vendor/dompurify/purify.min.js",
+            "vendor/katex/katex.min.css",
+            "vendor/mermaid/mermaid.min.js",
+        ):
+            with self.subTest(asset=asset):
+                self.assertIn(asset, self.html)
+
+    def test_sidebar_search_and_persisted_expansion_are_implemented(self):
+        for value in ('id="navigationSearch"', 'aria-label="搜索知识页"', 'id="collapseAll"'):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        for function in (
+            "filterNavigation",
+            "saveNavigationState",
+            "restoreNavigationState",
+            "retryIndexLoad",
+        ):
+            with self.subTest(function=function):
+                self.assertRegex(self.html, rf"function\s+{function}\s*\(")
+        self.assertIn("radar-viewer-navigation-v1", self.html)
+        self.assertIn("event.key === '/'", self.html)
+        self.assertIn("event.key.toLowerCase() === 'k'", self.html)
+
+    def test_reports_structured_page_context(self):
+        self.assertIn("kb-context", self.html)
+        self.assertIn("kind: 'page'", self.html)
+        self.assertIn("title:", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
