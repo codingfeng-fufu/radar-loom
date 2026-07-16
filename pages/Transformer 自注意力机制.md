@@ -18,11 +18,16 @@ tags: [LLM机制, 基础]
 
 ## 交叉引用
 
+- [[Transformer 架构 Architecture]]
+- [[多头注意力 Multi-Head Attention]]
 - [[大模型机制与推理 LLM Mechanisms]]
 - [[位置编码 Positional Encoding]]
 - [[层归一化 LayerNorm BatchNorm]]
+- [[残差连接 Residual Connection]]
+- [[前馈网络 FFN Feed-Forward Network]]
 - [[神经符号方法 Neuro-Symbolic AI]]
 
 ## 更新记录
 
 - 2026-07-04: 首次建页
+- 2026-07-16: 补齐交叉引用,指向新增的 Transformer 架构 hub、多头注意力、残差连接与 FFN 部件页。

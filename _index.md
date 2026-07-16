@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-16 · 页面 104 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-16 · 页面 109 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -62,12 +62,15 @@
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。
 - [[LLM 推理优化 KV Cache Quantization]] `#LLM机制` — LLM推理优化的两个核心技术是KV Cache和量化。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
+- [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[上下文学习 In-context Learning]] `#LLM机制` — 上下文学习让LLM仅凭提示中的示例完成任务而无需更新参数。
 - [[人类反馈强化学习 RLHF]] `#LLM机制` — RLHF是让LLM对齐人类偏好的核心技术，ChatGPT就是用RLHF做的对齐。
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
+- [[前馈网络 FFN Feed-Forward Network]] `#LLM机制 #基础` — Transformer的position-wise FFN在每个token独立做两层MLP,承载大部分参数与事实性知识。
 - [[卷积神经网络 CNN]] `#LLM机制 #基础` — 卷积神经网络的核心思想是局部连接和权重共享。
 - [[后训练 Post-training]] `#LLM机制` — 预训练之后的SFT+偏好对齐+RL阶段，把基座模型改造成可用、可控、可对齐的对话或推理模型。
+- [[多头注意力 Multi-Head Attention]] `#LLM机制 #基础` — 多头注意力把缩放点积注意力并行运行h次,每头在低维子空间学不同关注模式,再拼接投影回原维度。
 - [[层归一化 LayerNorm BatchNorm]] `#LLM机制 #基础` — BatchNorm与LayerNorm通过不同归一化维度稳定神经网络训练。
 - [[强化学习基本框架 Reinforcement Learning]] `#LLM机制 #基础` — 强化学习通过智能体与环境交互并最大化累积奖励来学习策略。
 - [[归一化 Normalization]] `#基础 #LLM机制` — 归一化把数据或激活的尺度统一到可比较区间,分为数据归一化与网络归一化两大家族,是训练稳定与距离度量有效的前提。
@@ -78,8 +81,10 @@
 - [[文本摘要 Text Summarization]] `#LLM机制 #基础` — 文本摘要通过抽取式或生成式方法压缩原文并保留关键信息。
 - [[旋转位置编码 RoPE]] `#LLM机制 #基础` — RoPE（旋转位置编码）是现在LLM最常用的位置编码方案，GPT-3、LLaMA系列都用它。
 - [[机器翻译 Machine Translation]] `#LLM机制 #基础` — 机器翻译经历规则、统计、神经网络到大模型驱动的技术演进。
+- [[残差连接 Residual Connection]] `#LLM机制 #基础` — 残差连接以y=x+F(x)让梯度直通深层,是训练百层以上Transformer/ResNet的必要条件。
 - [[涌现能力 Emergent Abilities]] `#LLM机制` — 涌现能力是指当模型规模超过某个阈值后，突然出现的能力——在小模型上几乎不存在，在大模型上性能显著提升。
 - [[激活函数 Activation Functions]] `#LLM机制 #基础` — 激活函数为神经网络引入非线性，没有它多层网络等价于单层线性模型。
+- [[编码器-解码器结构 Encoder-Decoder Architecture]] `#LLM机制 #基础` — 编码器双向理解输入,解码器因果生成并通过交叉注意力关注编码器输出,原始Transformer与T5的核心结构。
 - [[语言模型困惑度 Perplexity]] `#LLM机制` — 困惑度（Perplexity，PPL）是评估语言模型最经典的指标，衡量模型对测试文本的「惊讶程度」。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
@@ -120,15 +125,18 @@
 - [[LRU 缓存替换 Least Recently Used]] `#基础` — LRU用近期访问时间近似最优替换,以哈希表加双向链表实现O(1)存取,是缓存与页面替换基线算法。
 - [[Robust Scaler 鲁棒缩放]] `#基础` — Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
+- [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
 - [[依存句法分析 Dependency Parsing]] `#KG #基础` — 依存句法分析是分析句子里词和词之间的语法依存关系的任务，用有向图表示，边从修饰词指向被修饰词，边上标注关系类型。
 - [[信息检索 IR基础模型 Information Retrieval]] `#RAG #基础` — 信息检索从布尔匹配、向量空间发展到概率模型和神经检索。
 - [[关联规则挖掘 Apriori]] `#基础` — 关联规则挖掘是从事务数据库里找频繁共现的项目集的任务，典型场景是购物篮分析。
+- [[前馈网络 FFN Feed-Forward Network]] `#LLM机制 #基础` — Transformer的position-wise FFN在每个token独立做两层MLP,承载大部分参数与事实性知识。
 - [[卷积神经网络 CNN]] `#LLM机制 #基础` — 卷积神经网络的核心思想是局部连接和权重共享。
 - [[变分自编码器 VAE Variational Autoencoder]] `#基础` — VAE用神经网络参数化隐变量后验和生成器,通过最大化ELBO训练,是EM思想在深度生成模型上的延伸,也是扩散模型的前身。
 - [[命名实体识别 NER]] `#KG #基础` — 命名实体识别是从文本中识别出具有特定意义实体的任务，是知识图谱构建的第一步。
+- [[多头注意力 Multi-Head Attention]] `#LLM机制 #基础` — 多头注意力把缩放点积注意力并行运行h次,每头在低维子空间学不同关注模式,再拼接投影回原维度。
 - [[对比学习 Contrastive Learning]] `#基础` — 对比学习通过拉近正样本对、推开负样本对学习表示,以InfoNCE为核心损失,是稠密检索与多模态对齐的基础范式。
 - [[层归一化 LayerNorm BatchNorm]] `#LLM机制 #基础` — BatchNorm与LayerNorm通过不同归一化维度稳定神经网络训练。
 - [[序列标注模型 HMM CRF]] `#KG #基础` — HMM与CRF以概率图模型方式联合预测序列中各位置的标签。
@@ -140,7 +148,9 @@
 - [[文本摘要 Text Summarization]] `#LLM机制 #基础` — 文本摘要通过抽取式或生成式方法压缩原文并保留关键信息。
 - [[旋转位置编码 RoPE]] `#LLM机制 #基础` — RoPE（旋转位置编码）是现在LLM最常用的位置编码方案，GPT-3、LLaMA系列都用它。
 - [[机器翻译 Machine Translation]] `#LLM机制 #基础` — 机器翻译经历规则、统计、神经网络到大模型驱动的技术演进。
+- [[残差连接 Residual Connection]] `#LLM机制 #基础` — 残差连接以y=x+F(x)让梯度直通深层,是训练百层以上Transformer/ResNet的必要条件。
 - [[激活函数 Activation Functions]] `#LLM机制 #基础` — 激活函数为神经网络引入非线性，没有它多层网络等价于单层线性模型。
+- [[编码器-解码器结构 Encoder-Decoder Architecture]] `#LLM机制 #基础` — 编码器双向理解输入,解码器因果生成并通过交叉注意力关注编码器输出,原始Transformer与T5的核心结构。
 - [[词嵌入 Word Embedding]] `#基础` — 词嵌入把词映射为低维稠密向量,让语义可计算,从Word2Vec到BERT上下文嵌入是NLP表示学习的基石。
 - [[词性标注 POS Tagging]] `#KG #基础` — 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
