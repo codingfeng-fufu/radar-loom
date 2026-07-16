@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 
@@ -51,6 +53,36 @@ class TaxonomyEmbeddingModuleTests(unittest.TestCase):
 
 @unittest.skipUnless(te is not None, "taxonomy_embeddings is not implemented yet")
 class TaxonomyEmbeddingTests(unittest.TestCase):
+    def test_sentence_transformer_loads_from_local_cache_only(self):
+        calls = {}
+        sentence_module = types.ModuleType("sentence_transformers")
+        hub_module = types.ModuleType("huggingface_hub")
+
+        class FakeModel:
+            max_seq_length = 512
+
+        def snapshot_download(model_name, **kwargs):
+            calls["snapshot"] = (model_name, kwargs)
+            return "/cache/multilingual-e5-small"
+
+        def make_model(model_path):
+            calls["model_path"] = model_path
+            return FakeModel()
+
+        sentence_module.SentenceTransformer = make_model
+        hub_module.snapshot_download = snapshot_download
+        with mock.patch.dict(sys.modules, {
+            "sentence_transformers": sentence_module,
+            "huggingface_hub": hub_module,
+        }):
+            te.SentenceTransformerEncoder("intfloat/multilingual-e5-small")
+
+        self.assertEqual(calls["snapshot"], (
+            "intfloat/multilingual-e5-small",
+            {"local_files_only": True},
+        ))
+        self.assertEqual(calls["model_path"], "/cache/multilingual-e5-small")
+
     def test_unchanged_page_reuses_normalized_cached_vector(self):
         with tempfile.TemporaryDirectory() as directory:
             encoder = FakeEncoder()

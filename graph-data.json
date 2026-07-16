@@ -4607,7 +4607,7 @@
         "type": "create"
       }
     ],
-    "generatedAt": "2026-07-15",
+    "generatedAt": "2026-07-16",
     "memberships": [
       {
         "category": "cat_seed_agents",
@@ -4845,6 +4845,62 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_evaluation",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "LRU 缓存替换 Least Recently Used",
+        "reason": "语义 0.95，双链 0.20",
+        "score": 0.6222064852714538,
+        "signals": {
+          "links": 0.2,
+          "projects": 0.0,
+          "semantic": 0.9536774754524231,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "LRU 缓存替换 Least Recently Used",
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.67804297208786,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.9634049534797668,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "LRU 缓存替换 Least Recently Used",
+        "reason": "语义 0.96，双链 0.20",
+        "score": 0.6274892568588257,
+        "signals": {
+          "links": 0.2,
+          "projects": 0.0,
+          "semantic": 0.9624820947647095,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_rag",
+        "firstAssignedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-07-16",
+        "page": "LRU 缓存替换 Least Recently Used",
+        "reason": "语义 0.96，双链 0.20",
+        "score": 0.6255788445472718,
+        "signals": {
+          "links": 0.2,
+          "projects": 0.0,
+          "semantic": 0.9592980742454529,
+          "tags": 0.0
         }
       },
       {
@@ -6645,7 +6701,7 @@
       "activeCategories": 8,
       "categories": 8,
       "forming": 0,
-      "memberships": 145,
+      "memberships": 149,
       "pendingPages": 0
     }
   }

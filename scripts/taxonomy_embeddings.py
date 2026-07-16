@@ -21,10 +21,12 @@ HEADING_RE = re.compile(r"^#{1,6}\s+(.+?)\s*$", re.MULTILINE)
 
 class SentenceTransformerEncoder:
     def __init__(self, model_name: str):
+        from huggingface_hub import snapshot_download
         from sentence_transformers import SentenceTransformer
 
         self.model_name = model_name
-        self.model = SentenceTransformer(model_name)
+        model_path = snapshot_download(model_name, local_files_only=True)
+        self.model = SentenceTransformer(model_path)
         max_tokens = int(getattr(self.model, "max_seq_length", 512) or 512)
         self.max_chars = max(512, max_tokens * 4)
 
