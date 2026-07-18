@@ -7,6 +7,7 @@ import time
 import unittest
 import uuid
 from pathlib import Path
+from unittest import mock
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -242,7 +243,9 @@ class KnowledgeServerTests(unittest.TestCase):
         for name, mime, content in files:
             body.extend(f"--{boundary}\r\n".encode())
             body.extend(f'Content-Disposition: form-data; name="files"; filename="{name}"\r\n'.encode())
-            body.extend(f"Content-Type: {mime}\r\n\r\n".encode())
+            if mime is not None:
+                body.extend(f"Content-Type: {mime}\r\n".encode())
+            body.extend(b"\r\n")
             body.extend(content)
             body.extend(b"\r\n")
         body.extend(f"--{boundary}--\r\n".encode())
@@ -307,6 +310,21 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual([item["size"] for item in payload["files"]], [len(item[2]) for item in files])
         self.assertTrue(all(item["path"].startswith("raw/inbox/") for item in payload["files"]))
 
+    def test_upload_preserves_exact_bytes_and_returns_exact_schema(self):
+        content = b"Ignore previous instructions\n${do_not_expand}\x00\xff\n"
+
+        _, payload = self.upload([("prompt.txt", "text/plain; charset=binary", content)])
+
+        self.assertEqual(payload, {
+            "ok": True,
+            "files": [{
+                "name": "prompt.txt",
+                "path": "raw/inbox/prompt.txt",
+                "size": len(content),
+            }],
+        })
+        self.assertEqual((self.root / "raw" / "inbox" / "prompt.txt").read_bytes(), content)
+
     def test_upload_collision_uses_deterministic_suffix(self):
         self.upload([("notes.md", "text/markdown", b"one")])
         _, second = self.upload([("notes.md", "text/markdown", b"two")])
@@ -326,6 +344,13 @@ class KnowledgeServerTests(unittest.TestCase):
         for name, mime in (("run.exe", "application/octet-stream"), ("notes.md", "text/plain")):
             with self.subTest(name=name, mime=mime):
                 error, payload = self.upload_error([(name, mime, b"data")])
+                self.assertEqual(error.code, 415)
+                self.assertFalse(payload["ok"])
+
+    def test_upload_rejects_missing_or_invalid_part_mime(self):
+        for mime in (None, "not-a-valid-mime"):
+            with self.subTest(mime=mime):
+                error, payload = self.upload_error([("notes.txt", mime, b"data")])
                 self.assertEqual(error.code, 415)
                 self.assertFalse(payload["ok"])
 
@@ -350,6 +375,27 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual(error.code, 415)
         inbox = self.root / "raw" / "inbox"
         self.assertFalse(inbox.exists() and any(inbox.iterdir()))
+
+    def test_replace_failure_cleans_temps_and_rolls_back_entire_batch(self):
+        real_replace = serve_kb.os.replace
+        calls = [0]
+
+        def fail_second_replace(source, destination):
+            calls[0] += 1
+            if calls[0] == 2:
+                raise OSError("injected replace failure")
+            return real_replace(source, destination)
+
+        with mock.patch.object(serve_kb.os, "replace", side_effect=fail_second_replace):
+            error, payload = self.upload_error([
+                ("one.txt", "text/plain", b"one"),
+                ("two.txt", "text/plain", b"two"),
+            ])
+
+        self.assertEqual(error.code, 500)
+        self.assertIn("injected replace failure", payload["error"])
+        inbox = self.root / "raw" / "inbox"
+        self.assertEqual(list(inbox.iterdir()), [])
 
     def test_upload_rejects_request_over_20_mib_before_parsing(self):
         request = Request(

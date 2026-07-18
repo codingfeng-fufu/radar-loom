@@ -7,6 +7,7 @@ import hashlib
 import ipaddress
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -31,6 +32,9 @@ UPLOAD_TYPES = {
     ".jpeg": "image/jpeg",
     ".webp": "image/webp",
 }
+MIME_TYPE_RE = re.compile(
+    r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+(?:\s*;.*)?$"
+)
 
 
 class RefreshError(RuntimeError):
@@ -315,6 +319,15 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 return
             extension = Path(filename).suffix.lower()
             expected_mime = UPLOAD_TYPES.get(extension)
+            content_type_headers = part.get_all("Content-Type", [])
+            content_type_header = content_type_headers[0] if len(content_type_headers) == 1 else None
+            if (
+                content_type_header is None
+                or getattr(content_type_header, "defects", ())
+                or not MIME_TYPE_RE.fullmatch(str(content_type_header).strip())
+            ):
+                self.send_json(415, {"ok": False, "error": "valid file Content-Type required"})
+                return
             actual_mime = part.get_content_type().lower()
             if expected_mime is None or actual_mime != expected_mime:
                 self.send_json(415, {"ok": False, "error": "unsupported file type"})
