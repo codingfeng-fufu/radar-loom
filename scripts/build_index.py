@@ -43,15 +43,73 @@ def render_index(pages: dict[str, rc.PageInfo]) -> tuple[str, int, int, int]:
     return "\n".join(lines) + "\n", len(concepts), len(projects), missing
 
 
+DIFFICULTY_ORDER = {"基础": 0, "进阶": 1, "深入": 2}
+
+
+def _interview_summary(frontmatter: dict) -> str:
+    return str(frontmatter.get("summary") or frontmatter.get("摘要") or "").strip()
+
+
+def _interview_question(frontmatter: dict) -> str:
+    for key in ("question", "original_question", "原问题", "问题"):
+        value = str(frontmatter.get(key) or "").strip()
+        if value:
+            return value
+    return "(未记录)"
+
+
+def _as_list(value) -> list[str]:
+    return normalize_tags(value)
+
+
+def render_interview_index(interview_pages: dict[str, rc.PageInfo]) -> tuple[str, int, int]:
+    pages = list(interview_pages.values())
+    missing = sum(not _interview_summary(p.frontmatter) for p in pages)
+    def sort_key(p):
+        fm = p.frontmatter
+        roles = sorted(_as_list(fm.get("roles")))
+        role = roles[0] if roles else ""
+        difficulty = str(fm.get("difficulty") or "").strip()
+        tags = sorted(_as_list(fm.get("tags")))
+        return (role, DIFFICULTY_ORDER.get(difficulty, 99), difficulty, tags, p.name)
+    lines = ["# 面试索引(机器生成,勿手工编辑)", "", f"> 生成:{rc.today()} · 面试页 {len(pages)} · 运行 `python3 scripts/build_index.py` 刷新"]
+    for role in sorted({r for p in pages for r in _as_list(p.frontmatter.get("roles"))}):
+        lines.extend(["", f"## 角色: {role}", ""])
+        selected = sorted((p for p in pages if role in _as_list(p.frontmatter.get("roles"))), key=sort_key)
+        for p in selected:
+            fm = p.frontmatter
+            tags = " ".join(f"#{t}" for t in _as_list(fm.get("tags")))
+            difficulty = str(fm.get("difficulty") or "未分级").strip()
+            summary = _interview_summary(fm) or "(缺摘要)"
+            lines.append(f"- [[{p.name}]] `{tags}` — 原问题: {_interview_question(fm)} · 摘要: {summary} · 难度: {difficulty}")
+    lines.extend(["", "## 难度", ""])
+    for difficulty in ("基础", "进阶", "深入"):
+        lines.append(f"### {difficulty}")
+        selected = sorted((p for p in pages if str(p.frontmatter.get("difficulty") or "").strip() == difficulty), key=sort_key)
+        lines.extend([f"- [[{p.name}]]" for p in selected] or ["- 无"])
+    return "\n".join(lines) + "\n", len(pages), missing
+
+
+def render_indexes(all_pages: dict[str, rc.PageInfo]) -> tuple[str, str]:
+    knowledge, interviews = rc.partition_pages(all_pages)
+    return render_index(knowledge)[0], render_interview_index(interviews)[0]
+
+
 def parse_args(argv=None):
     return argparse.ArgumentParser(description="生成技术雷达检索索引").parse_args(argv)
 
 
 def main(argv=None) -> int:
     parse_args(argv)
-    text, concepts, projects, missing = render_index(rc.scan_pages())
-    rc.INDEX_FILE.write_text(text, encoding="utf-8")
+    knowledge, interviews = rc.partition_pages(rc.scan_pages())
+    text, concepts, projects, missing = render_index(knowledge)
+    interview_text, interview_count, interview_missing = render_interview_index(interviews)
+    for destination, content in ((rc.INDEX_FILE, text), (rc.INTERVIEW_INDEX_FILE, interview_text)):
+        temporary = destination.with_name(destination.name + ".tmp")
+        temporary.write_text(content, encoding="utf-8")
+        temporary.replace(destination)
     print(f"已生成 _index.md | 概念页 {concepts} 项目页 {projects} 缺摘要 {missing}")
+    print(f"已生成 _interview_index.md | 面试页 {interview_count} 缺摘要 {interview_missing}")
     return 0
 
 
