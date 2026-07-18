@@ -165,7 +165,7 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("roles:", self.html)
         self.assertIn("difficulty:", self.html)
         self.assertIn("retryIndexLoad(activeSection)", self.html)
-        self.assertIn("renderMarkdown(navigationStates[activeSection].activeFile", self.html)
+        self.assertIn("return navigateTo(navigationStates[section].activeFile", self.html)
 
     def test_interview_section_without_file_does_not_fall_back_to_home(self):
         self.assertIn("requestedSection === 'interview' ? null : DEFAULT_FILE", self.html)
@@ -191,6 +191,16 @@ class ViewerContractTests(unittest.TestCase):
     def test_retry_handler_does_not_forward_mouse_event_as_section(self):
         self.assertIn("retry.addEventListener('click', () => retryIndexLoad(activeSection))", self.html)
         self.assertNotIn("retry.addEventListener('click', retryIndexLoad)", self.html)
+
+    def test_navigation_has_one_generation_owned_async_path(self):
+        self.assertIn("let navigationGeneration = 0", self.html)
+        self.assertRegex(self.html, r"async function\s+navigateTo\s*\(")
+        self.assertIn("const token = ++navigationGeneration", self.html)
+        self.assertIn("if (token !== navigationGeneration) return", self.html)
+        self.assertIn("await fetchIndexData", self.html)
+        self.assertIn("await fetchPageData", self.html)
+        self.assertNotIn("switchSection(section, { render: false });\n      renderMarkdown", self.html)
+        self.assertIn("navigateTo(file, { sectionHint: section, historyMode: 'push' })", self.html)
 
 
 if __name__ == "__main__":

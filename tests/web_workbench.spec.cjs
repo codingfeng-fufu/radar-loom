@@ -36,7 +36,7 @@ test('complete knowledge workbench regression', async ({ page }) => {
   await graph.locator('[data-mode="combined"]').click();
   await knowledgeFrame().goto(knowledgeFrame().url());
   await expect(page.frameLocator('#knowledgeFrame').locator('[data-mode="combined"]')).toHaveAttribute('aria-pressed', 'true');
-  const graphState = await knowledgeFrame().evaluate(() => JSON.parse(sessionStorage.getItem('radar-graph-state-v1')));
+  const graphState = await knowledgeFrame().evaluate(() => JSON.parse(sessionStorage.getItem('radar-graph-state-knowledge-v1')));
   expect(graphState.mode).toBe('combined');
   expect(typeof graphState.zoom).toBe('number');
   expect(graphState.pan).toBeTruthy();
@@ -61,4 +61,31 @@ test('complete knowledge workbench regression', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(await knowledgeFrame().evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(consoleErrors).toEqual([]);
+});
+
+test('latest viewer navigation wins delayed response race', async ({ page }) => {
+  const viewerBase = process.env.KB_VIEWER_URL || 'http://127.0.0.1:18081';
+  await page.route('**/pages/Slow.md', async route => {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    await route.fulfill({ contentType: 'text/markdown', body: '---\nsummary: slow\ntags: [RAG]\n---\n# Slow page\n' });
+  });
+  await page.route('**/pages/Fast.md', route => route.fulfill({
+    contentType: 'text/markdown',
+    body: '---\npage_type: interview\nsummary: fast\ntags: [RAG]\nroles: [backend]\ndifficulty: 基础\nquestion: fast question\n---\n# Fast interview\n'
+  }));
+  await page.route('**/_interview_index.md', route => route.fulfill({
+    contentType: 'text/markdown',
+    body: '# 面试索引\n\n## 角色: backend\n\n- [[Fast]] `#RAG` — 原问题: fast question · 摘要: fast · 角色: backend · 难度: 基础\n'
+  }));
+  await page.goto(`${viewerBase}/viewer.html`);
+  await page.evaluate(() => {
+    navigateTo('pages/Slow.md', { sectionHint: 'knowledge', historyMode: 'push' });
+    navigateTo('pages/Fast.md', { sectionHint: 'interview', historyMode: 'push' });
+  });
+  await expect(page.locator('#content h1')).toHaveText('Fast interview');
+  await page.waitForTimeout(450);
+  await expect(page.locator('#content h1')).toHaveText('Fast interview');
+  await expect(page.locator('#interviewTab')).toHaveAttribute('aria-selected', 'true');
+  expect(new URL(page.url()).searchParams.get('section')).toBe('interview');
+  expect(new URL(page.url()).searchParams.get('f')).toBe('pages/Fast.md');
 });

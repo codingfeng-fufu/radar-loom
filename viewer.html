@@ -157,6 +157,7 @@
     const NAVIGATION_STATE_KEY = 'radar-viewer-navigation-v1';
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
     let activeSection = 'knowledge';
+    let navigationGeneration = 0;
     const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
       groups: [], entries: [], activeFile: SECTIONS[section].defaultFile, expanded: new Set(), initialized: false,
       search: '', filters: { role: '', difficulty: '', tag: '' }
@@ -515,36 +516,18 @@
       elements.tagFilter.value = navigationState.filters.tag;
     }
 
-    async function retryIndexLoad(section = activeSection) {
-      try {
-        const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const parsed = section === 'interview' ? parseInterviewIndex(await response.text()) : parseIndex(await response.text());
-        if (section !== activeSection) return;
-        navigationState.groups = parsed.groups;
-        navigationState.entries = parsed.entries;
-        restoreNavigationState();
-        if (!navigationState.activeFile && parsed.entries.length) navigationState.activeFile = parsed.entries[0].file;
-        elements.navigationSearch.value = navigationState.search;
-        configureInterviewFilters();
-        filterNavigation(navigationState.search);
-      } catch (error) {
-        elements.navigation.replaceChildren();
-        const message = document.createElement('p');
-        message.className = 'error';
-        message.textContent = `索引载入失败：${error.message}`;
-        const retry = document.createElement('button');
-        retry.className = 'nav-retry';
-        retry.type = 'button';
-        retry.textContent = '重试';
-        retry.addEventListener('click', () => retryIndexLoad(activeSection));
-        elements.navigation.append(message, retry);
-      }
+    async function fetchIndexData(section) {
+      const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const source = await response.text();
+      return section === 'interview' ? parseInterviewIndex(source) : parseIndex(source);
     }
 
-    async function loadSidebar(activeFile) {
-      navigationState.activeFile = activeFile;
-      await retryIndexLoad(activeSection);
+    async function fetchPageData(file) {
+      const response = await fetch(file, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const { metadata, body } = splitFrontmatter(await response.text());
+      return { metadata, body, pageMetadata: parseMetadata(metadata) };
     }
 
     function resolveSectionFile(requestedFile = null) {
@@ -561,42 +544,8 @@
       document.querySelector('#viewerPanel').setAttribute('aria-labelledby', section === 'interview' ? 'interviewTab' : 'knowledgeTab');
     }
 
-    async function switchSection(section, { render = true } = {}) {
-      if (!SECTIONS[section]) section = 'knowledge';
-      navigationState.search = elements.navigationSearch.value;
-      saveNavigationState();
-      activeSection = section;
-      navigationState = navigationStates[section];
-      updateSectionTabs(section);
-      restoreNavigationState();
-      configureInterviewFilters();
-      await retryIndexLoad(section);
-      const file = resolveSectionFile();
-      if (render && file) {
-        await renderMarkdown(file, section, 'push');
-      } else if (render) {
-        history.pushState({ file: null, section }, '', `viewer.html?section=${section}`);
-        elements.content.replaceChildren();
-        elements.frontmatter.hidden = true;
-        setMessage('当前专区暂无页面。');
-      }
-    }
-
-    async function renderMarkdown(file, expectedSection = null, historyMode = 'replace') {
-      if (!validatePath(file)) {
-        setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
-        return;
-      }
-      try {
-        const response = await fetch(file, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const { metadata, body } = splitFrontmatter(await response.text());
-        const pageMetadata = parseMetadata(metadata);
-        const detectedSection = sectionForFile(file, pageMetadata) || expectedSection;
-        if (detectedSection !== activeSection) await switchSection(detectedSection, { render: false });
-        const canonicalUrl = canonicalViewerUrl(file, detectedSection);
-        if (historyMode === 'push') history.pushState({ file, section: detectedSection }, '', canonicalUrl);
-        else if (historyMode === 'replace') history.replaceState({ file, section: detectedSection }, '', canonicalViewerUrl(file, detectedSection));
+    async function renderPageData(file, section, page, token) {
+        const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
         const math = extractMathRegions(rewriteWikilinks(body));
@@ -622,26 +571,102 @@
           block.parentElement.replaceWith(container);
         });
         await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') });
+        if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
         document.title = `${pageTitle} · 技术雷达`;
         setMessage('');
         updateActiveNavigation(file);
         notifyActiveFile(file, pageTitle, pageMetadata);
+    }
+
+    function commitSection(section, parsed, file) {
+      activeSection = section;
+      navigationState = navigationStates[section];
+      navigationState.groups = parsed.groups;
+      navigationState.entries = parsed.entries;
+      restoreNavigationState();
+      navigationState.activeFile = file;
+      updateSectionTabs(section);
+      elements.navigationSearch.value = navigationState.search;
+      configureInterviewFilters();
+      filterNavigation(navigationState.search);
+    }
+
+    async function navigateTo(requestedFile = null, { sectionHint = activeSection, historyMode = 'replace' } = {}) {
+      const token = ++navigationGeneration;
+      const hintedSection = SECTIONS[sectionHint] ? sectionHint : 'knowledge';
+      if (requestedFile && !validatePath(requestedFile)) {
+        if (token !== navigationGeneration) return;
+        setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
+        return;
+      }
+      navigationState.search = elements.navigationSearch.value;
+      saveNavigationState();
+      try {
+        let parsed = await fetchIndexData(hintedSection);
+        if (token !== navigationGeneration) return;
+        const persistedFile = sessionStorage.getItem(SECTIONS[hintedSection].activeFileKey);
+        const file = requestedFile || persistedFile || parsed.entries[0]?.file || null;
+        if (!file) {
+          if (token !== navigationGeneration) return;
+          commitSection(hintedSection, parsed, null);
+          const url = `viewer.html?section=${hintedSection}`;
+          if (historyMode === 'push') history.pushState({ file: null, section: hintedSection }, '', url);
+          else if (historyMode === 'replace') history.replaceState({ file: null, section: hintedSection }, '', url);
+          elements.content.replaceChildren();
+          elements.frontmatter.hidden = true;
+          setMessage('当前专区暂无页面。');
+          return;
+        }
+        const page = await fetchPageData(file);
+        if (token !== navigationGeneration) return;
+        const detectedSection = sectionForFile(file, page.pageMetadata) || hintedSection;
+        if (detectedSection !== hintedSection) {
+          parsed = await fetchIndexData(detectedSection);
+          if (token !== navigationGeneration) return;
+        }
+        if (token !== navigationGeneration) return;
+        commitSection(detectedSection, parsed, file);
+        const canonicalUrl = canonicalViewerUrl(file, detectedSection);
+        if (historyMode === 'push') history.pushState({ file, section: detectedSection }, '', canonicalUrl);
+        else if (historyMode === 'replace') history.replaceState({ file, section: detectedSection }, '', canonicalViewerUrl(file, detectedSection));
+        await renderPageData(file, detectedSection, page, token);
+        if (token !== navigationGeneration) return;
       } catch (error) {
+        if (token !== navigationGeneration) return;
         elements.content.replaceChildren();
         elements.frontmatter.hidden = true;
-        setMessage(`无法载入 ${file}：${error.message}`, true);
+        elements.navigation.replaceChildren();
+        const message = document.createElement('p');
+        message.className = 'error';
+        message.textContent = `载入失败：${error.message}`;
+        const retry = document.createElement('button');
+        retry.className = 'nav-retry';
+        retry.type = 'button';
+        retry.textContent = '重试';
+        retry.addEventListener('click', () => retryIndexLoad(activeSection));
+        elements.navigation.append(message, retry);
+        setMessage(`无法载入 ${requestedFile || hintedSection}：${error.message}`, true);
       }
+    }
+
+    function retryIndexLoad(section = activeSection) {
+      return navigateTo(navigationStates[section].activeFile, { sectionHint: section, historyMode: 'replace' });
+    }
+
+    function switchSection(section) {
+      return navigateTo(null, { sectionHint: section, historyMode: 'push' });
+    }
+
+    function renderMarkdown(file, expectedSection = activeSection, historyMode = 'replace') {
+      return navigateTo(file, { sectionHint: expectedSection, historyMode });
     }
 
     function closeNavigation() { document.body.classList.remove('nav-open'); }
     window.addEventListener('message', (event) => {
       if (event.origin !== WORKBENCH_ORIGIN) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
-      if (event.data?.type === 'kb-refresh') {
-        retryIndexLoad(activeSection);
-        if (navigationStates[activeSection].activeFile) renderMarkdown(navigationStates[activeSection].activeFile, activeSection);
-      }
+      if (event.data?.type === 'kb-refresh') retryIndexLoad(activeSection);
     });
     document.querySelector('.section-tabs').addEventListener('click', (event) => {
       const tab = event.target.closest('[role="tab"][data-section]');
@@ -676,24 +701,14 @@
       if (!validatePath(file)) return;
       event.preventDefault();
       const section = link.dataset.section || new URL(link.href).searchParams.get('section') || activeSection;
-      if (section !== activeSection) switchSection(section, { render: false });
-      renderMarkdown(file, section, 'push');
+      navigateTo(file, { sectionHint: section, historyMode: 'push' });
       closeNavigation();
     });
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(location.search);
       const section = params.get('section') === 'interview' ? 'interview' : 'knowledge';
       const file = params.get('f');
-      if (file) renderMarkdown(file, section, 'none');
-      else switchSection(section, { render: false }).then(() => {
-        const restoredFile = resolveSectionFile();
-        if (restoredFile) renderMarkdown(restoredFile, section, 'none');
-        else {
-          elements.content.replaceChildren();
-          elements.frontmatter.hidden = true;
-          setMessage('当前专区暂无页面。');
-        }
-      });
+      navigateTo(file, { sectionHint: section, historyMode: 'none' });
     });
     document.addEventListener('keydown', (event) => {
       const editable = event.target.matches('input,textarea,[contenteditable="true"]');
@@ -730,20 +745,7 @@
       const params = new URLSearchParams(location.search);
       const requestedSection = params.get('section');
       const requestedFile = params.get('f') || (requestedSection === 'interview' ? null : DEFAULT_FILE);
-      if (requestedSection === 'knowledge' || requestedSection === 'interview') {
-        activeSection = requestedSection;
-        navigationState = navigationStates[activeSection];
-      }
-      updateSectionTabs(activeSection);
-      retryIndexLoad(activeSection).then(() => {
-        const file = resolveSectionFile(requestedFile);
-        if (file) renderMarkdown(file, requestedSection || activeSection);
-        else {
-          elements.content.replaceChildren();
-          elements.frontmatter.hidden = true;
-          setMessage('当前专区暂无页面。');
-        }
-      });
+      navigateTo(requestedFile, { sectionHint: requestedSection || 'knowledge', historyMode: 'replace' });
     } catch (error) {
       setMessage(error.message, true);
     }
