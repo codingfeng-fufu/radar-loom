@@ -6,10 +6,14 @@ import argparse
 import hashlib
 import ipaddress
 import json
+import os
 import subprocess
 import sys
+import tempfile
 import threading
 import time
+from email import policy
+from email.parser import BytesParser
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -17,6 +21,16 @@ from urllib.parse import urlsplit
 
 
 ALLOWED_ORIGIN = "http://127.0.0.1:18080"
+MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+UPLOAD_TYPES = {
+    ".pdf": "application/pdf",
+    ".md": "text/markdown",
+    ".txt": "text/plain",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+}
 
 
 class RefreshError(RuntimeError):
@@ -37,7 +51,9 @@ class KnowledgeBuilder:
         )
         self._outputs = (
             self.root / "_index.md",
+            self.root / "_interview_index.md",
             self.root / "graph-data.json",
+            self.root / "interview-graph-data.json",
         )
         self.taxonomy_check_interval = 60
         self.taxonomy_timeout = 900
@@ -57,7 +73,12 @@ class KnowledgeBuilder:
         home = self.root / "首页.md"
         if home.exists():
             paths.append(home)
-        for path in (self.root / "config" / "taxonomy.json", self.root / "taxonomy.json"):
+        for path in (
+            self.root / "config" / "taxonomy.json",
+            self.root / "taxonomy.json",
+            self.root / "config" / "interview-taxonomy.json",
+            self.root / "interview-taxonomy.json",
+        ):
             if path.exists():
                 paths.append(path)
         return paths
@@ -73,10 +94,17 @@ class KnowledgeBuilder:
         return newest_source > oldest_output
 
     def revision(self) -> str:
-        graph_data = self.root / "graph-data.json"
-        if not graph_data.exists():
-            raise RefreshError("graph-data.json was not generated")
-        return hashlib.sha256(graph_data.read_bytes()).hexdigest()[:16]
+        graph_outputs = (
+            self.root / "graph-data.json",
+            self.root / "interview-graph-data.json",
+        )
+        missing = [path.name for path in graph_outputs if not path.exists()]
+        if missing:
+            raise RefreshError(f"{', '.join(missing)} was not generated")
+        digest = hashlib.sha256()
+        for path in graph_outputs:
+            digest.update(path.read_bytes())
+        return digest.hexdigest()[:16]
 
     def _run_script(self, script: Path, *args: str, timeout: int | None = None) -> str:
         if not script.exists():
@@ -114,14 +142,15 @@ class KnowledgeBuilder:
             taxonomy_due = force or source_stale or now - self._last_taxonomy_check >= self.taxonomy_check_interval
             output_lines = []
             if taxonomy_due:
-                try:
-                    combined = self._run_script(
-                        self._taxonomy_script, "sync", timeout=self.taxonomy_timeout
-                    )
-                    if combined:
-                        output_lines.append(combined)
-                except RefreshError as error:
-                    output_lines.append(str(error))
+                for args in (("sync",), ("--profile", "interview", "sync")):
+                    try:
+                        combined = self._run_script(
+                            self._taxonomy_script, *args, timeout=self.taxonomy_timeout
+                        )
+                        if combined:
+                            output_lines.append(combined)
+                    except RefreshError as error:
+                        output_lines.append(str(error))
                 self._last_taxonomy_check = now
 
             if not force and not self.is_stale():
@@ -177,6 +206,7 @@ class KnowledgeBuilder:
 
 class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
     builder: KnowledgeBuilder
+    upload_lock = threading.Lock()
 
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-store")
@@ -210,7 +240,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         return not require_origin or self.headers.get("Origin") == ALLOWED_ORIGIN
 
     def do_OPTIONS(self) -> None:
-        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild"}:
+        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads"}:
             self.send_error(404)
             return
         self.send_response(204)
@@ -220,6 +250,9 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/uploads":
+            self.handle_upload()
+            return
         if path == "/api/taxonomy/rebuild":
             if not self.taxonomy_allowed(require_origin=True):
                 self.send_json(403, {"ok": False, "error": "localhost origin required"})
@@ -236,6 +269,116 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return
         status, payload = self.refresh_payload(force=True)
         self.send_json(status, payload)
+
+    def handle_upload(self) -> None:
+        if not self.taxonomy_allowed(require_origin=True):
+            self.send_json(403, {"ok": False, "error": "localhost origin required"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError:
+            length = -1
+        if length < 0:
+            self.send_json(400, {"ok": False, "error": "valid Content-Length required"})
+            return
+        if length > MAX_UPLOAD_BYTES:
+            self.send_json(413, {"ok": False, "error": "request exceeds 20 MiB"})
+            return
+        content_type = self.headers.get("Content-Type", "")
+        if not content_type.lower().startswith("multipart/form-data;"):
+            self.send_json(400, {"ok": False, "error": "multipart/form-data required"})
+            return
+        body = self.rfile.read(length)
+        if len(body) != length:
+            self.send_json(400, {"ok": False, "error": "incomplete request body"})
+            return
+        message = BytesParser(policy=policy.default).parsebytes(
+            f"Content-Type: {content_type}\r\nMIME-Version: 1.0\r\n\r\n".encode("ascii") + body
+        )
+        if not message.is_multipart() or message.defects:
+            self.send_json(400, {"ok": False, "error": "malformed multipart body"})
+            return
+
+        validated = []
+        for part in message.iter_parts():
+            filename = part.get_filename()
+            if filename is None:
+                continue
+            if (
+                not filename
+                or Path(filename).name != filename
+                or "/" in filename
+                or "\\" in filename
+                or any(ord(character) < 32 or ord(character) == 127 for character in filename)
+            ):
+                self.send_json(400, {"ok": False, "error": "invalid filename"})
+                return
+            extension = Path(filename).suffix.lower()
+            expected_mime = UPLOAD_TYPES.get(extension)
+            actual_mime = part.get_content_type().lower()
+            if expected_mime is None or actual_mime != expected_mime:
+                self.send_json(415, {"ok": False, "error": "unsupported file type"})
+                return
+            content = part.get_payload(decode=True)
+            if content is None:
+                self.send_json(400, {"ok": False, "error": "malformed file content"})
+                return
+            if not content:
+                self.send_json(400, {"ok": False, "error": "empty files are not allowed"})
+                return
+            if len(content) > MAX_UPLOAD_BYTES:
+                self.send_json(413, {"ok": False, "error": "file exceeds 20 MiB"})
+                return
+            validated.append((filename, content))
+        if not validated:
+            self.send_json(400, {"ok": False, "error": "at least one file is required"})
+            return
+
+        inbox = self.builder.root / "raw" / "inbox"
+        stored = []
+        temp_paths = []
+        final_paths = []
+        try:
+            with self.upload_lock:
+                inbox.mkdir(parents=True, exist_ok=True)
+                reserved = {path.name for path in inbox.iterdir()}
+                planned = []
+                for filename, content in validated:
+                    candidate = filename
+                    stem = Path(filename).stem
+                    suffix = Path(filename).suffix
+                    number = 2
+                    while candidate in reserved:
+                        candidate = f"{stem}-{number}{suffix}"
+                        number += 1
+                    reserved.add(candidate)
+                    planned.append((candidate, content))
+                for candidate, content in planned:
+                    descriptor, temp_name = tempfile.mkstemp(prefix=".upload-", dir=inbox)
+                    temp_path = Path(temp_name)
+                    temp_paths.append(temp_path)
+                    with os.fdopen(descriptor, "wb") as handle:
+                        handle.write(content)
+                        handle.flush()
+                        os.fsync(handle.fileno())
+                for (candidate, content), temp_path in zip(planned, temp_paths):
+                    final_path = inbox / candidate
+                    os.replace(temp_path, final_path)
+                    final_paths.append(final_path)
+                    stored.append({
+                        "name": candidate,
+                        "path": f"raw/inbox/{candidate}",
+                        "size": len(content),
+                    })
+        except OSError as error:
+            for path in temp_paths + final_paths:
+                try:
+                    path.unlink()
+                except FileNotFoundError:
+                    pass
+            self.send_json(500, {"ok": False, "error": f"upload failed: {error}"})
+            return
+        self.send_json(200, {"ok": True, "files": stored})
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
@@ -255,7 +398,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 return
             self.send_json(200, {"ok": True, **result})
             return
-        if path in {"/_index.md", "/graph-data.json"}:
+        if path in {"/_index.md", "/_interview_index.md", "/graph-data.json", "/interview-graph-data.json"}:
             status, payload = self.refresh_payload(force=False)
             if status != 200:
                 self.send_json(status, payload)

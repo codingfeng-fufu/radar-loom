@@ -1,9 +1,11 @@
 import json
+import os
 import sys
 import tempfile
 import threading
 import time
 import unittest
+import uuid
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -18,6 +20,7 @@ import serve_kb  # noqa: E402
 BUILD_INDEX = """from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 (root / '_index.md').write_text('fresh index\\n', encoding='utf-8')
+(root / '_interview_index.md').write_text('fresh interview index\\n', encoding='utf-8')
 with (root / 'runs.log').open('a', encoding='utf-8') as handle:
     handle.write('index\\n')
 print('index rebuilt')
@@ -27,6 +30,7 @@ RENDER_GRAPH = """import json
 from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 (root / 'graph-data.json').write_text(json.dumps({'stats': {'nodes': 1, 'edges': 0}}), encoding='utf-8')
+(root / 'interview-graph-data.json').write_text(json.dumps({'stats': {'nodes': 2, 'edges': 1}}), encoding='utf-8')
 (root / 'graph.md').write_text('fresh graph\\n', encoding='utf-8')
 with (root / 'runs.log').open('a', encoding='utf-8') as handle:
     handle.write('graph\\n')
@@ -37,14 +41,15 @@ TAXONOMY_CLI = """import json
 import sys
 from pathlib import Path
 root = Path(__file__).resolve().parents[1]
-command = sys.argv[1]
+args = sys.argv[1:]
+command = args[0]
 if command == 'status':
     print(json.dumps({'categories': 2, 'pending_pages': 0, 'changes_since_global': 0}))
 elif command == 'validate':
     print('valid')
 else:
     with (root / 'runs.log').open('a', encoding='utf-8') as handle:
-        handle.write(('global' if command == 'global' else 'taxonomy') + '\\n')
+        handle.write(('global' if command == 'global' else 'interview-taxonomy' if args[:2] == ['--profile', 'interview'] else 'taxonomy') + '\\n')
     print(command + ' complete')
 """
 
@@ -57,6 +62,9 @@ class KnowledgeBuilderTests(unittest.TestCase):
         (self.root / "scripts").mkdir()
         (self.root / "pages" / "Example.md").write_text("# Example\n", encoding="utf-8")
         (self.root / "首页.md").write_text("# Home\n", encoding="utf-8")
+        (self.root / "config" ).mkdir()
+        (self.root / "config" / "interview-taxonomy.json").write_text("{}\n", encoding="utf-8")
+        (self.root / "interview-taxonomy.json").write_text("{}\n", encoding="utf-8")
         (self.root / "scripts" / "build_index.py").write_text(BUILD_INDEX, encoding="utf-8")
         (self.root / "scripts" / "render_graph.py").write_text(RENDER_GRAPH, encoding="utf-8")
         (self.root / "scripts" / "taxonomy_cli.py").write_text(TAXONOMY_CLI, encoding="utf-8")
@@ -69,11 +77,12 @@ class KnowledgeBuilderTests(unittest.TestCase):
     def make_outputs_older_than_sources(self):
         (self.root / "_index.md").write_text("old index\n", encoding="utf-8")
         (self.root / "graph-data.json").write_text("{}\n", encoding="utf-8")
+        (self.root / "_interview_index.md").write_text("old interview index\n", encoding="utf-8")
+        (self.root / "interview-graph-data.json").write_text("{}\n", encoding="utf-8")
         old = time.time_ns() - 2_000_000_000
-        for output in (self.root / "_index.md", self.root / "graph-data.json"):
+        for output in self.builder._outputs:
             output.touch()
             output.chmod(0o644)
-            import os
             os.utime(output, ns=(old, old))
 
     def test_stale_sources_rebuild_once_and_revision_is_stable_when_fresh(self):
@@ -85,7 +94,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(first["rebuilt"])
         self.assertFalse(second["rebuilt"])
         self.assertEqual(second["revision"], first["revision"])
-        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "taxonomy\nindex\ngraph\n")
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "taxonomy\ninterview-taxonomy\nindex\ngraph\n")
         self.assertIn("index rebuilt", first["output"])
         self.assertIn("graph rebuilt", first["output"])
 
@@ -95,7 +104,9 @@ class KnowledgeBuilderTests(unittest.TestCase):
 
         self.assertTrue(first["rebuilt"])
         self.assertTrue(second["rebuilt"])
-        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
+        runs = (self.root / "runs.log").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(runs.count("taxonomy"), 2)
+        self.assertEqual(runs.count("interview-taxonomy"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
 
@@ -106,7 +117,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
         refreshed = self.builder.refresh()
 
         self.assertTrue(refreshed["rebuilt"])
-        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").splitlines().count("taxonomy"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("index"), 2)
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("graph"), 2)
 
@@ -126,7 +137,7 @@ class KnowledgeBuilderTests(unittest.TestCase):
         refreshed = self.builder.refresh(force=False)
 
         self.assertFalse(refreshed["rebuilt"])
-        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").count("taxonomy"), 2)
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8").splitlines().count("taxonomy"), 2)
 
     def test_taxonomy_failure_keeps_last_static_outputs_available(self):
         self.builder.refresh(force=True)
@@ -141,6 +152,56 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(refreshed["rebuilt"])
         self.assertIn("taxonomy failed", refreshed["output"])
         self.assertTrue((self.root / "graph-data.json").exists())
+
+    def test_source_paths_include_interview_config_and_registry(self):
+        sources = self.builder.source_paths()
+
+        self.assertIn(self.root / "config" / "interview-taxonomy.json", sources)
+        self.assertIn(self.root / "interview-taxonomy.json", sources)
+
+    def test_refresh_runs_both_taxonomy_profiles_with_exact_cli_order(self):
+        calls = []
+        original = self.builder._run_script
+
+        def recording_run(script, *args, **kwargs):
+            calls.append((script.name, args))
+            return original(script, *args, **kwargs)
+
+        self.builder._run_script = recording_run
+        self.builder.refresh(force=True)
+
+        self.assertEqual(calls[:2], [
+            ("taxonomy_cli.py", ("sync",)),
+            ("taxonomy_cli.py", ("--profile", "interview", "sync")),
+        ])
+
+    def test_revision_hashes_both_graph_outputs_in_fixed_order(self):
+        self.builder.refresh(force=True)
+        expected = __import__("hashlib").sha256(
+            (self.root / "graph-data.json").read_bytes()
+            + (self.root / "interview-graph-data.json").read_bytes()
+        ).hexdigest()[:16]
+
+        self.assertEqual(self.builder.revision(), expected)
+
+    def test_one_taxonomy_profile_failure_does_not_skip_other_or_generators(self):
+        (self.root / "scripts" / "taxonomy_cli.py").write_text(
+            """import sys
+from pathlib import Path
+root = Path(__file__).resolve().parents[1]
+with (root / 'runs.log').open('a', encoding='utf-8') as handle:
+    handle.write(('interview-taxonomy' if sys.argv[1:3] == ['--profile', 'interview'] else 'taxonomy') + '\\n')
+if sys.argv[1:3] == ['--profile', 'interview']:
+    print('interview failed', file=sys.stderr)
+    sys.exit(7)
+""",
+            encoding="utf-8",
+        )
+
+        result = self.builder.refresh(force=True)
+
+        self.assertIn("interview failed", result["output"])
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "taxonomy\ninterview-taxonomy\nindex\ngraph\n")
 
 
 class KnowledgeServerTests(unittest.TestCase):
@@ -175,6 +236,28 @@ class KnowledgeServerTests(unittest.TestCase):
         with urlopen(request, timeout=5) as response:
             return response, json.loads(response.read().decode("utf-8"))
 
+    def upload(self, files, origin="http://127.0.0.1:18080"):
+        boundary = "----kb-" + uuid.uuid4().hex
+        body = bytearray()
+        for name, mime, content in files:
+            body.extend(f"--{boundary}\r\n".encode())
+            body.extend(f'Content-Disposition: form-data; name="files"; filename="{name}"\r\n'.encode())
+            body.extend(f"Content-Type: {mime}\r\n\r\n".encode())
+            body.extend(content)
+            body.extend(b"\r\n")
+        body.extend(f"--{boundary}--\r\n".encode())
+        headers = {"Content-Type": f"multipart/form-data; boundary={boundary}"}
+        if origin is not None:
+            headers["Origin"] = origin
+        request = Request(self.base + "/api/uploads", data=bytes(body), method="POST", headers=headers)
+        with urlopen(request, timeout=10) as response:
+            return response, json.loads(response.read().decode("utf-8"))
+
+    def upload_error(self, files, origin="http://127.0.0.1:18080"):
+        with self.assertRaises(HTTPError) as caught:
+            self.upload(files, origin=origin)
+        return caught.exception, json.loads(caught.exception.read().decode("utf-8"))
+
     def test_refresh_and_revision_endpoints_rebuild_and_set_localhost_cors(self):
         response, refreshed = self.request_json("/api/refresh", method="POST")
         _, revision = self.request_json("/api/revision")
@@ -203,6 +286,92 @@ class KnowledgeServerTests(unittest.TestCase):
         with urlopen(self.base + "/viewer.html", timeout=5) as response:
             self.assertEqual(response.read(), b"viewer")
             self.assertEqual(response.headers["Cache-Control"], "no-store")
+
+    def test_upload_accepts_all_allowed_formats_and_multiple_files(self):
+        files = [
+            ("paper.pdf", "application/pdf", b"%PDF-1.7"),
+            ("notes.md", "text/markdown", b"# Notes\n"),
+            ("plain.txt", "text/plain", b"notes\n"),
+            ("diagram.png", "image/png", b"png"),
+            ("photo.jpg", "image/jpeg", b"jpg"),
+            ("photo.jpeg", "image/jpeg", b"jpeg"),
+            ("image.webp", "image/webp", b"webp"),
+        ]
+
+        response, payload = self.upload(files)
+
+        self.assertEqual(response.status, 200)
+        self.assertEqual(response.headers["Access-Control-Allow-Origin"], serve_kb.ALLOWED_ORIGIN)
+        self.assertTrue(payload["ok"])
+        self.assertEqual([item["name"] for item in payload["files"]], [item[0] for item in files])
+        self.assertEqual([item["size"] for item in payload["files"]], [len(item[2]) for item in files])
+        self.assertTrue(all(item["path"].startswith("raw/inbox/") for item in payload["files"]))
+
+    def test_upload_collision_uses_deterministic_suffix(self):
+        self.upload([("notes.md", "text/markdown", b"one")])
+        _, second = self.upload([("notes.md", "text/markdown", b"two")])
+        _, third = self.upload([("notes.md", "text/markdown", b"three")])
+
+        self.assertEqual(second["files"][0]["name"], "notes-2.md")
+        self.assertEqual(third["files"][0]["name"], "notes-3.md")
+
+    def test_upload_rejects_traversal_absolute_empty_and_control_names(self):
+        for name in ("../bad.md", "/tmp/bad.md", "", "bad\x01.md", "bad\x00.md"):
+            with self.subTest(name=repr(name)):
+                error, payload = self.upload_error([(name, "text/markdown", b"bad")])
+                self.assertEqual(error.code, 400)
+                self.assertFalse(payload["ok"])
+
+    def test_upload_rejects_unsupported_and_mime_mismatch(self):
+        for name, mime in (("run.exe", "application/octet-stream"), ("notes.md", "text/plain")):
+            with self.subTest(name=name, mime=mime):
+                error, payload = self.upload_error([(name, mime, b"data")])
+                self.assertEqual(error.code, 415)
+                self.assertFalse(payload["ok"])
+
+    def test_upload_rejects_empty_files_and_declares_20_mib_file_limit(self):
+        error, _ = self.upload_error([("empty.txt", "text/plain", b"")])
+        self.assertEqual(error.code, 400)
+        self.assertEqual(serve_kb.MAX_UPLOAD_BYTES, 20 * 1024 * 1024)
+
+    def test_upload_requires_exact_localhost_origin(self):
+        for origin in (None, "http://localhost:18080", "http://127.0.0.1:9999"):
+            with self.subTest(origin=origin):
+                error, payload = self.upload_error([("notes.md", "text/markdown", b"ok")], origin=origin)
+                self.assertEqual(error.code, 403)
+                self.assertFalse(payload["ok"])
+
+    def test_invalid_batch_persists_no_partial_files(self):
+        error, _ = self.upload_error([
+            ("good.md", "text/markdown", b"good"),
+            ("bad.md", "text/plain", b"bad"),
+        ])
+
+        self.assertEqual(error.code, 415)
+        inbox = self.root / "raw" / "inbox"
+        self.assertFalse(inbox.exists() and any(inbox.iterdir()))
+
+    def test_upload_rejects_request_over_20_mib_before_parsing(self):
+        request = Request(
+            self.base + "/api/uploads",
+            data=b"x",
+            method="POST",
+            headers={
+                "Origin": serve_kb.ALLOWED_ORIGIN,
+                "Content-Type": "multipart/form-data; boundary=x",
+                "Content-Length": str(serve_kb.MAX_UPLOAD_BYTES + 1),
+            },
+        )
+        with self.assertRaises(HTTPError) as caught:
+            urlopen(request, timeout=5)
+        self.assertEqual(caught.exception.code, 413)
+
+    def test_interview_static_artifacts_trigger_refresh(self):
+        for path in ("/_interview_index.md", "/interview-graph-data.json"):
+            with self.subTest(path=path):
+                with urlopen(self.base + path, timeout=5) as response:
+                    self.assertEqual(response.headers["Cache-Control"], "no-store")
+                    self.assertEqual(response.status, 200)
 
     def test_taxonomy_status_and_rebuild_endpoints_return_json(self):
         _, status = self.request_json("/api/taxonomy/status")
