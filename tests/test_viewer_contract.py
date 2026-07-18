@@ -82,9 +82,9 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("kb-context", self.html)
         self.assertIn("kb-open-navigation", self.html)
         self.assertIn("kb-refresh", self.html)
-        self.assertIn("retryIndexLoad()", self.html)
+        self.assertIn("retryIndexLoad(activeSection)", self.html)
         self.assertIn("http://127.0.0.1:18080", self.html)
-        self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file, pageTitle)"))
+        self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file, pageTitle, pageMetadata)"))
 
     def test_uses_only_local_browser_dependencies(self):
         self.assertNotIn("cdn.jsdelivr.net", self.html)
@@ -118,6 +118,54 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("kb-context", self.html)
         self.assertIn("kind: 'page'", self.html)
         self.assertIn("title:", self.html)
+
+    def test_primary_sections_are_accessible_compact_tabs(self):
+        self.assertIn('role="tablist"', self.html)
+        self.assertIn('role="tab"', self.html)
+        self.assertIn('data-section="knowledge"', self.html)
+        self.assertIn('data-section="interview"', self.html)
+        self.assertIn('>知识库<', self.html)
+        self.assertIn('>工程面试<', self.html)
+        self.assertIn("activeSection", self.html)
+        self.assertRegex(self.html, r"\.section-tabs\s*\{[^}]*height:\s*36px")
+
+    def test_sections_load_separate_indexes_and_persist_separate_state(self):
+        self.assertIn("knowledge: { indexUrl: '_index.md'", self.html)
+        self.assertIn("interview: { indexUrl: '_interview_index.md'", self.html)
+        self.assertIn("radar-viewer-navigation-knowledge-v1", self.html)
+        self.assertIn("radar-viewer-navigation-interview-v1", self.html)
+        self.assertIn("radar-viewer-active-file-knowledge-v1", self.html)
+        self.assertIn("radar-viewer-active-file-interview-v1", self.html)
+        self.assertIn("search:", self.html)
+        self.assertIn("filters:", self.html)
+
+    def test_interview_navigation_parses_metadata_and_exposes_filters(self):
+        self.assertRegex(self.html, r"function\s+parseInterviewIndex\s*\(")
+        for field in ("question", "summary", "tags", "roles", "difficulty"):
+            with self.subTest(field=field):
+                self.assertIn(field, self.html)
+        for element_id in ("roleFilter", "difficultyFilter", "tagFilter"):
+            with self.subTest(element_id=element_id):
+                self.assertIn(f'id="{element_id}"', self.html)
+        self.assertIn('aria-label="岗位筛选"', self.html)
+        self.assertIn('aria-label="难度筛选"', self.html)
+        self.assertIn('aria-label="知识方向筛选"', self.html)
+
+    def test_cross_zone_links_deep_links_and_graph_profile_are_section_aware(self):
+        self.assertRegex(self.html, r"function\s+sectionForFile\s*\(")
+        self.assertRegex(self.html, r"function\s+switchSection\s*\(")
+        self.assertIn("page_type", self.html)
+        self.assertIn("pageType", self.html)
+        self.assertIn("graph-view.html?profile=${activeSection}", self.html)
+        self.assertIn("data-section", self.html)
+
+    def test_interview_context_is_typed_and_refresh_preserves_section(self):
+        self.assertIn("pageType: 'interview'", self.html)
+        self.assertIn("question:", self.html)
+        self.assertIn("roles:", self.html)
+        self.assertIn("difficulty:", self.html)
+        self.assertIn("retryIndexLoad(activeSection)", self.html)
+        self.assertIn("renderMarkdown(navigationStates[activeSection].activeFile", self.html)
 
 
 if __name__ == "__main__":

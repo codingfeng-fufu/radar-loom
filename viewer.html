@@ -22,7 +22,7 @@
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; background: var(--paper); color: var(--ink); }
     body { font: 15px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0; }
-    button, input { font: inherit; }
+    button, input, select { font: inherit; }
     a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
     .shell { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 100vh; }
     .sidebar {
@@ -31,10 +31,17 @@
     }
     .brand { margin: 0 0 18px; font-size: 18px; line-height: 1.3; }
     .brand a { color: var(--ink); text-decoration: none; }
+    .section-tabs { display: grid; grid-template-columns: 1fr 1fr; height: 36px; margin: 0 0 12px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .section-tab { min-width: 0; border: 0; border-right: 1px solid var(--line); background: var(--paper); color: var(--muted); cursor: pointer; font-weight: 700; }
+    .section-tab:last-child { border-right: 0; }
+    .section-tab[aria-selected="true"] { background: var(--accent); color: #fff; }
     .nav-tools { position: sticky; top: -20px; z-index: 4; margin: 0 -4px 12px; padding: 8px 4px; background: var(--sidebar); }
     .nav-search-row { display: grid; grid-template-columns: minmax(0, 1fr) 34px; gap: 6px; }
     .nav-search { width: 100%; height: 36px; border: 1px solid #b7c0c8; border-radius: 4px; padding: 0 10px; background: var(--paper); color: var(--ink); }
     .nav-search:focus { border-color: var(--accent); outline: 2px solid rgb(11 107 87 / 14%); outline-offset: 0; }
+    .interview-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 7px; }
+    .interview-filters[hidden] { display: none; }
+    .nav-filter { width: 100%; min-width: 0; height: 34px; border: 1px solid #b7c0c8; border-radius: 4px; padding: 0 5px; background: var(--paper); color: var(--ink); font-size: 12px; }
     .nav-tool-button { width: 34px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
     .nav-tool-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .search-results-list { display: grid; gap: 6px; }
@@ -79,6 +86,7 @@
       body.nav-open .sidebar { transform: translateX(0); }
       body.nav-open .scrim { display: block; position: fixed; z-index: 20; inset: 0; border: 0; background: rgb(0 0 0 / 32%); }
       .document { width: min(100% - 32px, 920px); padding-top: 28px; }
+      .interview-filters { grid-template-columns: 1fr; }
       article h1 { font-size: 26px; }
     }
   </style>
@@ -93,10 +101,19 @@
   <div class="shell">
     <aside class="sidebar" id="sidebar" aria-label="知识库目录">
       <h1 class="brand"><a href="viewer.html">技术雷达知识库</a></h1>
+      <div class="section-tabs" role="tablist" aria-label="主要内容区">
+        <button class="section-tab" type="button" role="tab" data-section="knowledge" aria-selected="true">知识库</button>
+        <button class="section-tab" type="button" role="tab" data-section="interview" aria-selected="false">工程面试</button>
+      </div>
       <div class="nav-tools">
         <div class="nav-search-row">
           <input class="nav-search" id="navigationSearch" type="search" aria-label="搜索知识页" placeholder="搜索标题、摘要或标签" autocomplete="off">
           <button class="nav-tool-button" id="collapseAll" type="button" aria-label="全部折叠" title="全部折叠"><svg data-icon="collapse" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 15 5-5 5 5"/><path d="M7 20h10M7 4h10"/></svg></button>
+        </div>
+        <div class="interview-filters" id="interviewFilters" hidden>
+          <select class="nav-filter" id="roleFilter" aria-label="岗位筛选"><option value="">全部岗位</option></select>
+          <select class="nav-filter" id="difficultyFilter" aria-label="难度筛选"><option value="">全部难度</option></select>
+          <select class="nav-filter" id="tagFilter" aria-label="知识方向筛选"><option value="">全部方向</option></select>
         </div>
       </div>
       <nav id="navigation" aria-live="polite"><div class="nav-skeleton"><p class="status">正在读取索引...</p></div></nav>
@@ -119,7 +136,7 @@
 
   <script>
     const DEFAULT_FILE = '首页.md';
-    const ROOT_FILES = new Set(['首页.md', '_index.md', 'graph.md']);
+    const ROOT_FILES = new Set(['首页.md', '_index.md', '_interview_index.md', 'graph.md', 'interview-graph.md']);
     const elements = {
       content: document.querySelector('#content'),
       frontmatter: document.querySelector('#frontmatter'),
@@ -127,11 +144,24 @@
       message: document.querySelector('#message'),
       navigation: document.querySelector('#navigation'),
       navigationSearch: document.querySelector('#navigationSearch'),
-      collapseAll: document.querySelector('#collapseAll')
+      collapseAll: document.querySelector('#collapseAll'),
+      interviewFilters: document.querySelector('#interviewFilters'),
+      roleFilter: document.querySelector('#roleFilter'),
+      difficultyFilter: document.querySelector('#difficultyFilter'),
+      tagFilter: document.querySelector('#tagFilter')
+    };
+    const SECTIONS = {
+      knowledge: { indexUrl: '_index.md', defaultFile: DEFAULT_FILE, navigationKey: 'radar-viewer-navigation-knowledge-v1', activeFileKey: 'radar-viewer-active-file-knowledge-v1' },
+      interview: { indexUrl: '_interview_index.md', defaultFile: null, navigationKey: 'radar-viewer-navigation-interview-v1', activeFileKey: 'radar-viewer-active-file-interview-v1' }
     };
     const NAVIGATION_STATE_KEY = 'radar-viewer-navigation-v1';
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
-    const navigationState = { groups: [], entries: [], activeFile: DEFAULT_FILE, expanded: new Set(), initialized: false };
+    let activeSection = 'knowledge';
+    const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
+      groups: [], entries: [], activeFile: SECTIONS[section].defaultFile, expanded: new Set(), initialized: false,
+      search: '', filters: { role: '', difficulty: '', tag: '' }
+    }]));
+    let navigationState = navigationStates.knowledge;
 
     function validatePath(value) {
       if (!value || typeof value !== 'string' || value.startsWith('/') || value.includes('\\')) return false;
@@ -149,9 +179,30 @@
         : { metadata: '', body: source };
     }
 
-    function viewerHref(name) {
+    function parseMetadata(metadata) {
+      const result = {};
+      for (const line of metadata.split(/\r?\n/)) {
+        const match = line.match(/^([\w\u4e00-\u9fff-]+):\s*(.*)$/);
+        if (!match) continue;
+        const value = match[2].trim();
+        result[match[1]] = /^\[.*\]$/.test(value)
+          ? value.slice(1, -1).split(',').map((item) => item.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean)
+          : value.replace(/^['"]|['"]$/g, '');
+      }
+      return result;
+    }
+
+    function sectionForFile(file, metadata = {}) {
+      if (metadata.page_type === 'interview' || metadata.pageType === 'interview') return 'interview';
+      if (Object.keys(metadata).length) return 'knowledge';
+      const requested = new URLSearchParams(location.search).get('section');
+      if (requested === 'knowledge' || requested === 'interview') return requested;
+      return 'knowledge';
+    }
+
+    function viewerHref(name, section = activeSection) {
       const target = name.endsWith('.md') ? name : `pages/${name}.md`;
-      return `viewer.html?f=${encodeURIComponent(target)}`;
+      return `viewer.html?section=${section}&f=${encodeURIComponent(target)}`;
     }
 
     function rewriteWikilinks(markdown) {
@@ -256,17 +307,50 @@
       return { groups: groups.filter((group) => group.pages.length), entries: [...entries.values()] };
     }
 
+    function parseInterviewIndex(markdown) {
+      const groups = [];
+      const entries = new Map();
+      let current = null;
+      for (const line of markdown.split(/\r?\n/)) {
+        const heading = line.match(/^##\s+(.+?)\s*$/);
+        if (heading) {
+          current = { name: heading[1].replace(/^\u89d2\u8272:\s*/, ''), pages: [] };
+          if (heading[1].startsWith('\u89d2\u8272:')) groups.push(current);
+          else current = null;
+          continue;
+        }
+        const item = line.match(/^-\s+\[\[([^\]|]+)(?:\|([^\]]+))?\]\]\s*`([^`]*)`\s+—\s+原问题:\s*(.*?)\s+·\s+摘要:\s*(.*?)\s+·\s+角色:\s*(.*?)\s+·\s+难度:\s*(.*?)\s*$/);
+        if (!current || !item) continue;
+        const title = item[1].trim();
+        const file = `pages/${title}.md`;
+        const tags = item[3].match(/#[^\s#]+/g)?.map((tag) => tag.slice(1)) || [];
+        const roles = item[6].split(',').map((role) => role.trim()).filter(Boolean);
+        let entry = entries.get(file);
+        if (!entry) entry = { title, file, question: item[4].trim(), summary: item[5].trim(), tags, roles, difficulty: item[7].trim(), aliases: item[2] ? [item[2].trim()] : [], categories: [] };
+        entry.roles = [...new Set([...entry.roles, ...roles])];
+        if (!entry.categories.includes(current.name)) entry.categories.push(current.name);
+        entry.searchText = normalizeSearch([entry.title, entry.question, entry.summary, ...entry.tags, ...entry.roles, entry.difficulty].join(' '));
+        entries.set(file, entry);
+        current.pages.push(entry);
+      }
+      return { groups, entries: [...entries.values()] };
+    }
+
     function setMessage(text, isError = false) {
       elements.message.textContent = text;
       elements.message.hidden = !text;
       elements.message.className = isError ? 'error' : 'status';
     }
 
-    function notifyActiveFile(file, title) {
+    function notifyActiveFile(file, title, metadata = {}) {
       if (window.parent === window) return;
+      const pageType = metadata.page_type || metadata.pageType;
+      const context = pageType === 'interview'
+        ? { kind: 'page', pageType: 'interview', file, title, question: metadata.question || metadata.original_question || metadata['原问题'] || '', roles: Array.isArray(metadata.roles) ? metadata.roles : [], difficulty: metadata.difficulty || '' }
+        : { kind: 'page', file, title: title || file.split('/').pop().replace(/\.md$/, '') };
       window.parent.postMessage({
         type: 'kb-context',
-        context: { kind: 'page', file, title: title || file.split('/').pop().replace(/\.md$/, '') }
+        context
       }, WORKBENCH_ORIGIN);
     }
 
@@ -276,21 +360,28 @@
 
     function restoreNavigationState() {
       try {
-        const parsed = JSON.parse(sessionStorage.getItem(NAVIGATION_STATE_KEY) || '{}');
+        const stored = sessionStorage.getItem(SECTIONS[activeSection].navigationKey)
+          || (activeSection === 'knowledge' ? sessionStorage.getItem(NAVIGATION_STATE_KEY) : null);
+        const parsed = JSON.parse(stored || '{}');
         if (Array.isArray(parsed.expanded)) navigationState.expanded = new Set(parsed.expanded.filter((item) => typeof item === 'string'));
+        navigationState.search = typeof parsed.search === 'string' ? parsed.search : '';
+        navigationState.filters = { ...navigationState.filters, ...(parsed.filters || {}) };
+        navigationState.activeFile = sessionStorage.getItem(SECTIONS[activeSection].activeFileKey) || navigationState.activeFile;
       } catch (_error) {
         navigationState.expanded = new Set();
       }
     }
 
     function saveNavigationState() {
-      sessionStorage.setItem(NAVIGATION_STATE_KEY, JSON.stringify({ expanded: [...navigationState.expanded] }));
+      sessionStorage.setItem(SECTIONS[activeSection].navigationKey, JSON.stringify({ expanded: [...navigationState.expanded], search: navigationState.search, filters: navigationState.filters }));
+      if (navigationState.activeFile) sessionStorage.setItem(SECTIONS[activeSection].activeFileKey, navigationState.activeFile);
     }
 
     function pageLink(entry, className = '') {
       const link = document.createElement('a');
-      link.href = `viewer.html?f=${encodeURIComponent(entry.file)}`;
+      link.href = `viewer.html?section=${activeSection}&f=${encodeURIComponent(entry.file)}`;
       link.dataset.file = entry.file;
+      link.dataset.section = activeSection;
       link.className = className;
       link.textContent = entry.title;
       if (entry.file === navigationState.activeFile) link.setAttribute('aria-current', 'page');
@@ -299,6 +390,7 @@
 
     function updateActiveNavigation(file) {
       navigationState.activeFile = file;
+      saveNavigationState();
       elements.navigation.querySelectorAll('a[data-file]').forEach((link) => {
         if (link.dataset.file === file) link.setAttribute('aria-current', 'page');
         else link.removeAttribute('aria-current');
@@ -308,7 +400,7 @@
     function renderCategorizedNavigation() {
       elements.navigation.replaceChildren();
       const graphLink = document.createElement('a');
-      graphLink.href = 'graph-view.html';
+      graphLink.href = `graph-view.html?profile=${activeSection}`;
       graphLink.textContent = '交互图谱';
       graphLink.className = 'nav-list';
       graphLink.style.padding = '8px';
@@ -377,12 +469,19 @@
 
     function filterNavigation(query) {
       const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
-      if (!terms.length) {
+      navigationState.search = query;
+      navigationState.filters = { role: elements.roleFilter.value, difficulty: elements.difficultyFilter.value, tag: elements.tagFilter.value };
+      saveNavigationState();
+      const hasInterviewFilters = activeSection === 'interview' && Object.values(navigationState.filters).some(Boolean);
+      if (!terms.length && !hasInterviewFilters) {
         renderCategorizedNavigation();
         return;
       }
       const matches = navigationState.entries
         .filter((entry) => terms.every((term) => entry.searchText.includes(term)))
+        .filter((entry) => !navigationState.filters.role || entry.roles?.includes(navigationState.filters.role))
+        .filter((entry) => !navigationState.filters.difficulty || entry.difficulty === navigationState.filters.difficulty)
+        .filter((entry) => !navigationState.filters.tag || entry.tags.includes(navigationState.filters.tag))
         .sort((left, right) => {
           const normalized = normalizeSearch(query);
           const score = (entry) => normalizeSearch(entry.title).startsWith(normalized) ? 0
@@ -394,15 +493,37 @@
       renderSearchResults(matches);
     }
 
-    async function retryIndexLoad() {
+    function fillSelect(select, values, label) {
+      const selected = select.value;
+      select.replaceChildren(new Option(label, ''), ...values.map((value) => new Option(value, value)));
+      select.value = values.includes(selected) ? selected : '';
+    }
+
+    function configureInterviewFilters() {
+      elements.interviewFilters.hidden = activeSection !== 'interview';
+      elements.navigationSearch.setAttribute('aria-label', activeSection === 'interview' ? '搜索面试页' : '搜索知识页');
+      if (activeSection !== 'interview') return;
+      fillSelect(elements.roleFilter, [...new Set(navigationState.entries.flatMap((entry) => entry.roles))].sort(), '全部岗位');
+      fillSelect(elements.difficultyFilter, [...new Set(navigationState.entries.map((entry) => entry.difficulty).filter(Boolean))], '全部难度');
+      fillSelect(elements.tagFilter, [...new Set(navigationState.entries.flatMap((entry) => entry.tags))].sort(), '全部方向');
+      elements.roleFilter.value = navigationState.filters.role;
+      elements.difficultyFilter.value = navigationState.filters.difficulty;
+      elements.tagFilter.value = navigationState.filters.tag;
+    }
+
+    async function retryIndexLoad(section = activeSection) {
       try {
-        const response = await fetch('_index.md', { cache: 'no-store' });
+        const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const parsed = parseIndex(await response.text());
+        const parsed = section === 'interview' ? parseInterviewIndex(await response.text()) : parseIndex(await response.text());
+        if (section !== activeSection) return;
         navigationState.groups = parsed.groups;
         navigationState.entries = parsed.entries;
         restoreNavigationState();
-        filterNavigation(elements.navigationSearch.value);
+        if (!navigationState.activeFile && parsed.entries.length) navigationState.activeFile = parsed.entries[0].file;
+        elements.navigationSearch.value = navigationState.search;
+        configureInterviewFilters();
+        filterNavigation(navigationState.search);
       } catch (error) {
         elements.navigation.replaceChildren();
         const message = document.createElement('p');
@@ -419,10 +540,26 @@
 
     async function loadSidebar(activeFile) {
       navigationState.activeFile = activeFile;
-      await retryIndexLoad();
+      await retryIndexLoad(activeSection);
     }
 
-    async function renderMarkdown(file) {
+    async function switchSection(section, { render = true } = {}) {
+      if (!SECTIONS[section]) section = 'knowledge';
+      navigationState.search = elements.navigationSearch.value;
+      saveNavigationState();
+      activeSection = section;
+      navigationState = navigationStates[section];
+      document.querySelectorAll('[role="tab"][data-section]').forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.section === section)));
+      restoreNavigationState();
+      configureInterviewFilters();
+      await retryIndexLoad(section);
+      if (render && navigationState.activeFile) {
+        history.pushState({ file: navigationState.activeFile, section }, '', `viewer.html?section=${section}&f=${encodeURIComponent(navigationState.activeFile)}`);
+        await renderMarkdown(navigationState.activeFile, section);
+      }
+    }
+
+    async function renderMarkdown(file, expectedSection = null) {
       if (!validatePath(file)) {
         setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
         return;
@@ -431,6 +568,9 @@
         const response = await fetch(file, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const { metadata, body } = splitFrontmatter(await response.text());
+        const pageMetadata = parseMetadata(metadata);
+        const detectedSection = sectionForFile(file, pageMetadata) || expectedSection;
+        if (detectedSection !== activeSection) await switchSection(detectedSection, { render: false });
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
         const math = extractMathRegions(rewriteWikilinks(body));
@@ -460,7 +600,7 @@
         document.title = `${pageTitle} · 技术雷达`;
         setMessage('');
         updateActiveNavigation(file);
-        notifyActiveFile(file, pageTitle);
+        notifyActiveFile(file, pageTitle, pageMetadata);
       } catch (error) {
         elements.content.replaceChildren();
         elements.frontmatter.hidden = true;
@@ -472,11 +612,19 @@
     window.addEventListener('message', (event) => {
       if (event.origin !== WORKBENCH_ORIGIN) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
-      if (event.data?.type === 'kb-refresh') retryIndexLoad();
+      if (event.data?.type === 'kb-refresh') {
+        retryIndexLoad(activeSection);
+        renderMarkdown(navigationStates[activeSection].activeFile, activeSection);
+      }
+    });
+    document.querySelector('.section-tabs').addEventListener('click', (event) => {
+      const tab = event.target.closest('[role="tab"][data-section]');
+      if (tab && tab.dataset.section !== activeSection) switchSection(tab.dataset.section);
     });
     document.querySelector('#menuButton').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     document.querySelector('#scrim').addEventListener('click', closeNavigation);
     elements.navigationSearch.addEventListener('input', () => filterNavigation(elements.navigationSearch.value));
+    [elements.roleFilter, elements.difficultyFilter, elements.tagFilter].forEach((select) => select.addEventListener('change', () => filterNavigation(elements.navigationSearch.value)));
     elements.collapseAll.addEventListener('click', () => {
       navigationState.expanded.clear();
       saveNavigationState();
@@ -484,18 +632,21 @@
       renderCategorizedNavigation();
     });
     document.addEventListener('click', (event) => {
-      const link = event.target.closest('a[href^="viewer.html?f="]');
+      const link = event.target.closest('a[href^="viewer.html?"]');
       if (!link) return;
       const file = link.dataset.file || new URL(link.href).searchParams.get('f');
       if (!validatePath(file)) return;
       event.preventDefault();
-      history.pushState({ file }, '', `viewer.html?f=${encodeURIComponent(file)}`);
-      renderMarkdown(file);
+      const section = link.dataset.section || new URL(link.href).searchParams.get('section') || activeSection;
+      if (section !== activeSection) switchSection(section, { render: false });
+      history.pushState({ file, section }, '', `viewer.html?section=${section}&f=${encodeURIComponent(file)}`);
+      renderMarkdown(file, section);
       closeNavigation();
     });
     window.addEventListener('popstate', () => {
-      const file = new URLSearchParams(location.search).get('f') || DEFAULT_FILE;
-      renderMarkdown(file);
+      const params = new URLSearchParams(location.search);
+      const file = params.get('f') || DEFAULT_FILE;
+      renderMarkdown(file, params.get('section'));
     });
     document.addEventListener('keydown', (event) => {
       const editable = event.target.matches('input,textarea,[contenteditable="true"]');
@@ -529,9 +680,15 @@
       requireRuntime('KaTeX auto-render', window.renderMathInElement);
       marked.setOptions({ mangle: false, headerIds: false });
       mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
-      const requestedFile = new URLSearchParams(location.search).get('f') || DEFAULT_FILE;
+      const params = new URLSearchParams(location.search);
+      const requestedFile = params.get('f') || DEFAULT_FILE;
+      const requestedSection = params.get('section');
+      if (requestedSection === 'knowledge' || requestedSection === 'interview') {
+        activeSection = requestedSection;
+        navigationState = navigationStates[activeSection];
+      }
       loadSidebar(requestedFile);
-      renderMarkdown(requestedFile);
+      renderMarkdown(requestedFile, requestedSection);
     } catch (error) {
       setMessage(error.message, true);
     }

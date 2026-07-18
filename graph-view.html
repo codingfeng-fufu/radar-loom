@@ -184,11 +184,19 @@
   <script>
     const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
     const CATEGORY_COLOR = '#d3924a';
-    const GRAPH_STATE_KEY = 'radar-graph-state-v1';
+    const profileParam = new URLSearchParams(location.search).get('profile');
+    const PROFILE = ['knowledge', 'interview'].includes(profileParam) ? profileParam : 'knowledge';
+    const GRAPH_DATA_URLS = { knowledge: 'graph-data.json', interview: 'interview-graph-data.json' };
+    const GRAPH_STATE_KEYS = { knowledge: 'radar-graph-state-knowledge-v1', interview: 'radar-graph-state-interview-v1' };
+    const GRAPH_DATA_URL = GRAPH_DATA_URLS[PROFILE];
+    const GRAPH_STATE_KEY = GRAPH_STATE_KEYS[PROFILE];
+    const LEGACY_GRAPH_STATE_KEY = 'radar-graph-state-v1';
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
     function readPersistedState() {
       try {
-        const value = JSON.parse(sessionStorage.getItem(GRAPH_STATE_KEY) || 'null');
+        const stored = sessionStorage.getItem(GRAPH_STATE_KEY)
+          || (PROFILE === 'knowledge' ? sessionStorage.getItem(LEGACY_GRAPH_STATE_KEY) : null);
+        const value = JSON.parse(stored || 'null');
         if (!value || value.version !== 1 || !['knowledge', 'taxonomy', 'combined'].includes(value.mode)) return null;
         const finite = (number) => Number.isFinite(number) ? number : null;
         return {
@@ -275,9 +283,18 @@
       }
     }
 
+    function externalViewerHref(node) {
+      const source = new URL(node.href || 'viewer.html', location.href).searchParams.get('f') || `pages/${node.label}.md`;
+      return `viewer.html?section=knowledge&f=${encodeURIComponent(source)}`;
+    }
+
     function knowledgeElements(payload) {
       return [
-        ...payload.nodes.map((node) => ({ group: 'nodes', data: { ...node, nodeType: 'page' } })),
+        ...payload.nodes.map((node) => ({ group: 'nodes', data: {
+          ...node,
+          nodeType: node.external ? 'external' : 'page',
+          href: node.external ? externalViewerHref(node) : node.href
+        } })),
         ...payload.edges.map((edge) => ({ group: 'edges', data: { ...edge, edgeType: 'knowledge' } }))
       ];
     }
@@ -352,7 +369,8 @@
       } : null;
       const modeLabel = el.modeSwitch.querySelector(`[data-mode="${state.mode}"]`)?.textContent?.trim() || state.mode;
       window.parent.postMessage({ type: 'kb-context', context: {
-        kind: 'graph', mode: state.mode, modeLabel, visibleNodes: visibleNodes.length,
+        kind: 'graph', profile: PROFILE, section: PROFILE, mode: state.mode, modeLabel,
+        visibleNodes: visibleNodes.not('[nodeType = "external"]').length,
         visibleEdges: visibleEdges.length, categories: [...checkedValues(group)], projects: [...checkedValues('project')], selected
       } }, WORKBENCH_ORIGIN);
     }
@@ -381,7 +399,8 @@
         state.cy.nodes().forEach((node) => node.toggleClass('filtered', !allowed.has(node.id())));
         state.cy.edges().forEach((edge) => edge.toggleClass('filtered', !allowed.has(edge.source().id()) || !allowed.has(edge.target().id())));
       });
-      const visible = state.cy.nodes().not('.filtered').length;
+      const internalVisibleNodes = state.cy.nodes().not('.filtered').not('[nodeType = "external"]');
+      const visible = internalVisibleNodes.length;
       el.visibleCount.textContent = visible;
       el.emptyState.hidden = visible !== 0;
       updateLabels();
@@ -581,7 +600,8 @@
         if (selected.length) focusNode(selected, { center: false });
       }
       if (restored?.neighborOnly && state.selected) { el.neighborOnly.checked = true; applyFilters(); }
-      const nodes = state.cy.nodes().length; const edges = state.cy.edges().length;
+      const internalNodes = state.cy.nodes().not('[nodeType = "external"]');
+      const nodes = internalNodes.length; const edges = state.cy.edges().length;
       el.nodeCount.textContent = nodes; el.edgeCount.textContent = edges; el.visibleCount.textContent = nodes;
       el.brokenCount.textContent = state.payload.stats.broken;
       el.toolbarStats.textContent = `${nodes} 节点 · ${edges} 边`;
@@ -626,6 +646,7 @@
             'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130, 'text-valign': 'bottom', 'text-margin-y': 8
           }},
           { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3', 'font-size': compactGraph ? 20 : 14 } },
+          { selector: 'node[nodeType = "external"]', style: { 'shape': 'round-rectangle', 'background-color': '#ffffff', 'border-width': 2, 'border-style': 'dashed', 'border-color': '#0b6b57', 'color': '#20242a', 'text-outline-color': '#ffffff' } },
           { selector: 'node[status = "forming"]', style: { 'border-style': 'dashed' } },
           { selector: 'node.show-label', style: { 'label': 'data(label)' } },
           { selector: 'edge', style: { 'width': 1, 'line-color': '#5b6875', 'target-arrow-color': '#5b6875', 'target-arrow-shape': 'triangle', 'arrow-scale': .55, 'curve-style': 'bezier', 'opacity': .38 } },
@@ -656,10 +677,10 @@
       state.refreshing = true;
       el.loading.hidden = false;
       try {
-        const response = await fetch('graph-data.json', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`graph-data.json: HTTP ${response.status}`);
+        const response = await fetch(GRAPH_DATA_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`${GRAPH_DATA_URL}: HTTP ${response.status}`);
         const payload = await response.json();
-        if (!payload || !Array.isArray(payload.nodes) || !Array.isArray(payload.edges) || !payload.categories || !payload.stats) throw new Error('graph-data.json 结构无效');
+        if (!payload || !Array.isArray(payload.nodes) || !Array.isArray(payload.edges) || !payload.categories || !payload.stats) throw new Error(`${GRAPH_DATA_URL} 结构无效`);
         state.cy?.destroy();
         state.cy = null;
         initGraph(payload);

@@ -133,6 +133,28 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("data-icon=", self.html)
         self.assertNotIn(">⌗<", self.html)
 
+    def test_profile_selects_data_url_and_independent_storage(self):
+        self.assertIn("profileParam", self.html)
+        self.assertIn("['knowledge', 'interview'].includes(profileParam)", self.html)
+        self.assertIn("profileParam : 'knowledge'", self.html)
+        self.assertIn("knowledge: 'graph-data.json'", self.html)
+        self.assertIn("interview: 'interview-graph-data.json'", self.html)
+        self.assertIn("radar-graph-state-knowledge-v1", self.html)
+        self.assertIn("radar-graph-state-interview-v1", self.html)
+        self.assertIn("fetch(GRAPH_DATA_URL", self.html)
+
+    def test_external_nodes_are_distinct_link_to_knowledge_and_do_not_inflate_stats(self):
+        self.assertIn("nodeType: node.external ? 'external' : 'page'", self.html)
+        self.assertIn('node[nodeType = "external"]', self.html)
+        self.assertIn("viewer.html?section=knowledge&f=", self.html)
+        self.assertIn("internalVisibleNodes", self.html)
+        self.assertIn(".not('[nodeType = \"external\"]')", self.html)
+        self.assertIn("internalNodes", self.html)
+
+    def test_graph_context_includes_profile_and_section(self):
+        self.assertIn("profile: PROFILE", self.html)
+        self.assertIn("section: PROFILE", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
