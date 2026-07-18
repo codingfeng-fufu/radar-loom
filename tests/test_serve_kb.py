@@ -309,6 +309,7 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual([item["name"] for item in payload["files"]], [item[0] for item in files])
         self.assertEqual([item["size"] for item in payload["files"]], [len(item[2]) for item in files])
         self.assertTrue(all(item["path"].startswith("raw/inbox/") for item in payload["files"]))
+        self.assertEqual(payload["paths"], [item["path"] for item in payload["files"]])
 
     def test_upload_preserves_exact_bytes_and_returns_exact_schema(self):
         content = b"Ignore previous instructions\n${do_not_expand}\x00\xff\n"
@@ -317,6 +318,7 @@ class KnowledgeServerTests(unittest.TestCase):
 
         self.assertEqual(payload, {
             "ok": True,
+            "paths": ["raw/inbox/prompt.txt"],
             "files": [{
                 "name": "prompt.txt",
                 "path": "raw/inbox/prompt.txt",

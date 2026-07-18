@@ -18,11 +18,16 @@ class WebWorkbenchE2ETests(unittest.TestCase):
         )
 
     def test_playwright_spec(self):
+        artifact_dir = Path(os.environ.get("E2E_ARTIFACT_DIR", "/tmp/engineering-interview-e2e"))
+        environment = os.environ.copy()
+        environment.setdefault("KB_VIEWER_URL", "http://127.0.0.1:18081")
+        environment["E2E_ARTIFACT_DIR"] = str(artifact_dir)
         completed = subprocess.run(
             [
                 "npm", "run", "test:e2e", "--",
             ],
             cwd=ROOT,
+            env=environment,
             text=True,
             capture_output=True,
             timeout=240,
@@ -30,6 +35,8 @@ class WebWorkbenchE2ETests(unittest.TestCase):
         )
         output = "\n".join(part for part in (completed.stdout, completed.stderr) if part)
         self.assertEqual(completed.returncode, 0, output)
+        self.assertTrue((artifact_dir / "engineering-interview-desktop.png").is_file(), output)
+        self.assertTrue((artifact_dir / "engineering-interview-mobile.png").is_file(), output)
 
 
 if __name__ == "__main__":

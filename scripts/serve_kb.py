@@ -420,7 +420,11 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                     pass
             self.send_json(500, {"ok": False, "error": f"upload failed: {error}"})
             return
-        self.send_json(200, {"ok": True, "files": stored})
+        self.send_json(200, {
+            "ok": True,
+            "paths": [item["path"] for item in stored],
+            "files": stored,
+        })
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path

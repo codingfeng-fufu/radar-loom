@@ -78,11 +78,13 @@
 ```bash
 cd /home/u2023312337/知识库
 python3 scripts/taxonomy_cli.py sync
+python3 scripts/taxonomy_cli.py --profile interview sync
 python3 scripts/build_index.py
 python3 scripts/render_graph.py
+python3 scripts/check_health.py
 ```
 
-按钮不向服务传递脚本名、路径或命令；服务只允许执行上述两个项目脚本。失败时页面不重载，顶部状态条会显示简短错误。
+按钮不向服务传递脚本名、路径或命令；服务只执行固定的知识与面试分类同步、索引生成、图谱渲染和健康检查流程。失败时页面不重载，顶部状态条会显示简短错误。
 
 ### 询问当前页面
 
@@ -324,8 +326,9 @@ ss -ltnp '( sport = :18080 or sport = :18081 )'
 
 ```bash
 cd /home/u2023312337/知识库
-python3 scripts/build_index.py
 python3 scripts/taxonomy_cli.py sync
+python3 scripts/taxonomy_cli.py --profile interview sync
+python3 scripts/build_index.py
 python3 scripts/render_graph.py
 python3 scripts/check_health.py
 ```

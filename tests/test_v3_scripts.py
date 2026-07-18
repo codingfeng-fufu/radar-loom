@@ -79,13 +79,15 @@ class IndexV3Tests(unittest.TestCase):
 
     def test_current_index_exactly_matches_pages(self):
         module = importlib.import_module("build_index")
-        rendered, concept_count, project_count, missing = module.render_index(rc.scan_pages())
+        pages, _ = rc.partition_pages(rc.scan_pages())
+        rendered, concept_count, project_count, missing = module.render_index(pages)
         self.assertEqual(rc.INDEX_FILE.read_text(encoding="utf-8"), rendered)
         self.assertGreaterEqual(concept_count, 88)
         self.assertEqual((project_count, missing), (5, 0))
 
     def test_all_concept_metadata_is_v3_healthy(self):
-        for page in rc.scan_pages().values():
+        pages, _ = rc.partition_pages(rc.scan_pages())
+        for page in pages.values():
             tags = page.frontmatter.get("tags", [])
             if page.name == "首页" or "MOC" in tags or "项目" in tags:
                 continue
@@ -102,7 +104,7 @@ class IndexV3Tests(unittest.TestCase):
 class GraphV3Tests(unittest.TestCase):
     def test_graph_data_json_is_complete_and_deterministic(self):
         graph = importlib.import_module("render_graph")
-        pages = rc.scan_pages()
+        pages, _ = rc.partition_pages(rc.scan_pages())
         edges, broken, degree = graph.graph_data(pages)
         first = graph.render_graph_data(pages, edges, broken, degree)
         second = graph.render_graph_data(pages, edges, broken, degree)
