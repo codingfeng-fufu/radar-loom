@@ -10,9 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import radar_common as rc
+import taxonomy_cli
 from taxonomy_cli import parse_args
 from taxonomy_embeddings import page_semantic_text
 from taxonomy_engine import TaxonomyEngine, load_config
+from taxonomy_models import Registry, parameters_hash, write_registry
 
 
 class InterviewTaxonomyTests(unittest.TestCase):
@@ -62,6 +64,22 @@ class InterviewTaxonomyTests(unittest.TestCase):
         args = parse_args(["--profile", "interview", "status", "--json"])
         self.assertEqual(args.profile, "interview")
         self.assertEqual(args.command, "status")
+        old_root = taxonomy_cli.ROOT
+        try:
+            taxonomy_cli.ROOT = self.root
+            registry = Registry.empty(parameters_hash(load_config(self.root, "interview")), "2026-01-01")
+            write_registry(self.root / "interview-taxonomy.json", registry, set())
+            from io import StringIO
+            from contextlib import redirect_stdout
+            output = StringIO()
+            with redirect_stdout(output):
+                self.assertEqual(taxonomy_cli.main(["--profile", "interview", "status", "--json"]), 0)
+            payload = json.loads(output.getvalue())
+            self.assertEqual(payload["memberships"], 0)
+        finally:
+            taxonomy_cli.ROOT = old_root
+        self.assertTrue((self.root / "interview-taxonomy.json").exists())
+        self.assertFalse((self.root / ".cache").exists())
 
     def test_summary_precedence_and_fallback(self):
         both = rc.PageInfo("P", Path("P.md"), {"summary": "English", "摘要": "中文"}, "body")
@@ -69,6 +87,9 @@ class InterviewTaxonomyTests(unittest.TestCase):
         self.assertIn("English", page_semantic_text(both))
         self.assertNotIn("中文", page_semantic_text(both))
         self.assertIn("中文", page_semantic_text(fallback))
+        for value in ("", "   "):
+            page = rc.PageInfo("P", Path("P.md"), {"summary": value, "摘要": "中文"}, "body")
+            self.assertIn("中文", page_semantic_text(page))
 
 
 if __name__ == "__main__":

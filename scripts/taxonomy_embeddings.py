@@ -40,7 +40,9 @@ class SentenceTransformerEncoder:
 def page_semantic_text(page: rc.PageInfo) -> str:
     body = FENCED_CODE_RE.sub("", page.body)
     headings = [match.strip() for match in HEADING_RE.findall(body)]
-    summary = str(page.frontmatter.get("summary", page.frontmatter.get("摘要", ""))).strip()
+    summary = str(page.frontmatter.get("summary", "")).strip()
+    if not summary:
+        summary = str(page.frontmatter.get("摘要", "")).strip()
     parts = [page.name, page.name, summary, "\n".join(headings), body]
     return "\n\n".join(part for part in parts if part.strip()).strip()
 
