@@ -154,6 +154,8 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await viewer.locator('#interviewTab').click();
   await expect(viewer.locator('#interviewTab')).toHaveAttribute('aria-selected', 'true');
   await expect(viewer.getByRole('link', { name: samplePage }).first()).toBeVisible();
+  fs.mkdirSync(artifactDir, { recursive: true });
+  await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-list.png'), fullPage: true });
 
   await viewer.locator('#roleFilter').selectOption('算法工程师');
   await viewer.locator('#difficultyFilter').selectOption('进阶');
@@ -164,6 +166,7 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await expect(viewer.locator('#content')).toContainText('多头注意力机制的核心作用到底是什么？');
   await expect(viewer.locator('#content')).toContainText('多个可学习的表示子空间');
   await expect(viewer.locator('#content')).toContainText('不保证');
+  await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-sample-page.png'), fullPage: true });
   await frame().evaluate(() => location.reload());
   await expect(viewer.locator('#interviewTab')).toHaveAttribute('aria-selected', 'true');
   await expect(viewer.locator('#roleFilter')).toHaveValue('算法工程师');
@@ -171,13 +174,11 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await expect(viewer.locator('#tagFilter')).toHaveValue('Transformer');
   await expect(viewer.locator('#content h1')).toHaveText(samplePage);
 
-  fs.mkdirSync(artifactDir, { recursive: true });
-  await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-desktop.png'), fullPage: true });
-
   await frame().evaluate(() => { location.href = 'graph-view.html?profile=interview'; });
   const graph = page.frameLocator('#knowledgeFrame');
   await expect(graph.locator('#graph canvas').first()).toBeVisible();
   await expect(graph.locator('#nodeCount')).toHaveText('1');
+  await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-graph.png'), fullPage: true });
   await graph.locator('#search').fill('多头注意力');
   await expect(graph.locator('.search-result').filter({ hasText: samplePage })).toBeVisible();
   await expect(graph.locator('.search-result').filter({ hasText: 'Multi-Head Attention' })).toBeVisible();
@@ -212,6 +213,52 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   expect(prompt).toContain('如材料包含多道问题，先列出问题清单、建议标题和推测难度，等待我确认后再建页。');
   await expect(page.locator('#interviewFiles')).toHaveValue('');
 
+  await page.frameLocator('#claudeFrame').locator('body').evaluate(body => body.replaceChildren());
+  await page.evaluate(() => {
+    window.__clipboardText = '';
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: async text => { window.__clipboardText = text; } },
+    });
+  });
+  await page.locator('#createInterview').click();
+  await page.locator('#interviewQuestion').fill('剪贴板回退题目');
+  await page.locator('#interviewFocus').fill('剪贴板回退关注点');
+  await page.locator('#interviewFiles').setInputFiles({ name: 'mha-clipboard-e2e.txt', mimeType: 'text/plain', buffer: fixture });
+  await page.locator('#insertInterviewPrompt').click();
+  await expect(page.locator('#insertInterviewPrompt')).toBeEnabled();
+  await expect(page.locator('#createInterviewDialog')).toHaveAttribute('open', '');
+  const clipboardPrompt = await page.evaluate(() => window.__clipboardText);
+  expect(clipboardPrompt).toBe([
+    '请使用 $create-engineering-interview-page Skill 完成工程面试页创建或更新任务。',
+    '面试问题：剪贴板回退题目',
+    '参考材料：raw/inbox/mha-clipboard-e2e.txt',
+    '特别关注：剪贴板回退关注点',
+    '如材料包含多道问题，先列出问题清单、建议标题和推测难度，等待我确认后再建页。',
+  ].join('\n'));
+  await expect(page.locator('#interviewQuestion')).toHaveValue('剪贴板回退题目');
+  await expect(page.locator('#interviewFocus')).toHaveValue('剪贴板回退关注点');
+  await expect(page.locator('#interviewFiles')).toHaveValue(/mha-clipboard-e2e\.txt$/);
+  await page.locator('#cancelCreateInterview').click();
+
+  await page.route('**/api/uploads', route => route.fulfill({
+    status: 415,
+    contentType: 'application/json',
+    body: JSON.stringify({ ok: false, error: '测试上传失败' }),
+  }));
+  await page.locator('#createInterview').click();
+  await page.locator('#interviewQuestion').fill('上传失败题目');
+  await page.locator('#interviewFocus').fill('上传失败关注点');
+  await page.locator('#interviewFiles').setInputFiles({ name: 'mha-error-e2e.txt', mimeType: 'text/plain', buffer: fixture });
+  await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-upload-dialog.png'), fullPage: true });
+  await page.locator('#insertInterviewPrompt').click();
+  await expect(page.locator('#createInterviewError')).toHaveText('测试上传失败');
+  await expect(page.locator('#createInterviewDialog')).toHaveAttribute('open', '');
+  await expect(page.locator('#interviewQuestion')).toHaveValue('上传失败题目');
+  await expect(page.locator('#interviewFocus')).toHaveValue('上传失败关注点');
+  await expect(page.locator('#interviewFiles')).toHaveValue(/mha-error-e2e\.txt$/);
+  await page.locator('#cancelCreateInterview').click();
+
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('tab', { name: '文件' }).click();
   await expect(page.locator('#workbench')).toHaveAttribute('data-mobile-tab', 'files');
@@ -223,5 +270,7 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(await frame().evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-mobile.png'), fullPage: true });
-  expect(consoleErrors).toEqual([]);
+  const unexpectedConsoleErrors = consoleErrors.filter(message => !message.includes('status of 415 (Unsupported Media Type)'));
+  expect(unexpectedConsoleErrors).toEqual([]);
+  expect(consoleErrors.filter(message => message.includes('status of 415 (Unsupported Media Type)'))).toHaveLength(1);
 });
