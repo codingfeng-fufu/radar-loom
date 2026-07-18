@@ -22,6 +22,12 @@ TEMPLATE_FILE = VAULT_ROOT / "templates" / "概念页模板.md"
 GRAPH_FILE = VAULT_ROOT / "graph.md"
 GRAPH_DATA_FILE = VAULT_ROOT / "graph-data.json"
 INDEX_FILE = VAULT_ROOT / "_index.md"
+INTERVIEW_INDEX_FILE = VAULT_ROOT / "_interview_index.md"
+INTERVIEW_GRAPH_FILE = VAULT_ROOT / "interview-graph.md"
+INTERVIEW_GRAPH_DATA_FILE = VAULT_ROOT / "interview-graph-data.json"
+
+KNOWLEDGE_PAGE_TYPE = "knowledge"
+INTERVIEW_PAGE_TYPE = "interview"
 
 WIKILINK_RE = re.compile(r"\[\[([^\]|#\n]+?)(?:\|[^\]]*)?\]\]")
 # 说明:捕获组 1 为目标页名;支持 [[目标|别名]] 形式(别名丢弃);
@@ -94,12 +100,16 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     fm_lines = lines[1:end_idx]
     body = "\n".join(lines[end_idx + 1:])
     fm: dict = {}
-    for line in fm_lines:
+    i = 0
+    while i < len(fm_lines):
+        line = fm_lines[i]
         if ":" not in line:
+            i += 1
             continue  # 无法解析的行忽略,不报错
         key, _, value = line.partition(":")
         key = key.strip()
         if not key:
+            i += 1
             continue
         value = value.strip()
         if value.startswith("[") and value.endswith("]"):
@@ -108,9 +118,50 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
                 fm[key] = []
             else:
                 fm[key] = [_strip_quotes(item) for item in inner.split(",")]
-        else:
+        elif value:
             fm[key] = value
+        else:
+            block_values = []
+            j = i + 1
+            while j < len(fm_lines):
+                item = fm_lines[j]
+                match = re.match(r"^[ \t]+-\s*(.*?)\s*$", item)
+                if match:
+                    block_values.append(_strip_quotes(match.group(1)))
+                    j += 1
+                    continue
+                if item.strip() and not item.startswith((" ", "\t")):
+                    break
+                if item.strip() and not re.match(r"^\s+", item):
+                    break
+                # Indented non-list entries are nested mappings or malformed values.
+                j += 1
+            fm[key] = block_values
+            i = j - 1
+        i += 1
     return (fm, body)
+
+
+def page_type(page) -> str:
+    """Return the page type, defaulting legacy pages to knowledge."""
+    metadata = page.frontmatter if isinstance(page, PageInfo) else page
+    value = metadata.get("page_type") if hasattr(metadata, "get") else None
+    if value is None or not str(value).strip():
+        return KNOWLEDGE_PAGE_TYPE
+    return INTERVIEW_PAGE_TYPE if str(value).strip() == INTERVIEW_PAGE_TYPE else "invalid"
+
+
+def partition_pages(pages: dict[str, PageInfo]) -> tuple[dict[str, PageInfo], dict[str, PageInfo]]:
+    """Partition pages into knowledge and interview mappings, dropping invalid types."""
+    knowledge = {}
+    interviews = {}
+    for name, page in pages.items():
+        kind = page_type(page)
+        if kind == KNOWLEDGE_PAGE_TYPE:
+            knowledge[name] = page
+        elif kind == INTERVIEW_PAGE_TYPE:
+            interviews[name] = page
+    return knowledge, interviews
 
 
 # --------------------------------------------------------------------------- #
