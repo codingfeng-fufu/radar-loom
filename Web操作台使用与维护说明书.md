@@ -1,7 +1,7 @@
 # 技术雷达知识库 Web 操作台使用与维护说明书
 
 > 适用环境：`/home/u2023312337/知识库` 及 `/home/u2023312337/webui`  
-> 更新日期：2026-07-15
+> 更新日期：2026-07-18
 > 读者：知识库日常使用者、Claude Code 使用者和后续维护者
 
 ## 项目定位与系统组成
@@ -62,7 +62,7 @@
 
 ### 页面结构
 
-- 顶部显示当前知识库文件，并提供“刷新知识库”“创建知识页”“询问 Claude”和两侧折叠按钮。
+- 顶部显示当前知识库文件，并提供“刷新知识库”“创建面试页”“创建知识页”“询问 Claude”和两侧折叠按钮。
 - 左侧是知识库目录与 Markdown 预览。
 - 中间分隔条可以拖动，调整知识库与 Claude 的宽度。
 - 右侧是 Claude Code 对话区。
@@ -112,6 +112,14 @@ python3 scripts/render_graph.py
 
 疑似重复、主题过宽、来源不足或材料冲突时，Skill 会暂停并提出一个具体问题；其他单页任务默认端到端完成。
 
+### 工程面试区与创建面试页
+
+Viewer 左侧的“知识库 / 工程面试”标签分别读取 `_index.md` 和 `_interview_index.md`。面试区可按岗位、难度和知识方向组合筛选；页面、过滤状态和区域会写入会话状态，后退、前进和刷新后仍保留。面试交互图谱读取 `interview-graph-data.json`；面试节点通过 `related_concepts` 跳转已有知识页，知识节点不计入面试分类成员。
+
+“创建面试页”支持填写题目、关注点和多选上传材料。支持 `.pdf`、`.md`、`.txt`、`.png`、`.jpg`、`.jpeg` 和 `.webp`；单文件及整个请求均不得超过 20 MiB，文件名最多 240 个 UTF-8 字节，不得包含路径分隔符或控制字符。服务保存到 `raw/inbox/`，同名文件自动加数字后缀；提示词必须使用服务返回的相对路径。
+
+提示词显式调用 `$create-engineering-interview-page` Skill，并要求材料含多道问题时，先列出问题清单、建议标题和推测难度，等待人工确认后再建页。操作台优先直接写入 Claude 输入框；只有直接写入成功才清空表单。若输入框未就绪，则复制到剪贴板并保留表单，用户检查后自行粘贴和发送。
+
 ## Viewer、数学公式与交互式图谱
 
 Viewer 默认打开 `首页.md`。左侧目录由 `_index.md` 生成，按分类折叠。直接打开页面的地址格式为：
@@ -144,6 +152,7 @@ python3 scripts/render_graph.py
 ```
 
 图谱数据写入 `graph-data.json`；`graph.md` 和分类 Mermaid 图保留为可审计备用视图，不手工编辑。
+面试区对应的机器生成物是 `_interview_index.md`、`interview-graph.md`、`interview-graph-data.json` 和 `interview-taxonomy.json`，同样只通过构建、图谱和分类脚本更新。
 
 ## 可演化分类图谱
 
@@ -174,6 +183,13 @@ python3 scripts/taxonomy_cli.py global
 python3 scripts/taxonomy_cli.py global --no-llm
 python3 scripts/taxonomy_cli.py status --json
 python3 scripts/taxonomy_cli.py validate
+
+# 面试页分类：--profile 必须放在子命令之前
+python3 scripts/taxonomy_cli.py --profile interview sync
+python3 scripts/taxonomy_cli.py --profile interview sync --page "pages/面试页名.md"
+python3 scripts/taxonomy_cli.py --profile interview global --no-llm
+python3 scripts/taxonomy_cli.py --profile interview status --json
+python3 scripts/taxonomy_cli.py --profile interview validate
 ```
 
 `migrate` 从八个历史分类建立种子；`sync` 处理新增、修改和删除；`global` 运行 HDBSCAN、Louvain、结构融合与生命周期更新；`status` 纯读状态；`validate` 检查引用、父关系环、重定向和分数。`global --no-llm` 完全使用本地关键词回退，不调用命名模型。
@@ -376,6 +392,7 @@ node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 ### 图谱内容过期
 
 先点击操作台顶部“刷新知识库”。如果状态条报错，查看 `/home/u2023312337/webui/kbserve-control logs 100`；也可分别运行 `python3 scripts/build_index.py` 和 `python3 scripts/render_graph.py` 查看完整脚本输出。不要手工修补 `graph-data.json` 或 `graph*.md`。
+面试区缺页或图谱为空时，依次运行 `python3 scripts/taxonomy_cli.py --profile interview sync`、`python3 scripts/build_index.py` 和 `python3 scripts/render_graph.py`，再点击刷新或按 `Ctrl+Shift+R`。若仍无内容，检查页面是否精确标注 `page_type: interview`，并运行 `python3 scripts/check_health.py`。
 
 ### Claude 返回 HTTP 401
 
@@ -424,6 +441,7 @@ tr '\0' '\n' <"/proc/$pid/environ" | grep -E '^(CLAUDE_CONFIG_DIR|ANTHROPIC_BASE
 | `README.md` | 知识库入口与核心工作流 |
 | `CLAUDE.md` | Claude Code 在本库中的行为协议 |
 | `.claude/skills/create-knowledge-page/SKILL.md` | 高质量知识页创建与更新 Skill |
+| `.claude/skills/create-engineering-interview-page/SKILL.md` | 工程面试页查重、创建、写作与验收 Skill |
 | `templates/概念页模板.md` | 概念页基础结构 |
 | `scripts/new_page.py` | 新建页面骨架 |
 | `scripts/build_index.py` | 生成 `_index.md` |

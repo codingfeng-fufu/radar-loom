@@ -1,0 +1,15 @@
+{
+  "algorithm_version": "taxonomy-v1",
+  "categories": {},
+  "changes_since_global": 1,
+  "events": [],
+  "generated_at": "2026-07-18",
+  "last_global_at": "2026-07-18",
+  "memberships": [],
+  "page_fingerprints": {
+    "pages/多头注意力机制的核心作用是什么.md": "b66992a7e5a7698f1355a63c8017cd5585e245320a734ec6c27ee487db86e595"
+  },
+  "parameters_hash": "f3ecebe2c139b5cbe2cf2a5dbbd38a1c8d27d417fd1b166a795fef17e10be9fe",
+  "pending_pages": [],
+  "schema_version": 1
+}
