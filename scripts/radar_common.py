@@ -148,7 +148,7 @@ def page_type(page) -> str:
     value = metadata.get("page_type") if hasattr(metadata, "get") else None
     if value is None or not str(value).strip():
         return KNOWLEDGE_PAGE_TYPE
-    return INTERVIEW_PAGE_TYPE if str(value).strip() == INTERVIEW_PAGE_TYPE else "invalid"
+    return INTERVIEW_PAGE_TYPE if value == INTERVIEW_PAGE_TYPE else "invalid"
 
 
 def partition_pages(pages: dict[str, PageInfo]) -> tuple[dict[str, PageInfo], dict[str, PageInfo]]:

@@ -18,6 +18,7 @@ class InterviewPageTypeTests(unittest.TestCase):
 
     def test_page_type_recognizes_interview_and_rejects_other_explicit_values(self):
         self.assertEqual(rc.page_type({"page_type": "interview"}), rc.INTERVIEW_PAGE_TYPE)
+        self.assertEqual(rc.page_type({"page_type": " interview "}), "invalid")
         self.assertEqual(rc.page_type({"page_type": "project"}), "invalid")
 
     def test_partition_pages_excludes_invalid_pages(self):
