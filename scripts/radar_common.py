@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import datetime
+import json
 import re
 import sys
 from dataclasses import dataclass, field
@@ -75,6 +76,11 @@ def _strip_quotes(s: str) -> str:
     """去掉包裹引号:首尾为同一种引号时去掉。"""
     s = s.strip()
     if len(s) >= 2 and s[0] in ('"', "'") and s[-1] == s[0]:
+        if s[0] == '"':
+            try:
+                return json.loads(s)
+            except json.JSONDecodeError:
+                pass
         return s[1:-1]
     return s
 
@@ -117,9 +123,23 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
             if inner == "":
                 fm[key] = []
             else:
-                fm[key] = [_strip_quotes(item) for item in inner.split(",")]
+                try:
+                    parsed = json.loads(value)
+                    fm[key] = parsed if isinstance(parsed, list) else [_strip_quotes(item) for item in inner.split(",")]
+                except json.JSONDecodeError:
+                    parts, buf, quote, esc = [], [], None, False
+                    for ch in inner:
+                        if esc: buf.append(ch); esc = False; continue
+                        if ch == "\\" and quote: buf.append(ch); esc = True; continue
+                        if quote is not None and ch == quote:
+                            quote = None
+                        elif quote is None and ch in ('"', "'") and ''.join(buf).strip() == '':
+                            quote = ch
+                        if ch == "," and quote is None: parts.append("".join(buf)); buf=[]
+                        else: buf.append(ch)
+                    parts.append("".join(buf)); fm[key] = [_strip_quotes(item) for item in parts]
         elif value:
-            fm[key] = value
+            fm[key] = _strip_quotes(value)
         else:
             block_values = []
             j = i + 1

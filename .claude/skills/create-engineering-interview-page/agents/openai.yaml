@@ -1,0 +1,4 @@
+interface:
+  display_name: 创建工程面试页
+  short_description: 核验材料并创建可直接作答的工程面试专题页
+  default_prompt: "使用 $create-engineering-interview-page 根据我的问题或材料创建工程面试页。"

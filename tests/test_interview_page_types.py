@@ -44,6 +44,19 @@ class FrontmatterBlockListTests(unittest.TestCase):
         self.assertEqual(fm["source"], "note.md")
         self.assertEqual(body, "Body\n")
 
+    def test_inline_list_tokenizer_handles_mixed_quotes_commas_and_apostrophes(self):
+        cases = {
+            '[one, "two", three]': ["one", "two", "three"],
+            "[one, 'two,three', four]": ["one", "two,three", "four"],
+            '["one", "two,three"]': ["one", "two,three"],
+            "[O'Reilly, x]": ["O'Reilly", "x"],
+            '[KG, RAG]': ["KG", "RAG"],
+        }
+        for value, expected in cases.items():
+            with self.subTest(value=value):
+                fm, _ = rc.parse_frontmatter(f"---\ntags: {value}\n---\n")
+                self.assertEqual(fm["tags"], expected)
+
     def test_indented_block_lists_parse_for_metadata_fields(self):
         text = "---\nsource:\n  - \"papers/a.pdf\"\n  - 'papers/b.pdf'\ntags:\n  - [RAG]\nroles:\n  - interviewer\nrelated_concepts:\n  - \"Graph RAG\"\nignored:\n  nested: value\n---\n# Body\n"
         fm, body = rc.parse_frontmatter(text)
