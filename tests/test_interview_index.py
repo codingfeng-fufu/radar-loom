@@ -45,6 +45,13 @@ class InterviewIndexTests(unittest.TestCase):
         rendered, _, _ = self.module.render_interview_index({"A面试": self.pages["A面试"]})
         self.assertLess(rendered.index("#alpha"), rendered.index("#zeta"))
 
+    def test_role_section_orders_multi_role_entries_by_difficulty(self):
+        self.pages["深入多角色"] = page("深入多角色", {"page_type": "interview", "question": "q", "summary": "s", "tags": ["a"], "roles": ["前端", "后端"], "difficulty": "深入"})
+        self.pages["基础多角色"] = page("基础多角色", {"page_type": "interview", "question": "q", "summary": "s", "tags": ["b"], "roles": ["前端", "后端"], "difficulty": "基础"})
+        rendered, _, _ = self.module.render_interview_index({"深入多角色": self.pages["深入多角色"], "基础多角色": self.pages["基础多角色"]})
+        section = rendered.split("## 角色: 前端", 1)[1].split("## 角色:", 1)[0]
+        self.assertLess(section.index("基础多角色"), section.index("深入多角色"))
+
     def test_interview_summary_fallback_and_missing_count(self):
         rendered, count, missing = self.module.render_interview_index({k: v for k, v in self.pages.items() if k != "知识"})
         self.assertEqual(count, 3)

@@ -73,10 +73,14 @@ def render_interview_index(interview_pages: dict[str, rc.PageInfo]) -> tuple[str
         difficulty = str(fm.get("difficulty") or "").strip()
         tags = sorted(_as_list(fm.get("tags")))
         return (role, DIFFICULTY_ORDER.get(difficulty, 99), difficulty, tags, p.name)
+    def section_sort_key(p):
+        fm = p.frontmatter
+        difficulty = str(fm.get("difficulty") or "").strip()
+        return (DIFFICULTY_ORDER.get(difficulty, 99), difficulty, sorted(_as_list(fm.get("tags"))), p.name)
     lines = ["# 面试索引(机器生成,勿手工编辑)", "", f"> 生成:{rc.today()} · 面试页 {len(pages)} · 运行 `python3 scripts/build_index.py` 刷新"]
     for role in sorted({r for p in pages for r in _as_list(p.frontmatter.get("roles"))}):
         lines.extend(["", f"## 角色: {role}", ""])
-        selected = sorted((p for p in pages if role in _as_list(p.frontmatter.get("roles"))), key=sort_key)
+        selected = sorted((p for p in pages if role in _as_list(p.frontmatter.get("roles"))), key=section_sort_key)
         for p in selected:
             fm = p.frontmatter
             tags = " ".join(f"#{t}" for t in sorted(_as_list(fm.get("tags"))))
