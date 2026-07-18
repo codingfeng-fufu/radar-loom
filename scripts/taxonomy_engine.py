@@ -55,6 +55,11 @@ def pathological_global_collapse(before: Registry, after: Registry) -> bool:
     return before_count >= 4 and after_count < max(2, (before_count + 1) // 2)
 
 
+def _page_summary(page: rc.PageInfo) -> str:
+    summary = str(page.frontmatter.get("summary", "")).strip()
+    return summary or str(page.frontmatter.get("摘要", "")).strip()
+
+
 class DeterministicTestEncoder:
     model_name = "taxonomy-test-deterministic"
     max_chars = 8192
@@ -376,7 +381,7 @@ class TaxonomyEngine:
                     NamingRequest(
                         category_id=category_id,
                         representative_pages=[
-                            {"title": title, "summary": str(pages[title].frontmatter.get("摘要", ""))}
+                            {"title": title, "summary": _page_summary(pages[title])}
                             for title in titles if title in pages
                         ],
                         keywords=titles[:3],

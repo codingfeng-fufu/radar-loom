@@ -13,7 +13,7 @@ import radar_common as rc
 import taxonomy_cli
 from taxonomy_cli import parse_args
 from taxonomy_embeddings import page_semantic_text
-from taxonomy_engine import TaxonomyEngine, load_config
+from taxonomy_engine import TaxonomyEngine, _page_summary, load_config
 from taxonomy_models import Registry, parameters_hash, write_registry
 
 
@@ -90,6 +90,10 @@ class InterviewTaxonomyTests(unittest.TestCase):
         for value in ("", "   "):
             page = rc.PageInfo("P", Path("P.md"), {"summary": value, "摘要": "中文"}, "body")
             self.assertIn("中文", page_semantic_text(page))
+
+    def test_naming_summary_uses_interview_summary(self):
+        page = rc.PageInfo("I", Path("I.md"), {"page_type": "interview", "summary": "English", "摘要": "中文"}, "")
+        self.assertEqual(_page_summary(page), "English")
 
 
 if __name__ == "__main__":
