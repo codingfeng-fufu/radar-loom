@@ -30,17 +30,23 @@ class WebWorkbenchE2ETests(unittest.TestCase):
         environment = os.environ.copy()
         environment.setdefault("KB_VIEWER_URL", "http://127.0.0.1:18081")
         environment["E2E_ARTIFACT_DIR"] = str(artifact_dir)
-        completed = subprocess.run(
-            [
-                "npm", "run", "test:e2e", "--",
-            ],
-            cwd=ROOT,
-            env=environment,
-            text=True,
-            capture_output=True,
-            timeout=240,
-            check=False,
-        )
+        try:
+            completed = subprocess.run(
+                [
+                    "npm", "run", "test:e2e", "--",
+                ],
+                cwd=ROOT,
+                env=environment,
+                text=True,
+                capture_output=True,
+                timeout=240,
+                check=False,
+            )
+        finally:
+            inbox = ROOT / "raw" / "inbox"
+            for pattern in ("mha-direct-e2e-*.txt", "mha-clipboard-e2e-*.txt", "mha-error-e2e-*.txt"):
+                for fixture in inbox.glob(pattern):
+                    fixture.unlink(missing_ok=True)
         output = "\n".join(part for part in (completed.stdout, completed.stderr) if part)
         self.assertEqual(completed.returncode, 0, output)
         for name in self.SCREENSHOTS:

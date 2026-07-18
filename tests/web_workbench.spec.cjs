@@ -7,6 +7,18 @@ const viewerBase = process.env.KB_VIEWER_URL || 'http://127.0.0.1:18081';
 const samplePage = '多头注意力机制的核心作用是什么';
 const sampleFile = `pages/${samplePage}.md`;
 const artifactDir = process.env.E2E_ARTIFACT_DIR || '/tmp/engineering-interview-e2e';
+const runSuffix = `${process.pid}-${Date.now()}`;
+const directFixtureName = `mha-direct-e2e-${runSuffix}.txt`;
+const clipboardFixtureName = `mha-clipboard-e2e-${runSuffix}.txt`;
+const errorFixtureName = `mha-error-e2e-${runSuffix}.txt`;
+const rawInbox = path.resolve(__dirname, '..', 'raw', 'inbox');
+
+test.afterEach(() => {
+  for (const name of [directFixtureName, clipboardFixtureName, errorFixtureName]) {
+    const target = path.join(rawInbox, name);
+    try { fs.unlinkSync(target); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  }
+});
 
 test('interview insertion helpers distinguish direct and clipboard outcomes', async () => {
   const helpers = await import(pathToFileURL('/home/u2023312337/webui/patch-integrated-workbench.mjs').href);
@@ -202,14 +214,14 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await page.locator('#createInterview').click();
   await page.locator('#interviewQuestion').fill('多头注意力为什么有效？');
   await page.locator('#interviewFocus').fill('区分表示能力与可解释性');
-  await page.locator('#interviewFiles').setInputFiles({ name: 'mha-e2e.txt', mimeType: 'text/plain', buffer: fixture });
+  await page.locator('#interviewFiles').setInputFiles({ name: directFixtureName, mimeType: 'text/plain', buffer: fixture });
   await page.locator('#insertInterviewPrompt').click();
   await expect(page.locator('#insertInterviewPrompt')).toBeEnabled();
   await expect(page.locator('#createInterviewDialog')).not.toHaveAttribute('open', '');
   const prompt = await page.frameLocator('#claudeFrame').getByRole('textbox', { name: 'Claude prompt' }).inputValue();
   expect(prompt).toContain('$create-engineering-interview-page Skill');
   expect(prompt).toContain('raw/inbox/');
-  expect(prompt).toContain('mha-e2e.txt');
+  expect(prompt).toContain(`参考材料：raw/inbox/${directFixtureName}`);
   expect(prompt).toContain('如材料包含多道问题，先列出问题清单、建议标题和推测难度，等待我确认后再建页。');
   await expect(page.locator('#interviewFiles')).toHaveValue('');
 
@@ -224,7 +236,7 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await page.locator('#createInterview').click();
   await page.locator('#interviewQuestion').fill('剪贴板回退题目');
   await page.locator('#interviewFocus').fill('剪贴板回退关注点');
-  await page.locator('#interviewFiles').setInputFiles({ name: 'mha-clipboard-e2e.txt', mimeType: 'text/plain', buffer: fixture });
+  await page.locator('#interviewFiles').setInputFiles({ name: clipboardFixtureName, mimeType: 'text/plain', buffer: fixture });
   await page.locator('#insertInterviewPrompt').click();
   await expect(page.locator('#insertInterviewPrompt')).toBeEnabled();
   await expect(page.locator('#createInterviewDialog')).toHaveAttribute('open', '');
@@ -232,13 +244,13 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   expect(clipboardPrompt).toBe([
     '请使用 $create-engineering-interview-page Skill 完成工程面试页创建或更新任务。',
     '面试问题：剪贴板回退题目',
-    '参考材料：raw/inbox/mha-clipboard-e2e.txt',
+    `参考材料：raw/inbox/${clipboardFixtureName}`,
     '特别关注：剪贴板回退关注点',
     '如材料包含多道问题，先列出问题清单、建议标题和推测难度，等待我确认后再建页。',
   ].join('\n'));
   await expect(page.locator('#interviewQuestion')).toHaveValue('剪贴板回退题目');
   await expect(page.locator('#interviewFocus')).toHaveValue('剪贴板回退关注点');
-  await expect(page.locator('#interviewFiles')).toHaveValue(/mha-clipboard-e2e\.txt$/);
+  expect(await page.locator('#interviewFiles').inputValue()).toContain(clipboardFixtureName);
   await page.locator('#cancelCreateInterview').click();
 
   await page.route('**/api/uploads', route => route.fulfill({
@@ -249,14 +261,14 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await page.locator('#createInterview').click();
   await page.locator('#interviewQuestion').fill('上传失败题目');
   await page.locator('#interviewFocus').fill('上传失败关注点');
-  await page.locator('#interviewFiles').setInputFiles({ name: 'mha-error-e2e.txt', mimeType: 'text/plain', buffer: fixture });
+  await page.locator('#interviewFiles').setInputFiles({ name: errorFixtureName, mimeType: 'text/plain', buffer: fixture });
   await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-upload-dialog.png'), fullPage: true });
   await page.locator('#insertInterviewPrompt').click();
   await expect(page.locator('#createInterviewError')).toHaveText('测试上传失败');
   await expect(page.locator('#createInterviewDialog')).toHaveAttribute('open', '');
   await expect(page.locator('#interviewQuestion')).toHaveValue('上传失败题目');
   await expect(page.locator('#interviewFocus')).toHaveValue('上传失败关注点');
-  await expect(page.locator('#interviewFiles')).toHaveValue(/mha-error-e2e\.txt$/);
+  expect(await page.locator('#interviewFiles').inputValue()).toContain(errorFixtureName);
   await page.locator('#cancelCreateInterview').click();
 
   await page.setViewportSize({ width: 390, height: 844 });
