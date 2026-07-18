@@ -23,6 +23,7 @@ from urllib.parse import urlsplit
 
 ALLOWED_ORIGIN = "http://127.0.0.1:18080"
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+MAX_FILENAME_BYTES = 240
 UPLOAD_TYPES = {
     ".pdf": "application/pdf",
     ".md": "text/markdown",
@@ -35,6 +36,7 @@ UPLOAD_TYPES = {
 MIME_TYPE_RE = re.compile(
     r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+(?:\s*;.*)?$"
 )
+MULTIPART_BOUNDARY_RE = re.compile(r"^[0-9A-Za-z'()+_,./:=?-]{1,70}$")
 
 
 class RefreshError(RuntimeError):
@@ -289,15 +291,31 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             self.send_json(413, {"ok": False, "error": "request exceeds 20 MiB"})
             return
         content_type = self.headers.get("Content-Type", "")
-        if not content_type.lower().startswith("multipart/form-data;"):
-            self.send_json(400, {"ok": False, "error": "multipart/form-data required"})
+        try:
+            content_type_bytes = content_type.encode("ascii")
+        except UnicodeEncodeError:
+            self.send_json(400, {"ok": False, "error": "invalid multipart Content-Type"})
+            return
+        header_message = BytesParser(policy=policy.default).parsebytes(
+            b"Content-Type: " + content_type_bytes + b"\r\n\r\n"
+        )
+        content_type_header = header_message["Content-Type"]
+        boundary = header_message.get_boundary()
+        if (
+            header_message.get_content_type() != "multipart/form-data"
+            or content_type_header is None
+            or getattr(content_type_header, "defects", ())
+            or boundary is None
+            or not MULTIPART_BOUNDARY_RE.fullmatch(boundary)
+        ):
+            self.send_json(400, {"ok": False, "error": "invalid multipart Content-Type"})
             return
         body = self.rfile.read(length)
         if len(body) != length:
             self.send_json(400, {"ok": False, "error": "incomplete request body"})
             return
         message = BytesParser(policy=policy.default).parsebytes(
-            f"Content-Type: {content_type}\r\nMIME-Version: 1.0\r\n\r\n".encode("ascii") + body
+            b"Content-Type: " + content_type_bytes + b"\r\nMIME-Version: 1.0\r\n\r\n" + body
         )
         if not message.is_multipart() or message.defects:
             self.send_json(400, {"ok": False, "error": "malformed multipart body"})
@@ -316,6 +334,17 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 or any(ord(character) < 32 or ord(character) == 127 for character in filename)
             ):
                 self.send_json(400, {"ok": False, "error": "invalid filename"})
+                return
+            try:
+                filename_size = len(filename.encode("utf-8"))
+            except UnicodeEncodeError:
+                self.send_json(400, {"ok": False, "error": "invalid filename"})
+                return
+            if filename_size > MAX_FILENAME_BYTES:
+                self.send_json(
+                    400,
+                    {"ok": False, "error": "filename exceeds 240 UTF-8 bytes"},
+                )
                 return
             extension = Path(filename).suffix.lower()
             expected_mime = UPLOAD_TYPES.get(extension)

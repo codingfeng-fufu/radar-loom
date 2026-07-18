@@ -340,6 +340,16 @@ class KnowledgeServerTests(unittest.TestCase):
                 self.assertEqual(error.code, 400)
                 self.assertFalse(payload["ok"])
 
+    def test_upload_rejects_filename_over_240_utf8_bytes(self):
+        name = "文" * 80 + ".txt"
+        self.assertGreater(len(name.encode("utf-8")), serve_kb.MAX_FILENAME_BYTES)
+
+        error, payload = self.upload_error([(name, "text/plain", b"data")])
+
+        self.assertEqual(error.code, 400)
+        self.assertEqual(payload, {"ok": False, "error": "filename exceeds 240 UTF-8 bytes"})
+        self.assertFalse((self.root / "raw" / "inbox").exists())
+
     def test_upload_rejects_unsupported_and_mime_mismatch(self):
         for name, mime in (("run.exe", "application/octet-stream"), ("notes.md", "text/plain")):
             with self.subTest(name=name, mime=mime):
@@ -411,6 +421,26 @@ class KnowledgeServerTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as caught:
             urlopen(request, timeout=5)
         self.assertEqual(caught.exception.code, 413)
+
+    def test_upload_rejects_non_ascii_request_content_type_as_json(self):
+        request = Request(
+            self.base + "/api/uploads",
+            data=b"body",
+            method="POST",
+            headers={
+                "Origin": serve_kb.ALLOWED_ORIGIN,
+                "Content-Type": "multipart/form-data; boundary=é",
+            },
+        )
+
+        with self.assertRaises(HTTPError) as caught:
+            urlopen(request, timeout=5)
+
+        self.assertEqual(caught.exception.code, 400)
+        self.assertEqual(
+            json.loads(caught.exception.read().decode("utf-8")),
+            {"ok": False, "error": "invalid multipart Content-Type"},
+        )
 
     def test_interview_static_artifacts_trigger_refresh(self):
         for path in ("/_interview_index.md", "/interview-graph-data.json"):
