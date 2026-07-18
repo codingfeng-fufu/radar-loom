@@ -15,9 +15,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
 import build_index  # noqa: E402
+import render_graph  # noqa: E402
+import taxonomy_models as tm  # noqa: E402
 
 VALID_CONFIDENCE = {"高", "中", "低"}
-CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "E8": 8, "E9": 9, "E10": 10, "E11": 11, "W1": 12, "W2": 13, "W3": 14}
+CODE_ORDER = {"E1": 1, "E2": 2, "E3": 3, "E4": 4, "E5": 5, "E6": 6, "E7": 7, "E8": 8, "E9": 9, "E10": 10, "E11": 11,
+              "E12": 12, "E13": 13, "E14": 14, "E15": 15, "E16": 16, "E17": 17, "E18": 18, "E19": 19, "E20": 20,
+              "W1": 21, "W2": 22, "W3": 23}
+INTERVIEW_HEADINGS = ("面试问题", "考察意图", "30 秒回答", "2 分钟回答", "原理拆解", "递进追问与参考回答", "常见错误回答", "评分标准", "关联概念", "来源核验", "更新记录")
 
 RAW_MATH_PATTERNS = (
     re.compile(r"\\(?:frac|sum|prod|mathbb|mathbf|mathrm|theta|epsilon|alpha|beta|gamma|pi|mid|left|right|sqrt|cdot|propto|argmax|argmin|deg)\b"),
@@ -100,16 +105,42 @@ def undelimited_math_lines(body: str) -> list[int]:
 def parse_args(argv=None):
     return argparse.ArgumentParser(description="检查技术雷达健康状态").parse_args(argv)
 
+def _values(value):
+    return value if isinstance(value, list) else ([] if value is None else [value])
+
+def _interview_summary(fm):
+    return str(fm.get("summary") or fm.get("摘要") or "").strip()
+
+def _interview_question(fm):
+    return str(fm.get("question") or fm.get("original_question") or fm.get("原问题") or fm.get("问题") or "").strip()
+
+def _check_registry(path, pages, add, code):
+    if not path.exists():
+        return
+    try:
+        registry = tm.load_registry(path)
+        existing = {p.path.relative_to(rc.VAULT_ROOT).as_posix() for p in pages.values()}
+        tm.validate_registry(registry, existing)
+    except Exception as exc:
+        add(path.stem, code, f"[ERROR {code}] {path.name} taxonomy registry invalid or stale: {exc}")
+
 
 def main(argv=None) -> int:
     parse_args(argv)
     pages = rc.scan_pages()
+    knowledge_pages, interview_pages = rc.partition_pages(pages)
     findings: list[tuple[str, int, str]] = []  # (page_name, code_order, line)
 
     def add(name: str, code: str, line: str) -> None:
         findings.append((name, CODE_ORDER[code], line))
 
+    # Explicit unsupported page types are neither knowledge nor interview pages,
+    # but must remain visible to health reporting instead of disappearing.
     for name, info in pages.items():
+        if rc.page_type(info) == "invalid":
+            add(name, "E12", f"[ERROR E12] 页面《{name}》 page_type 不支持,必须为 interview 或省略(知识页)")
+
+    for name, info in knowledge_pages.items():
         fm = info.frontmatter
         tags = normalize_tags(fm)
         is_struct = any(t in rc.STRUCT_TAGS for t in tags)
@@ -170,6 +201,53 @@ def main(argv=None) -> int:
         for line_number in undelimited_math_lines(info.body):
             add(name, "E11", f"[ERROR E11] 页面《{name}》 第{line_number}行疑似含未定界数学表达式,请使用 $...$ 或 $$...$$")
 
+    for name, info in interview_pages.items():
+        fm = info.frontmatter
+        if fm.get("page_type") != "interview":
+            add(name, "E12", f"[ERROR E12] 面试页《{name}》 page_type 必须精确为 interview")
+        if not _interview_summary(fm):
+            add(name, "E12", f"[ERROR E12] 面试页《{name}》 缺少 summary/摘要")
+        sources = _values(fm.get("source"))
+        if not sources or any(not str(s).strip() or rc.parse_source(str(s))[0] == "unknown" or (rc.parse_source(str(s))[0] == "local" and not (rc.VAULT_ROOT / rc.parse_source(str(s))[1]).exists()) for s in sources):
+            add(name, "E14", f"[ERROR E14] 面试页《{name}》 source 缺失、非法或本地来源不存在")
+        if fm.get("confidence") not in VALID_CONFIDENCE and fm.get("信度") not in VALID_CONFIDENCE:
+            add(name, "E12", f"[ERROR E12] 面试页《{name}》 confidence/信度缺失或非法值")
+        for key in ("first_recorded", "tags", "roles"):
+            if not _values(fm.get(key)) or any(not str(v).strip() for v in _values(fm.get(key))):
+                add(name, "E12", f"[ERROR E12] 面试页《{name}》 缺少或为空字段 {key}")
+        if str(fm.get("difficulty", "")).strip() not in {"基础", "进阶", "深入"}:
+            add(name, "E13", f"[ERROR E13] 面试页《{name}》 difficulty 必须为 基础/进阶/深入")
+        if not _interview_question(fm):
+            add(name, "E12", f"[ERROR E12] 面试页《{name}》 question/原问题 不能为空")
+        if "related_concepts" not in fm:
+            add(name, "E12", f"[ERROR E12] 面试页《{name}》 缺少 related_concepts 字段")
+        for target in info.links:
+            resolved = rc.resolve_link(target, pages)
+            if resolved is None:
+                add(name, "E15", f"[ERROR E15] 面试页《{name}》 跨区链接 [[{target}]] 无法解析")
+        for target in _values(fm.get("related_concepts")):
+            if rc.resolve_link(str(target), pages) is None:
+                add(name, "E15", f"[ERROR E15] 面试页《{name}》 related_concepts [[{target}]] 无法解析")
+        headings = {m.group(1).strip() for m in re.finditer(r"^##+\s+(.+?)\s*$", info.body, re.M)}
+        missing = [h for h in INTERVIEW_HEADINGS if h not in headings]
+        if missing:
+            add(name, "E16", f"[ERROR E16] 面试页《{name}》 缺少必需小节: {', '.join(missing)}")
+        if "[TODO" in info.body or "TODO]" in info.body or "<待" in info.body:
+            add(name, "E17", f"[ERROR E17] 面试页《{name}》 含未解析占位符")
+        for line_number in undelimited_math_lines(info.body):
+            add(name, "E18", f"[ERROR E18] 面试页《{name}》 第{line_number}行疑似含未定界数学表达式")
+
+    # Separate generated artifacts by page type.
+    expected_index, expected_interview, _ = build_index.render_indexes(pages)
+    actual = rc.INDEX_FILE.read_text(encoding="utf-8") if rc.INDEX_FILE.exists() else None
+    if actual != expected_index: add("_index", "E8", "[ERROR E8] _index.md 缺失或与页面/摘要实况不一致,请运行 build_index.py")
+    actual_i = rc.INTERVIEW_INDEX_FILE.read_text(encoding="utf-8") if rc.INTERVIEW_INDEX_FILE.exists() else None
+    if actual_i != expected_interview: add("_interview_index", "E19", "[ERROR E19] _interview_index.md 缺失或与面试页面实况不一致")
+
+    _check_registry(rc.VAULT_ROOT / "taxonomy.json", knowledge_pages, add, "E20")
+    if interview_pages or (rc.VAULT_ROOT / "interview-taxonomy.json").exists():
+        _check_registry(rc.VAULT_ROOT / "interview-taxonomy.json", interview_pages, add, "E19")
+
     # ---- E7 重复嫌疑(文件名 casefold+去空格)----
     groups: dict[str, list[str]] = {}
     for name in pages:
@@ -182,10 +260,38 @@ def main(argv=None) -> int:
                 for j in range(i + 1, len(ns)):
                     add(ns[i], "E7", f"[ERROR E7] 页面《{ns[i]}》与《{ns[j]}》 文件名大小写/空格不敏感重复")
 
-    expected_index, _, _, _ = build_index.render_index(pages)
-    actual_index = rc.INDEX_FILE.read_text(encoding="utf-8") if rc.INDEX_FILE.exists() else None
-    if actual_index != expected_index:
-        add("_index", "E8", "[ERROR E8] _index.md 缺失或与页面/摘要实况不一致,请运行 build_index.py")
+    # Graph artifacts are checked independently for knowledge and interview zones.
+    registry_path = rc.VAULT_ROOT / "taxonomy.json"
+    try:
+        registry = tm.load_registry(registry_path) if registry_path.exists() else tm.Registry.empty("", rc.today())
+    except Exception as exc:
+        add("taxonomy", "E20", f"[ERROR E20] taxonomy.json taxonomy registry invalid or unreadable: {exc}")
+        registry = tm.Registry.empty("", rc.today())
+    edges, broken, degree = render_graph.graph_data(knowledge_pages)
+    expected_graph = render_graph.render_overview(knowledge_pages, edges, broken, degree)
+    if not rc.GRAPH_FILE.exists() or rc.GRAPH_FILE.read_text(encoding="utf-8") != expected_graph:
+        add("graph", "E20", "[ERROR E20] graph.md 缺失或过期")
+    expected_data = render_graph.render_graph_data(knowledge_pages, edges, broken, degree, registry)
+    if not rc.GRAPH_DATA_FILE.exists() or rc.GRAPH_DATA_FILE.read_text(encoding="utf-8") != expected_data:
+        add("graph-data", "E20", "[ERROR E20] graph-data.json 缺失或过期")
+    for tag in rc.CATEGORY_ORDER:
+        expected_category, _, _ = render_graph.render_category(tag, knowledge_pages, edges)
+        category_path = rc.GRAPH_DIR_FILES[tag]
+        if not category_path.exists() or category_path.read_text(encoding="utf-8") != expected_category:
+            add(category_path.name, "E20", f"[ERROR E20] {category_path.name} 缺失或过期")
+    i_edges, i_broken, i_degree, external = render_graph.interview_graph_data(interview_pages, knowledge_pages)
+    i_registry_path = rc.VAULT_ROOT / "interview-taxonomy.json"
+    try:
+        i_registry = tm.load_registry(i_registry_path) if i_registry_path.exists() else tm.Registry.empty("", rc.today())
+    except Exception as exc:
+        add("interview-taxonomy", "E19", f"[ERROR E19] interview-taxonomy.json taxonomy registry invalid or unreadable: {exc}")
+        i_registry = tm.Registry.empty("", rc.today())
+    expected_i_graph = "# 工程面试 · 隔离图谱\n\n" + f"> 生成:{rc.today()} · 内部节点 {len(interview_pages)} · 边 {len(i_edges)} · 断链 {len(i_broken)}\n\n" + "\n".join(render_graph.mermaid_lines(set(interview_pages) | external, i_edges, external)) + "\n"
+    if not rc.INTERVIEW_GRAPH_FILE.exists() or rc.INTERVIEW_GRAPH_FILE.read_text(encoding="utf-8") != expected_i_graph:
+        add("interview-graph", "E19", "[ERROR E19] interview-graph.md 缺失或过期")
+    expected_i_data = render_graph.render_graph_data(interview_pages, i_edges, i_broken, i_degree, i_registry, external_nodes=external, profile="interview", external_pages=knowledge_pages)
+    if not rc.INTERVIEW_GRAPH_DATA_FILE.exists() or rc.INTERVIEW_GRAPH_DATA_FILE.read_text(encoding="utf-8") != expected_i_data:
+        add("interview-graph-data", "E19", "[ERROR E19] interview-graph-data.json 缺失或过期")
 
     # ---- 输出(按页面名、code 序排序)----
     findings.sort(key=lambda x: (x[0], x[1]))
