@@ -644,7 +644,8 @@
         retry.className = 'nav-retry';
         retry.type = 'button';
         retry.textContent = '重试';
-        retry.addEventListener('click', () => retryIndexLoad(activeSection));
+        const failedIntent = { requestedFile, sectionHint: hintedSection, historyMode };
+        retry.addEventListener('click', () => navigateTo(failedIntent.requestedFile, failedIntent));
         elements.navigation.append(message, retry);
         setMessage(`无法载入 ${requestedFile || hintedSection}：${error.message}`, true);
       }

@@ -189,7 +189,9 @@ class ViewerContractTests(unittest.TestCase):
         self.assertLess(self.html.index("const detectedSection = sectionForFile"), self.html.index("history.replaceState({ file, section: detectedSection }"))
 
     def test_retry_handler_does_not_forward_mouse_event_as_section(self):
-        self.assertIn("retry.addEventListener('click', () => retryIndexLoad(activeSection))", self.html)
+        self.assertIn("const failedIntent = { requestedFile, sectionHint: hintedSection, historyMode }", self.html)
+        self.assertIn("retry.addEventListener('click', () => navigateTo(failedIntent.requestedFile, failedIntent))", self.html)
+        self.assertNotIn("retry.addEventListener('click', () => retryIndexLoad(activeSection))", self.html)
         self.assertNotIn("retry.addEventListener('click', retryIndexLoad)", self.html)
 
     def test_navigation_has_one_generation_owned_async_path(self):

@@ -89,3 +89,28 @@ test('latest viewer navigation wins delayed response race', async ({ page }) => 
   expect(new URL(page.url()).searchParams.get('section')).toBe('interview');
   expect(new URL(page.url()).searchParams.get('f')).toBe('pages/Fast.md');
 });
+
+test('failed cross-section navigation retries original interview intent', async ({ page }) => {
+  const viewerBase = process.env.KB_VIEWER_URL || 'http://127.0.0.1:18081';
+  let interviewAttempts = 0;
+  await page.route('**/_interview_index.md', route => {
+    interviewAttempts += 1;
+    if (interviewAttempts === 1) return route.fulfill({ status: 503, body: 'temporary failure' });
+    return route.fulfill({
+      contentType: 'text/markdown',
+      body: '# 面试索引\n\n## 角色: backend\n\n- [[RetryFast]] `#RAG` — 原问题: retry? · 摘要: retry · 角色: backend · 难度: 基础\n'
+    });
+  });
+  await page.route('**/pages/RetryFast.md', route => route.fulfill({
+    contentType: 'text/markdown',
+    body: '---\npage_type: interview\nsummary: retry\ntags: [RAG]\nroles: [backend]\ndifficulty: 基础\nquestion: retry?\n---\n# Retried interview\n'
+  }));
+  await page.goto(`${viewerBase}/viewer.html`);
+  await page.locator('#interviewTab').click();
+  await expect(page.locator('.nav-retry')).toBeVisible();
+  await page.locator('.nav-retry').click();
+  await expect(page.locator('#content h1')).toHaveText('Retried interview');
+  await expect(page.locator('#interviewTab')).toHaveAttribute('aria-selected', 'true');
+  expect(new URL(page.url()).searchParams.get('section')).toBe('interview');
+  expect(interviewAttempts).toBe(2);
+});
