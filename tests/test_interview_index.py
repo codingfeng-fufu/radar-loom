@@ -36,8 +36,14 @@ class InterviewIndexTests(unittest.TestCase):
         self.assertNotIn("[[知识]]", interview)
         self.assertIn("原问题: 如何做A?", interview)
         self.assertIn("角色: 前端", interview)
+        self.assertIn("角色: 前端", interview.split("[[A面试]]", 1)[1].split("\n", 1)[0])
         self.assertIn("难度: 基础", interview)
         self.assertLess(interview.index("A面试"), interview.index("Z面试"))
+
+    def test_interview_entry_tags_are_sorted(self):
+        self.pages["A面试"].frontmatter["tags"] = ["zeta", "alpha"]
+        rendered, _, _ = self.module.render_interview_index({"A面试": self.pages["A面试"]})
+        self.assertLess(rendered.index("#alpha"), rendered.index("#zeta"))
 
     def test_interview_summary_fallback_and_missing_count(self):
         rendered, count, missing = self.module.render_interview_index({k: v for k, v in self.pages.items() if k != "知识"})
@@ -67,6 +73,27 @@ class InterviewIndexTests(unittest.TestCase):
                 self.assertIn("已生成 _interview_index.md", out.getvalue())
         finally:
             rc.scan_pages, rc.INDEX_FILE, rc.INTERVIEW_INDEX_FILE = old_scan, old_index, old_interview
+
+    def test_atomic_pair_rolls_back_when_second_replace_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            first, second = Path(tmp) / "a", Path(tmp) / "b"
+            first.write_text("old-a", encoding="utf-8")
+            second.write_text("old-b", encoding="utf-8")
+            original_replace = Path.replace
+            calls = {"count": 0}
+            def fail_second(self, target):
+                calls["count"] += 1
+                if calls["count"] == 2:
+                    raise OSError("injected")
+                return original_replace(self, target)
+            Path.replace = fail_second
+            try:
+                with self.assertRaises(OSError):
+                    self.module.atomic_write_pair(((first, "new-a"), (second, "new-b")))
+            finally:
+                Path.replace = original_replace
+            self.assertEqual(first.read_text(encoding="utf-8"), "old-a")
+            self.assertEqual(second.read_text(encoding="utf-8"), "old-b")
 
 
 if __name__ == "__main__":
