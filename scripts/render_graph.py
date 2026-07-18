@@ -43,6 +43,38 @@ def graph_data(pages):
     return edges, broken, degree
 
 
+def interview_graph_data(interview_pages, knowledge_pages):
+    """Build the interview profile graph, with knowledge concepts as navigation-only nodes."""
+    edges = []
+    broken = []
+    external = set()
+    for name, page in interview_pages.items():
+        for target in page.links:
+            resolved = rc.resolve_link(target, interview_pages)
+            if resolved is None:
+                broken.append((name, target))
+            else:
+                edges.append((name, resolved))
+        related = page.frontmatter.get("related_concepts", [])
+        if isinstance(related, str):
+            related = [related]
+        for target in related:
+            resolved = rc.resolve_link(target, knowledge_pages)
+            if resolved is None:
+                broken.append((name, target))
+            else:
+                external.add(resolved)
+                edges.append((name, resolved))
+    edges = list(dict.fromkeys(edges))
+    degree = {name: 0 for name in interview_pages}
+    for source, target in edges:
+        if source in degree:
+            degree[source] += 1
+        if target in degree:
+            degree[target] += 1
+    return edges, broken, degree, external
+
+
 def node_kind(page):
     tags = page.frontmatter.get("tags", [])
     if "MOC" in tags:
@@ -131,12 +163,18 @@ def _taxonomy_payload(registry):
     }
 
 
-def render_graph_data(pages, edges, broken, degree, registry=None):
+def render_graph_data(pages, edges, broken, degree, registry=None, *, external_nodes=frozenset(), profile="knowledge", external_pages=None):
     isolated = [name for name, value in degree.items() if value == 0 and name != "首页"]
     nodes = []
-    for name in sorted(pages):
+    all_names = set(pages) | set(external_nodes)
+    for name in sorted(all_names):
+        if name in external_nodes and name not in pages:
+            nodes.append({"id": name, "label": name, "kind": "concept", "nodeType": "external-concept",
+                          "external": True, "tags": [], "category": None, "confidence": "", "summary": "",
+                          "degree": 0, "href": viewer_href((external_pages or {}).get(name)) if external_pages and name in external_pages else ""})
+            continue
         page = pages[name]
-        nodes.append({
+        item = {
             "id": name,
             "label": name,
             "kind": node_kind(page),
@@ -146,7 +184,10 @@ def render_graph_data(pages, edges, broken, degree, registry=None):
             "summary": page.frontmatter.get("摘要", ""),
             "degree": degree[name],
             "href": viewer_href(page),
-        })
+        }
+        if profile == "interview":
+            item.update({"external": False, "nodeType": "interview"})
+        nodes.append(item)
     graph_edges = [
         {"id": f"e{index:04d}", "source": source, "target": target}
         for index, (source, target) in enumerate(sorted(edges), start=1)
@@ -154,7 +195,10 @@ def render_graph_data(pages, edges, broken, degree, registry=None):
     payload = {
         "generated": rc.today(),
         "stats": {
-            "nodes": len(nodes),
+            "nodes": len(pages) if profile == "interview" else len(nodes),
+            "nodeCount": len(pages) if profile == "interview" else len(nodes),
+            "internalNodeCount": len(pages),
+            "externalNodeCount": len(nodes) - len(pages),
             "edges": len(graph_edges),
             "isolated": len(isolated),
             "broken": len(broken),
@@ -228,8 +272,10 @@ def parse_args(argv=None):
 
 def main(argv=None) -> int:
     parse_args(argv)
-    pages = rc.scan_pages()
-    registry = tm.load_registry(rc.VAULT_ROOT / "taxonomy.json")
+    all_pages = rc.scan_pages()
+    pages, interview_pages = rc.partition_pages(all_pages)
+    registry_path = rc.VAULT_ROOT / "taxonomy.json"
+    registry = tm.load_registry(registry_path) if registry_path.exists() else tm.Registry.empty("", rc.today())
     existing_pages = {
         page.path.relative_to(rc.VAULT_ROOT).as_posix()
         for page in pages.values()
@@ -251,6 +297,25 @@ def main(argv=None) -> int:
     print(f"全库节点 {len(pages)} · 边 {len(edges)} · 断链 {len(broken)}")
     for source, target in broken:
         print(f"  - {source} → {target}")
+
+    interview_registry_path = rc.VAULT_ROOT / "interview-taxonomy.json"
+    interview_registry = (tm.load_registry(interview_registry_path)
+                          if interview_registry_path.exists()
+                          else tm.Registry.empty("", rc.today()))
+    interview_existing = {page.path.relative_to(rc.VAULT_ROOT).as_posix() for page in interview_pages.values()}
+    tm.validate_registry(interview_registry, interview_existing)
+    i_edges, i_broken, i_degree, external = interview_graph_data(interview_pages, pages)
+    rc.INTERVIEW_GRAPH_FILE.write_text(
+        "# 工程面试 · 隔离图谱\n\n" +
+        f"> 生成:{rc.today()} · 内部节点 {len(interview_pages)} · 边 {len(i_edges)} · 断链 {len(i_broken)}\n\n" +
+        "\n".join(mermaid_lines(set(interview_pages) | external, i_edges, external)) + "\n",
+        encoding="utf-8",
+    )
+    rc.INTERVIEW_GRAPH_DATA_FILE.write_text(
+        render_graph_data(interview_pages, i_edges, i_broken, i_degree, interview_registry,
+                          external_nodes=external, profile="interview", external_pages=pages), encoding="utf-8")
+    print(f"已生成 interview-graph.md | 节点 {len(interview_pages)} 边 {len(i_edges)}")
+    print(f"已生成 interview-graph-data.json | 节点 {len(interview_pages)} 边 {len(i_edges)}")
     return 0
 
 

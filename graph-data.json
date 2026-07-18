@@ -3356,7 +3356,7 @@
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
   ],
-  "generated": "2026-07-16",
+  "generated": "2026-07-18",
   "nodes": [
     {
       "category": "多智能体",
@@ -5020,7 +5020,10 @@
   "stats": {
     "broken": 0,
     "edges": 669,
+    "externalNodeCount": 0,
+    "internalNodeCount": 123,
     "isolated": 0,
+    "nodeCount": 123,
     "nodes": 123
   },
   "taxonomy": {
