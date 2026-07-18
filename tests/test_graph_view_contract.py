@@ -150,6 +150,9 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("internalVisibleNodes", self.html)
         self.assertIn(".not('[nodeType = \"external\"]')", self.html)
         self.assertIn("internalNodes", self.html)
+        self.assertIn("internalPayloadNodes", self.html)
+        self.assertIn("!node.external", self.html)
+        self.assertIn("internalPayloadNodes.filter", self.html)
 
     def test_graph_context_includes_profile_and_section(self):
         self.assertIn("profile: PROFILE", self.html)

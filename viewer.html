@@ -101,9 +101,9 @@
   <div class="shell">
     <aside class="sidebar" id="sidebar" aria-label="知识库目录">
       <h1 class="brand"><a href="viewer.html">技术雷达知识库</a></h1>
-      <div class="section-tabs" role="tablist" aria-label="主要内容区">
-        <button class="section-tab" type="button" role="tab" data-section="knowledge" aria-selected="true">知识库</button>
-        <button class="section-tab" type="button" role="tab" data-section="interview" aria-selected="false">工程面试</button>
+      <div class="section-tabs" id="primarySections" role="tablist" aria-label="主要内容区">
+        <button class="section-tab" id="knowledgeTab" type="button" role="tab" data-section="knowledge" aria-controls="viewerPanel" aria-selected="true" tabindex="0">知识库</button>
+        <button class="section-tab" id="interviewTab" type="button" role="tab" data-section="interview" aria-controls="viewerPanel" aria-selected="false" tabindex="-1">工程面试</button>
       </div>
       <div class="nav-tools">
         <div class="nav-search-row">
@@ -119,7 +119,7 @@
       <nav id="navigation" aria-live="polite"><div class="nav-skeleton"><p class="status">正在读取索引...</p></div></nav>
     </aside>
     <button class="scrim" id="scrim" aria-label="关闭导航"></button>
-    <main class="main">
+    <main class="main" id="viewerPanel" role="tabpanel" aria-labelledby="knowledgeTab">
       <div class="toolbar">
         <button class="icon-button" id="menuButton" type="button" aria-label="打开导航" title="打开导航">☰</button>
       </div>
@@ -203,6 +203,10 @@
     function viewerHref(name, section = activeSection) {
       const target = name.endsWith('.md') ? name : `pages/${name}.md`;
       return `viewer.html?section=${section}&f=${encodeURIComponent(target)}`;
+    }
+
+    function canonicalViewerUrl(file, section) {
+      return `viewer.html?section=${section}&f=${encodeURIComponent(file)}`;
     }
 
     function rewriteWikilinks(markdown) {
@@ -533,7 +537,7 @@
         retry.className = 'nav-retry';
         retry.type = 'button';
         retry.textContent = '重试';
-        retry.addEventListener('click', retryIndexLoad);
+        retry.addEventListener('click', () => retryIndexLoad(activeSection));
         elements.navigation.append(message, retry);
       }
     }
@@ -543,23 +547,42 @@
       await retryIndexLoad(activeSection);
     }
 
+    function resolveSectionFile(requestedFile = null) {
+      if (requestedFile) return requestedFile;
+      return navigationState.activeFile || navigationState.entries[0]?.file || null;
+    }
+
+    function updateSectionTabs(section) {
+      document.querySelectorAll('[role="tab"][data-section]').forEach((tab) => {
+        const selected = tab.dataset.section === section;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      document.querySelector('#viewerPanel').setAttribute('aria-labelledby', section === 'interview' ? 'interviewTab' : 'knowledgeTab');
+    }
+
     async function switchSection(section, { render = true } = {}) {
       if (!SECTIONS[section]) section = 'knowledge';
       navigationState.search = elements.navigationSearch.value;
       saveNavigationState();
       activeSection = section;
       navigationState = navigationStates[section];
-      document.querySelectorAll('[role="tab"][data-section]').forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.section === section)));
+      updateSectionTabs(section);
       restoreNavigationState();
       configureInterviewFilters();
       await retryIndexLoad(section);
-      if (render && navigationState.activeFile) {
-        history.pushState({ file: navigationState.activeFile, section }, '', `viewer.html?section=${section}&f=${encodeURIComponent(navigationState.activeFile)}`);
-        await renderMarkdown(navigationState.activeFile, section);
+      const file = resolveSectionFile();
+      if (render && file) {
+        await renderMarkdown(file, section, 'push');
+      } else if (render) {
+        history.pushState({ file: null, section }, '', `viewer.html?section=${section}`);
+        elements.content.replaceChildren();
+        elements.frontmatter.hidden = true;
+        setMessage('当前专区暂无页面。');
       }
     }
 
-    async function renderMarkdown(file, expectedSection = null) {
+    async function renderMarkdown(file, expectedSection = null, historyMode = 'replace') {
       if (!validatePath(file)) {
         setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
         return;
@@ -571,6 +594,9 @@
         const pageMetadata = parseMetadata(metadata);
         const detectedSection = sectionForFile(file, pageMetadata) || expectedSection;
         if (detectedSection !== activeSection) await switchSection(detectedSection, { render: false });
+        const canonicalUrl = canonicalViewerUrl(file, detectedSection);
+        if (historyMode === 'push') history.pushState({ file, section: detectedSection }, '', canonicalUrl);
+        else if (historyMode === 'replace') history.replaceState({ file, section: detectedSection }, '', canonicalViewerUrl(file, detectedSection));
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
         const math = extractMathRegions(rewriteWikilinks(body));
@@ -614,13 +640,25 @@
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
       if (event.data?.type === 'kb-refresh') {
         retryIndexLoad(activeSection);
-        renderMarkdown(navigationStates[activeSection].activeFile, activeSection);
+        if (navigationStates[activeSection].activeFile) renderMarkdown(navigationStates[activeSection].activeFile, activeSection);
       }
     });
     document.querySelector('.section-tabs').addEventListener('click', (event) => {
       const tab = event.target.closest('[role="tab"][data-section]');
       if (tab && tab.dataset.section !== activeSection) switchSection(tab.dataset.section);
     });
+    function handleSectionTabKeydown(event) {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      const tabs = [...document.querySelectorAll('[role="tab"][data-section]')];
+      const current = tabs.indexOf(event.target);
+      if (current < 0) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+        : (current + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].focus();
+      if (tabs[next].dataset.section !== activeSection) switchSection(tabs[next].dataset.section);
+    }
+    document.querySelector('#primarySections').addEventListener('keydown', handleSectionTabKeydown);
     document.querySelector('#menuButton').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     document.querySelector('#scrim').addEventListener('click', closeNavigation);
     elements.navigationSearch.addEventListener('input', () => filterNavigation(elements.navigationSearch.value));
@@ -639,14 +677,23 @@
       event.preventDefault();
       const section = link.dataset.section || new URL(link.href).searchParams.get('section') || activeSection;
       if (section !== activeSection) switchSection(section, { render: false });
-      history.pushState({ file, section }, '', `viewer.html?section=${section}&f=${encodeURIComponent(file)}`);
-      renderMarkdown(file, section);
+      renderMarkdown(file, section, 'push');
       closeNavigation();
     });
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(location.search);
-      const file = params.get('f') || DEFAULT_FILE;
-      renderMarkdown(file, params.get('section'));
+      const section = params.get('section') === 'interview' ? 'interview' : 'knowledge';
+      const file = params.get('f');
+      if (file) renderMarkdown(file, section, 'none');
+      else switchSection(section, { render: false }).then(() => {
+        const restoredFile = resolveSectionFile();
+        if (restoredFile) renderMarkdown(restoredFile, section, 'none');
+        else {
+          elements.content.replaceChildren();
+          elements.frontmatter.hidden = true;
+          setMessage('当前专区暂无页面。');
+        }
+      });
     });
     document.addEventListener('keydown', (event) => {
       const editable = event.target.matches('input,textarea,[contenteditable="true"]');
@@ -681,14 +728,22 @@
       marked.setOptions({ mangle: false, headerIds: false });
       mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
       const params = new URLSearchParams(location.search);
-      const requestedFile = params.get('f') || DEFAULT_FILE;
       const requestedSection = params.get('section');
+      const requestedFile = params.get('f') || (requestedSection === 'interview' ? null : DEFAULT_FILE);
       if (requestedSection === 'knowledge' || requestedSection === 'interview') {
         activeSection = requestedSection;
         navigationState = navigationStates[activeSection];
       }
-      loadSidebar(requestedFile);
-      renderMarkdown(requestedFile, requestedSection);
+      updateSectionTabs(activeSection);
+      retryIndexLoad(activeSection).then(() => {
+        const file = resolveSectionFile(requestedFile);
+        if (file) renderMarkdown(file, requestedSection || activeSection);
+        else {
+          elements.content.replaceChildren();
+          elements.frontmatter.hidden = true;
+          setMessage('当前专区暂无页面。');
+        }
+      });
     } catch (error) {
       setMessage(error.message, true);
     }

@@ -167,6 +167,31 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("retryIndexLoad(activeSection)", self.html)
         self.assertIn("renderMarkdown(navigationStates[activeSection].activeFile", self.html)
 
+    def test_interview_section_without_file_does_not_fall_back_to_home(self):
+        self.assertIn("requestedSection === 'interview' ? null : DEFAULT_FILE", self.html)
+        self.assertIn("resolveSectionFile", self.html)
+        self.assertIn("navigationState.entries[0]?.file || null", self.html)
+
+    def test_tabs_have_panel_relationships_and_keyboard_activation(self):
+        self.assertIn('id="primarySections"', self.html)
+        self.assertIn('aria-controls="viewerPanel"', self.html)
+        self.assertIn('id="viewerPanel"', self.html)
+        self.assertIn('role="tabpanel"', self.html)
+        self.assertIn('aria-labelledby="knowledgeTab"', self.html)
+        self.assertIn("tab.tabIndex = selected ? 0 : -1", self.html)
+        for key in ("ArrowLeft", "ArrowRight", "Home", "End"):
+            self.assertIn(key, self.html)
+        self.assertRegex(self.html, r"function\s+handleSectionTabKeydown\s*\(")
+
+    def test_metadata_detection_canonicalizes_cross_zone_history(self):
+        self.assertIn("history.replaceState({ file, section: detectedSection }", self.html)
+        self.assertIn("canonicalViewerUrl(file, detectedSection)", self.html)
+        self.assertLess(self.html.index("const detectedSection = sectionForFile"), self.html.index("history.replaceState({ file, section: detectedSection }"))
+
+    def test_retry_handler_does_not_forward_mouse_event_as_section(self):
+        self.assertIn("retry.addEventListener('click', () => retryIndexLoad(activeSection))", self.html)
+        self.assertNotIn("retry.addEventListener('click', retryIndexLoad)", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()

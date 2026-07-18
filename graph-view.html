@@ -266,9 +266,10 @@
     function buildFilters() {
       el.categoryFilters.replaceChildren();
       el.projectFilters.replaceChildren();
+      const internalPayloadNodes = state.payload.nodes.filter((node) => !node.external);
       if (state.mode === 'knowledge') {
         for (const [category, color] of Object.entries(state.payload.categories)) {
-          const count = state.payload.nodes.filter((node) => node.category === category).length;
+          const count = internalPayloadNodes.filter((node) => node.category === category).length;
           const restored = state.restore?.mode === state.mode ? state.restore.categories : [];
           el.categoryFilters.append(checkboxRow({ value: category, label: category, color, count, checked: restored.length ? restored.includes(category) : true, group: 'category' }));
         }
@@ -278,7 +279,7 @@
         roots.sort((a, b) => a.name.localeCompare(b.name)).forEach((root) => appendCategoryReference(root.id, 0, new Set(), maps));
       }
       for (const project of PROJECT_TAGS) {
-        const count = state.payload.nodes.filter((node) => node.tags.includes(project)).length;
+        const count = internalPayloadNodes.filter((node) => node.tags.includes(project)).length;
         el.projectFilters.append(checkboxRow({ value: project, label: project, color: '#8a5da2', count, checked: state.restore?.projects.includes(project) || false, group: 'project' }));
       }
     }
