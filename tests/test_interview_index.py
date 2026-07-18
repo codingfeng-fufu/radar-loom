@@ -29,7 +29,7 @@ class InterviewIndexTests(unittest.TestCase):
         }
 
     def test_render_indexes_isolates_pages_and_orders_interviews(self):
-        knowledge, interview = self.module.render_indexes(self.pages)
+        knowledge, interview, stats = self.module.render_indexes(self.pages)
         self.assertIn("[[知识]]", knowledge)
         self.assertNotIn("面试", knowledge)
         self.assertIn("[[A面试]]", interview)
@@ -39,6 +39,7 @@ class InterviewIndexTests(unittest.TestCase):
         self.assertIn("角色: 前端", interview.split("[[A面试]]", 1)[1].split("\n", 1)[0])
         self.assertIn("难度: 基础", interview)
         self.assertLess(interview.index("A面试"), interview.index("Z面试"))
+        self.assertEqual(stats["interviews"], 3)
 
     def test_interview_entry_tags_are_sorted(self):
         self.pages["A面试"].frontmatter["tags"] = ["zeta", "alpha"]
@@ -84,6 +85,8 @@ class InterviewIndexTests(unittest.TestCase):
     def test_atomic_pair_rolls_back_when_second_replace_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
             first, second = Path(tmp) / "a", Path(tmp) / "b"
+            sentinel = Path(str(first) + ".tmp")
+            sentinel.write_text("sentinel", encoding="utf-8")
             first.write_text("old-a", encoding="utf-8")
             second.write_text("old-b", encoding="utf-8")
             original_replace = Path.replace
@@ -101,6 +104,7 @@ class InterviewIndexTests(unittest.TestCase):
                 Path.replace = original_replace
             self.assertEqual(first.read_text(encoding="utf-8"), "old-a")
             self.assertEqual(second.read_text(encoding="utf-8"), "old-b")
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "sentinel")
 
 
 if __name__ == "__main__":

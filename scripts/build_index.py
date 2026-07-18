@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -101,12 +102,13 @@ def atomic_write_pair(outputs: tuple[tuple[Path, str], tuple[Path, str]]) -> Non
     temporaries = []
     try:
         for destination, content in outputs:
-            temporary = destination.with_name(destination.name + ".tmp")
-            with temporary.open("w", encoding="utf-8") as handle:
+            fd, temporary_name = tempfile.mkstemp(prefix=f".{destination.name}.", suffix=".tmp", dir=destination.parent)
+            temporary = Path(temporary_name)
+            temporaries.append(temporary)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
                 handle.write(content)
                 handle.flush()
                 os.fsync(handle.fileno())
-            temporaries.append(temporary)
         for temporary, (destination, _) in zip(temporaries, outputs):
             temporary.replace(destination)
     except Exception:
@@ -121,9 +123,12 @@ def atomic_write_pair(outputs: tuple[tuple[Path, str], tuple[Path, str]]) -> Non
             temporary.unlink(missing_ok=True)
 
 
-def render_indexes(all_pages: dict[str, rc.PageInfo]) -> tuple[str, str]:
+def render_indexes(all_pages: dict[str, rc.PageInfo]) -> tuple[str, str, dict[str, int]]:
     knowledge, interviews = rc.partition_pages(all_pages)
-    return render_index(knowledge)[0], render_interview_index(interviews)[0]
+    knowledge_text, concepts, projects, knowledge_missing = render_index(knowledge)
+    interview_text, interview_count, interview_missing = render_interview_index(interviews)
+    stats = {"concepts": concepts, "projects": projects, "knowledge_missing": knowledge_missing, "interviews": interview_count, "interview_missing": interview_missing}
+    return knowledge_text, interview_text, stats
 
 
 def parse_args(argv=None):
