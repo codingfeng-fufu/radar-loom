@@ -76,11 +76,14 @@ class DeterministicTestEncoder:
 
 
 class TaxonomyEngine:
-    def __init__(self, root: Path | str, config: dict, encoder=None, namer=None):
+    def __init__(self, root: Path | str, config: dict, encoder=None, namer=None, profile: str = "knowledge"):
+        if profile not in {"knowledge", "interview"}:
+            raise ValueError("profile must be knowledge or interview")
         self.root = Path(root).resolve()
         self.config = dict(config)
-        self.registry_path = self.root / "taxonomy.json"
-        self.cache_root = self.root / ".cache" / "taxonomy"
+        self.profile = profile
+        self.registry_path = self.root / ("taxonomy.json" if profile == "knowledge" else "interview-taxonomy.json")
+        self.cache_root = self.root / ".cache" / ("taxonomy" if profile == "knowledge" else "interview-taxonomy")
         self._provided_encoder = encoder
         self._provided_namer = namer
 
@@ -96,6 +99,9 @@ class TaxonomyEngine:
         for path in paths:
             text = path.read_text(encoding="utf-8")
             frontmatter, body = rc.parse_frontmatter(text)
+            kind = rc.page_type(frontmatter)
+            if (self.profile == "knowledge" and kind != rc.KNOWLEDGE_PAGE_TYPE) or (self.profile == "interview" and kind != rc.INTERVIEW_PAGE_TYPE):
+                continue
             pages[path.stem] = rc.PageInfo(
                 name=path.stem,
                 path=path,
@@ -137,7 +143,7 @@ class TaxonomyEngine:
         timestamp = today or dt.date.today().isoformat()
         pages = self._scan_pages()
         registry = Registry.empty(parameters_hash(self.config), timestamp)
-        for tag, category_id in sorted(ts.LEGACY_TAG_TO_SEED_ID.items()):
+        for tag, category_id in (sorted(ts.LEGACY_TAG_TO_SEED_ID.items()) if self.profile == "knowledge" else []):
             moc_name = rc.TAG_TO_CATEGORY_PAGE[tag]
             moc = pages.get(moc_name)
             definition = str(moc.frontmatter.get("摘要", "")).strip() if moc else ""
@@ -157,7 +163,7 @@ class TaxonomyEngine:
             tags = page.frontmatter.get("tags", [])
             if not isinstance(tags, list):
                 tags = [tags]
-            for tag in sorted(set(str(item) for item in tags) & set(ts.LEGACY_TAG_TO_SEED_ID)):
+            for tag in (sorted(set(str(item) for item in tags) & set(ts.LEGACY_TAG_TO_SEED_ID)) if self.profile == "knowledge" else []):
                 registry.memberships.append(
                     Membership(
                         page=self._stable_path(page),
@@ -424,5 +430,8 @@ class TaxonomyEngine:
         validate_registry(load_registry(self.registry_path), self._existing_paths(pages))
 
 
-def load_config(root: Path | str) -> dict:
-    return json.loads((Path(root) / "config" / "taxonomy.json").read_text(encoding="utf-8"))
+def load_config(root: Path | str, profile: str = "knowledge") -> dict:
+    if profile not in {"knowledge", "interview"}:
+        raise ValueError("profile must be knowledge or interview")
+    filename = "taxonomy.json" if profile == "knowledge" else "interview-taxonomy.json"
+    return json.loads((Path(root) / "config" / filename).read_text(encoding="utf-8"))

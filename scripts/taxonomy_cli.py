@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="维护技术雷达的可演化分类图谱")
+    parser.add_argument("--profile", choices=("knowledge", "interview"), default="knowledge")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     migrate = subparsers.add_parser("migrate", help="从历史标签创建初始分类注册表")
@@ -36,7 +37,7 @@ def parse_args(argv=None):
 
 def main(argv=None) -> int:
     args = parse_args(argv)
-    engine = TaxonomyEngine(ROOT, load_config(ROOT))
+    engine = TaxonomyEngine(ROOT, load_config(ROOT, args.profile), profile=args.profile)
     try:
         if args.command == "migrate":
             registry = engine.migrate(dry_run=args.dry_run)
