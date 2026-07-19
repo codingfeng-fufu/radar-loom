@@ -74,6 +74,9 @@
     .legend-line { width: 18px; border-top: 2px solid #8da0ae; }
     .legend-line.related { border-top-style: dashed; border-color: #d7a85a; }
     .legend-line.membership { border-color: #6dc5ad; }
+    .legend-line.seed-source { border-color: #b97832; }
+    .legend-line.automatic-source { border-color: #6176a8; border-top-style: double; }
+    .legend-line.candidate-source { border-color: #6dc5ad; border-top-style: dashed; }
     .toast { position: absolute; z-index: 30; top: 12px; left: 50%; transform: translateX(-50%); max-width: min(520px, calc(100% - 24px)); border-radius: 4px; padding: 9px 12px; background: #f7fafc; color: var(--ink); box-shadow: 0 8px 28px rgb(0 0 0 / 28%); }
     .toast[hidden] { display: none; }
     .overlay { position: absolute; z-index: 20; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(17 24 32 / 88%); color: #e8edf2; text-align: center; padding: 24px; }
@@ -350,17 +353,22 @@
     }
 
     function taxonomyRepresentativeElements(categoryNode) {
-      const categoryId = categoryNode.data('categoryId');
-      const category = state.payload.taxonomy.categories.find((item) => item.id === categoryId);
+      const categoryId = categoryNode?.data?.('categoryId');
+      const categories = state.payload?.taxonomy?.categories;
+      if (!categoryId || !Array.isArray(categories)) return [];
+      const category = categories.find((item) => item.id === categoryId);
       const representatives = category?.representatives || [];
       const candidateMembers = category?.candidateMembers || category?.members || [];
-      const ids = category?.status === 'candidate' ? candidateMembers : representatives;
-      const pages = state.payload.nodes.filter((page) => ids.includes(page.id) || ids.includes(page.href) || ids.includes(page.label));
+      const isCandidate = category?.nodeType === 'candidate' || category?.status === 'candidate' || category?.lifecycle === 'candidate';
+      const ids = isCandidate ? candidateMembers : representatives;
+      const pages = Array.isArray(state.payload?.nodes)
+        ? state.payload.nodes.filter((page) => ids.includes(page.id) || ids.includes(page.href) || ids.includes(page.label))
+        : [];
       return pages.map((page, index) => ({ group: 'nodes', data: {
-        ...page, id: `representative:${categoryId}:${page.id}`, nodeType: category?.status === 'candidate' ? 'candidate-member' : 'representative',
+        ...page, id: `representative:${categoryId}:${page.id}`, nodeType: isCandidate ? 'candidate-member' : 'representative',
         categoryId, label: page.label, size: 34, href: page.href
       }, position: { x: categoryNode.position('x') + Math.cos(index) * 90, y: categoryNode.position('y') + Math.sin(index) * 90 } })).concat(pages.map((page) => ({ group: 'edges', data: {
-        id: `membership:${categoryId}:${page.id}`, source: `category:${categoryId}`, target: `representative:${categoryId}:${page.id}`, edgeType: category?.status === 'candidate' ? 'candidate-member' : 'membership'
+        id: `membership:${categoryId}:${page.id}`, source: `category:${categoryId}`, target: `representative:${categoryId}:${page.id}`, edgeType: isCandidate ? 'candidate-member' : 'membership'
       }})));
     }
 

@@ -172,6 +172,18 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("候选分类", self.html)
         self.assertRegex(self.html, r"label:\s*`\$\{candidateName\}\s+\$\{members\.length\}/\$\{targetSize\}")
 
+    def test_taxonomy_legend_swatches_match_node_styles(self):
+        self.assertRegex(self.html, r"\.legend-line\.seed-source\s*\{[^}]*border-color:\s*#b97832")
+        self.assertRegex(self.html, r"\.legend-line\.automatic-source\s*\{[^}]*border-color:\s*#6176a8[^}]*border-top-style:\s*double")
+        self.assertRegex(self.html, r"\.legend-line\.candidate-source\s*\{[^}]*border-color:\s*#6dc5ad[^}]*border-top-style:\s*dashed")
+
+    def test_taxonomy_expansion_guards_missing_data_and_detects_candidate_lifecycle(self):
+        self.assertIn("state.payload?.taxonomy?.categories", self.html)
+        self.assertIn("if (!categoryId || !Array.isArray(categories)) return []", self.html)
+        self.assertIn("category?.nodeType === 'candidate'", self.html)
+        self.assertIn("category?.status === 'candidate'", self.html)
+        self.assertIn("category?.lifecycle === 'candidate'", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
