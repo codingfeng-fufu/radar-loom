@@ -14,6 +14,7 @@ import numpy as np
 
 import radar_common as rc
 import taxonomy_cluster as tc
+import taxonomy_candidates as tcan
 import taxonomy_signals as ts
 from taxonomy_embeddings import (
     EmbeddingCache,
@@ -23,8 +24,10 @@ from taxonomy_embeddings import (
 )
 from taxonomy_models import (
     Category,
+    Candidate,
     Membership,
     Registry,
+    TaxonomyRun,
     TaxonomyEvent,
     load_registry,
     new_category_id,
@@ -198,6 +201,45 @@ class TaxonomyEngine:
                 failures[name] = error
         return vectors, failures
 
+    def _category_centroids(self, registry, vectors, pages):
+        grouped = {}
+        for item in registry.memberships:
+            name = Path(item.page).stem
+            if name in vectors:
+                grouped.setdefault(item.category_id, []).append(vectors[name])
+        return {cid: np.mean(values, axis=0) for cid, values in grouped.items() if values}
+
+    def _refresh_candidates(self, result, pages, vectors, timestamp):
+        groups = tcan.discover_groups(
+            vectors, {name: self._stable_path(page) for name, page in pages.items()},
+            result.memberships, result.categories, self._category_centroids(result, vectors, pages), self.config, timestamp,
+        )
+        self._promote_novel_groups(result, groups, vectors, timestamp)
+        result.candidates = tcan.snapshot_candidates(groups, result.candidates, self.config, timestamp)
+
+    def _promote_novel_groups(self, result, groups, vectors, timestamp):
+        minimum = int(self.config.get("forming_min_pages", 3))
+        for group in groups:
+            if len(group.members) < minimum:
+                continue
+            member_set = set(group.members)
+            existing = next((cid for cid, category in result.categories.items()
+                             if category.status != "merged" and {m.page for m in result.memberships if m.category_id == cid} == member_set), None)
+            if existing:
+                continue
+            category_id = new_category_id(group.members, set(result.categories))
+            result.categories[category_id] = Category(
+                id=category_id, name=tcan.temporary_name(group.members),
+                definition="由候选页面形成的高内聚新主题。", status="forming",
+                naming_status="pending", created_at=timestamp, updated_at=timestamp,
+            )
+            for path in group.members:
+                name = Path(path).stem
+                score = float(group.cohesion_score)
+                result.memberships.append(Membership(path, category_id, score, dict(group.signals),
+                    f"候选群组语义内聚度 {score:.2f}", timestamp, timestamp))
+            result.events.append(TaxonomyEvent("create", [category_id], "候选群组达到形成阈值", timestamp))
+
     def sync(
         self,
         page_paths: list[str] | None = None,
@@ -220,6 +262,12 @@ class TaxonomyEngine:
         )
         deleted = sorted(set(registry.page_fingerprints) - set(current_fingerprints))
         if not changed and not deleted:
+            raw = json.loads(self.registry_path.read_text(encoding="utf-8"))
+            if raw.get("schema_version") == 1:
+                upgraded = Registry.from_dict(raw)
+                upgraded.schema_version = 2
+                write_registry(self.registry_path, upgraded, self._existing_paths(pages))
+                return upgraded
             return registry
 
         result = Registry.from_dict(registry.to_dict())
@@ -302,6 +350,19 @@ class TaxonomyEngine:
                 result.events.append(TaxonomyEvent("delete", [category_id], "类别成员已为空", timestamp))
 
         result.pending_pages = sorted(set(result.pending_pages))
+        if failures:
+            result.last_run = TaxonomyRun("sync", "failed", timestamp, timestamp, "embedding failure")
+        else:
+            try:
+                all_vectors, candidate_failures = self._vectors(pages)
+                if candidate_failures:
+                    raise RuntimeError("candidate embedding failure")
+                old_category_ids = set(result.categories)
+                self._refresh_candidates(result, pages, all_vectors, timestamp)
+                outcome = "adopted" if set(result.categories) != old_category_ids else "unchanged"
+                result.last_run = TaxonomyRun("sync", outcome, timestamp, timestamp, "")
+            except Exception as error:
+                result.last_run = TaxonomyRun("sync", "failed", timestamp, timestamp, type(error).__name__)
         result.generated_at = timestamp
         existing_paths = self._existing_paths(pages)
         write_registry(self.registry_path, result, existing_paths)
@@ -352,6 +413,7 @@ class TaxonomyEngine:
                 "拒绝全局重组：候选结构丢失超过一半有效类别",
                 timestamp,
             ))
+            result.last_run = TaxonomyRun("global", "rejected", timestamp, timestamp, "pathological_global_collapse")
             existing_paths = self._existing_paths(pages)
             write_registry(self.registry_path, result, existing_paths)
             return result
@@ -412,12 +474,18 @@ class TaxonomyEngine:
                 result.events.append(TaxonomyEvent("rename", [category_id], f"{old_name} -> {naming.name}", timestamp))
 
         existing_paths = self._existing_paths(pages)
+        try:
+            self._refresh_candidates(result, pages, vectors, timestamp)
+        except Exception as error:
+            result.last_run = TaxonomyRun("global", "failed", timestamp, timestamp, type(error).__name__)
         validate_registry(result, existing_paths)
         write_registry(self.registry_path, result, existing_paths)
         return result
 
     def status(self) -> dict[str, object]:
         registry = load_registry(self.registry_path)
+        seed_categories = sum(category.id.startswith("cat_seed_") and category.status != "merged" for category in registry.categories.values())
+        automatic_categories = sum(not category.id.startswith("cat_seed_") and category.status != "merged" for category in registry.categories.values())
         return {
             "schema_version": registry.schema_version,
             "generated_at": registry.generated_at,
@@ -428,6 +496,11 @@ class TaxonomyEngine:
             "pending_pages": len(registry.pending_pages),
             "changes_since_global": registry.changes_since_global,
             "global_due": global_due(registry, self.config, dt.date.today()),
+            "seed_categories": seed_categories,
+            "automatic_categories": automatic_categories,
+            "candidates": len(registry.candidates),
+            "candidate_updated_at": max((item.last_confirmed_at for item in registry.candidates), default=""),
+            "last_run": registry.last_run.to_dict(),
         }
 
     def validate(self) -> None:

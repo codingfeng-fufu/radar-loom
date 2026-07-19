@@ -58,6 +58,25 @@ class TaxonomyEndToEndTests(unittest.TestCase):
                 {"pages/Seed.md", "pages/Novel A.md", "pages/Novel B.md"},
             )
 
+    def test_candidate_snapshot_promotes_after_third_page_even_with_seed_membership(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"TAXONOMY_TEST_ENCODER": "deterministic"}, clear=False):
+            vault = Path(directory); (vault / "pages").mkdir()
+            (vault / "pages" / "Seed.md").write_text(page("Seed", "knowledge graph entity relation", "KG"), encoding="utf-8")
+            engine = te.TaxonomyEngine(vault, CONFIG)
+            engine.migrate(today="2026-07-15")
+            topic = "quantum banana lattice phase transport coherent spectral boundary operator manifold tensor diffusion kernel"
+            for name in ("Novel A", "Novel B"):
+                (vault / "pages" / f"{name}.md").write_text(page(name, topic, "KG"), encoding="utf-8")
+            first = engine.sync(today="2026-07-16", allow_global=False)
+            self.assertEqual(len(first.candidates), 1)
+            self.assertIn(first.last_run.outcome, {"adopted", "unchanged"})
+            (vault / "pages" / "Novel C.md").write_text(page("Novel C", topic, "KG"), encoding="utf-8")
+            second = engine.sync(today="2026-07-17", allow_global=False)
+            forming = [c for c in second.categories.values() if c.status == "forming" and not c.id.startswith("cat_seed_")]
+            self.assertEqual(len(forming), 1)
+            self.assertEqual(second.candidates, [])
+            self.assertIn(second.last_run.outcome, {"adopted", "unchanged"})
+
 
 if __name__ == "__main__":
     unittest.main()
