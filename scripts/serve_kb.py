@@ -202,11 +202,15 @@ class KnowledgeBuilder:
                 status = json.loads(status_output)
             except json.JSONDecodeError as error:
                 raise RefreshError("taxonomy status returned invalid JSON") from error
+            outcome = status.get("last_run", {}).get("status", status.get("last_run", {}).get("outcome", "unknown"))
+            reason = status.get("last_run", {}).get("reason", "")
             return {
                 "mode": "global",
+                "outcome": outcome,
+                "reason": reason,
                 "revision": self.revision(),
+                "status": status,
                 "output": "\n".join(line for line in output_lines if line),
-                **status,
             }
 
 
@@ -266,7 +270,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             try:
                 result = self.builder.taxonomy_rebuild()
             except RefreshError as error:
-                self.send_json(500, {"ok": False, "error": str(error)})
+                self.send_json(500, {"ok": False, "error": "taxonomy rebuild failed"})
                 return
             self.send_json(200, {"ok": True, **result})
             return

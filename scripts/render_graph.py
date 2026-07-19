@@ -94,15 +94,16 @@ def viewer_href(page):
     return f"viewer.html?f={quote(relative, safe='')}"
 
 
-def _taxonomy_payload(registry):
+def _taxonomy_payload(registry, node_ids=None):
     if registry is None:
         return {
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "generatedAt": None,
             "categories": [],
             "memberships": [],
             "events": [],
-            "stats": {"categories": 0, "activeCategories": 0, "memberships": 0, "forming": 0, "pendingPages": 0},
+            "publish": {"candidates": [], "representatives": [], "lastRun": None},
+            "stats": {"categories": 0, "activeCategories": 0, "memberships": 0, "forming": 0, "pendingPages": 0, "seedCategories": 0, "automaticCategories": 0, "candidates": 0},
         }
     categories = []
     for category_id in sorted(registry.categories):
@@ -122,6 +123,7 @@ def _taxonomy_payload(registry):
             "lastStableAt": category.last_stable_at,
             "stableRuns": category.stable_runs,
             "algorithmVersion": category.algorithm_version,
+            "source": "seed" if category.id.startswith("cat_seed_") else "automatic",
         })
     memberships = []
     for membership in sorted(registry.memberships, key=lambda item: (item.page, item.category_id)):
@@ -147,8 +149,38 @@ def _taxonomy_payload(registry):
         }
         for event in sorted_events
     ]
+    node_ids = set(node_ids) if node_ids is not None else {Path(item.page).stem for item in registry.memberships}
+    raw_candidates = getattr(registry, "candidates", []) or []
+    candidates = []
+    for candidate in raw_candidates:
+        item = candidate.to_dict() if hasattr(candidate, "to_dict") else dict(candidate)
+        members = item.get("members", item.get("pages", []))
+        members = sorted(Path(m).stem if "/" in str(m) else str(m) for m in members if Path(str(m)).stem in node_ids)
+        item["members"] = members
+        candidates.append(item)
+    candidates.sort(key=lambda item: (str(item.get("category", item.get("id", ""))), item["members"]))
+    grouped = {}
+    for membership in registry.memberships:
+        page_id = Path(membership.page).stem
+        if page_id in node_ids:
+            grouped.setdefault(membership.category_id, []).append({"page": page_id, "score": membership.score})
+    for category in categories:
+        if category["status"] == "merged":
+            continue
+        representatives = sorted(grouped.get(category["id"], []), key=lambda item: (-item["score"], item["page"]))[:5]
+        existing = next((item for item in candidates if item.get("category") == category["id"] or item.get("id") == category["id"]), None)
+        if existing is None:
+            candidates.append({"category": category["id"], "members": sorted(item["page"] for item in grouped.get(category["id"], [])), "representatives": representatives})
+        else:
+            existing["representatives"] = representatives
+    representatives = [
+        {"category": category["id"], "pages": [item["page"] for item in sorted(grouped.get(category["id"], []), key=lambda item: (-item["score"], item["page"]))[:5]]}
+        for category in categories if category["status"] != "merged"
+    ]
+    last_run = getattr(registry, "last_run", None)
+    last_run = last_run.to_dict() if hasattr(last_run, "to_dict") else last_run
     return {
-        "schemaVersion": registry.schema_version,
+        "schemaVersion": 2,
         "generatedAt": registry.generated_at,
         "categories": categories,
         "memberships": memberships,
@@ -159,7 +191,11 @@ def _taxonomy_payload(registry):
             "memberships": len(memberships),
             "forming": sum(category["status"] == "forming" for category in categories),
             "pendingPages": len(registry.pending_pages),
+            "seedCategories": sum(c["source"] == "seed" for c in categories),
+            "automaticCategories": sum(c["source"] == "automatic" for c in categories),
+            "candidates": len(candidates),
         },
+        "publish": {"candidates": candidates, "representatives": representatives, "lastRun": last_run},
     }
 
 
@@ -206,7 +242,7 @@ def render_graph_data(pages, edges, broken, degree, registry=None, *, external_n
         "categories": CATEGORY_COLORS,
         "nodes": nodes,
         "edges": graph_edges,
-        "taxonomy": _taxonomy_payload(registry),
+        "taxonomy": _taxonomy_payload(registry, pages),
     }
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 

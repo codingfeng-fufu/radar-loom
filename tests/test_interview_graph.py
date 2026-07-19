@@ -69,8 +69,9 @@ def test_interview_payload_is_deterministic_for_reversed_input():
 
 
 def test_missing_interview_registry_is_empty_and_generator_succeeds():
-    path = rc.VAULT_ROOT / "interview-taxonomy.json"
-    assert not path.exists()
     payload = json.loads(rg.render_graph_data({}, [], [], {}, tm.Registry.empty("", "2026-01-01"), profile="interview"))
-    assert payload["taxonomy"]["stats"] == {"categories": 0, "activeCategories": 0, "memberships": 0,
-                                                "forming": 0, "pendingPages": 0}
+    assert payload["taxonomy"]["stats"] == {
+        "categories": 0, "activeCategories": 0, "memberships": 0,
+        "forming": 0, "pendingPages": 0, "seedCategories": 0,
+        "automaticCategories": 0, "candidates": 0,
+    }

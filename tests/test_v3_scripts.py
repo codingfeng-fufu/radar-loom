@@ -145,7 +145,7 @@ class GraphV3Tests(unittest.TestCase):
         registry = tm.load_registry(ROOT / "taxonomy.json")
         payload = json.loads(graph.render_graph_data(pages, edges, broken, degree, registry))
 
-        self.assertEqual(payload["taxonomy"]["schemaVersion"], 1)
+        self.assertEqual(payload["taxonomy"]["schemaVersion"], 2)
         self.assertTrue(payload["taxonomy"]["categories"])
         self.assertTrue(payload["taxonomy"]["memberships"])
         self.assertIn("status", payload["taxonomy"]["categories"][0])
