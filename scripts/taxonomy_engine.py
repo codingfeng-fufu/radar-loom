@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import copy
 import json
 import os
 import re
@@ -210,12 +211,17 @@ class TaxonomyEngine:
         return {cid: np.mean(values, axis=0) for cid, values in grouped.items() if values}
 
     def _refresh_candidates(self, result, pages, vectors, timestamp):
+        working = copy.deepcopy(result)
         groups = tcan.discover_groups(
             vectors, {name: self._stable_path(page) for name, page in pages.items()},
-            result.memberships, result.categories, self._category_centroids(result, vectors, pages), self.config, timestamp,
+            working.memberships, working.categories, self._category_centroids(working, vectors, pages), self.config, timestamp,
         )
-        self._promote_novel_groups(result, groups, vectors, timestamp)
-        result.candidates = tcan.snapshot_candidates(groups, result.candidates, self.config, timestamp)
+        self._promote_novel_groups(working, groups, vectors, timestamp)
+        working.candidates = tcan.snapshot_candidates(groups, working.candidates, self.config, timestamp)
+        result.categories = working.categories
+        result.memberships = working.memberships
+        result.candidates = working.candidates
+        result.events = working.events
 
     def _promote_novel_groups(self, result, groups, vectors, timestamp):
         minimum = int(self.config.get("forming_min_pages", 3))
@@ -288,7 +294,6 @@ class TaxonomyEngine:
         }
         for path in changed:
             name = path_to_name[path]
-            result.page_fingerprints[path] = current_fingerprints[path]
             if name in failures or name not in vectors:
                 result.pending_pages.append(path)
                 continue
@@ -338,6 +343,7 @@ class TaxonomyEngine:
                                 )
                             )
                 result.pending_pages = [item for item in result.pending_pages if item != path]
+                result.page_fingerprints[path] = current_fingerprints[path]
             except Exception:
                 result.pending_pages.append(path)
 
@@ -348,6 +354,10 @@ class TaxonomyEngine:
             if category.status == "forming" and member_counts.get(category_id, 0) == 0:
                 del result.categories[category_id]
                 result.events.append(TaxonomyEvent("delete", [category_id], "类别成员已为空", timestamp))
+
+        valid_paths = set(self._existing_paths(pages))
+        result.candidates = [candidate for candidate in result.candidates
+                             if all(member in valid_paths for member in candidate.members)]
 
         result.pending_pages = sorted(set(result.pending_pages))
         if failures:
@@ -489,6 +499,11 @@ class TaxonomyEngine:
         existing_paths = self._existing_paths(pages)
         try:
             self._refresh_candidates(result, pages, vectors, timestamp)
+            changed_structure = result.categories != registry.categories or result.memberships != registry.memberships
+            result.last_run = TaxonomyRun(
+                "global", "adopted" if changed_structure else "unchanged", timestamp, timestamp,
+                "全局重组已采用" if changed_structure else "全局重组无结构变化",
+            )
         except Exception as error:
             result.last_run = TaxonomyRun("global", "failed", timestamp, timestamp, type(error).__name__)
         validate_registry(result, existing_paths)
