@@ -361,8 +361,9 @@
       if (!categoryId) return [];
       const category = categories.find((item) => item.id === categoryId) || candidates.find((item) => item.id === categoryId);
       const representatives = category?.representatives || [];
-      const candidateMembers = category?.candidateMembers || category?.members || [];
-      const isCandidate = category?.nodeType === 'candidate' || category?.status === 'candidate' || category?.lifecycle === 'candidate';
+      const candidateMembers = Array.isArray(category?.members) ? category.members : (category?.candidateMembers || []);
+      const isCandidate = categoryNode.data('nodeType') === 'candidate'
+        || category?.nodeType === 'candidate' || category?.status === 'candidate' || category?.lifecycle === 'candidate';
       const ids = isCandidate ? candidateMembers : representatives;
       const pages = Array.isArray(state.payload?.nodes)
         ? state.payload.nodes.filter((page) => ids.includes(page.id) || ids.includes(page.href) || ids.includes(page.label))
@@ -371,7 +372,7 @@
         ...page, id: `representative:${categoryId}:${page.id}`, nodeType: isCandidate ? 'candidate-member' : 'representative',
         categoryId, label: page.label, size: 34, href: page.href
       }, position: { x: categoryNode.position('x') + Math.cos(index) * 90, y: categoryNode.position('y') + Math.sin(index) * 90 } })).concat(pages.map((page) => ({ group: 'edges', data: {
-        id: `membership:${categoryId}:${page.id}`, source: `category:${categoryId}`, target: `representative:${categoryId}:${page.id}`, edgeType: isCandidate ? 'candidate-member' : 'membership'
+        id: `membership:${categoryId}:${page.id}`, source: categoryNode.id(), target: `representative:${categoryId}:${page.id}`, edgeType: isCandidate ? 'candidate-member' : 'membership'
       }})));
     }
 

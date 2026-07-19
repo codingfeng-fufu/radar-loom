@@ -183,6 +183,9 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("category?.nodeType === 'candidate'", self.html)
         self.assertIn("category?.status === 'candidate'", self.html)
         self.assertIn("category?.lifecycle === 'candidate'", self.html)
+        self.assertIn("categoryNode.data('nodeType') === 'candidate'", self.html)
+        self.assertIn("source: categoryNode.id()", self.html)
+        self.assertIn("edgeType: isCandidate ? 'candidate-member' : 'membership'", self.html)
 
 
 if __name__ == "__main__":
