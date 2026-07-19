@@ -377,6 +377,9 @@ class TaxonomyEngine:
         vectors, failures = self._vectors(pages)
         if failures:
             failed = ", ".join(sorted(failures))
+            result = Registry.from_dict(registry.to_dict())
+            result.last_run = TaxonomyRun("global", "failed", timestamp, timestamp, "分类数据未更新: RuntimeError")
+            write_registry(self.registry_path, result, self._existing_paths(pages))
             raise RuntimeError(f"global embedding failed for: {failed}")
         edges = []
         for source, page in pages.items():
@@ -413,8 +416,18 @@ class TaxonomyEngine:
                 "拒绝全局重组：候选结构丢失超过一半有效类别",
                 timestamp,
             ))
-            result.last_run = TaxonomyRun("global", "rejected", timestamp, timestamp, "pathological_global_collapse")
             existing_paths = self._existing_paths(pages)
+            try:
+                self._refresh_candidates(result, pages, vectors, timestamp)
+            except Exception as error:
+                result.candidates = list(registry.candidates)
+                result.last_run = TaxonomyRun("global", "failed", timestamp, timestamp, type(error).__name__)
+            else:
+                result.last_run = TaxonomyRun(
+                    "global", "rejected", timestamp, timestamp,
+                    "拒绝全局重组：候选结构丢失超过一半有效类别",
+                )
+            validate_registry(result, existing_paths)
             write_registry(self.registry_path, result, existing_paths)
             return result
 

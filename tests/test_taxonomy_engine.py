@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import numpy as np
@@ -128,6 +129,42 @@ class TaxonomyEngineTests(unittest.TestCase):
             for index in range(4)
         })
         self.assertFalse(te.pathological_global_collapse(before, after))
+
+    def test_rejected_global_rebuild_refreshes_candidates_and_records_rejection(self):
+        registry = self.engine.migrate(today="2026-07-15")
+        original_candidate = tm.Candidate(
+            "candidate_old", "Old", ["pages/A.md", "pages/B.md"], .9, 3,
+            {"semantic_cohesion": .9}, [], "2026-07-15", "2026-07-15",
+        )
+        registry.candidates = [original_candidate]
+        tm.write_registry(self.root / "taxonomy.json", registry, {"pages/A.md", "pages/B.md"})
+        collapsed = tm.Registry.from_dict(registry.to_dict())
+        collapsed.categories = {"cat_new": tm.Category("cat_new", "new", "new", "forming")}
+
+        refreshed = tm.Candidate(
+            "candidate_new", "New", ["pages/A.md", "pages/B.md"], .95, 3,
+            {"semantic_cohesion": .95}, [], "2026-07-15", "2026-07-16",
+        )
+        with mock.patch.object(te.tc, "reconcile_clusters", return_value=collapsed), \
+             mock.patch.object(te, "pathological_global_collapse", return_value=True), \
+             mock.patch.object(self.engine, "_refresh_candidates", side_effect=lambda result, pages, vectors, timestamp: setattr(result, "candidates", [refreshed])) as refresh:
+            result = self.engine.global_rebuild(today="2026-07-16", allow_llm=False)
+
+        refresh.assert_called_once()
+        self.assertEqual([item.id for item in result.candidates], ["candidate_new"])
+        self.assertEqual(result.last_run.outcome, "rejected")
+        self.assertEqual(result.last_run.reason, "拒绝全局重组：候选结构丢失超过一半有效类别")
+
+    def test_rejected_global_candidate_failure_retains_snapshot(self):
+        registry = self.engine.migrate(today="2026-07-15")
+        candidate = tm.Candidate("candidate_old", "Old", ["pages/A.md", "pages/B.md"], .9, 3, {}, [])
+        registry.candidates = [candidate]
+        tm.write_registry(self.root / "taxonomy.json", registry, {"pages/A.md", "pages/B.md"})
+        with mock.patch.object(te, "pathological_global_collapse", return_value=True), \
+             mock.patch.object(self.engine, "_refresh_candidates", side_effect=RuntimeError("candidate failure")):
+            result = self.engine.global_rebuild(today="2026-07-16", allow_llm=False)
+        self.assertEqual(result.last_run.outcome, "failed")
+        self.assertEqual([item.id for item in result.candidates], [candidate.id])
 
     def test_status_and_validate_do_not_construct_encoder(self):
         self.engine.migrate(today="2026-07-15")
