@@ -343,8 +343,6 @@ def validate_registry(registry: Registry, existing_pages: set[str]) -> None:
                 errors.append(f"candidate has dangling page: {candidate.id} -> {page}")
         if candidate.target_size < 3:
             errors.append(f"candidate target_size must be at least 3: {candidate.id}")
-        if len(candidate.members) >= candidate.target_size:
-            errors.append(f"candidate members must be below target_size: {candidate.id}")
         if not math.isfinite(candidate.cohesion_score) or not 0.0 <= candidate.cohesion_score <= 1.0:
             errors.append(f"candidate cohesion score is invalid: {candidate.id}")
         for signal, score in candidate.signals.items():

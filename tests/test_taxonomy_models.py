@@ -153,6 +153,25 @@ class TaxonomyModelTests(unittest.TestCase):
         with self.assertRaisesRegex(tm.TaxonomyValidationError, "candidate.*related"):
             tm.validate_registry(registry, existing_pages={"pages/A.md", "pages/B.md"})
 
+    def test_validation_accepts_candidate_at_target_size(self):
+        registry = self.make_registry()
+        registry.candidates = [
+            tm.Candidate(
+                "candidate",
+                "Candidate",
+                ["pages/A.md", "pages/B.md", "pages/C.md"],
+                0.8,
+                3,
+                {},
+                [],
+            )
+        ]
+
+        tm.validate_registry(
+            registry,
+            existing_pages={"pages/A.md", "pages/B.md", "pages/C.md"},
+        )
+
     def test_validation_rejects_parent_cycles_and_dangling_memberships(self):
         registry = self.make_registry()
         registry.categories["a"].parents = ["b"]
