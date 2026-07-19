@@ -159,6 +159,17 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("graph-view.html?profile=${activeSection}", self.html)
         self.assertIn("data-section", self.html)
 
+    def test_taxonomy_summary_fetches_profile_data_and_renders_safe_status(self):
+        for value in ('id="taxonomySummary"', 'taxonomy.stats', 'taxonomy.lastRun', 'seedCategories', 'automaticCategories', 'candidates'):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertIn("graph-view.html?profile=${activeSection}&mode=taxonomy", self.html)
+        self.assertRegex(self.html, r"graph-data\.json")
+        self.assertRegex(self.html, r"interview-graph-data\.json")
+        self.assertRegex(self.html, r"function\s+refreshTaxonomySummary\s*\(")
+        self.assertIn("动态分类状态不可用", self.html)
+        self.assertNotIn("taxonomySummary.innerHTML", self.html)
+
     def test_interview_context_is_typed_and_refresh_preserves_section(self):
         self.assertIn("pageType: 'interview'", self.html)
         self.assertIn("question:", self.html)

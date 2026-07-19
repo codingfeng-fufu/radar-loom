@@ -36,6 +36,11 @@
     .section-tab:last-child { border-right: 0; }
     .section-tab[aria-selected="true"] { background: var(--accent); color: #fff; }
     .nav-tools { position: sticky; top: -20px; z-index: 4; margin: 0 -4px 12px; padding: 8px 4px; background: var(--sidebar); }
+    .taxonomy-summary { margin: 0 0 12px; padding: 6px 4px; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.4; }
+    .taxonomy-summary a { display: block; color: inherit; text-decoration: none; }
+    .taxonomy-summary[data-state="candidate"] { color: #26734d; }
+    .taxonomy-summary[data-state="rejected"] { color: #946c16; }
+    .taxonomy-summary[data-state="failed"], .taxonomy-summary[data-state="stale"], .taxonomy-summary[data-state="unavailable"] { color: #a33b2b; }
     .nav-search-row { display: grid; grid-template-columns: minmax(0, 1fr) 34px; gap: 6px; }
     .nav-search { width: 100%; height: 36px; border: 1px solid #b7c0c8; border-radius: 4px; padding: 0 10px; background: var(--paper); color: var(--ink); }
     .nav-search:focus { border-color: var(--accent); outline: 2px solid rgb(11 107 87 / 14%); outline-offset: 0; }
@@ -105,6 +110,7 @@
         <button class="section-tab" id="knowledgeTab" type="button" role="tab" data-section="knowledge" aria-controls="viewerPanel" aria-selected="true" tabindex="0">知识库</button>
         <button class="section-tab" id="interviewTab" type="button" role="tab" data-section="interview" aria-controls="viewerPanel" aria-selected="false" tabindex="-1">工程面试</button>
       </div>
+      <div id="taxonomySummary" class="taxonomy-summary" aria-live="polite"></div>
       <div class="nav-tools">
         <div class="nav-search-row">
           <input class="nav-search" id="navigationSearch" type="search" aria-label="搜索知识页" placeholder="搜索标题、摘要或标签" autocomplete="off">
@@ -143,6 +149,7 @@
       frontmatterText: document.querySelector('#frontmatterText'),
       message: document.querySelector('#message'),
       navigation: document.querySelector('#navigation'),
+      taxonomySummary: document.querySelector('#taxonomySummary'),
       navigationSearch: document.querySelector('#navigationSearch'),
       collapseAll: document.querySelector('#collapseAll'),
       interviewFilters: document.querySelector('#interviewFilters'),
@@ -405,7 +412,7 @@
     function renderCategorizedNavigation() {
       elements.navigation.replaceChildren();
       const graphLink = document.createElement('a');
-      graphLink.href = `graph-view.html?profile=${activeSection}`;
+      graphLink.href = `graph-view.html?profile=${activeSection}&mode=taxonomy`;
       graphLink.textContent = '交互图谱';
       graphLink.className = 'nav-list';
       graphLink.style.padding = '8px';
@@ -435,6 +442,41 @@
         elements.navigation.append(details);
       }
       navigationState.initialized = true;
+    }
+
+    function taxonomyDataUrl(section) {
+      return section === 'interview' ? 'interview-graph-data.json' : 'graph-data.json';
+    }
+
+    function refreshTaxonomySummary(section = activeSection) {
+      const summary = elements.taxonomySummary;
+      summary.replaceChildren();
+      summary.removeAttribute('data-state');
+      const link = document.createElement('a');
+      link.href = `graph-view.html?profile=${section}&mode=taxonomy`;
+      link.textContent = '动态分类：读取中...';
+      summary.append(link);
+      return fetch(taxonomyDataUrl(section), { cache: 'no-store' })
+        .then((response) => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
+        .then((data) => {
+          const taxonomy = data?.taxonomy;
+          const stats = taxonomy?.stats;
+          const taxonomyStats = taxonomy.stats;
+          const taxonomyLastRun = taxonomy.lastRun;
+          if (!stats || !taxonomy || typeof stats !== 'object') throw new Error('invalid taxonomy schema');
+          const lastRun = taxonomyLastRun || {};
+          const candidates = Array.isArray(stats.candidates) ? stats.candidates.length : Number(stats.candidates || 0);
+          const rejected = Number(lastRun.rejected || stats.rejected || 0);
+          const status = String(lastRun.status || '').toLowerCase();
+          const state = /fail|error/.test(status) ? 'failed' : /stale/.test(status) ? 'stale' : rejected > 0 ? 'rejected' : candidates > 0 ? 'candidate' : 'neutral';
+          summary.dataset.state = state;
+          const label = state === 'failed' ? '动态分类：运行失败' : state === 'stale' ? '动态分类：数据过期' : state === 'rejected' ? `动态分类：${rejected} 个候选被拒` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '动态分类：无变化';
+          link.textContent = `${label} · 种子 ${Number(stats.seedCategories || 0)} · 自动 ${Number(stats.automaticCategories || 0)}`;
+        })
+        .catch(() => {
+          summary.dataset.state = 'unavailable';
+          link.textContent = '动态分类状态不可用';
+        });
     }
 
     function renderSearchResults(matches) {
@@ -590,6 +632,7 @@
       elements.navigationSearch.value = navigationState.search;
       configureInterviewFilters();
       filterNavigation(navigationState.search);
+      refreshTaxonomySummary(section);
     }
 
     async function navigateTo(requestedFile = null, { sectionHint = activeSection, historyMode = 'replace' } = {}) {
