@@ -158,6 +158,20 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("profile: PROFILE", self.html)
         self.assertIn("section: PROFILE", self.html)
 
+    def test_background_tap_collapses_taxonomy_members_before_clearing_focus(self):
+        self.assertRegex(
+            self.html,
+            r"state\.cy\.on\('tap', \(event\) => \{ if \(event\.target === state\.cy\) \{\s*collapseTaxonomyMembers\(\);\s*clearFocus\(\{ close: true \}\);",
+        )
+
+    def test_taxonomy_sources_and_candidate_progress_are_visually_distinct(self):
+        self.assertIn('[source = "seed"]', self.html)
+        self.assertIn('[source = "automatic"]', self.html)
+        self.assertIn("种子分类", self.html)
+        self.assertIn("自动分类", self.html)
+        self.assertIn("候选分类", self.html)
+        self.assertRegex(self.html, r"label:\s*`\$\{candidateName\}\s+\$\{members\.length\}/\$\{targetSize\}")
+
 
 if __name__ == "__main__":
     unittest.main()
