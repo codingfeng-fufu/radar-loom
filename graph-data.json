@@ -2582,776 +2582,836 @@
     },
     {
       "id": "e0515",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0516",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0517",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0518",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "开放信息抽取 OpenIE"
-    },
-    {
-      "id": "e0519",
-      "source": "知识图谱构建流程 KG Construction Pipeline",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0520",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0521",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0522",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0523",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "置信度评分 Confidence Scoring"
-    },
-    {
-      "id": "e0524",
-      "source": "知识图谱补全 Knowledge Graph Completion",
-      "target": "链接预测 Link Prediction"
-    },
-    {
-      "id": "e0525",
-      "source": "知识图谱质量评估维度",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0526",
-      "source": "知识图谱质量评估维度",
+      "id": "e0516",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
       "target": "Graph Fusion 图融合"
     },
     {
+      "id": "e0517",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0518",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0519",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "关系图卷积网络 RGCN"
+    },
+    {
+      "id": "e0520",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0521",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0522",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "异构图 Heterogeneous Graph"
+    },
+    {
+      "id": "e0523",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0524",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0525",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "知识图谱构建流程 KG Construction Pipeline"
+    },
+    {
+      "id": "e0526",
+      "source": "知识图谱对齐任务 KG Alignment Tasks",
+      "target": "链接预测 Link Prediction"
+    },
+    {
       "id": "e0527",
-      "source": "知识图谱质量评估维度",
+      "source": "知识图谱构建流程 KG Construction Pipeline",
       "target": "TripleChecker"
     },
     {
       "id": "e0528",
-      "source": "知识图谱质量评估维度",
-      "target": "图结构一致性 Graph Structure Consistency"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0529",
-      "source": "知识图谱质量评估维度",
-      "target": "知识图谱 KG"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "实体消歧 Entity Disambiguation"
     },
     {
       "id": "e0530",
-      "source": "知识图谱质量评估维度",
-      "target": "置信度评分 Confidence Scoring"
+      "source": "知识图谱构建流程 KG Construction Pipeline",
+      "target": "开放信息抽取 OpenIE"
     },
     {
       "id": "e0531",
-      "source": "知识接地 Grounding",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0532",
-      "source": "知识接地 Grounding",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0533",
-      "source": "知识接地 Grounding",
-      "target": "归因评测 Attribution"
-    },
-    {
-      "id": "e0534",
-      "source": "知识接地 Grounding",
-      "target": "检索增强生成 RAG-GraphRAG"
-    },
-    {
-      "id": "e0535",
-      "source": "知识接地 Grounding",
-      "target": "溯源 Provenance"
-    },
-    {
-      "id": "e0536",
-      "source": "知识接地 Grounding",
+      "source": "知识图谱构建流程 KG Construction Pipeline",
       "target": "知识图谱 KG"
     },
     {
+      "id": "e0532",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0533",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0534",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0535",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0536",
+      "source": "知识图谱补全 Knowledge Graph Completion",
+      "target": "链接预测 Link Prediction"
+    },
+    {
       "id": "e0537",
-      "source": "确定性状态机 Deterministic State Machine",
+      "source": "知识图谱质量评估维度",
       "target": "EvidenceFirst"
     },
     {
       "id": "e0538",
-      "source": "确定性状态机 Deterministic State Machine",
-      "target": "可验证性 Verifiability"
+      "source": "知识图谱质量评估维度",
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0539",
-      "source": "确定性状态机 Deterministic State Machine",
-      "target": "知识图谱 KG"
+      "source": "知识图谱质量评估维度",
+      "target": "TripleChecker"
     },
     {
       "id": "e0540",
-      "source": "确定性状态机 Deterministic State Machine",
-      "target": "神经符号方法 Neuro-Symbolic AI"
+      "source": "知识图谱质量评估维度",
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0541",
-      "source": "确定性状态机 Deterministic State Machine",
-      "target": "符号人工智能 Symbolic AI"
+      "source": "知识图谱质量评估维度",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0542",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "EvidenceFirst"
+      "source": "知识图谱质量评估维度",
+      "target": "置信度评分 Confidence Scoring"
     },
     {
       "id": "e0543",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "FinGraph 财务知识图谱"
+      "source": "知识接地 Grounding",
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0544",
-      "source": "神经符号方法 Neuro-Symbolic AI",
+      "source": "知识接地 Grounding",
       "target": "TripleChecker"
     },
     {
       "id": "e0545",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "图神经网络 GNN"
+      "source": "知识接地 Grounding",
+      "target": "归因评测 Attribution"
     },
     {
       "id": "e0546",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "知识图谱 KG"
+      "source": "知识接地 Grounding",
+      "target": "检索增强生成 RAG-GraphRAG"
     },
     {
       "id": "e0547",
-      "source": "神经符号方法 Neuro-Symbolic AI",
-      "target": "符号人工智能 Symbolic AI"
+      "source": "知识接地 Grounding",
+      "target": "溯源 Provenance"
     },
     {
       "id": "e0548",
-      "source": "符号人工智能 Symbolic AI",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0549",
-      "source": "符号人工智能 Symbolic AI",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0550",
-      "source": "符号人工智能 Symbolic AI",
+      "source": "知识接地 Grounding",
       "target": "知识图谱 KG"
     },
     {
+      "id": "e0549",
+      "source": "确定性状态机 Deterministic State Machine",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0550",
+      "source": "确定性状态机 Deterministic State Machine",
+      "target": "可验证性 Verifiability"
+    },
+    {
       "id": "e0551",
-      "source": "符号人工智能 Symbolic AI",
-      "target": "确定性状态机 Deterministic State Machine"
+      "source": "确定性状态机 Deterministic State Machine",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0552",
-      "source": "符号人工智能 Symbolic AI",
+      "source": "确定性状态机 Deterministic State Machine",
       "target": "神经符号方法 Neuro-Symbolic AI"
     },
     {
       "id": "e0553",
+      "source": "确定性状态机 Deterministic State Machine",
+      "target": "符号人工智能 Symbolic AI"
+    },
+    {
+      "id": "e0554",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0555",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "FinGraph 财务知识图谱"
+    },
+    {
+      "id": "e0556",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0557",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0558",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0559",
+      "source": "神经符号方法 Neuro-Symbolic AI",
+      "target": "符号人工智能 Symbolic AI"
+    },
+    {
+      "id": "e0560",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0561",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0562",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0563",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0564",
+      "source": "符号人工智能 Symbolic AI",
+      "target": "神经符号方法 Neuro-Symbolic AI"
+    },
+    {
+      "id": "e0565",
       "source": "纠错RAG CRAG",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0554",
+      "id": "e0566",
       "source": "纠错RAG CRAG",
       "target": "RAGChecker"
     },
     {
-      "id": "e0555",
+      "id": "e0567",
       "source": "纠错RAG CRAG",
       "target": "Self-RAG"
     },
     {
-      "id": "e0556",
+      "id": "e0568",
       "source": "纠错RAG CRAG",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0557",
+      "id": "e0569",
       "source": "纠错RAG CRAG",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0558",
+      "id": "e0570",
       "source": "红队测试 Red-teaming",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0559",
+      "id": "e0571",
       "source": "红队测试 Red-teaming",
       "target": "审计风险队列 Audit Risk Queue"
     },
     {
-      "id": "e0560",
+      "id": "e0572",
       "source": "红队测试 Red-teaming",
       "target": "对抗样本 Adversarial Examples"
     },
     {
-      "id": "e0561",
+      "id": "e0573",
       "source": "红队测试 Red-teaming",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0562",
+      "id": "e0574",
       "source": "红队测试 Red-teaming",
       "target": "提示注入 Prompt Injection"
     },
     {
-      "id": "e0563",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "BERT与GPT的区别 BERT vs GPT"
-    },
-    {
-      "id": "e0564",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0565",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "LLM 推理优化 KV Cache Quantization"
-    },
-    {
-      "id": "e0566",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "Transformer 架构 Architecture"
-    },
-    {
-      "id": "e0567",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "Transformer 自注意力机制"
-    },
-    {
-      "id": "e0568",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0569",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "位置编码 Positional Encoding"
-    },
-    {
-      "id": "e0570",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "前馈网络 FFN Feed-Forward Network"
-    },
-    {
-      "id": "e0571",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "多头注意力 Multi-Head Attention"
-    },
-    {
-      "id": "e0572",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0573",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "层归一化 LayerNorm BatchNorm"
-    },
-    {
-      "id": "e0574",
-      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "文本摘要 Text Summarization"
-    },
-    {
       "id": "e0575",
       "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "BERT与GPT的区别 BERT vs GPT"
     },
     {
       "id": "e0576",
       "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "机器翻译 Machine Translation"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0577",
       "source": "编码器-解码器结构 Encoder-Decoder Architecture",
-      "target": "残差连接 Residual Connection"
+      "target": "LLM 推理优化 KV Cache Quantization"
     },
     {
       "id": "e0578",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "TripleChecker"
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "Transformer 架构 Architecture"
     },
     {
       "id": "e0579",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0580",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0581",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "文本蕴含与自然语言推理 NLI"
-    },
-    {
-      "id": "e0582",
-      "source": "置信度评分 Confidence Scoring",
-      "target": "知识图谱 KG"
-    },
-    {
-      "id": "e0583",
-      "source": "词嵌入 Word Embedding",
-      "target": "BERT与GPT的区别 BERT vs GPT"
-    },
-    {
-      "id": "e0584",
-      "source": "词嵌入 Word Embedding",
-      "target": "CoMaGRAG"
-    },
-    {
-      "id": "e0585",
-      "source": "词嵌入 Word Embedding",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0586",
-      "source": "词嵌入 Word Embedding",
-      "target": "GSAD"
-    },
-    {
-      "id": "e0587",
-      "source": "词嵌入 Word Embedding",
-      "target": "K近邻 KNN K-Nearest Neighbors"
-    },
-    {
-      "id": "e0588",
-      "source": "词嵌入 Word Embedding",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0589",
-      "source": "词嵌入 Word Embedding",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
       "target": "Transformer 自注意力机制"
     },
     {
+      "id": "e0580",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0581",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "位置编码 Positional Encoding"
+    },
+    {
+      "id": "e0582",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "前馈网络 FFN Feed-Forward Network"
+    },
+    {
+      "id": "e0583",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "多头注意力 Multi-Head Attention"
+    },
+    {
+      "id": "e0584",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0585",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "层归一化 LayerNorm BatchNorm"
+    },
+    {
+      "id": "e0586",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "文本摘要 Text Summarization"
+    },
+    {
+      "id": "e0587",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0588",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "机器翻译 Machine Translation"
+    },
+    {
+      "id": "e0589",
+      "source": "编码器-解码器结构 Encoder-Decoder Architecture",
+      "target": "残差连接 Residual Connection"
+    },
+    {
       "id": "e0590",
-      "source": "词嵌入 Word Embedding",
+      "source": "置信度评分 Confidence Scoring",
       "target": "TripleChecker"
     },
     {
       "id": "e0591",
-      "source": "词嵌入 Word Embedding",
-      "target": "信息检索 IR基础模型 Information Retrieval"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0592",
-      "source": "词嵌入 Word Embedding",
+      "source": "置信度评分 Confidence Scoring",
       "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0593",
-      "source": "词嵌入 Word Embedding",
-      "target": "实体消歧 Entity Disambiguation"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "文本蕴含与自然语言推理 NLI"
     },
     {
       "id": "e0594",
-      "source": "词嵌入 Word Embedding",
-      "target": "对比学习 Contrastive Learning"
+      "source": "置信度评分 Confidence Scoring",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0595",
       "source": "词嵌入 Word Embedding",
-      "target": "归一化 Normalization"
+      "target": "BERT与GPT的区别 BERT vs GPT"
     },
     {
       "id": "e0596",
       "source": "词嵌入 Word Embedding",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "CoMaGRAG"
     },
     {
       "id": "e0597",
       "source": "词嵌入 Word Embedding",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0598",
       "source": "词嵌入 Word Embedding",
-      "target": "混合检索 Hybrid Retrieval"
+      "target": "GSAD"
     },
     {
       "id": "e0599",
+      "source": "词嵌入 Word Embedding",
+      "target": "K近邻 KNN K-Nearest Neighbors"
+    },
+    {
+      "id": "e0600",
+      "source": "词嵌入 Word Embedding",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0601",
+      "source": "词嵌入 Word Embedding",
+      "target": "Transformer 自注意力机制"
+    },
+    {
+      "id": "e0602",
+      "source": "词嵌入 Word Embedding",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0603",
+      "source": "词嵌入 Word Embedding",
+      "target": "信息检索 IR基础模型 Information Retrieval"
+    },
+    {
+      "id": "e0604",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0605",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0606",
+      "source": "词嵌入 Word Embedding",
+      "target": "对比学习 Contrastive Learning"
+    },
+    {
+      "id": "e0607",
+      "source": "词嵌入 Word Embedding",
+      "target": "归一化 Normalization"
+    },
+    {
+      "id": "e0608",
+      "source": "词嵌入 Word Embedding",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0609",
+      "source": "词嵌入 Word Embedding",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0610",
+      "source": "词嵌入 Word Embedding",
+      "target": "混合检索 Hybrid Retrieval"
+    },
+    {
+      "id": "e0611",
       "source": "词性标注 POS Tagging",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0600",
+      "id": "e0612",
       "source": "词性标注 POS Tagging",
       "target": "TripleChecker"
     },
     {
-      "id": "e0601",
+      "id": "e0613",
       "source": "词性标注 POS Tagging",
       "target": "依存句法分析 Dependency Parsing"
     },
     {
-      "id": "e0602",
+      "id": "e0614",
       "source": "词性标注 POS Tagging",
       "target": "命名实体识别 NER"
     },
     {
-      "id": "e0603",
+      "id": "e0615",
       "source": "词性标注 POS Tagging",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0604",
+      "id": "e0616",
       "source": "词性标注 POS Tagging",
       "target": "开放信息抽取 OpenIE"
     },
     {
-      "id": "e0605",
+      "id": "e0617",
       "source": "语言模型困惑度 Perplexity",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0606",
+      "id": "e0618",
       "source": "语言模型困惑度 Perplexity",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0607",
+      "id": "e0619",
       "source": "语言模型困惑度 Perplexity",
       "target": "TripleChecker"
     },
     {
-      "id": "e0608",
+      "id": "e0620",
       "source": "语言模型困惑度 Perplexity",
       "target": "分层评测 Stratified Evaluation"
     },
     {
-      "id": "e0609",
+      "id": "e0621",
       "source": "语言模型困惑度 Perplexity",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0610",
+      "id": "e0622",
       "source": "语言模型困惑度 Perplexity",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0611",
+      "id": "e0623",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "本体 Ontology"
     },
     {
-      "id": "e0612",
+      "id": "e0624",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0613",
+      "id": "e0625",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱构建流程 KG Construction Pipeline"
     },
     {
-      "id": "e0614",
+      "id": "e0626",
       "source": "过拟合 Overfitting",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0615",
+      "id": "e0627",
       "source": "过拟合 Overfitting",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0616",
+      "id": "e0628",
       "source": "过拟合 Overfitting",
       "target": "知识图谱质量评估维度"
     },
     {
-      "id": "e0617",
+      "id": "e0629",
       "source": "过拟合 Overfitting",
       "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
-      "id": "e0618",
+      "id": "e0630",
       "source": "选择性预测 Selective Prediction",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0619",
+      "id": "e0631",
       "source": "选择性预测 Selective Prediction",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0620",
+      "id": "e0632",
       "source": "选择性预测 Selective Prediction",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0621",
+      "id": "e0633",
       "source": "选择性预测 Selective Prediction",
       "target": "模型校准 Calibration"
     },
     {
-      "id": "e0622",
+      "id": "e0634",
       "source": "选择性预测 Selective Prediction",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0623",
-      "source": "链接预测 Link Prediction",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0624",
-      "source": "链接预测 Link Prediction",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0625",
-      "source": "链接预测 Link Prediction",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0626",
-      "source": "链接预测 Link Prediction",
-      "target": "GraphRAG 架构"
-    },
-    {
-      "id": "e0627",
-      "source": "链接预测 Link Prediction",
-      "target": "KG-RAG 工作原理"
-    },
-    {
-      "id": "e0628",
-      "source": "链接预测 Link Prediction",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0629",
-      "source": "链接预测 Link Prediction",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0630",
-      "source": "链接预测 Link Prediction",
-      "target": "关系图卷积网络 RGCN"
-    },
-    {
-      "id": "e0631",
-      "source": "链接预测 Link Prediction",
-      "target": "图神经网络 GNN"
-    },
-    {
-      "id": "e0632",
-      "source": "链接预测 Link Prediction",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0633",
-      "source": "链接预测 Link Prediction",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0634",
-      "source": "链接预测 Link Prediction",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
       "id": "e0635",
       "source": "链接预测 Link Prediction",
-      "target": "开放信息抽取 OpenIE"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0636",
       "source": "链接预测 Link Prediction",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0637",
       "source": "链接预测 Link Prediction",
-      "target": "本体 Ontology"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0638",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱 KG"
+      "target": "GraphRAG 架构"
     },
     {
       "id": "e0639",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱补全 Knowledge Graph Completion"
+      "target": "KG-RAG 工作原理"
     },
     {
       "id": "e0640",
       "source": "链接预测 Link Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0641",
       "source": "链接预测 Link Prediction",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "TripleChecker"
     },
     {
       "id": "e0642",
+      "source": "链接预测 Link Prediction",
+      "target": "关系图卷积网络 RGCN"
+    },
+    {
+      "id": "e0643",
+      "source": "链接预测 Link Prediction",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0644",
+      "source": "链接预测 Link Prediction",
+      "target": "图结构一致性 Graph Structure Consistency"
+    },
+    {
+      "id": "e0645",
+      "source": "链接预测 Link Prediction",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0646",
+      "source": "链接预测 Link Prediction",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0647",
+      "source": "链接预测 Link Prediction",
+      "target": "开放信息抽取 OpenIE"
+    },
+    {
+      "id": "e0648",
+      "source": "链接预测 Link Prediction",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0649",
+      "source": "链接预测 Link Prediction",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0650",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0651",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱补全 Knowledge Graph Completion"
+    },
+    {
+      "id": "e0652",
+      "source": "链接预测 Link Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0653",
+      "source": "链接预测 Link Prediction",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0654",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0643",
+      "id": "e0655",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "TripleChecker"
     },
     {
-      "id": "e0644",
+      "id": "e0656",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "人类反馈强化学习 RLHF"
     },
     {
-      "id": "e0645",
+      "id": "e0657",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0646",
+      "id": "e0658",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "思维链 Chain-of-Thought"
     },
     {
-      "id": "e0647",
+      "id": "e0659",
       "source": "预训练与微调 Pretrain vs Finetune",
       "target": "提示工程 Prompt Engineering"
     },
     {
-      "id": "e0648",
+      "id": "e0660",
       "source": "首页",
       "target": "ChronoLink"
     },
     {
-      "id": "e0649",
+      "id": "e0661",
       "source": "首页",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0650",
+      "id": "e0662",
       "source": "首页",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0651",
+      "id": "e0663",
       "source": "首页",
       "target": "GSAD"
     },
     {
-      "id": "e0652",
+      "id": "e0664",
       "source": "首页",
       "target": "TripleChecker"
     },
     {
-      "id": "e0653",
+      "id": "e0665",
       "source": "首页",
       "target": "前沿趋势 Frontier"
     },
     {
-      "id": "e0654",
+      "id": "e0666",
       "source": "首页",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0655",
+      "id": "e0667",
       "source": "首页",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0656",
+      "id": "e0668",
       "source": "首页",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0657",
+      "id": "e0669",
       "source": "首页",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0658",
+      "id": "e0670",
       "source": "首页",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0659",
+      "id": "e0671",
       "source": "首页",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0660",
+      "id": "e0672",
       "source": "首页",
       "target": "评测方法 Evaluation Methods"
     },
     {
-      "id": "e0661",
+      "id": "e0673",
       "source": "马尔可夫 Markov",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0662",
+      "id": "e0674",
       "source": "马尔可夫 Markov",
       "target": "TripleChecker"
     },
     {
-      "id": "e0663",
+      "id": "e0675",
       "source": "马尔可夫 Markov",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0664",
+      "id": "e0676",
       "source": "马尔可夫 Markov",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0665",
+      "id": "e0677",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0666",
+      "id": "e0678",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "TripleChecker"
     },
     {
-      "id": "e0667",
+      "id": "e0679",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "主题模型 LDA"
     },
     {
-      "id": "e0668",
+      "id": "e0680",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0669",
+      "id": "e0681",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
@@ -3440,7 +3500,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 80,
+      "degree": 81,
       "href": "viewer.html?f=pages%2FEvidenceFirst.md",
       "id": "EvidenceFirst",
       "kind": "project",
@@ -3507,7 +3567,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 7,
+      "degree": 8,
       "href": "viewer.html?f=pages%2FGraph%20Fusion%20%E5%9B%BE%E8%9E%8D%E5%90%88.md",
       "id": "Graph Fusion 图融合",
       "kind": "concept",
@@ -3737,7 +3797,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2FTransE%20%E5%9B%BE%E5%B5%8C%E5%85%A5.md",
       "id": "TransE 图嵌入",
       "kind": "concept",
@@ -3778,7 +3838,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 58,
+      "degree": 59,
       "href": "viewer.html?f=pages%2FTripleChecker.md",
       "id": "TripleChecker",
       "kind": "project",
@@ -3924,7 +3984,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 8,
+      "degree": 9,
       "href": "viewer.html?f=pages%2F%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%20RGCN.md",
       "id": "关系图卷积网络 RGCN",
       "kind": "concept",
@@ -4196,7 +4256,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 11,
+      "degree": 12,
       "href": "viewer.html?f=pages%2F%E5%AE%9E%E4%BD%93%E5%AF%B9%E9%BD%90%20Entity%20Alignment.md",
       "id": "实体对齐 Entity Alignment",
       "kind": "concept",
@@ -4209,7 +4269,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 10,
+      "degree": 11,
       "href": "viewer.html?f=pages%2F%E5%AE%9E%E4%BD%93%E6%B6%88%E6%AD%A7%20Entity%20Disambiguation.md",
       "id": "实体消歧 Entity Disambiguation",
       "kind": "concept",
@@ -4329,7 +4389,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 6,
+      "degree": 7,
       "href": "viewer.html?f=pages%2F%E5%BC%82%E6%9E%84%E5%9B%BE%20Heterogeneous%20Graph.md",
       "id": "异构图 Heterogeneous Graph",
       "kind": "concept",
@@ -4522,7 +4582,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 4,
+      "degree": 5,
       "href": "viewer.html?f=pages%2F%E6%9C%AC%E4%BD%93%20Ontology.md",
       "id": "本体 Ontology",
       "kind": "concept",
@@ -4697,7 +4757,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 39,
+      "degree": 40,
       "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20KG.md",
       "id": "知识图谱 KG",
       "kind": "moc",
@@ -4710,7 +4770,20 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 8,
+      "degree": 12,
+      "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%AF%B9%E9%BD%90%E4%BB%BB%E5%8A%A1%20KG%20Alignment%20Tasks.md",
+      "id": "知识图谱对齐任务 KG Alignment Tasks",
+      "kind": "concept",
+      "label": "知识图谱对齐任务 KG Alignment Tasks",
+      "summary": "KG对齐任务在实体、本体、关系、属性层面为异构知识图谱建立同一指代的对应关系。",
+      "tags": [
+        "KG"
+      ]
+    },
+    {
+      "category": "KG",
+      "confidence": "中",
+      "degree": 9,
       "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B%20KG%20Construction%20Pipeline.md",
       "id": "知识图谱构建流程 KG Construction Pipeline",
       "kind": "concept",
@@ -4953,7 +5026,7 @@
     {
       "category": "KG",
       "confidence": "中",
-      "degree": 25,
+      "degree": 26,
       "href": "viewer.html?f=pages%2F%E9%93%BE%E6%8E%A5%E9%A2%84%E6%B5%8B%20Link%20Prediction.md",
       "id": "链接预测 Link Prediction",
       "kind": "concept",
@@ -5019,16 +5092,33 @@
   ],
   "stats": {
     "broken": 0,
-    "edges": 669,
+    "edges": 681,
     "externalNodeCount": 0,
-    "internalNodeCount": 123,
+    "internalNodeCount": 124,
     "isolated": 0,
-    "nodeCount": 123,
-    "nodes": 123
+    "nodeCount": 124,
+    "nodes": 124
   },
   "taxonomy": {
     "candidates": [],
     "categories": [
+      {
+        "algorithmVersion": "taxonomy-v1",
+        "aliases": [],
+        "createdAt": "2026-07-19",
+        "definition": "由候选页面形成的高内聚新主题。",
+        "id": "cat_43409630836d",
+        "lastStableAt": null,
+        "name": "256 AI Abil…",
+        "namingStatus": "pending",
+        "parents": [],
+        "redirectTo": null,
+        "related": [],
+        "source": "automatic",
+        "stableRuns": 0,
+        "status": "forming",
+        "updatedAt": "2026-07-19"
+      },
       {
         "algorithmVersion": "taxonomy-v1",
         "aliases": [],
@@ -5245,17 +5335,67 @@
         "createdAt": "2026-07-16",
         "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
         "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d"
+        ],
+        "createdAt": "2026-07-19",
+        "reason": "候选群组达到形成阈值",
+        "type": "create"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d",
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-07-19",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-07-19",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
-    "generatedAt": "2026-07-16",
+    "generatedAt": "2026-07-19",
     "lastRun": {
-      "finished_at": "",
-      "operation": "none",
-      "outcome": "idle",
+      "finished_at": "2026-07-19",
+      "operation": "sync",
+      "outcome": "unchanged",
       "reason": "",
-      "started_at": ""
+      "started_at": "2026-07-19"
     },
     "memberships": [
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Agent 记忆架构",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
       {
         "category": "cat_seed_agents",
         "firstAssignedAt": "2026-07-15",
@@ -5268,6 +5408,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "BERT与GPT的区别 BERT vs GPT",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5313,6 +5464,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_frontier",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5324,6 +5486,39 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "ChronoLink",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "CoMaGRAG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "EM算法 Expectation-Maximization",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5341,6 +5536,28 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "EvidenceFirst",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "FinGraph 财务知识图谱",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5352,6 +5569,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "GNN-RAG 图神经网络检索增强",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5394,6 +5622,28 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "GSAD",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Google Bigtable 宽表模型 Bigtable",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5411,6 +5661,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Graph Fusion 图融合",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5422,6 +5683,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "GraphRAG 架构",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5439,6 +5711,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "KG-RAG 工作原理",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5464,6 +5747,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "K近邻 KNN K-Nearest Neighbors",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5495,6 +5789,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "LLM 推理优化 KV Cache Quantization",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5506,6 +5811,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "LRU 缓存替换 Least Recently Used",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5565,6 +5881,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "LightRAG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5576,6 +5903,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "McNemar检验",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5593,6 +5931,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "RAG 评测指标 EM Recall MRR",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5618,6 +5967,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "RAGChecker",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5649,6 +6009,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "ReAct Agent 工作原理",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_agents",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5660,6 +6031,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "ReDeEP 机制可解释性",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5688,6 +6070,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Robust Scaler 鲁棒缩放",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5719,6 +6112,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "SHA-256 产物指纹",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5730,6 +6134,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Scaling Law 大模型缩放律",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5761,6 +6176,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Self-RAG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5772,6 +6198,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "StructRAG 结构化知识推理",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5817,6 +6254,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "TransE 图嵌入",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5828,6 +6276,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Transformer 架构 Architecture",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5859,6 +6318,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "Transformer 自注意力机制",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-16",
@@ -5887,6 +6357,28 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "TripleChecker",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "上下文学习 In-context Learning",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5898,6 +6390,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "不确定性量化 Uncertainty Quantification",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5915,6 +6418,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "主流知识图谱 Mainstream KGs",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5926,6 +6440,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "主题模型 LDA",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5943,6 +6468,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "交替检索推理 IRCoT",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5954,6 +6490,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "人类反馈强化学习 RLHF",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -5971,6 +6518,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "人类反馈的知识图谱构建 Human-in-the-Loop KG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -5982,6 +6540,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "位置编码 Positional Encoding",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6013,6 +6582,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "依存句法分析 Dependency Parsing",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6038,6 +6618,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "信息检索 IR基础模型 Information Retrieval",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6069,6 +6660,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "关系图卷积网络 RGCN",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6083,6 +6685,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "关联规则挖掘 Apriori",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6094,6 +6707,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "分层评测 Stratified Evaluation",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6125,6 +6749,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "分布偏移 Distribution Shift",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6150,6 +6785,28 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "前沿趋势 Frontier",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "前馈网络 FFN Feed-Forward Network",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6181,6 +6838,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "卷积神经网络 CNN",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6209,6 +6877,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "反事实评测 Counterfactual Evaluation",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6234,6 +6913,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "变分自编码器 VAE Variational Autoencoder",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6251,6 +6941,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "可审计性 Auditability",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6262,6 +6963,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "可观测性 Observability",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6279,6 +6991,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "可验证性 Verifiability",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6293,6 +7016,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "后训练 Post-training",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6304,6 +7038,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "命名实体识别 NER",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6335,6 +7080,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "图神经网络 GNN",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6346,6 +7102,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "图结构一致性 Graph Structure Consistency",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6363,6 +7130,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "基准数据集 Benchmark",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6374,6 +7152,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "多头注意力 Multi-Head Attention",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6405,6 +7194,39 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "多智能体系统 Multi-Agent Systems",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "大模型机制与推理 LLM Mechanisms",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "实体对齐 Entity Alignment",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6416,6 +7238,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "实体消歧 Entity Disambiguation",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6433,6 +7266,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "实验可复现性 Reproducibility",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6444,6 +7288,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "审计风险队列 Audit Risk Queue",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6461,6 +7316,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "对抗样本 Adversarial Examples",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6475,6 +7341,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "对比学习 Contrastive Learning",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6486,6 +7363,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "层归一化 LayerNorm BatchNorm",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6531,6 +7419,28 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "幻觉与可信度 Hallucination Trustworthiness",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "序列标注模型 HMM CRF",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6559,6 +7469,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "开放信息抽取 OpenIE",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6573,6 +7494,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "异构图 Heterogeneous Graph",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6584,6 +7516,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "引用召回与精确率 Citation Recall Precision",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6615,6 +7558,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "强化学习基本框架 Reinforcement Learning",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6640,6 +7594,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "归一化 Normalization",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6685,6 +7650,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "归因评测 Attribution",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6713,6 +7689,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "循环神经网络 RNN LSTM",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6738,6 +7725,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "思维链 Chain-of-Thought",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6755,6 +7753,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "扩散模型 Diffusion Models DDPM",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6766,6 +7775,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "提示工程 Prompt Engineering",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6783,6 +7803,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "提示注入 Prompt Injection",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6797,6 +7828,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "数据增强 Data Augmentation",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6825,6 +7867,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "文本摘要 Text Summarization",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6850,6 +7903,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "文本蕴含与自然语言推理 NLI",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6867,6 +7931,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "旋转位置编码 RoPE",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6892,6 +7967,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "本体 Ontology",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6909,6 +7995,28 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "机器学习与NLP基础 ML-NLP Foundations",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "机器翻译 Machine Translation",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6934,6 +8042,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "机器遗忘 Machine Unlearning",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -6965,6 +8084,28 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "检索增强生成 RAG-GraphRAG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "模型校准 Calibration",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -6976,6 +8117,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "残差连接 Residual Connection",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7007,6 +8159,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "消融实验 Ablation Study",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7018,6 +8181,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "涌现能力 Emergent Abilities",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7035,6 +8209,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "混合检索 Hybrid Retrieval",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7049,6 +8234,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "溯源 Provenance",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7060,6 +8256,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "激活函数 Activation Functions",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7091,6 +8298,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识冲突 Knowledge Conflict",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7119,6 +8337,56 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱 KG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱对齐任务 KG Alignment Tasks",
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8295358180999756,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.965893030166626,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_kg",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱对齐任务 KG Alignment Tasks",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.8680283427238464,
+        "signals": {
+          "links": 0.75,
+          "projects": 0.0,
+          "semantic": 0.9675472378730774,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱构建流程 KG Construction Pipeline",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7133,6 +8401,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱补全 Knowledge Graph Completion",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7144,6 +8423,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识图谱质量评估维度",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7175,6 +8465,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "知识接地 Grounding",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7200,6 +8501,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "确定性状态机 Deterministic State Machine",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7217,6 +8529,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "神经符号方法 Neuro-Symbolic AI",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7231,6 +8554,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "符号人工智能 Symbolic AI",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7242,6 +8576,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "纠错RAG CRAG",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7273,6 +8618,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "红队测试 Red-teaming",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_trust",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7284,6 +8640,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "编码器-解码器结构 Encoder-Decoder Architecture",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7315,6 +8682,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "置信度评分 Confidence Scoring",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7326,6 +8704,28 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "评测方法 Evaluation Methods",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "词嵌入 Word Embedding",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7385,6 +8785,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "词性标注 POS Tagging",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7410,6 +8821,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "语言模型困惑度 Perplexity",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7427,6 +8849,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "资源描述框架 RDF OWL SPARQL",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7438,6 +8871,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "过拟合 Overfitting",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7466,6 +8910,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "选择性预测 Selective Prediction",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7483,6 +8938,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "链接预测 Link Prediction",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7494,6 +8960,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "预训练与微调 Pretrain vs Finetune",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7525,6 +9002,17 @@
         }
       },
       {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "马尔可夫 Markov",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
+      },
+      {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
         "lastConfirmedAt": "2026-07-15",
@@ -7536,6 +9024,17 @@
           "projects": 0.0,
           "semantic": 0.0,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "高斯混合模型 GMM Gaussian Mixture Model",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
         }
       },
       {
@@ -7551,9 +9050,30 @@
           "semantic": 0.0,
           "tags": 1.0
         }
+      },
+      {
+        "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-19",
+        "page": "首页",
+        "reason": "候选群组语义内聚度 0.90",
+        "score": 0.9040175378521204,
+        "signals": {
+          "semantic_cohesion": 0.9040175378521204
+        }
       }
     ],
     "representatives": [
+      {
+        "category": "cat_43409630836d",
+        "pages": [
+          "Agent 记忆架构",
+          "BERT与GPT的区别 BERT vs GPT",
+          "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+          "ChronoLink",
+          "CoMaGRAG"
+        ]
+      },
       {
         "category": "cat_seed_agents",
         "pages": [
@@ -7634,12 +9154,12 @@
     ],
     "schemaVersion": 2,
     "stats": {
-      "activeCategories": 8,
-      "automaticCategories": 0,
+      "activeCategories": 9,
+      "automaticCategories": 1,
       "candidates": 0,
-      "categories": 8,
-      "forming": 0,
-      "memberships": 164,
+      "categories": 9,
+      "forming": 1,
+      "memberships": 289,
       "pendingPages": 0,
       "seedCategories": 8
     }
