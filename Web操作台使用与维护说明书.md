@@ -426,6 +426,13 @@ tr '\0' '\n' <"/proc/$pid/environ" | grep -E '^(CLAUDE_CONFIG_DIR|ANTHROPIC_BASE
 
 ## 安全边界与已知限制
 
+### 动态分类观察
+
+Viewer 左侧摘要显示当前分类运行结果及候选数量；摘要链接固定打开
+`graph-view.html?profile=knowledge&mode=taxonomy`。候选在 2 页时创建，累计到 3 页
+才可晋升为正式分类。候选命名仅使用本地规则和本地模型，不调用 Claude。摘要中的
+失败、过期和拒绝状态应作为维护信号；保留旧快照以便回溯，不能把旧快照当作最新结果。
+
 1. 两个服务没有身份认证和 HTTPS，只允许监听 `127.0.0.1`，远程访问必须经过受控端口转发。
 2. `runtime.env` 含 API 密钥，不应加入知识库 Git、复制进文档或发送到对话。
 3. `dangerously skip permissions` 会绕过工具确认，可能直接执行命令、修改或删除文件；只在明确任务范围时临时启用。

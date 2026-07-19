@@ -5027,6 +5027,7 @@
     "nodes": 123
   },
   "taxonomy": {
+    "candidates": [],
     "categories": [
       {
         "algorithmVersion": "taxonomy-v1",
@@ -5040,6 +5041,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5056,6 +5058,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5072,6 +5075,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5088,6 +5092,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5104,6 +5109,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5120,6 +5126,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5136,6 +5143,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5152,6 +5160,7 @@
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "source": "seed",
         "stableRuns": 2,
         "status": "stable",
         "updatedAt": "2026-07-15"
@@ -5239,6 +5248,13 @@
       }
     ],
     "generatedAt": "2026-07-16",
+    "lastRun": {
+      "finished_at": "",
+      "operation": "none",
+      "outcome": "idle",
+      "reason": "",
+      "started_at": ""
+    },
     "memberships": [
       {
         "category": "cat_seed_agents",
@@ -7537,13 +7553,95 @@
         }
       }
     ],
-    "schemaVersion": 1,
+    "representatives": [
+      {
+        "category": "cat_seed_agents",
+        "pages": [
+          "Agent 记忆架构",
+          "ReAct Agent 工作原理"
+        ]
+      },
+      {
+        "category": "cat_seed_evaluation",
+        "pages": [
+          "McNemar检验",
+          "RAG 评测指标 EM Recall MRR",
+          "分层评测 Stratified Evaluation",
+          "反事实评测 Counterfactual Evaluation",
+          "基准数据集 Benchmark"
+        ]
+      },
+      {
+        "category": "cat_seed_foundations",
+        "pages": [
+          "EM算法 Expectation-Maximization",
+          "K近邻 KNN K-Nearest Neighbors",
+          "Scaling Law 大模型缩放律",
+          "主题模型 LDA",
+          "位置编码 Positional Encoding"
+        ]
+      },
+      {
+        "category": "cat_seed_frontier",
+        "pages": [
+          "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+          "GNN-RAG 图神经网络检索增强",
+          "Google Bigtable 宽表模型 Bigtable",
+          "ReDeEP 机制可解释性",
+          "StructRAG 结构化知识推理"
+        ]
+      },
+      {
+        "category": "cat_seed_kg",
+        "pages": [
+          "FinGraph 财务知识图谱",
+          "GNN-RAG 图神经网络检索增强",
+          "Graph Fusion 图融合",
+          "KG-RAG 工作原理",
+          "SHA-256 产物指纹"
+        ]
+      },
+      {
+        "category": "cat_seed_llm",
+        "pages": [
+          "LLM 推理优化 KV Cache Quantization",
+          "Scaling Law 大模型缩放律",
+          "上下文学习 In-context Learning",
+          "人类反馈强化学习 RLHF",
+          "位置编码 Positional Encoding"
+        ]
+      },
+      {
+        "category": "cat_seed_rag",
+        "pages": [
+          "GNN-RAG 图神经网络检索增强",
+          "GraphRAG 架构",
+          "KG-RAG 工作原理",
+          "K近邻 KNN K-Nearest Neighbors",
+          "LightRAG"
+        ]
+      },
+      {
+        "category": "cat_seed_trust",
+        "pages": [
+          "RAGChecker",
+          "ReDeEP 机制可解释性",
+          "不确定性量化 Uncertainty Quantification",
+          "分层评测 Stratified Evaluation",
+          "分布偏移 Distribution Shift"
+        ]
+      }
+    ],
+    "schemaVersion": 2,
     "stats": {
       "activeCategories": 8,
+      "automaticCategories": 0,
+      "candidates": 0,
       "categories": 8,
       "forming": 0,
       "memberships": 164,
-      "pendingPages": 0
+      "pendingPages": 0,
+      "seedCategories": 8
     }
   }
 }

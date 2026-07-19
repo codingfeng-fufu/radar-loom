@@ -51,6 +51,11 @@ python3 scripts/new_page.py "概念名 EnglishName" \
 
 ## 可演化分类
 
+Viewer 左侧的动态分类摘要是紧凑状态入口，点击后使用精确链接
+`graph-view.html?profile=knowledge&mode=taxonomy` 打开分类结构。候选分类在达到
+2 页时出现，达到 3 页才允许晋升；候选名称由本地规则生成，不调用 Claude。
+分类快照过期或运行失败时摘要会明确显示状态，旧快照仍保留用于审计。
+
 首次迁移及日常检查：
 
 ```bash

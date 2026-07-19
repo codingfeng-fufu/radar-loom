@@ -1,5 +1,6 @@
 {
   "algorithm_version": "taxonomy-v1",
+  "candidates": [],
   "categories": {
     "cat_seed_agents": {
       "algorithm_version": "taxonomy-v1",
@@ -214,6 +215,13 @@
   ],
   "generated_at": "2026-07-16",
   "last_global_at": "2026-07-16",
+  "last_run": {
+    "finished_at": "",
+    "operation": "none",
+    "outcome": "idle",
+    "reason": "",
+    "started_at": ""
+  },
   "memberships": [
     {
       "category_id": "cat_seed_agents",
@@ -2639,5 +2647,5 @@
   },
   "parameters_hash": "189455c2bb5056db384c917e909fd8e52d7af7a0d6654abc94c4e24f7d7e04f6",
   "pending_pages": [],
-  "schema_version": 1
+  "schema_version": 2
 }

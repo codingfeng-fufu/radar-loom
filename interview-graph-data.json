@@ -59,17 +59,29 @@
     "nodes": 1
   },
   "taxonomy": {
+    "candidates": [],
     "categories": [],
     "events": [],
     "generatedAt": "2026-07-18",
+    "lastRun": {
+      "finished_at": "",
+      "operation": "none",
+      "outcome": "idle",
+      "reason": "",
+      "started_at": ""
+    },
     "memberships": [],
-    "schemaVersion": 1,
+    "representatives": [],
+    "schemaVersion": 2,
     "stats": {
       "activeCategories": 0,
+      "automaticCategories": 0,
+      "candidates": 0,
       "categories": 0,
       "forming": 0,
       "memberships": 0,
-      "pendingPages": 0
+      "pendingPages": 0,
+      "seedCategories": 0
     }
   }
 }
