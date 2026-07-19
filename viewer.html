@@ -464,18 +464,29 @@
         .then((data) => {
           if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;
           const taxonomy = data?.taxonomy;
-          const stats = taxonomy?.stats;
-          const taxonomyStats = taxonomy.stats;
-          const taxonomyLastRun = taxonomy.lastRun;
-          if (!stats || !taxonomy || typeof stats !== 'object') throw new Error('invalid taxonomy schema');
-          const lastRun = taxonomyLastRun || {};
-          const candidates = Array.isArray(stats.candidates) ? stats.candidates.length : Number(stats.candidates || 0);
-          const rejected = Number(lastRun.rejected || stats.rejected || 0);
+          const stats = taxonomy && taxonomy.stats;
+          if (!taxonomy || typeof taxonomy !== 'object') throw new Error('invalid taxonomy schema');
+          const publish = taxonomy.publish && typeof taxonomy.publish === 'object' ? taxonomy.publish : {};
+          const categories = Array.isArray(taxonomy.categories) ? taxonomy.categories : [];
+          const hasNumber = (value) => typeof value === 'number' && Number.isFinite(value);
+          const countValue = (value) => Array.isArray(value) ? value.length : (hasNumber(value) ? value : null);
+          const candidates = countValue(taxonomy.candidates) ?? countValue(publish.candidates) ?? countValue(stats?.candidates) ?? 0;
+          const sourceCounts = categories.reduce((counts, category) => {
+            if (category && category.source === 'seed') counts.seed += 1;
+            if (category && category.source === 'automatic') counts.automatic += 1;
+            return counts;
+          }, { seed: 0, automatic: 0 });
+          const seedCategories = hasNumber(stats?.seedCategories) ? stats.seedCategories : sourceCounts.seed;
+          const automaticCategories = hasNumber(stats?.automaticCategories) ? stats.automaticCategories : sourceCounts.automatic;
+          const activeCategories = hasNumber(stats?.activeCategories) ? stats.activeCategories : categories.length;
+          const forming = hasNumber(stats?.forming) ? stats.forming : categories.filter((category) => category?.status === 'forming').length;
+          const lastRun = (taxonomy.lastRun && typeof taxonomy.lastRun === 'object' ? taxonomy.lastRun : publish.lastRun) || {};
+          const rejected = Number(lastRun.rejected || stats?.rejected || 0);
           const status = String(lastRun.status || '').toLowerCase();
           const state = /fail|error/.test(status) ? 'failed' : /stale/.test(status) ? 'stale' : rejected > 0 ? 'rejected' : candidates > 0 ? 'candidate' : 'neutral';
           summary.dataset.state = state;
           const label = state === 'failed' ? '动态分类：运行失败' : state === 'stale' ? '动态分类：数据过期' : state === 'rejected' ? `动态分类：${rejected} 个候选被拒` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '动态分类：无变化';
-          link.textContent = `${label} · 种子 ${Number(stats.seedCategories || 0)} · 自动 ${Number(stats.automaticCategories || 0)}`;
+          link.textContent = `${label} · 种子 ${seedCategories} · 自动 ${automaticCategories} · 活跃 ${activeCategories} · 形成中 ${forming}`;
         })
         .catch(() => {
           if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;

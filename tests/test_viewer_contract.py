@@ -173,6 +173,17 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("动态分类状态不可用", self.html)
         self.assertNotIn("taxonomySummary.innerHTML", self.html)
 
+    def test_taxonomy_summary_supports_new_and_legacy_payload_fallbacks(self):
+        for value in (
+            "taxonomy.candidates", "publish.candidates", "taxonomy.lastRun", "publish.lastRun",
+            "category.source === 'seed'", "category.source === 'automatic'", "category?.status === 'forming'",
+            "stats?.activeCategories", "categories.length", "stats?.forming",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertIn("countValue(taxonomy.candidates) ?? countValue(publish.candidates)", self.html)
+        self.assertIn("taxonomy.lastRun && typeof taxonomy.lastRun === 'object' ? taxonomy.lastRun : publish.lastRun", self.html)
+
     def test_interview_context_is_typed_and_refresh_preserves_section(self):
         self.assertIn("pageType: 'interview'", self.html)
         self.assertIn("question:", self.html)
