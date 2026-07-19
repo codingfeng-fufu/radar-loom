@@ -12,10 +12,11 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 ALGORITHM_VERSION = "taxonomy-v1"
 CATEGORY_STATUSES = {"forming", "stable", "merged"}
 NAMING_STATUSES = {"ready", "pending"}
+RUN_OUTCOMES = {"idle", "adopted", "unchanged", "rejected", "failed"}
 
 
 class TaxonomyValidationError(ValueError):
@@ -88,6 +89,46 @@ class TaxonomyEvent:
 
 
 @dataclass
+class Candidate:
+    id: str
+    name: str
+    members: list[str]
+    cohesion_score: float
+    target_size: int
+    signals: dict[str, float]
+    related_category_ids: list[str]
+    first_seen_at: str = ""
+    last_confirmed_at: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["members"] = sorted(set(self.members))
+        payload["signals"] = dict(sorted(self.signals.items()))
+        payload["related_category_ids"] = sorted(set(self.related_category_ids))
+        return payload
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "Candidate":
+        return cls(**payload)
+
+
+@dataclass
+class TaxonomyRun:
+    operation: str = "none"
+    outcome: str = "idle"
+    started_at: str = ""
+    finished_at: str = ""
+    reason: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "TaxonomyRun":
+        return cls(**payload)
+
+
+@dataclass
 class Registry:
     schema_version: int
     generated_at: str
@@ -100,6 +141,8 @@ class Registry:
     pending_pages: list[str]
     changes_since_global: int
     last_global_at: str | None
+    candidates: list[Candidate] = field(default_factory=list)
+    last_run: TaxonomyRun = field(default_factory=TaxonomyRun)
 
     @classmethod
     def empty(cls, parameters_hash: str, now: str) -> "Registry":
@@ -115,6 +158,8 @@ class Registry:
             pending_pages=[],
             changes_since_global=0,
             last_global_at=None,
+            candidates=[],
+            last_run=TaxonomyRun(),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -130,6 +175,10 @@ class Registry:
             (item.to_dict() for item in self.events),
             key=lambda item: (item["created_at"], item["type"], item["category_ids"]),
         )
+        candidates = sorted(
+            (item.to_dict() for item in self.candidates),
+            key=lambda item: item["id"],
+        )
         return {
             "schema_version": self.schema_version,
             "generated_at": self.generated_at,
@@ -142,12 +191,17 @@ class Registry:
             "pending_pages": sorted(set(self.pending_pages)),
             "changes_since_global": self.changes_since_global,
             "last_global_at": self.last_global_at,
+            "candidates": candidates,
+            "last_run": self.last_run.to_dict(),
         }
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> "Registry":
+        schema_version = payload["schema_version"]
+        if schema_version not in {1, SCHEMA_VERSION}:
+            raise TaxonomyValidationError(f"unsupported schema_version: {schema_version}")
         return cls(
-            schema_version=payload["schema_version"],
+            schema_version=SCHEMA_VERSION,
             generated_at=payload["generated_at"],
             algorithm_version=payload["algorithm_version"],
             parameters_hash=payload["parameters_hash"],
@@ -161,6 +215,8 @@ class Registry:
             pending_pages=list(payload.get("pending_pages", [])),
             changes_since_global=int(payload.get("changes_since_global", 0)),
             last_global_at=payload.get("last_global_at"),
+            candidates=[Candidate.from_dict(item) for item in payload.get("candidates", [])],
+            last_run=TaxonomyRun.from_dict(payload.get("last_run", {})),
         )
 
 
@@ -270,6 +326,38 @@ def validate_registry(registry: Registry, existing_pages: set[str]) -> None:
         for signal, score in membership.signals.items():
             if not math.isfinite(score) or not 0.0 <= score <= 1.0:
                 errors.append(f"invalid signal score {signal}: {membership.page}")
+
+    candidate_ids: set[str] = set()
+    for candidate in registry.candidates:
+        if not candidate.id:
+            errors.append("candidate id must be nonempty")
+        elif candidate.id in candidate_ids:
+            errors.append(f"duplicate candidate id: {candidate.id}")
+        candidate_ids.add(candidate.id)
+        if len(candidate.members) != len(set(candidate.members)):
+            errors.append(f"candidate has duplicate page members: {candidate.id}")
+        if len(candidate.members) < 2:
+            errors.append(f"candidate must have at least 2 page members: {candidate.id}")
+        for page in candidate.members:
+            if page not in existing_pages:
+                errors.append(f"candidate has dangling page: {candidate.id} -> {page}")
+        if candidate.target_size < 3:
+            errors.append(f"candidate target_size must be at least 3: {candidate.id}")
+        if len(candidate.members) >= candidate.target_size:
+            errors.append(f"candidate members must be below target_size: {candidate.id}")
+        if not math.isfinite(candidate.cohesion_score) or not 0.0 <= candidate.cohesion_score <= 1.0:
+            errors.append(f"candidate cohesion score is invalid: {candidate.id}")
+        for signal, score in candidate.signals.items():
+            if not math.isfinite(score) or not 0.0 <= score <= 1.0:
+                errors.append(f"candidate signal score {signal} is invalid: {candidate.id}")
+        if len(candidate.related_category_ids) != len(set(candidate.related_category_ids)):
+            errors.append(f"candidate related categories must be unique: {candidate.id}")
+        for category_id in candidate.related_category_ids:
+            if category_id not in category_ids:
+                errors.append(f"candidate related category is dangling: {candidate.id} -> {category_id}")
+
+    if registry.last_run.outcome not in RUN_OUTCOMES:
+        errors.append(f"invalid last_run outcome: {registry.last_run.outcome}")
 
     for page in registry.page_fingerprints:
         if page not in existing_pages:
