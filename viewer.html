@@ -448,7 +448,10 @@
       return section === 'interview' ? 'interview-graph-data.json' : 'graph-data.json';
     }
 
+    let taxonomyRefreshGeneration = 0;
+
     function refreshTaxonomySummary(section = activeSection) {
+      const refreshToken = ++taxonomyRefreshGeneration;
       const summary = elements.taxonomySummary;
       summary.replaceChildren();
       summary.removeAttribute('data-state');
@@ -459,6 +462,7 @@
       return fetch(taxonomyDataUrl(section), { cache: 'no-store' })
         .then((response) => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
         .then((data) => {
+          if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;
           const taxonomy = data?.taxonomy;
           const stats = taxonomy?.stats;
           const taxonomyStats = taxonomy.stats;
@@ -474,6 +478,7 @@
           link.textContent = `${label} · 种子 ${Number(stats.seedCategories || 0)} · 自动 ${Number(stats.automaticCategories || 0)}`;
         })
         .catch(() => {
+          if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;
           summary.dataset.state = 'unavailable';
           link.textContent = '动态分类状态不可用';
         });

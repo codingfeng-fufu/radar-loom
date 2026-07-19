@@ -167,6 +167,9 @@ class ViewerContractTests(unittest.TestCase):
         self.assertRegex(self.html, r"graph-data\.json")
         self.assertRegex(self.html, r"interview-graph-data\.json")
         self.assertRegex(self.html, r"function\s+refreshTaxonomySummary\s*\(")
+        self.assertIn("let taxonomyRefreshGeneration = 0", self.html)
+        self.assertIn("const refreshToken = ++taxonomyRefreshGeneration", self.html)
+        self.assertGreaterEqual(self.html.count("refreshToken !== taxonomyRefreshGeneration || activeSection !== section"), 2)
         self.assertIn("动态分类状态不可用", self.html)
         self.assertNotIn("taxonomySummary.innerHTML", self.html)
 
