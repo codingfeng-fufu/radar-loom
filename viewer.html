@@ -481,11 +481,11 @@
           const activeCategories = hasNumber(stats?.activeCategories) ? stats.activeCategories : categories.length;
           const forming = hasNumber(stats?.forming) ? stats.forming : categories.filter((category) => category?.status === 'forming').length;
           const lastRun = (taxonomy.lastRun && typeof taxonomy.lastRun === 'object' ? taxonomy.lastRun : publish.lastRun) || {};
-          const rejected = Number(lastRun.rejected || stats?.rejected || 0);
-          const status = String(lastRun.status || '').toLowerCase();
-          const state = /fail|error/.test(status) ? 'failed' : /stale/.test(status) ? 'stale' : rejected > 0 ? 'rejected' : candidates > 0 ? 'candidate' : 'neutral';
+          const outcome = String(lastRun.outcome || '').toLowerCase();
+          const state = outcome === 'failed' ? 'failed' : outcome === 'rejected' ? 'rejected' : ['adopted', 'unchanged', 'idle'].includes(outcome) ? 'neutral' : candidates > 0 ? 'candidate' : 'neutral';
           summary.dataset.state = state;
-          const label = state === 'failed' ? '动态分类：运行失败' : state === 'stale' ? '动态分类：数据过期' : state === 'rejected' ? `动态分类：${rejected} 个候选被拒` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '动态分类：无变化';
+          const reason = String(lastRun.reason || lastRun.message || '').trim();
+          const label = state === 'failed' ? '分类数据未更新' : state === 'rejected' ? `结构未更新${reason ? `：${reason}` : ''}` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '动态分类：无变化';
           link.textContent = `${label} · 种子 ${seedCategories} · 自动 ${automaticCategories} · 活跃 ${activeCategories} · 形成中 ${forming}`;
         })
         .catch(() => {
