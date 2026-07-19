@@ -31,9 +31,21 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(groups[0].members, ["A.md", "B.md"])
 
     def test_candidate_id_and_name_are_order_independent(self):
-        self.assertEqual(tc.candidate_id(["b.md", "a.md"]), tc.candidate_id(["a.md", "b.md"]))
-        self.assertEqual(tc.temporary_name(["Zeta page", "Alpha page"]), tc.temporary_name(["Alpha page", "Zeta page"]))
-        self.assertLessEqual(len(tc.temporary_name(["A very long page name", "Another page"])), 12)
+        candidate = tc.candidate_id(["b.md", "a.md"])
+        self.assertTrue(candidate.startswith("candidate_"))
+        self.assertEqual(candidate, tc.candidate_id(["a.md", "b.md"]))
+        self.assertEqual(tc.temporary_name(["Zeta page", "Alpha page"]), "Alpha Zeta …")
+        self.assertEqual(tc.temporary_name(["中文", "Alpha-123"]), "123 Alpha 中文")
+        self.assertEqual(tc.temporary_name([]), "新主题")
+        self.assertEqual(len(tc.temporary_name(["abcdefghijklmnop"])), 12)
+        self.assertTrue(tc.temporary_name(["abcdefghijklmnop"]).endswith("…"))
+
+    def test_novel_group_is_frozen_and_snapshot_preserves_signals(self):
+        group = tc.NovelGroup(["a.md", "b.md"], .9, {"semantic_cohesion": .9, "links": .2}, ["cat_x"])
+        with self.assertRaises((AttributeError, TypeError)):
+            group.members = []
+        result = tc.snapshot_candidates([group], [], self.config, "2026-07-19")
+        self.assertEqual(result[0].signals, group.signals)
 
     def test_active_non_seed_category_suppresses_fully_explained_group(self):
         vectors = {"A": unit([1, 0]), "B": unit([.99, .1])}
@@ -43,12 +55,12 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(groups, [])
 
     def test_snapshot_only_includes_forming_candidates_and_preserves_first_seen(self):
-        group = tc.NovelGroup(["a.md", "b.md"], .9, ["cat_x"], "Temp", "2026-07-19")
+        group = tc.NovelGroup(["a.md", "b.md"], .9, {"semantic_cohesion": .9}, ["cat_x"])
         previous = [Candidate(tc.candidate_id(["a.md", "b.md"]), "Old", ["a.md", "b.md"], .8, 3, {}, [], "2026-07-01", "2026-07-18")]
         result = tc.snapshot_candidates([group], previous, self.config, "2026-07-19")
         self.assertEqual(result[0].first_seen_at, "2026-07-01")
         self.assertEqual(result[0].target_size, 3)
-        self.assertEqual(tc.snapshot_candidates([tc.NovelGroup(["a.md", "b.md", "c.md"], .9, [], "Temp", "2026-07-19")], [], self.config, "2026-07-19"), [])
+        self.assertEqual(tc.snapshot_candidates([tc.NovelGroup(["a.md", "b.md", "c.md"], .9, {}, [])], [], self.config, "2026-07-19"), [])
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-import math
+import re
 from dataclasses import dataclass
 from itertools import combinations
 
@@ -12,24 +12,25 @@ import numpy as np
 from taxonomy_models import Candidate
 
 
-@dataclass
+@dataclass(frozen=True)
 class NovelGroup:
     members: list[str]
     cohesion_score: float
+    signals: dict[str, float]
     related_category_ids: list[str]
-    temporary_name: str
-    first_seen_at: str
 
 
 def candidate_id(member_paths: list[str]) -> str:
     canonical = "\n".join(sorted(set(member_paths))).encode("utf-8")
-    return "cand_" + hashlib.sha256(canonical).hexdigest()[:12]
+    return "candidate_" + hashlib.sha256(canonical).hexdigest()[:12]
 
 
 def temporary_name(page_names: list[str]) -> str:
-    words = sorted({str(name).replace("_", " ").replace("-", " ").split()[0] for name in page_names if str(name).strip()})
-    label = " / ".join(words) if words else "待命名候选"
-    return label[:12]
+    tokens = set()
+    for name in page_names:
+        tokens.update(re.findall(r"[A-Za-z0-9]+|[\u4e00-\u9fff]+", str(name)))
+    label = " ".join(sorted(tokens)[:3]) if tokens else "新主题"
+    return label if len(label) <= 12 else label[:11] + "…"
 
 
 def _cosine(a, b):
@@ -81,7 +82,7 @@ def discover_groups(vectors, page_paths, memberships, categories, category_centr
             continue
         centroid = np.mean([vectors[item] for item in sorted(component)], axis=0)
         related = [cid for cid, cvec in category_centroids.items() if _cosine(centroid, cvec) >= float(config.get("candidate_related_threshold", .70))]
-        groups.append(NovelGroup(paths, cohesion, sorted(related), temporary_name(paths), today))
+        groups.append(NovelGroup(paths, cohesion, {"semantic_cohesion": cohesion}, sorted(related)))
     return sorted(groups, key=lambda group: candidate_id(group.members))
 
 
@@ -94,5 +95,5 @@ def snapshot_candidates(groups, previous, config, today):
             continue
         cid = candidate_id(group.members)
         prior = old.get(cid)
-        result.append(Candidate(cid, group.temporary_name, sorted(group.members), group.cohesion_score, minimum, {"cohesion": group.cohesion_score}, group.related_category_ids, prior.first_seen_at if prior else group.first_seen_at, today))
+        result.append(Candidate(cid, temporary_name(group.members), sorted(group.members), group.cohesion_score, minimum, dict(group.signals), group.related_category_ids, prior.first_seen_at if prior else today, today))
     return sorted(result, key=lambda item: item.id)
