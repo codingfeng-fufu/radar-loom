@@ -5,6 +5,7 @@ import json
 import subprocess
 import sys
 import unittest
+from unittest import mock
 from pathlib import Path
 
 
@@ -162,6 +163,24 @@ class GraphV3Tests(unittest.TestCase):
         for membership in payload["taxonomy"]["memberships"]:
             self.assertIn(membership["category"], category_ids)
             self.assertIn(membership["page"], page_ids)
+
+    def test_taxonomy_publish_contract_uses_registry_candidates_and_profile_limit(self):
+        graph = importlib.import_module("render_graph")
+        registry = tm.Registry.empty("", "2026-01-01")
+        registry.categories["active"] = tm.Category("active", "Active", "q", "stable")
+        registry.candidates = [tm.Candidate("candidate-a", "A", ["pages/Foo.md"], .8, 1, {}, [])]
+        registry.last_run = tm.TaxonomyRun(operation="classify", outcome="success")
+        membership = tm.Membership("pages/Foo.md", "active", .9, {}, "test")
+        registry.memberships = [membership]
+        pages = {"Foo": rc.PageInfo("Foo", Path("pages/Foo.md"), {}, "", [])}
+        with mock.patch.object(graph, "load_config", return_value={"representative_page_limit": 1}):
+            payload = json.loads(graph.render_graph_data(pages, [], [], {"Foo": 1}, registry))
+        taxonomy = payload["taxonomy"]
+        self.assertEqual(taxonomy["candidates"], [registry.candidates[0].to_dict() | {"members": ["Foo"]}])
+        self.assertEqual(taxonomy["lastRun"], registry.last_run.to_dict())
+        self.assertEqual(taxonomy["stats"]["candidates"], 1)
+        self.assertNotIn("publish", taxonomy)
+        self.assertEqual(taxonomy["representatives"], [{"category": "active", "pages": ["Foo"]}])
 
     def test_overview_contains_both_statistics_and_broken_links(self):
         graph = importlib.import_module("render_graph")

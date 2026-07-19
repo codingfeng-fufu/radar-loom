@@ -11,6 +11,7 @@ from urllib.parse import quote
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
 import taxonomy_models as tm  # noqa: E402
+from taxonomy_engine import load_config  # noqa: E402
 
 
 CATEGORY_COLORS = {
@@ -94,7 +95,7 @@ def viewer_href(page):
     return f"viewer.html?f={quote(relative, safe='')}"
 
 
-def _taxonomy_payload(registry, node_ids=None):
+def _taxonomy_payload(registry, node_ids=None, profile="knowledge"):
     if registry is None:
         return {
             "schemaVersion": 2,
@@ -102,7 +103,7 @@ def _taxonomy_payload(registry, node_ids=None):
             "categories": [],
             "memberships": [],
             "events": [],
-            "publish": {"candidates": [], "representatives": [], "lastRun": None},
+            "candidates": [], "lastRun": None, "representatives": [],
             "stats": {"categories": 0, "activeCategories": 0, "memberships": 0, "forming": 0, "pendingPages": 0, "seedCategories": 0, "automaticCategories": 0, "candidates": 0},
         }
     categories = []
@@ -158,23 +159,18 @@ def _taxonomy_payload(registry, node_ids=None):
         members = sorted(Path(m).stem if "/" in str(m) else str(m) for m in members if Path(str(m)).stem in node_ids)
         item["members"] = members
         candidates.append(item)
-    candidates.sort(key=lambda item: (str(item.get("category", item.get("id", ""))), item["members"]))
+    candidates.sort(key=lambda item: str(item.get("id", "")))
+    try:
+        representative_limit = int(load_config(Path(__file__).resolve().parents[1], profile).get("representative_page_limit", 5))
+    except (OSError, ValueError, TypeError, KeyError):
+        representative_limit = 5
     grouped = {}
     for membership in registry.memberships:
         page_id = Path(membership.page).stem
         if page_id in node_ids:
             grouped.setdefault(membership.category_id, []).append({"page": page_id, "score": membership.score})
-    for category in categories:
-        if category["status"] == "merged":
-            continue
-        representatives = sorted(grouped.get(category["id"], []), key=lambda item: (-item["score"], item["page"]))[:5]
-        existing = next((item for item in candidates if item.get("category") == category["id"] or item.get("id") == category["id"]), None)
-        if existing is None:
-            candidates.append({"category": category["id"], "members": sorted(item["page"] for item in grouped.get(category["id"], [])), "representatives": representatives})
-        else:
-            existing["representatives"] = representatives
     representatives = [
-        {"category": category["id"], "pages": [item["page"] for item in sorted(grouped.get(category["id"], []), key=lambda item: (-item["score"], item["page"]))[:5]]}
+        {"category": category["id"], "pages": [item["page"] for item in sorted(grouped.get(category["id"], []), key=lambda item: (-item["score"], item["page"]))[:representative_limit]]}
         for category in categories if category["status"] != "merged"
     ]
     last_run = getattr(registry, "last_run", None)
@@ -193,9 +189,11 @@ def _taxonomy_payload(registry, node_ids=None):
             "pendingPages": len(registry.pending_pages),
             "seedCategories": sum(c["source"] == "seed" for c in categories),
             "automaticCategories": sum(c["source"] == "automatic" for c in categories),
-            "candidates": len(candidates),
+            "candidates": len(registry.candidates),
         },
-        "publish": {"candidates": candidates, "representatives": representatives, "lastRun": last_run},
+        "candidates": candidates,
+        "lastRun": last_run,
+        "representatives": representatives,
     }
 
 
@@ -242,7 +240,7 @@ def render_graph_data(pages, edges, broken, degree, registry=None, *, external_n
         "categories": CATEGORY_COLORS,
         "nodes": nodes,
         "edges": graph_edges,
-        "taxonomy": _taxonomy_payload(registry, pages),
+        "taxonomy": _taxonomy_payload(registry, pages, profile),
     }
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 
