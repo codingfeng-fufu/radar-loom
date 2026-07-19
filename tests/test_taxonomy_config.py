@@ -26,6 +26,8 @@ class TaxonomyConfigTests(unittest.TestCase):
         self.assertEqual(config["global_after_changes"], 5)
         self.assertEqual(config["due_check_seconds"], 60)
         self.assertEqual(config.get("command_timeout_seconds"), 900)
+        for key, value in {"candidate_min_pages": 2, "candidate_neighborhood_k": 12, "candidate_cohesion_threshold": 0.78, "candidate_related_threshold": 0.70, "representative_page_limit": 5}.items():
+            self.assertEqual(config[key], value)
         self.assertEqual(sum(config["signal_weights"].values()), 1.0)
         self.assertIn(".cache/taxonomy/", (ROOT / ".gitignore").read_text(encoding="utf-8"))
 
