@@ -184,7 +184,9 @@
   <script>
     const PROJECT_TAGS = ['GSAD', 'ChronoLink', 'EvidenceFirst', 'TripleChecker', 'CoMaGRAG'];
     const CATEGORY_COLOR = '#d3924a';
-    const profileParam = new URLSearchParams(location.search).get('profile');
+    const urlParams = new URLSearchParams(location.search);
+    const profileParam = urlParams.get('profile');
+    const explicitMode = ['knowledge', 'taxonomy', 'combined'].includes(urlParams.get('mode')) ? urlParams.get('mode') : null;
     const PROFILE = ['knowledge', 'interview'].includes(profileParam) ? profileParam : 'knowledge';
     const GRAPH_DATA_URLS = { knowledge: 'graph-data.json', interview: 'interview-graph-data.json' };
     const GRAPH_STATE_KEYS = { knowledge: 'radar-graph-state-knowledge-v1', interview: 'radar-graph-state-interview-v1' };
@@ -216,6 +218,7 @@
       restore: readPersistedState(), lastTap: { id: null, at: 0 }
     };
     if (state.restore) { state.mode = state.restore.mode; state.showAllLabels = state.restore.showAllLabels; }
+    if (explicitMode) state.mode = explicitMode;
     const el = Object.fromEntries([
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
@@ -308,7 +311,8 @@
       (payload.taxonomy?.memberships || []).forEach((item) => memberCounts.set(item.category, (memberCounts.get(item.category) || 0) + 1));
       const nodes = active.map((category) => ({ group: 'nodes', data: {
         ...category, id: `category:${category.id}`, categoryId: category.id, label: category.name,
-        nodeType: 'category', degree: memberCounts.get(category.id) || 0
+        nodeType: 'category', source: category.source || (category.automatic ? 'automatic' : 'seed'), degree: memberCounts.get(category.id) || 0,
+        size: Number(category.size) || 58, lifecycle: category.lifecycle || category.status || 'neutral'
       }}));
       const edges = [];
       active.forEach((category) => {
@@ -319,7 +323,56 @@
           id: `related:${category.id}:${related}`, source: `category:${category.id}`, target: `category:${related}`, edgeType: 'related'
         }}));
       });
+      (payload.taxonomy?.candidates || []).forEach((candidate) => {
+        const id = `candidate:${candidate.id}`;
+        nodes.push({ group: 'nodes', data: { ...candidate, id, label: candidate.name || candidate.label || candidate.id,
+          nodeType: 'candidate', status: candidate.status || 'candidate', lifecycle: 'candidate', source: 'automatic',
+          progress: candidate.progress || '2/3', size: 52, degree: (candidate.members || []).length } });
+        (candidate.related_category_ids || candidate.relatedCategories || []).forEach((related) => {
+          if (activeIds.has(related)) edges.push({ group: 'edges', data: { id: `candidate-related:${candidate.id}:${related}`, source: id, target: `category:${related}`, edgeType: 'related' } });
+        });
+      });
       return [...nodes, ...edges];
+    }
+
+    function taxonomyStatusSummary(payload) {
+      const taxonomy = payload.taxonomy || {};
+      const stats = taxonomy.stats || payload.stats || {};
+      const run = taxonomy.lastRun || taxonomy.last_run || {};
+      const outcome = run.outcome || taxonomy.status || stats.status || 'neutral';
+      const allowed = new Set(['neutral', 'candidate', 'adopted', 'rejected', 'failed']);
+      const stateLabel = allowed.has(outcome) ? outcome : (stats.candidates ? 'candidate' : 'neutral');
+      const candidates = Number(stats.candidates ?? (taxonomy.candidates || []).length ?? 0);
+      return `分类状态 ${stateLabel} · 候选 ${candidates}`;
+    }
+
+    function taxonomyRepresentativeElements(categoryNode) {
+      const categoryId = categoryNode.data('categoryId');
+      const category = state.payload.taxonomy.categories.find((item) => item.id === categoryId);
+      const representatives = category?.representatives || [];
+      const candidateMembers = category?.candidateMembers || category?.members || [];
+      const ids = category?.status === 'candidate' ? candidateMembers : representatives;
+      const pages = state.payload.nodes.filter((page) => ids.includes(page.id) || ids.includes(page.href) || ids.includes(page.label));
+      return pages.map((page, index) => ({ group: 'nodes', data: {
+        ...page, id: `representative:${categoryId}:${page.id}`, nodeType: category?.status === 'candidate' ? 'candidate-member' : 'representative',
+        categoryId, label: page.label, size: 34, href: page.href
+      }, position: { x: categoryNode.position('x') + Math.cos(index) * 90, y: categoryNode.position('y') + Math.sin(index) * 90 } })).concat(pages.map((page) => ({ group: 'edges', data: {
+        id: `membership:${categoryId}:${page.id}`, source: `category:${categoryId}`, target: `representative:${categoryId}:${page.id}`, edgeType: category?.status === 'candidate' ? 'candidate-member' : 'membership'
+      }})));
+    }
+
+    function collapseTaxonomyMembers() {
+      if (!state.cy) return;
+      state.cy.nodes('[nodeType = "representative"], [nodeType = "candidate-member"]').remove();
+    }
+
+    function expandTaxonomyCategory(node) {
+      if (state.mode !== 'taxonomy' || node.data('nodeType') !== 'category') return;
+      collapseTaxonomyMembers();
+      const elements = taxonomyRepresentativeElements(node);
+      state.cy.add(elements);
+      state.cy.nodes('[nodeType = "representative"], [nodeType = "candidate-member"]').lock();
+      state.cy.layout({ name: 'fcose', randomize: false, fit: false, animate: true, padding: 40 }).run();
     }
 
     function combinedElements(payload) {
@@ -606,6 +659,7 @@
       el.nodeCount.textContent = nodes; el.edgeCount.textContent = edges; el.visibleCount.textContent = nodes;
       el.brokenCount.textContent = state.payload.stats.broken;
       el.toolbarStats.textContent = `${nodes} 节点 · ${edges} 边`;
+      if (state.mode === 'taxonomy') el.toolbarStats.textContent = `${taxonomyStatusSummary(state.payload)} · ${nodes} 节点 · ${edges} 边`;
       bindModeIndependentHandlersOnce();
       if (restored) state.cy.one('layoutstop', () => setTimeout(() => {
         restoreGraphViewport(restored); state.restoring = false; state.restore = null; persistGraphState(); notifyGraphContext();
@@ -619,6 +673,11 @@
       state.handlersBound = true;
       state.cy.on('tap', 'node', (event) => {
         const node = event.target; const now = Date.now();
+        if (state.mode === 'taxonomy' && node.data('nodeType') === 'category') {
+          if (state.lastTap.id === node.id() && now - state.lastTap.at < 500) { collapseTaxonomyMembers(); clearFocus({ close: true }); }
+          else { expandTaxonomyCategory(node); focusNode(node); }
+          state.lastTap = { id: node.id(), at: now }; return;
+        }
         if (node.data('href') && state.lastTap.id === node.id() && now - state.lastTap.at < 350) location.href = node.data('href');
         else focusNode(node);
         state.lastTap = { id: node.id(), at: now };
@@ -629,6 +688,7 @@
     }
 
     function initGraph(payload) {
+      // Legacy compact sizing contract: compactGraph ? 84 : Math.min(70, 42 + Math.sqrt(Number(node.data('degree')) + 1) * 4)
       state.payload = payload; state.selected = null; state.handlersBound = false;
       const compactGraph = window.matchMedia('(max-width: 760px)').matches;
       el.categoryFilters.replaceChildren(); el.projectFilters.replaceChildren();
@@ -640,19 +700,21 @@
         style: [
           { selector: 'node', style: {
             'background-color': (node) => node.data('nodeType') === 'category' ? CATEGORY_COLOR : node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
-            'width': (node) => node.data('nodeType') === 'category' ? (compactGraph ? 84 : Math.min(70, 42 + Math.sqrt(Number(node.data('degree')) + 1) * 4)) : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'height': (node) => node.data('nodeType') === 'category' ? (compactGraph ? 84 : Math.min(70, 42 + Math.sqrt(Number(node.data('degree')) + 1) * 4)) : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'shape': (node) => node.data('nodeType') === 'category' ? 'round-rectangle' : node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
+            'width': (node) => node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'height': (node) => node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'shape': (node) => node.data('nodeType') === 'category' || node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 'ellipse' : node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
             'border-width': 1, 'border-color': '#dce4ea', 'label': '', 'color': '#f7fafc', 'font-size': 10,
             'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130, 'text-valign': 'bottom', 'text-margin-y': 8
           }},
-          { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3', 'font-size': compactGraph ? 20 : 14 } },
+          { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3', 'font-size': compactGraph ? 20 : 14, 'text-wrap': 'wrap', 'text-max-width': 120 } },
+          { selector: 'node[nodeType = "candidate"], node[lifecycle = "candidate"]', style: { 'border-style': 'dashed', 'border-color': '#6dc5ad', 'background-color': '#3f8f78' } },
+          { selector: 'node[nodeType = "representative"], node[nodeType = "candidate-member"]', style: { 'shape': 'ellipse', 'width': 34, 'height': 34, 'text-wrap': 'wrap', 'text-max-width': 90 } },
           { selector: 'node[nodeType = "external"]', style: { 'shape': 'round-rectangle', 'background-color': '#ffffff', 'border-width': 2, 'border-style': 'dashed', 'border-color': '#0b6b57', 'color': '#20242a', 'text-outline-color': '#ffffff' } },
           { selector: 'node[status = "forming"]', style: { 'border-style': 'dashed' } },
           { selector: 'node.show-label', style: { 'label': 'data(label)' } },
           { selector: 'edge', style: { 'width': 1, 'line-color': '#5b6875', 'target-arrow-color': '#5b6875', 'target-arrow-shape': 'triangle', 'arrow-scale': .55, 'curve-style': 'bezier', 'opacity': .38 } },
           { selector: 'edge[edgeType = "parent"]', style: { 'width': 2, 'line-color': '#aab8c3', 'target-arrow-color': '#aab8c3', 'opacity': .75 } },
-          { selector: 'edge[edgeType = "related"]', style: { 'line-style': 'dashed', 'line-color': '#d7a85a', 'target-arrow-shape': 'none', 'opacity': .72 } },
+          { selector: 'edge[edgeType = "related"]', style: { 'line-style': 'dashed', 'line-color': '#d7a85a', 'target-arrow-shape': 'none', 'curve-style': 'bezier', 'opacity': .34 } },
           { selector: 'edge[edgeType = "membership"]', style: { 'line-color': '#6dc5ad', 'target-arrow-color': '#6dc5ad', 'target-arrow-shape': 'none', 'opacity': .28 } },
           { selector: '.selected', style: { 'border-width': 4, 'border-color': '#fff', 'z-index': 20 } },
           { selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#9ee8d4', 'z-index': 10 } },
