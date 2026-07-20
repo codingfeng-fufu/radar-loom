@@ -6406,11 +6406,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "双链 1.00，语义 0.98",
-        "score": 0.8407406707120135,
+        "score": 0.8406620998692707,
         "signals": {
           "links": 1.0,
           "projects": 0.04065040650406504,
-          "semantic": 0.9811802506446838,
+          "semantic": 0.9810492992401123,
           "tags": 0.0
         }
       },
@@ -6420,11 +6420,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7313520442355763,
+        "score": 0.7313575874675404,
         "signals": {
           "links": 0.125,
           "projects": 0.2727272727272727,
-          "semantic": 0.9774428009986877,
+          "semantic": 0.9774520397186279,
           "tags": 1.0
         }
       },
@@ -6434,11 +6434,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7827862898508707,
+        "score": 0.7826325456301371,
         "signals": {
           "links": 0.375,
           "projects": 0.08333333333333333,
-          "semantic": 0.9747827053070068,
+          "semantic": 0.9745264649391174,
           "tags": 1.0
         }
       },
@@ -6448,11 +6448,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "语义 0.98，双链 0.25",
-        "score": 0.6485670685768127,
+        "score": 0.6484761953353881,
         "signals": {
           "links": 0.25,
           "projects": 0.0,
-          "semantic": 0.9767784476280212,
+          "semantic": 0.976626992225647,
           "tags": 0.0
         }
       },
@@ -6462,11 +6462,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7838075923919677,
+        "score": 0.7837922143936157,
         "signals": {
           "links": 0.375,
           "projects": 0.1,
-          "semantic": 0.9750959873199463,
+          "semantic": 0.9750703573226929,
           "tags": 1.0
         }
       },
