@@ -5420,13 +5420,13 @@
         "type": "reject"
       }
     ],
-    "generatedAt": "2026-07-19",
+    "generatedAt": "2026-07-20",
     "lastRun": {
-      "finished_at": "2026-07-19",
+      "finished_at": "2026-07-20",
       "operation": "sync",
       "outcome": "unchanged",
       "reason": "",
-      "started_at": "2026-07-19"
+      "started_at": "2026-07-20"
     },
     "memberships": [
       {
@@ -6403,12 +6403,71 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.98",
+        "score": 0.8407406707120135,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.04065040650406504,
+          "semantic": 0.9811802506446838,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_evaluation",
+        "firstAssignedAt": "2026-07-20",
+        "lastConfirmedAt": "2026-07-20",
+        "page": "TripleChecker",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.7313520442355763,
+        "signals": {
+          "links": 0.125,
+          "projects": 0.2727272727272727,
+          "semantic": 0.9774428009986877,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_kg",
+        "firstAssignedAt": "2026-07-20",
+        "lastConfirmedAt": "2026-07-20",
+        "page": "TripleChecker",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7827862898508707,
+        "signals": {
+          "links": 0.375,
+          "projects": 0.08333333333333333,
+          "semantic": 0.9747827053070068,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_rag",
+        "firstAssignedAt": "2026-07-20",
+        "lastConfirmedAt": "2026-07-20",
+        "page": "TripleChecker",
+        "reason": "语义 0.98，双链 0.25",
+        "score": 0.6485670685768127,
+        "signals": {
+          "links": 0.25,
+          "projects": 0.0,
+          "semantic": 0.9767784476280212,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_trust",
+        "firstAssignedAt": "2026-07-20",
+        "lastConfirmedAt": "2026-07-20",
+        "page": "TripleChecker",
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.7838075923919677,
+        "signals": {
+          "links": 0.375,
+          "projects": 0.1,
+          "semantic": 0.9750959873199463,
+          "tags": 1.0
         }
       },
       {
@@ -9203,7 +9262,7 @@
       "candidates": 0,
       "categories": 9,
       "forming": 1,
-      "memberships": 289,
+      "memberships": 293,
       "pendingPages": 0,
       "seedCategories": 8
     }
