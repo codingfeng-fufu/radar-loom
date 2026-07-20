@@ -3883,7 +3883,7 @@
       "id": "TripleChecker",
       "kind": "project",
       "label": "TripleChecker",
-      "summary": "中文KG抽取幻觉检测的两层无监督验证器,一作论文,投稿NLPCC 2026。",
+      "summary": "中文KG抽取的溯源保真度审计(Source-Faithfulness Auditing)两层无监督验证器,一作论文,投稿NLPCC 2026;15,000 行受控 benchmark 上 SU-F1=0.804。",
       "tags": [
         "项目",
         "TripleChecker",
@@ -5418,14 +5418,30 @@
         "createdAt": "2026-07-19",
         "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
         "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d",
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-07-20",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
     "generatedAt": "2026-07-20",
     "lastRun": {
       "finished_at": "2026-07-20",
-      "operation": "sync",
-      "outcome": "unchanged",
-      "reason": "",
+      "operation": "global",
+      "outcome": "rejected",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "started_at": "2026-07-20"
     },
     "memberships": [
@@ -6406,11 +6422,11 @@
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
         "reason": "双链 1.00，语义 0.98",
-        "score": 0.8406620998692707,
+        "score": 0.8402503986668781,
         "signals": {
           "links": 1.0,
           "projects": 0.04065040650406504,
-          "semantic": 0.9810492992401123,
+          "semantic": 0.980363130569458,
           "tags": 0.0
         }
       },
@@ -6419,12 +6435,12 @@
         "firstAssignedAt": "2026-07-20",
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
-        "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7313575874675404,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7291824947703969,
         "signals": {
           "links": 0.125,
           "projects": 0.2727272727272727,
-          "semantic": 0.9774520397186279,
+          "semantic": 0.9738268852233887,
           "tags": 1.0
         }
       },
@@ -6433,12 +6449,12 @@
         "firstAssignedAt": "2026-07-20",
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
-        "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7826325456301371,
+        "reason": "人工标签 1.00，语义 0.98",
+        "score": 0.7838761607805887,
         "signals": {
           "links": 0.375,
           "projects": 0.08333333333333333,
-          "semantic": 0.9745264649391174,
+          "semantic": 0.9765991568565369,
           "tags": 1.0
         }
       },
@@ -6447,12 +6463,12 @@
         "firstAssignedAt": "2026-07-20",
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
-        "reason": "语义 0.98，双链 0.25",
-        "score": 0.6484761953353881,
+        "reason": "语义 0.97，双链 0.25",
+        "score": 0.6466481804847717,
         "signals": {
           "links": 0.25,
           "projects": 0.0,
-          "semantic": 0.976626992225647,
+          "semantic": 0.9735803008079529,
           "tags": 0.0
         }
       },
@@ -6461,12 +6477,12 @@
         "firstAssignedAt": "2026-07-20",
         "lastConfirmedAt": "2026-07-20",
         "page": "TripleChecker",
-        "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7837922143936157,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.782452826499939,
         "signals": {
           "links": 0.375,
           "projects": 0.1,
-          "semantic": 0.9750703573226929,
+          "semantic": 0.9728380441665649,
           "tags": 1.0
         }
       },
