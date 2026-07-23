@@ -352,6 +352,7 @@
       elements.message.textContent = text;
       elements.message.hidden = !text;
       elements.message.className = isError ? 'error' : 'status';
+      elements.message.setAttribute('role', isError ? 'alert' : 'status');
     }
 
     function notifyRefreshResult(ok, error = '') {

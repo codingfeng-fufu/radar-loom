@@ -75,6 +75,8 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn('aria-label="打开导航"', self.html)
         self.assertIn('id="sidebar"', self.html)
         self.assertIsNone(re.search(r"letter-spacing\s*:\s*-", self.html))
+        self.assertIn("elements.message.setAttribute('role', isError ? 'alert' : 'status')", self.html)
+        self.assertIn("当前内容已保留", self.html)
 
     def test_successful_render_reports_active_file_to_workbench(self):
         self.assertRegex(self.html, r"function\s+notifyActiveFile\s*\(")

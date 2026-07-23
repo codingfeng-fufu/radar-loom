@@ -69,6 +69,15 @@ test('successful refresh completes only after the active knowledge surface recov
   await expect(page.locator('#status')).toContainText('已恢复');
 });
 
+test('failed page navigation keeps the last readable article', async ({ page }) => {
+  await page.goto('http://127.0.0.1:18081/viewer.html?f=%E9%A6%96%E9%A1%B5.md');
+  const oldTitle = await page.locator('#content h1').first().textContent();
+  await page.route('**/pages/Unavailable.md', route => route.fulfill({ status: 503, body: 'unavailable' }));
+  await page.evaluate(() => navigateTo('pages/Unavailable.md', { sectionHint: 'knowledge', historyMode: 'push' }));
+  await expect(page.locator('#content h1').first()).toHaveText(oldTitle);
+  await expect(page.getByRole('alert')).toContainText('当前内容已保留');
+});
+
 test('desktop graph controls are not blocked by the mobile scrim', async ({ page }) => {
   await page.goto(workbenchUrl);
   const frame = page.frames().find(candidate => candidate.url().includes('127.0.0.1:18081'));
