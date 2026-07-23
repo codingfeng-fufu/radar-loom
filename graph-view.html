@@ -505,9 +505,9 @@
         return;
       }
       state.cy.layout({
-        name: 'fcose', quality: 'default', randomize: true, animate, animationDuration: 650,
+        name: 'fcose', quality: animate ? 'default' : 'draft', randomize: true, animate, animationDuration: animate ? 650 : 180,
         fit: true, padding: 44, nodeRepulsion: 9000, idealEdgeLength: state.mode === 'combined' ? 75 : 95,
-        edgeElasticity: 0.35, nestingFactor: 0.1, gravity: 0.3, numIter: 2500, tile: true
+        edgeElasticity: 0.35, nestingFactor: 0.1, gravity: 0.3, numIter: animate ? 1200 : 450, tile: true
       }).run();
     }
 
@@ -793,6 +793,11 @@
       showToast.timer = window.setTimeout(() => { el.toast.hidden = true; }, 4200);
     }
 
+    function notifyRefreshResult(ok, error = '') {
+      if (window.parent === window) return;
+      window.parent.postMessage({ type: 'kb-refresh-result', ok, surface: 'graph', revision: state.revision || '', error }, WORKBENCH_ORIGIN);
+    }
+
     async function rebuildTaxonomy() {
       if (el.rebuildTaxonomy.disabled) return;
       el.rebuildTaxonomy.disabled = true;
@@ -842,7 +847,9 @@
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closePanels(); el.searchResults.hidden = true; } });
     window.addEventListener('message', (event) => {
       if (event.origin !== WORKBENCH_ORIGIN) return;
-      if (event.data?.type === 'kb-refresh') fetchRevision().then((status) => loadGraph(status.revision)).catch((error) => console.warn('Workbench graph refresh failed:', error));
+      if (event.data?.type === 'kb-refresh') fetchRevision().then((status) => loadGraph(status.revision))
+        .then(() => notifyRefreshResult(true))
+        .catch((error) => { console.warn('Workbench graph refresh failed:', error); notifyRefreshResult(false, error?.message || String(error)); });
     });
     start();
     setInterval(checkForUpdates, 4000);

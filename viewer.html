@@ -354,6 +354,11 @@
       elements.message.className = isError ? 'error' : 'status';
     }
 
+    function notifyRefreshResult(ok, error = '') {
+      if (window.parent === window) return;
+      window.parent.postMessage({ type: 'kb-refresh-result', ok, surface: 'viewer', revision: sessionStorage.getItem('kb-revision') || '', error }, WORKBENCH_ORIGIN);
+    }
+
     function notifyActiveFile(file, title, metadata = {}) {
       if (window.parent === window) return;
       const pageType = metadata.page_type || metadata.pageType;
@@ -691,10 +696,9 @@
         else if (historyMode === 'replace') history.replaceState({ file, section: detectedSection }, '', canonicalViewerUrl(file, detectedSection));
         await renderPageData(file, detectedSection, page, token);
         if (token !== navigationGeneration) return;
+        return true;
       } catch (error) {
         if (token !== navigationGeneration) return;
-        elements.content.replaceChildren();
-        elements.frontmatter.hidden = true;
         elements.navigation.replaceChildren();
         const message = document.createElement('p');
         message.className = 'error';
@@ -706,7 +710,8 @@
         const failedIntent = { requestedFile, sectionHint: hintedSection, historyMode };
         retry.addEventListener('click', () => navigateTo(failedIntent.requestedFile, failedIntent));
         elements.navigation.append(message, retry);
-        setMessage(`无法载入 ${requestedFile || hintedSection}：${error.message}`, true);
+        setMessage(`未能打开目标页，当前内容已保留：${error.message}`, true);
+        return false;
       }
     }
 
@@ -726,7 +731,7 @@
     window.addEventListener('message', (event) => {
       if (event.origin !== WORKBENCH_ORIGIN) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
-      if (event.data?.type === 'kb-refresh') retryIndexLoad(activeSection);
+      if (event.data?.type === 'kb-refresh') retryIndexLoad(activeSection).then((ok) => notifyRefreshResult(ok, ok ? '' : '当前页面恢复失败'));
     });
     document.querySelector('.section-tabs').addEventListener('click', (event) => {
       const tab = event.target.closest('[role="tab"][data-section]');

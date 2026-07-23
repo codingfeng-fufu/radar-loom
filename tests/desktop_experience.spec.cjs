@@ -40,6 +40,35 @@ test('restores split width after a full page reload', async ({ page }) => {
   await expect(page.locator('#divider')).toHaveAttribute('aria-valuenow', '64');
 });
 
+test('failed refresh preserves the current page and Claude draft', async ({ page }) => {
+  await page.goto('http://127.0.0.1:18080/');
+  const viewer = page.frameLocator('#knowledgeFrame');
+  const claude = page.frameLocator('#claudeFrame');
+  await expect(viewer.locator('#content h1').first()).toBeVisible();
+  const title = await viewer.locator('#content h1').first().textContent();
+  const input = claude.getByRole('textbox', { name: 'Type message...' });
+  await input.fill('刷新失败后仍应保留的草稿');
+  await page.route('http://127.0.0.1:18081/api/refresh', route => route.fulfill({
+    status: 503,
+    contentType: 'application/json',
+    body: JSON.stringify({ ok: false, error: 'simulated refresh failure' }),
+  }));
+  await page.locator('#refreshKnowledge').click();
+  await expect(page.locator('#status')).toHaveAttribute('data-kind', 'error');
+  await expect(page.locator('#status')).toContainText('知识库刷新失败');
+  await expect(viewer.locator('#content h1').first()).toHaveText(title);
+  await expect(input).toHaveValue('刷新失败后仍应保留的草稿');
+});
+
+test('successful refresh completes only after the active knowledge surface recovers', async ({ page }) => {
+  await page.goto('http://127.0.0.1:18080/');
+  await page.locator('#refreshKnowledge').click();
+  await expect(page.locator('#status')).toHaveAttribute('data-kind', 'progress');
+  await expect(page.locator('#status')).toContainText('正在');
+  await expect(page.locator('#status')).toHaveAttribute('data-kind', 'success', { timeout: 30_000 });
+  await expect(page.locator('#status')).toContainText('已恢复');
+});
+
 test('desktop graph controls are not blocked by the mobile scrim', async ({ page }) => {
   await page.goto(workbenchUrl);
   const frame = page.frames().find(candidate => candidate.url().includes('127.0.0.1:18081'));

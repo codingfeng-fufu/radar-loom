@@ -36,6 +36,10 @@ class GraphViewContractTests(unittest.TestCase):
             with self.subTest(element_id=element_id):
                 self.assertIn(f'id="{element_id}"', self.html)
 
+    def test_initial_layout_uses_fast_fcose_and_manual_layout_can_refine(self):
+        self.assertIn("quality: animate ? 'default' : 'draft'", self.html)
+        self.assertIn("numIter: animate ? 1200 : 450", self.html)
+
     def test_node_content_is_written_safely_and_links_target_viewer(self):
         self.assertIn("textContent", self.html)
         self.assertIn("node.data('href')", self.html)
@@ -66,6 +70,12 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("http://127.0.0.1:18080", self.html)
         self.assertIn("event.data?.type === 'kb-refresh'", self.html)
         self.assertIn("fetchRevision().then", self.html)
+
+    def test_workbench_refresh_reports_real_graph_completion(self):
+        self.assertIn("type: 'kb-refresh-result'", self.html)
+        self.assertIn("surface: 'graph'", self.html)
+        self.assertIn("notifyRefreshResult(true)", self.html)
+        self.assertIn("notifyRefreshResult(false", self.html)
 
     def test_graph_has_three_stable_modes_and_manual_rebuild(self):
         for value in ('data-mode="knowledge"', 'data-mode="taxonomy"', 'data-mode="combined"'):
