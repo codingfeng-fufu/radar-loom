@@ -172,6 +172,7 @@
         <div class="graph-legend" id="graphLegend" aria-hidden="true"></div>
         <div class="toast" id="toast" role="status" hidden></div>
         <div class="overlay" id="loading"><div class="overlay-box"><div class="spinner"></div><p>正在载入并布局图谱...</p></div></div>
+        <div id="graphStatus" role="status" data-state="checking" data-revision=""></div>
         <div class="overlay" id="errorState" hidden><div class="overlay-box"><h2>图谱载入失败</h2><p id="errorText"></p><a href="viewer.html?f=graph.md">打开 Mermaid 备用图谱</a></div></div>
         <div class="overlay" id="emptyState" hidden><div class="overlay-box"><h2>没有匹配节点</h2><p>调整分类、项目或一跳筛选条件。</p></div></div>
       </main>
@@ -755,6 +756,7 @@
       if (state.refreshing) return;
       if (state.cy) { persistGraphState(); state.restore = readPersistedState(); }
       state.refreshing = true;
+      const statusNode = document.querySelector('#graphStatus'); statusNode.dataset.state = 'rebuilding';
       el.loading.hidden = false;
       try {
         const response = await fetch(GRAPH_DATA_URL, { cache: 'no-store' });
@@ -766,8 +768,9 @@
         initGraph(payload);
         state.revision = revision || state.revision;
         el.errorState.hidden = true;
+        statusNode.dataset.state = 'current'; statusNode.dataset.revision = state.revision || '';
       } catch (error) {
-        if (state.cy) showToast(`图谱刷新失败，已保留当前视图：${error?.message || String(error)}`);
+        if (state.cy) { statusNode.dataset.state = 'stale'; statusNode.dataset.revision = state.revision || ''; showToast(`图谱刷新失败，已保留当前视图：${error?.message || String(error)}`); }
         else { el.loading.hidden = true; el.errorText.textContent = error?.message || String(error); el.errorState.hidden = false; }
         throw error;
       } finally {
@@ -782,6 +785,7 @@
         if (state.revision && status.revision !== state.revision) await loadGraph(status.revision);
         else if (!state.revision) state.revision = status.revision;
       } catch (error) {
+        document.querySelector('#graphStatus').dataset.state = 'stale';
         console.warn('Graph refresh check failed:', error);
       }
     }
