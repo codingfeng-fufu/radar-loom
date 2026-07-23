@@ -1,0 +1,102 @@
+const { test, expect } = require('@playwright/test');
+
+const workbenchUrl = process.env.WEBUI_URL || 'http://127.0.0.1:18080/';
+test.use({ viewport: { width: 1440, height: 900 } });
+
+for (const viewport of [
+  { name: 'desktop-wide', width: 1440, height: 900 },
+  { name: 'desktop-tall', width: 1112, height: 1243 },
+]) {
+  test.describe(viewport.name, () => {
+    test.use({ viewport: { width: viewport.width, height: viewport.height } });
+
+    test('desktop shell loads without root overflow or console errors', async ({ page }) => {
+      const errors = [];
+      page.on('pageerror', error => errors.push(error.message));
+      page.on('console', message => {
+        if (message.type() === 'error') errors.push(message.text());
+      });
+
+      await page.goto(workbenchUrl);
+      await expect(page.locator('#workbench')).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      expect(errors).toEqual([]);
+    });
+  });
+}
+
+test('restores split width after a full page reload', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  await page.evaluate(() => {
+    sessionStorage.setItem('radar-workbench-state-v1', JSON.stringify({
+      version: 1,
+      knowledgeWidth: 64,
+      knowledgeCollapsed: false,
+      claudeCollapsed: false,
+    }));
+  });
+
+  await page.reload();
+  await expect(page.locator('#divider')).toHaveAttribute('aria-valuenow', '64');
+});
+
+test('desktop graph controls are not blocked by the mobile scrim', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  const frame = page.frames().find(candidate => candidate.url().includes('127.0.0.1:18081'));
+  await frame.goto('http://127.0.0.1:18081/graph-view.html');
+  const graph = page.frameLocator('#knowledgeFrame');
+
+  await graph.locator('[data-mode="combined"]').click();
+  await expect(graph.locator('[data-mode="combined"]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('desktop viewer section tabs remain operable', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  const viewer = page.frameLocator('#knowledgeFrame');
+  const tab = viewer.locator('#interviewTab');
+
+  await tab.click();
+  await expect(tab).toHaveAttribute('aria-selected', 'true');
+});
+
+test('second ask-Claude insertion updates the controlled textarea', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  const prompt = page.frameLocator('#claudeFrame').getByRole('textbox', { name: 'Type message...' });
+
+  for (const question of ['基线第一次输入', '基线第二次输入']) {
+    await page.locator('#askClaude').click();
+    await page.locator('#question').fill(question);
+    await page.locator('#insertPrompt').click();
+    await expect(prompt).toHaveValue(new RegExp(question));
+  }
+});
+
+test('opening a long history keeps the composer at the viewport bottom', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  const claude = page.frameLocator('#claudeFrame');
+  await claude.getByRole('button', { name: 'View conversation history' }).click();
+  await claude.locator('div.cursor-pointer').first().click();
+
+  await expect.poll(async () => {
+    const frame = page.frames().find(candidate => candidate.url().includes('/projects/home/'));
+    return frame.evaluate(() => {
+      const shell = document.querySelector('.claude-shell');
+      const composer = document.querySelector('.claude-composer')?.getBoundingClientRect();
+      return shell?.scrollTop === 0 && Math.abs((composer?.bottom || 0) - innerHeight) < 1;
+    });
+  }).toBe(true);
+});
+
+test('complex knowledge pages and graph render without public network resources', async ({ page }) => {
+  for (const pattern of ['https://cdn.jsdelivr.net/**', 'https://cdnjs.cloudflare.com/**', 'https://unpkg.com/**']) {
+    await page.route(pattern, route => route.abort());
+  }
+
+  await page.goto('http://127.0.0.1:18081/viewer.html?f=pages%2F%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%20Diffusion%20Models%20DDPM.md');
+  await expect(page.locator('.katex').first()).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+
+  await page.goto('http://127.0.0.1:18081/graph-view.html');
+  await expect(page.locator('#graph canvas').first()).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
