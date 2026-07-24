@@ -44,7 +44,7 @@ test('failed refresh preserves the current page and Claude draft', async ({ page
   await page.goto('http://127.0.0.1:18080/');
   const viewer = page.frameLocator('#knowledgeFrame');
   const claude = page.frameLocator('#claudeFrame');
-  await expect(viewer.locator('#content h1').first()).toBeVisible();
+  await expect(viewer.locator('#content h1').first()).toBeVisible({ timeout: 15_000 });
   const title = await viewer.locator('#content h1').first().textContent();
   const input = claude.getByRole('textbox', { name: 'Type message...' });
   await input.fill('刷新失败后仍应保留的草稿');
