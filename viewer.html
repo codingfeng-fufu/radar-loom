@@ -71,6 +71,10 @@
     .frontmatter { margin: 0 0 28px; border: 1px solid var(--line); border-radius: 4px; background: var(--sidebar); }
     .frontmatter summary { cursor: pointer; padding: 8px 12px; color: var(--muted); font-weight: 700; }
     .frontmatter pre { margin: 0; padding: 0 12px 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .quality-panel summary { display: flex; justify-content: space-between; gap: 16px; }
+    .quality-panel dl { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 5px 12px; margin: 0; padding: 0 12px 12px; }
+    .quality-panel dt { color: var(--muted); }
+    .quality-panel dd { margin: 0; overflow-wrap: anywhere; }
     article h1, article h2, article h3 { line-height: 1.3; margin: 1.7em 0 .65em; letter-spacing: 0; }
     article h1 { margin-top: 0; font-size: 30px; }
     article h2 { padding-bottom: 7px; border-bottom: 1px solid var(--line); font-size: 22px; }
@@ -132,6 +136,10 @@
       </div>
       <div class="document">
         <div id="message" class="status" role="status">正在载入...</div>
+        <details id="qualityPanel" class="frontmatter quality-panel" hidden>
+          <summary><span>页面质量</span><span id="qualitySummary"></span></summary>
+          <dl id="qualityFacts"></dl>
+        </details>
         <details id="frontmatter" class="frontmatter" hidden>
           <summary>页面元数据</summary>
           <pre id="frontmatterText"></pre>
@@ -148,6 +156,9 @@
       content: document.querySelector('#content'),
       frontmatter: document.querySelector('#frontmatter'),
       frontmatterText: document.querySelector('#frontmatterText'),
+      qualityPanel: document.querySelector('#qualityPanel'),
+      qualitySummary: document.querySelector('#qualitySummary'),
+      qualityFacts: document.querySelector('#qualityFacts'),
       message: document.querySelector('#message'),
       navigation: document.querySelector('#navigation'),
       taxonomySummary: document.querySelector('#taxonomySummary'),
@@ -199,6 +210,39 @@
           : value.replace(/^['"]|['"]$/g, '');
       }
       return result;
+    }
+
+    function metadataValues(value) {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      return typeof value === 'string' && value.trim() ? [value.trim()] : [];
+    }
+
+    function objectivePageQuality(metadata, body) {
+      const summary = String(metadata.summary || metadata['摘要'] || '').trim();
+      const sources = metadataValues(metadata.source || metadata['来源']);
+      const confidence = String(metadata.confidence || metadata['信度'] || '').trim();
+      const tags = metadataValues(metadata.tags);
+      const links = [...body.matchAll(/\[\[([^\]|\n]+)(?:\|[^\]\n]+)?\]\]/g)];
+      const headings = (body.match(/^#{1,6}\s+\S+/gm) || []).length;
+      const fencedCode = (body.match(/^```/gm) || []).length;
+      const displayMath = (body.match(/\$\$/g) || []).length;
+      return {
+        summary: summary ? '已填写' : '未检测到', source: sources.length ? `${sources.length} 项` : '未检测到',
+        confidence: confidence || '未检测到', tags: tags.length ? `${tags.length} 个` : '未检测到',
+        links: `${links.length} 个出站引用`, structure: `${headings} 个标题 · ${Math.floor(fencedCode / 2)} 个代码块 · ${Math.floor(displayMath / 2)} 个公式块`,
+        complete: Boolean(summary && sources.length && confidence && tags.length)
+      };
+    }
+
+    function renderPageQuality(metadata, body) {
+      const quality = objectivePageQuality(metadata, body);
+      elements.qualitySummary.textContent = quality.complete ? '基础字段完整' : '存在未检测字段';
+      elements.qualityFacts.replaceChildren();
+      for (const [label, value] of [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['结构', quality.structure]]) {
+        const term = document.createElement('dt'); const detail = document.createElement('dd');
+        term.textContent = label; detail.textContent = value; elements.qualityFacts.append(term, detail);
+      }
+      elements.qualityPanel.hidden = false;
     }
 
     function sectionForFile(file, metadata = {}) {
@@ -615,6 +659,7 @@
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
+        renderPageQuality(pageMetadata, body);
         const math = extractMathRegions(rewriteWikilinks(body));
         const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
@@ -733,9 +778,10 @@
 
     function closeNavigation() { document.body.classList.remove('nav-open'); }
     window.addEventListener('message', (event) => {
-      if (event.origin !== WORKBENCH_ORIGIN) return;
+      if (event.origin !== WORKBENCH_ORIGIN || event.source !== window.parent) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
       if (event.data?.type === 'kb-refresh') retryIndexLoad(activeSection).then((ok) => notifyRefreshResult(ok, ok ? '' : '当前页面恢复失败'));
+      if (event.data?.type === 'kb-navigate' && validatePath(event.data.file) && SECTIONS[event.data.section]) navigateTo(event.data.file, { sectionHint: event.data.section, historyMode: 'push' });
     });
     document.querySelector('.section-tabs').addEventListener('click', (event) => {
       const tab = event.target.closest('[role="tab"][data-section]');

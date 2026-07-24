@@ -242,6 +242,12 @@ class ViewerContractTests(unittest.TestCase):
         self.assertNotIn("switchSection(section, { render: false });\n      renderMarkdown", self.html)
         self.assertIn("navigateTo(file, { sectionHint: section, historyMode: 'push' })", self.html)
 
+    def test_page_quality_is_objective_and_workbench_navigation_is_source_checked(self):
+        for value in ('id="qualityPanel"', 'id="qualitySummary"', 'id="qualityFacts"', 'objectivePageQuality', 'renderPageQuality', "'未检测到'"):
+            self.assertIn(value, self.html)
+        self.assertIn("event.source !== window.parent", self.html)
+        self.assertIn("event.data?.type === 'kb-navigate'", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
