@@ -56,8 +56,13 @@ test('failed refresh preserves the current page and Claude draft', async ({ page
   await page.locator('#refreshKnowledge').click();
   await expect(page.locator('#status')).toHaveAttribute('data-kind', 'error');
   await expect(page.locator('#status')).toContainText('知识库刷新失败');
+  await expect(page.locator('#status')).toContainText('本次刷新未完成');
+  await expect(page.locator('#status')).toContainText('当前页面和 Claude 草稿已保留');
+  await expect(page.locator('#status').getByRole('button', { name: '重新刷新知识库' })).toBeVisible();
   await expect(viewer.locator('#content h1').first()).toHaveText(title);
   await expect(input).toHaveValue('刷新失败后仍应保留的草稿');
+  await page.locator('#status').getByRole('button', { name: '关闭状态' }).click();
+  await expect(page.locator('#status')).toBeHidden();
 });
 
 test('successful refresh completes only after the active knowledge surface recovers', async ({ page }) => {
