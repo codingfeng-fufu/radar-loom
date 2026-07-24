@@ -75,6 +75,8 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn('aria-label="打开导航"', self.html)
         self.assertIn('id="sidebar"', self.html)
         self.assertIsNone(re.search(r"letter-spacing\s*:\s*-", self.html))
+        for token in ('--ui-bg', '--ui-surface', '--ui-surface-soft', '--ui-text', '--ui-muted', '--ui-border', '--ui-accent', '--ui-success', '--ui-warning', '--ui-danger'):
+            self.assertIn(token, self.html)
         self.assertIn("elements.message.setAttribute('role', isError ? 'alert' : 'status')", self.html)
         self.assertIn("当前内容已保留", self.html)
 

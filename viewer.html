@@ -9,14 +9,15 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #20242a;
-      --muted: #68717d;
-      --line: #d8dde3;
-      --paper: #ffffff;
-      --sidebar: #f4f6f7;
-      --accent: #0b6b57;
+      --ui-bg: #f7f8f7; --ui-surface: #ffffff; --ui-surface-soft: #eef1ef; --ui-text: #202421; --ui-muted: #66706a; --ui-border: #d8ded9; --ui-accent: #087f68; --ui-success: #18794e; --ui-warning: #9a6700; --ui-danger: #b42318;
+      --ink: var(--ui-text);
+      --muted: var(--ui-muted);
+      --line: var(--ui-border);
+      --paper: var(--ui-surface);
+      --sidebar: var(--ui-surface-soft);
+      --accent: var(--ui-accent);
       --accent-soft: #e5f3ef;
-      --warn: #9b3b24;
+      --warn: var(--ui-danger);
       --code: #f5f7f8;
     }
     * { box-sizing: border-box; }

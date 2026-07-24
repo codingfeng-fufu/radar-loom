@@ -27,6 +27,8 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("100dvh", self.html)
         self.assertIn("minmax(0, 1fr)", self.html)
         self.assertIn('rel="icon" href="data:,"', self.html)
+        for token in ('--ui-bg', '--ui-surface', '--ui-surface-soft', '--ui-text', '--ui-muted', '--ui-border', '--ui-accent', '--ui-success', '--ui-warning', '--ui-danger'):
+            self.assertIn(token, self.html)
 
     def test_search_filters_focus_and_layout_controls_are_implemented(self):
         for function in ("applyFilters", "focusNode", "clearFocus", "runLayout", "renderDetails"):
