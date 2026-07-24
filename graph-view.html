@@ -439,7 +439,8 @@
         neighbors: state.selected.closedNeighborhood().nodes().not(state.selected).map((node) => node.data('label')).filter(Boolean).slice(0, 20)
       } : null;
       const modeLabel = el.modeSwitch.querySelector(`[data-mode="${state.mode}"]`)?.textContent?.trim() || state.mode;
-      window.parent.postMessage({ type: 'kb-context', context: {
+      window.parent.postMessage({ type: 'kb-context', version: 1, context: {
+        version: 1, surface: 'graph', title: modeLabel, revision: state.revision || null,
         kind: 'graph', profile: PROFILE, section: PROFILE, mode: state.mode, modeLabel,
         visibleNodes: visibleNodes.not('[nodeType = "external"]').length,
         visibleEdges: visibleEdges.length, categories: [...checkedValues(group)], projects: [...checkedValues('project')], selected
@@ -801,6 +802,7 @@
     function notifyRefreshResult(ok, error = '') {
       if (window.parent === window) return;
       window.parent.postMessage({ type: 'kb-refresh-result', ok, surface: 'graph', revision: state.revision || '', error }, WORKBENCH_ORIGIN);
+      window.parent.postMessage({ type: 'kb-operation-result', version: 1, operation: 'knowledge-refresh', ok, partial: false, surface: 'graph', revision: state.revision || null, stats: state.cy ? { nodes: state.cy.nodes().not('[nodeType = "external"]').length, edges: state.cy.edges().length } : null, preserved: ok ? [] : ['图谱模式', '选中节点', '图谱视口'], error: error || null }, WORKBENCH_ORIGIN);
     }
 
     async function rebuildTaxonomy() {

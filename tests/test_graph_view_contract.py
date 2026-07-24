@@ -78,10 +78,12 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("fetchRevision().then", self.html)
 
     def test_workbench_refresh_reports_real_graph_completion(self):
+        self.assertIn("version: 1", self.html)
         self.assertIn("type: 'kb-refresh-result'", self.html)
         self.assertIn("surface: 'graph'", self.html)
         self.assertIn("notifyRefreshResult(true)", self.html)
         self.assertIn("notifyRefreshResult(false", self.html)
+        self.assertIn("type: 'kb-operation-result'", self.html)
 
     def test_graph_has_three_stable_modes_and_manual_rebuild(self):
         for value in ('data-mode="knowledge"', 'data-mode="taxonomy"', 'data-mode="combined"'):

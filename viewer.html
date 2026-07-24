@@ -359,6 +359,7 @@
     function notifyRefreshResult(ok, error = '') {
       if (window.parent === window) return;
       window.parent.postMessage({ type: 'kb-refresh-result', ok, surface: 'viewer', revision: sessionStorage.getItem('kb-revision') || '', error }, WORKBENCH_ORIGIN);
+      window.parent.postMessage({ type: 'kb-operation-result', version: 1, operation: 'knowledge-refresh', ok, partial: false, surface: 'viewer', revision: sessionStorage.getItem('kb-revision') || null, stats: null, preserved: ok ? [] : ['当前页面'], error: error || null }, WORKBENCH_ORIGIN);
     }
 
     function notifyActiveFile(file, title, metadata = {}) {
@@ -369,7 +370,8 @@
         : { kind: 'page', file, title: title || file.split('/').pop().replace(/\.md$/, '') };
       window.parent.postMessage({
         type: 'kb-context',
-        context
+        version: 1,
+        context: { ...context, version: 1, surface: 'viewer', pageType: pageType === 'interview' ? 'interview' : 'knowledge' }
       }, WORKBENCH_ORIGIN);
     }
 

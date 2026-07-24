@@ -197,10 +197,13 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("return navigateTo(navigationStates[section].activeFile", self.html)
 
     def test_workbench_refresh_reports_real_viewer_completion(self):
+        self.assertIn("version: 1", self.html)
+        self.assertIn("surface: 'viewer'", self.html)
         self.assertIn("type: 'kb-refresh-result'", self.html)
         self.assertIn("surface: 'viewer'", self.html)
         self.assertIn("notifyRefreshResult(ok", self.html)
         self.assertIn("retryIndexLoad(activeSection).then((ok)", self.html)
+        self.assertIn("type: 'kb-operation-result'", self.html)
 
     def test_interview_section_without_file_does_not_fall_back_to_home(self):
         self.assertIn("requestedSection === 'interview' ? null : DEFAULT_FILE", self.html)

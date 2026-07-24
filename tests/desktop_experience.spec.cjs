@@ -72,6 +72,32 @@ test('successful refresh completes only after the active knowledge surface recov
   await expect(page.locator('#status')).toContainText('正在');
   await expect(page.locator('#status')).toHaveAttribute('data-kind', 'success', { timeout: 30_000 });
   await expect(page.locator('#status')).toContainText('已恢复');
+  await page.locator('#lastResultButton').click();
+  await expect(page.locator('#lastResultPanel')).toContainText('知识库刷新');
+  await expect(page.locator('#lastResultPanel')).toContainText(/节点/);
+  await page.reload();
+  await page.locator('#lastResultButton').click();
+  await expect(page.locator('#lastResultPanel')).toContainText('知识库刷新');
+});
+
+test('Claude context details expose the project and do not claim content was read', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  await expect(page.locator('#contextSummary')).toContainText('首页.md');
+  await page.locator('#contextButton').click();
+  await expect(page.locator('#contextDetail')).toContainText('/home/u2023312337/知识库');
+  await expect(page.locator('#contextDetail')).toContainText(/标准|权限确认|危险跳过确认/);
+  await expect(page.locator('#contextDetail')).not.toContainText('Claude 已读取');
+});
+
+test('forged messages cannot replace trusted workbench context', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  const before = await page.locator('#contextSummary').textContent();
+  await page.evaluate(() => window.dispatchEvent(new MessageEvent('message', {
+    origin: 'http://127.0.0.1:18081',
+    source: window,
+    data: { type: 'kb-context', version: 1, context: { version: 1, surface: 'viewer', file: '/etc/passwd', title: '伪造' } },
+  })));
+  await expect(page.locator('#contextSummary')).toHaveText(before);
 });
 
 test('failed page navigation keeps the last readable article', async ({ page }) => {
