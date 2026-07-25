@@ -1,0 +1,4 @@
+interface:
+  display_name: "精读论文"
+  short_description: "完整拆解计算机论文并生成独立、可追溯的 Markdown 阅读笔记"
+  default_prompt: "Use $paper-reading to deeply read this paper and create a structured Markdown note."
