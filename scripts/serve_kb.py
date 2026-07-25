@@ -18,10 +18,11 @@ from email.parser import BytesParser
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 
 ALLOWED_ORIGIN = "http://127.0.0.1:18080"
+ALLOWED_ORIGINS = frozenset({ALLOWED_ORIGIN, "http://127.0.0.1:18081"})
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 MAX_FILENAME_BYTES = 240
 UPLOAD_TYPES = {
@@ -33,6 +34,33 @@ UPLOAD_TYPES = {
     ".jpeg": "image/jpeg",
     ".webp": "image/webp",
 }
+
+
+def catalog_payload(knowledge: dict, interview: dict) -> dict[str, object]:
+    entries: list[dict[str, object]] = []
+    edges: list[dict[str, str]] = []
+    for section, graph in (("knowledge", knowledge), ("interview", interview)):
+        for node in graph.get("nodes", []):
+            if not isinstance(node, dict):
+                continue
+            node_id = node.get("id")
+            label = node.get("label") or node_id
+            href = node.get("href")
+            if not isinstance(node_id, str) or not isinstance(label, str) or not isinstance(href, str):
+                continue
+            file = parse_qs(urlsplit(href).query).get("f", [""])[0]
+            if not file.startswith("pages/") or not file.endswith(".md"):
+                continue
+            entries.append({
+                "id": node_id, "title": label, "file": file, "section": section,
+                "tags": [tag for tag in node.get("tags", []) if isinstance(tag, str)][:50],
+                "summary": str(node.get("summary") or "")[:1000],
+                "confidence": str(node.get("confidence") or "")[:20],
+            })
+        for edge in graph.get("edges", []):
+            if isinstance(edge, dict) and isinstance(edge.get("source"), str) and isinstance(edge.get("target"), str):
+                edges.append({"section": section, "source": edge["source"], "target": edge["target"]})
+    return {"version": 1, "entries": entries, "edges": edges}
 MIME_TYPE_RE = re.compile(
     r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+(?:\s*;.*)?$"
 )
@@ -112,6 +140,18 @@ class KnowledgeBuilder:
             digest.update(path.read_bytes())
         return digest.hexdigest()[:16]
 
+    def graph_stats(self) -> dict[str, int]:
+        try:
+            payload = json.loads((self.root / "graph-data.json").read_text(encoding="utf-8"))
+            stats = payload.get("stats", {})
+            nodes = int(stats.get("nodes", 0))
+            edges = int(stats.get("edges", 0))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as error:
+            raise RefreshError("graph-data.json stats are unavailable") from error
+        if nodes < 0 or edges < 0:
+            raise RefreshError("graph-data.json stats are invalid")
+        return {"nodes": nodes, "edges": edges}
+
     def _run_script(self, script: Path, *args: str, timeout: int | None = None) -> str:
         if not script.exists():
             raise RefreshError(f"missing generator: {script.relative_to(self.root)}")
@@ -145,7 +185,16 @@ class KnowledgeBuilder:
         with self._lock:
             source_stale = self.is_stale()
             now = self._clock()
-            taxonomy_due = force or source_stale or now - self._last_taxonomy_check >= self.taxonomy_check_interval
+            # Avoid blocking the first revision request when generated artifacts are already fresh.
+            # Source changes and subsequent periodic checks still trigger taxonomy synchronization.
+            taxonomy_due = (
+                force
+                or source_stale
+                or (
+                    self._last_taxonomy_check != float("-inf")
+                    and now - self._last_taxonomy_check >= self.taxonomy_check_interval
+                )
+            )
             output_lines = []
             if taxonomy_due:
                 for args in (("sync",), ("--profile", "interview", "sync")):
@@ -220,8 +269,13 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-store")
-        if urlsplit(self.path).path.startswith("/api/"):
-            self.send_header("Access-Control-Allow-Origin", ALLOWED_ORIGIN)
+        request_path = urlsplit(self.path).path
+        if request_path.startswith("/api/") or request_path in {"/_index.md", "/_interview_index.md"}:
+            origin = self.headers.get("Origin")
+            self.send_header(
+                "Access-Control-Allow-Origin",
+                origin if origin in ALLOWED_ORIGINS else ALLOWED_ORIGIN,
+            )
             self.send_header("Vary", "Origin")
         super().end_headers()
 
@@ -237,8 +291,14 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         try:
             result = self.builder.refresh(force=force)
         except RefreshError as error:
-            return 500, {"ok": False, "error": str(error)}
-        return 200, {"ok": True, **result}
+            payload = {"ok": False, "error": str(error)}
+            if force:
+                payload.update({"version": 1, "operation": "knowledge-refresh"})
+            return 500, payload
+        payload = {"ok": True, **result}
+        if force:
+            payload.update({"version": 1, "operation": "knowledge-refresh", "stats": self.builder.graph_stats()})
+        return 200, payload
 
     def taxonomy_allowed(self, require_origin: bool = False) -> bool:
         try:
@@ -247,7 +307,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             loopback = False
         if not loopback:
             return False
-        return not require_origin or self.headers.get("Origin") == ALLOWED_ORIGIN
+        return not require_origin or self.headers.get("Origin") in ALLOWED_ORIGINS
 
     def do_OPTIONS(self) -> None:
         if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads"}:
@@ -270,9 +330,9 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             try:
                 result = self.builder.taxonomy_rebuild()
             except RefreshError as error:
-                self.send_json(500, {"ok": False, "error": "taxonomy rebuild failed"})
+                self.send_json(500, {"version": 1, "operation": "taxonomy-rebuild", "ok": False, "error": "taxonomy rebuild failed"})
                 return
-            self.send_json(200, {"ok": True, **result})
+            self.send_json(200, {"version": 1, "operation": "taxonomy-rebuild", "ok": True, "stats": self.builder.graph_stats(), **result})
             return
         if path != "/api/refresh":
             self.send_error(404)
@@ -432,6 +492,18 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/catalog":
+            status, payload = self.refresh_payload(force=False)
+            if status != 200:
+                self.send_json(status, payload)
+                return
+            try:
+                knowledge = json.loads((self.builder.root / "graph-data.json").read_text(encoding="utf-8"))
+                interview = json.loads((self.builder.root / "interview-graph-data.json").read_text(encoding="utf-8"))
+                self.send_json(200, catalog_payload(knowledge, interview))
+            except (OSError, json.JSONDecodeError) as error:
+                self.send_json(500, {"ok": False, "error": f"catalog unavailable: {error}"})
+            return
         if path == "/api/revision":
             status, payload = self.refresh_payload(force=False)
             payload.pop("output", None)

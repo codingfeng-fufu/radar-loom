@@ -169,3 +169,26 @@ test('complex knowledge pages and graph render without public network resources'
   await expect(page.locator('#graph canvas').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+test('unified search, objective quality, and local operation history are visible', async ({ page }) => {
+  await page.goto(workbenchUrl);
+  await page.locator('#globalSearchButton').click();
+  await page.locator('#globalSearchInput').fill('多头注意力');
+  await expect(page.locator('#globalSearchResults')).toContainText('知识库');
+  await expect(page.locator('#globalSearchResults')).toContainText('工程面试');
+  await page.locator('#globalSearchResults .panel-result').filter({ hasText: 'Multi-Head Attention' }).first().click();
+  const viewer = page.frameLocator('#knowledgeFrame');
+  await expect(viewer.locator('#content h1').first()).toContainText('多头注意力');
+  await viewer.locator('#qualityPanel summary').click();
+  await expect(viewer.locator('#qualityFacts')).toContainText('入站');
+  await expect(viewer.locator('#qualityFacts')).toContainText('断链');
+  await expect(viewer.locator('#qualityFacts')).toContainText('健康状态');
+
+  await page.evaluate(() => localStorage.setItem('radar-workbench-history-v1', JSON.stringify([{
+    version: 1, operation: 'page-handoff', status: 'success', surface: 'viewer', revision: null,
+    stats: null, preserved: ['Claude 输入框中的建页任务'], error: null, time: Date.now(),
+  }])));
+  await page.reload();
+  await page.locator('#historyButton').click();
+  await expect(page.locator('#historyList')).toContainText('建页任务已交接');
+});

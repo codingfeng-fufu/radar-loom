@@ -177,6 +177,7 @@
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
     let activeSection = 'knowledge';
     let navigationGeneration = 0;
+    let catalogPromise = null;
     const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
       groups: [], entries: [], activeFile: SECTIONS[section].defaultFile, expanded: new Set(), initialized: false,
       search: '', filters: { role: '', difficulty: '', tag: '' }
@@ -217,28 +218,46 @@
       return typeof value === 'string' && value.trim() ? [value.trim()] : [];
     }
 
-    function objectivePageQuality(metadata, body) {
+    function loadCatalog() {
+      if (!catalogPromise) catalogPromise = fetch('/api/catalog', { cache: 'no-store' }).then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      });
+      return catalogPromise;
+    }
+
+    function objectivePageQuality(metadata, body, file, catalog = null, rawMetadata = '') {
       const summary = String(metadata.summary || metadata['摘要'] || '').trim();
       const sources = metadataValues(metadata.source || metadata['来源']);
+      const sourceDeclared = sources.length > 0 || /^(?:source|来源):(?:\s*\S.*|\s*\n\s+-\s+\S+)/m.test(rawMetadata);
       const confidence = String(metadata.confidence || metadata['信度'] || '').trim();
       const tags = metadataValues(metadata.tags);
-      const links = [...body.matchAll(/\[\[([^\]|\n]+)(?:\|[^\]\n]+)?\]\]/g)];
+      const links = [...body.matchAll(/\[\[([^\]|\n]+)(?:\|[^\]\n]+)?\]\]/g)].map((match) => match[1].trim());
+      const entry = catalog?.entries?.find((item) => item.file === file);
+      const ids = new Set((catalog?.entries || []).map((item) => item.id));
+      const broken = catalog ? links.filter((target) => !ids.has(target)).length : null;
+      const incoming = entry ? (catalog.edges || []).filter((edge) => edge.section === entry.section && edge.target === entry.id).length : null;
+      const outgoing = entry ? (catalog.edges || []).filter((edge) => edge.section === entry.section && edge.source === entry.id).length : links.length;
       const headings = (body.match(/^#{1,6}\s+\S+/gm) || []).length;
       const fencedCode = (body.match(/^```/gm) || []).length;
       const displayMath = (body.match(/\$\$/g) || []).length;
       return {
-        summary: summary ? '已填写' : '未检测到', source: sources.length ? `${sources.length} 项` : '未检测到',
+        summary: summary ? '已填写' : '未检测到', source: sourceDeclared ? '已填写' : '未检测到',
         confidence: confidence || '未检测到', tags: tags.length ? `${tags.length} 个` : '未检测到',
-        links: `${links.length} 个出站引用`, structure: `${headings} 个标题 · ${Math.floor(fencedCode / 2)} 个代码块 · ${Math.floor(displayMath / 2)} 个公式块`,
-        complete: Boolean(summary && sources.length && confidence && tags.length)
+        links: `${outgoing} 个出站 · ${incoming == null ? '未检测' : incoming} 个入站`, broken: broken == null ? '未检测到' : `${broken} 个`,
+        structure: `${headings} 个标题 · ${Math.floor(fencedCode / 2)} 个代码块 · ${Math.floor(displayMath / 2)} 个公式块`,
+        complete: Boolean(summary && sourceDeclared && confidence && tags.length && broken === 0),
+        health: broken == null ? '未检测到' : (!summary || !sourceDeclared || !confidence || !tags.length || broken > 0) ? 'ERROR' : incoming === 0 && outgoing === 0 ? 'WARN' : 'OK'
       };
     }
 
-    function renderPageQuality(metadata, body) {
-      const quality = objectivePageQuality(metadata, body);
+    async function renderPageQuality(metadata, body, file, rawMetadata) {
+      let catalog = null;
+      try { catalog = await loadCatalog(); } catch {}
+      const quality = objectivePageQuality(metadata, body, file, catalog, rawMetadata);
       elements.qualitySummary.textContent = quality.complete ? '基础字段完整' : '存在未检测字段';
       elements.qualityFacts.replaceChildren();
-      for (const [label, value] of [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['结构', quality.structure]]) {
+      for (const [label, value] of [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['断链', quality.broken], ['健康状态', quality.health], ['结构', quality.structure]]) {
         const term = document.createElement('dt'); const detail = document.createElement('dd');
         term.textContent = label; detail.textContent = value; elements.qualityFacts.append(term, detail);
       }
@@ -659,7 +678,8 @@
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
-        renderPageQuality(pageMetadata, body);
+        await renderPageQuality(pageMetadata, body, file, metadata);
+        if (token !== navigationGeneration) return;
         const math = extractMathRegions(rewriteWikilinks(body));
         const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });

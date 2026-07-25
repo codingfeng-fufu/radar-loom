@@ -13,6 +13,8 @@ const clipboardFixtureName = `mha-clipboard-e2e-${runSuffix}.txt`;
 const errorFixtureName = `mha-error-e2e-${runSuffix}.txt`;
 const rawInbox = path.resolve(__dirname, '..', 'raw', 'inbox');
 
+test.use({ viewport: { width: 1440, height: 900 } });
+
 test.afterEach(() => {
   for (const name of [directFixtureName, clipboardFixtureName, errorFixtureName]) {
     const target = path.join(rawInbox, name);

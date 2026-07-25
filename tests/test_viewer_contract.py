@@ -247,6 +247,8 @@ class ViewerContractTests(unittest.TestCase):
             self.assertIn(value, self.html)
         self.assertIn("event.source !== window.parent", self.html)
         self.assertIn("event.data?.type === 'kb-navigate'", self.html)
+        for value in ("'/api/catalog'", "个入站", "['断链', quality.broken]", "['健康状态', quality.health]", "broken === 0"):
+            self.assertIn(value, self.html)
 
 
 if __name__ == "__main__":

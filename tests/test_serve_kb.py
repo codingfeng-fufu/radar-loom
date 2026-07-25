@@ -75,6 +75,13 @@ class KnowledgeBuilderTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_catalog_payload_combines_separate_graph_profiles(self):
+        knowledge = {"nodes": [{"id": "A", "label": "Alpha", "href": "viewer.html?f=pages%2FA.md", "tags": ["KG"], "summary": "alpha"}], "edges": [{"source": "A", "target": "B"}]}
+        interview = {"nodes": [{"id": "Q", "label": "Question", "href": "viewer.html?section=interview&f=pages%2FQ.md", "tags": ["LLM"]}], "edges": []}
+        payload = serve_kb.catalog_payload(knowledge, interview)
+        self.assertEqual([(item["section"], item["file"]) for item in payload["entries"]], [("knowledge", "pages/A.md"), ("interview", "pages/Q.md")])
+        self.assertEqual(payload["edges"], [{"section": "knowledge", "source": "A", "target": "B"}])
+
     def make_outputs_older_than_sources(self):
         (self.root / "_index.md").write_text("old index\n", encoding="utf-8")
         (self.root / "graph-data.json").write_text("{}\n", encoding="utf-8")
@@ -98,6 +105,14 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "taxonomy\ninterview-taxonomy\nindex\ngraph\n")
         self.assertIn("index rebuilt", first["output"])
         self.assertIn("graph rebuilt", first["output"])
+
+    def test_fresh_outputs_skip_expensive_initial_taxonomy_check(self):
+        self.builder.refresh(force=True)
+        (self.root / "runs.log").write_text("", encoding="utf-8")
+        result = self.builder.refresh()
+        self.assertFalse(result["rebuilt"])
+        self.assertEqual(result["output"], "")
+        self.assertEqual((self.root / "runs.log").read_text(encoding="utf-8"), "")
 
     def test_force_refresh_rebuilds_even_when_outputs_are_fresh(self):
         first = self.builder.refresh(force=True)
@@ -269,7 +284,23 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual(response.headers["Cache-Control"], "no-store")
         self.assertTrue(refreshed["ok"])
         self.assertTrue(refreshed["rebuilt"])
+        self.assertEqual(refreshed["version"], 1)
+        self.assertEqual(refreshed["operation"], "knowledge-refresh")
+        self.assertEqual(refreshed["stats"], {"nodes": 1, "edges": 0})
         self.assertEqual(revision, {"ok": True, "revision": refreshed["revision"], "rebuilt": False})
+
+    def test_taxonomy_rebuild_accepts_the_standalone_viewer_origin(self):
+        request = Request(
+            self.base + "/api/taxonomy/rebuild",
+            data=b"{}",
+            method="POST",
+            headers={"Origin": "http://127.0.0.1:18081", "Content-Type": "application/json"},
+        )
+        with urlopen(request, timeout=10) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        self.assertEqual(response.status, 200)
+        self.assertEqual(response.headers["Access-Control-Allow-Origin"], "http://127.0.0.1:18081")
+        self.assertTrue(payload["ok"])
 
     def test_refresh_endpoint_returns_json_error_when_generation_fails(self):
         (self.root / "scripts" / "render_graph.py").write_text(
@@ -283,6 +314,8 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, 500)
         payload = json.loads(caught.exception.read().decode("utf-8"))
         self.assertEqual(payload["ok"], False)
+        self.assertEqual(payload["version"], 1)
+        self.assertEqual(payload["operation"], "knowledge-refresh")
         self.assertIn("render failed", payload["error"])
 
     def test_static_responses_disable_cache_for_live_knowledge_files(self):
@@ -459,6 +492,9 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual(status["categories"], 2)
         self.assertTrue(rebuilt["ok"])
         self.assertEqual(rebuilt["mode"], "global")
+        self.assertEqual(rebuilt["version"], 1)
+        self.assertEqual(rebuilt["operation"], "taxonomy-rebuild")
+        self.assertEqual(rebuilt["stats"], {"nodes": 1, "edges": 0})
 
     def test_taxonomy_rebuild_failure_keeps_static_service_available(self):
         (self.root / "scripts" / "taxonomy_cli.py").write_text(
