@@ -386,9 +386,16 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return
 
         validated = []
+        destination = "inbox"
         for part in message.iter_parts():
             filename = part.get_filename()
             if filename is None:
+                if part.get_param("name", header="Content-Disposition") == "destination":
+                    value = part.get_content().strip()
+                    if value not in {"inbox", "papers"}:
+                        self.send_json(400, {"ok": False, "error": "invalid upload destination"})
+                        return
+                    destination = value
                 continue
             if (
                 not filename
@@ -440,7 +447,8 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             self.send_json(400, {"ok": False, "error": "at least one file is required"})
             return
 
-        inbox = self.builder.root / "raw" / "inbox"
+        inbox = self.builder.root / ("papers" if destination == "papers" else "raw/inbox")
+        relative_root = "papers" if destination == "papers" else "raw/inbox"
         stored = []
         temp_paths = []
         final_paths = []
@@ -473,7 +481,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                     final_paths.append(final_path)
                     stored.append({
                         "name": candidate,
-                        "path": f"raw/inbox/{candidate}",
+                        "path": f"{relative_root}/{candidate}",
                         "size": len(content),
                     })
         except OSError as error:

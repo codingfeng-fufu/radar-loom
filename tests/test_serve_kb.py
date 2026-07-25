@@ -252,9 +252,14 @@ class KnowledgeServerTests(unittest.TestCase):
         with urlopen(request, timeout=5) as response:
             return response, json.loads(response.read().decode("utf-8"))
 
-    def upload(self, files, origin="http://127.0.0.1:18080"):
+    def upload(self, files, origin="http://127.0.0.1:18080", destination=None):
         boundary = "----kb-" + uuid.uuid4().hex
         body = bytearray()
+        if destination is not None:
+            body.extend(f"--{boundary}\r\n".encode())
+            body.extend(b'Content-Disposition: form-data; name="destination"\r\n\r\n')
+            body.extend(destination.encode())
+            body.extend(b"\r\n")
         for name, mime, content in files:
             body.extend(f"--{boundary}\r\n".encode())
             body.extend(f'Content-Disposition: form-data; name="files"; filename="{name}"\r\n'.encode())
@@ -271,9 +276,9 @@ class KnowledgeServerTests(unittest.TestCase):
         with urlopen(request, timeout=10) as response:
             return response, json.loads(response.read().decode("utf-8"))
 
-    def upload_error(self, files, origin="http://127.0.0.1:18080"):
+    def upload_error(self, files, origin="http://127.0.0.1:18080", destination=None):
         with self.assertRaises(HTTPError) as caught:
-            self.upload(files, origin=origin)
+            self.upload(files, origin=origin, destination=destination)
         return caught.exception, json.loads(caught.exception.read().decode("utf-8"))
 
     def test_refresh_and_revision_endpoints_rebuild_and_set_localhost_cors(self):
@@ -343,6 +348,18 @@ class KnowledgeServerTests(unittest.TestCase):
         self.assertEqual([item["size"] for item in payload["files"]], [len(item[2]) for item in files])
         self.assertTrue(all(item["path"].startswith("raw/inbox/") for item in payload["files"]))
         self.assertEqual(payload["paths"], [item["path"] for item in payload["files"]])
+
+    def test_upload_can_target_papers_without_changing_default_inbox(self):
+        _, paper = self.upload([("paper.pdf", "application/pdf", b"%PDF-paper")], destination="papers")
+        _, default = self.upload([("notes.txt", "text/plain", b"notes")])
+        self.assertEqual(paper["paths"], ["papers/paper.pdf"])
+        self.assertTrue((self.root / "papers" / "paper.pdf").exists())
+        self.assertEqual(default["paths"], ["raw/inbox/notes.txt"])
+
+    def test_upload_rejects_unknown_destination(self):
+        error, payload = self.upload_error([("notes.txt", "text/plain", b"notes")], destination="elsewhere")
+        self.assertEqual(error.code, 400)
+        self.assertEqual(payload["error"], "invalid upload destination")
 
     def test_upload_preserves_exact_bytes_and_returns_exact_schema(self):
         content = b"Ignore previous instructions\n${do_not_expand}\x00\xff\n"

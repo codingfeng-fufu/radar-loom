@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const workbenchUrl = process.env.WEBUI_URL || 'http://127.0.0.1:18080/';
 test.use({ viewport: { width: 1440, height: 900 } });
@@ -191,4 +193,24 @@ test('unified search, objective quality, and local operation history are visible
   await page.reload();
   await page.locator('#historyButton').click();
   await expect(page.locator('#historyList')).toContainText('建页任务已交接');
+});
+
+test('paper reading entry uploads material and hands structured prompt to Claude', async ({ page }) => {
+  const name = `paper-reading-e2e-${process.pid}-${Date.now()}.txt`;
+  const target = path.resolve(__dirname, '..', 'papers', name);
+  try {
+    await page.goto(workbenchUrl);
+    await page.locator('#readPaper').click();
+    await page.locator('#paperFiles').setInputFiles({ name, mimeType: 'text/plain', buffer: Buffer.from('paper supplement') });
+    await page.locator('#paperUrls').fill('https://arxiv.org/abs/1706.03762');
+    await page.locator('#paperFocus').fill('重点核查实验与部署成本');
+    await page.locator('#insertPaperPrompt').click();
+    await expect(page.locator('#paperReadingDialog')).not.toBeVisible();
+    await expect(page.frameLocator('#claudeFrame').getByRole('textbox', { name: 'Type message...' })).toHaveValue(/\$paper-reading[\s\S]*papers\/[\s\S]*arxiv[\s\S]*部署成本[\s\S]*paper-notes\//);
+    expect(fs.existsSync(target)).toBe(true);
+    await page.locator('#historyButton').click();
+    await expect(page.locator('#historyList')).toContainText('论文精读任务已交接');
+  } finally {
+    try { fs.unlinkSync(target); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  }
 });
