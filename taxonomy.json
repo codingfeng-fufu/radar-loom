@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 0,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -304,9 +304,9 @@
   "last_global_at": "2026-07-28",
   "last_run": {
     "finished_at": "2026-07-28",
-    "operation": "global",
-    "outcome": "rejected",
-    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+    "operation": "sync",
+    "outcome": "unchanged",
+    "reason": "",
     "started_at": "2026-07-28"
   },
   "memberships": [
@@ -852,6 +852,34 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/OSI参考模型与TCP-IP模型 OSI and TCP-IP Models.md",
+      "reason": "双链 1.00，语义 0.94",
+      "score": 0.8124321222305297,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9373868703842163,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/OSI参考模型与TCP-IP模型 OSI and TCP-IP Models.md",
+      "reason": "人工标签 1.00，语义 0.94",
+      "score": 0.7882153630256652,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9386922717094421,
         "tags": 1.0
       }
     },
@@ -4095,6 +4123,7 @@
     "pages/LRU 缓存替换 Least Recently Used.md": "edaf48ed426fd72a56d38a205c3fcd0692dfd4eb879b2ae782aa6921fa48ff10",
     "pages/LightRAG.md": "6c18899f5f3214edb589947012ecc7551c83d9edcb5fc3637507c7446fd3029b",
     "pages/McNemar检验.md": "718ca27acc6700591bc7f315de2f3cedf496a9d1b93151decd7add1bc9a2ad94",
+    "pages/OSI参考模型与TCP-IP模型 OSI and TCP-IP Models.md": "9bfd87cd1584f6448c50fb7de2d20e5741cd8f2e78d2339f027bc60b94a48aaf",
     "pages/RAG 评测指标 EM Recall MRR.md": "fdb67de7bedf44ae7722a2de9ca3ccfe2caa5e965046a86e13f359c1a5a6e733",
     "pages/RAGChecker.md": "7a5a6dfec257a463b78d381b2d6dfbd77864cbc41d327f5103f0f3d7a302fdaf",
     "pages/ReAct Agent 工作原理.md": "f98d4a38a3d12a5b8bcf747543d493e726b519771c659c0ca400e23fe0d4f5c1",
