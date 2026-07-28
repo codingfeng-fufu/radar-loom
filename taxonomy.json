@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -266,16 +266,48 @@
       "created_at": "2026-07-19",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-07-20",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-07-28",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
-  "generated_at": "2026-07-19",
-  "last_global_at": "2026-07-19",
+  "generated_at": "2026-07-28",
+  "last_global_at": "2026-07-28",
   "last_run": {
-    "finished_at": "2026-07-19",
-    "operation": "sync",
-    "outcome": "unchanged",
-    "reason": "",
-    "started_at": "2026-07-19"
+    "finished_at": "2026-07-28",
+    "operation": "global",
+    "outcome": "rejected",
+    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+    "started_at": "2026-07-28"
   },
   "memberships": [
     {
@@ -1148,6 +1180,34 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/TCP三次握手与四次挥手 TCP Handshake and Teardown.md",
+      "reason": "双链 1.00，语义 0.93",
+      "score": 0.8097377181053161,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9328961968421936,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/TCP三次握手与四次挥手 TCP Handshake and Teardown.md",
+      "reason": "人工标签 1.00，语义 0.93",
+      "score": 0.6600753545761108,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.9334589242935181,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/TransE 图嵌入.md",
@@ -1252,12 +1312,71 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-07-20",
       "page": "pages/TripleChecker.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8356631059956745,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.04065040650406504,
+        "semantic": 0.9727176427841187,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-20",
+      "last_confirmed_at": "2026-07-20",
+      "page": "pages/TripleChecker.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7261971603740345,
+      "signals": {
+        "links": 0.125,
+        "projects": 0.2727272727272727,
+        "semantic": 0.9688513278961182,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-20",
+      "last_confirmed_at": "2026-07-20",
+      "page": "pages/TripleChecker.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7792542139689127,
+      "signals": {
+        "links": 0.375,
+        "projects": 0.08333333333333333,
+        "semantic": 0.9688959121704102,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-20",
+      "last_confirmed_at": "2026-07-20",
+      "page": "pages/TripleChecker.md",
+      "reason": "语义 0.97，双链 0.25",
+      "score": 0.6425031661987305,
+      "signals": {
+        "links": 0.25,
+        "projects": 0.0,
+        "semantic": 0.9666719436645508,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-07-20",
+      "last_confirmed_at": "2026-07-20",
+      "page": "pages/TripleChecker.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7784375596046448,
+      "signals": {
+        "links": 0.375,
+        "projects": 0.1,
+        "semantic": 0.966145932674408,
+        "tags": 1.0
       }
     },
     {
@@ -3985,10 +4104,11 @@
     "pages/Scaling Law 大模型缩放律.md": "f1562fe357e96fd63f5afba3e258e6952df291f06f3675d30a00edf9b79d1846",
     "pages/Self-RAG.md": "1af4e09961e70a3fdaad69ff8d86f198414693dcdd17db552395383252d0b037",
     "pages/StructRAG 结构化知识推理.md": "d5f47aa79f26193c00df55382198d3f0b2b8957a75be3040fbecc749c581a769",
+    "pages/TCP三次握手与四次挥手 TCP Handshake and Teardown.md": "989cdce8c4dabb4b71d92650dca135d44b610dff3969d1a0d48ef728a80260df",
     "pages/TransE 图嵌入.md": "583fd72b5031a387f499eb17ca167e32be5e2ba8bc1bf1c68195392837bae3f5",
     "pages/Transformer 架构 Architecture.md": "38bccc185c955ec6fde11f80d978456b6d1abe5bf6b594b933e5c3238967d45d",
     "pages/Transformer 自注意力机制.md": "b75cfbc67470e29dc318adc72df26cec17fd5f78c81c1abe08742b3caeba1702",
-    "pages/TripleChecker.md": "1d2e374a636f903debac523db4beb81ae6866436dda16772455c40547bbf87bb",
+    "pages/TripleChecker.md": "6c8d70026c9896a1c94e143ff6399999ef863850856f65ad846c0de8f0375239",
     "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",

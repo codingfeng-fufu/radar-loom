@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-20 · 页面 110 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-28 · 页面 111 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -126,6 +126,7 @@
 - [[LRU 缓存替换 Least Recently Used]] `#基础` — LRU用近期访问时间近似最优替换,以哈希表加双向链表实现O(1)存取,是缓存与页面替换基线算法。
 - [[Robust Scaler 鲁棒缩放]] `#基础` — Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
+- [[TCP三次握手与四次挥手 TCP Handshake and Teardown]] `#基础` — TCP通过三次握手建立可靠连接、四次挥手可靠关闭的连接管理核心机制，出自RFC 793标准。
 - [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
