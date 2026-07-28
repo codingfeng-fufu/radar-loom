@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 2,
+  "changes_since_global": 3,
   "events": [
     {
       "category_ids": [
@@ -3228,6 +3228,34 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/流量控制常见方式 Flow Control.md",
+      "reason": "双链 1.00，语义 0.94",
+      "score": 0.815682315826416,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9428038597106934,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/流量控制常见方式 Flow Control.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.8566358566284179,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9485597610473633,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/消融实验 Ablation Study.md",
@@ -4228,6 +4256,7 @@
     "pages/检索增强生成 RAG-GraphRAG.md": "11c99786cff99720db20ab34c6d3490bb2549261ce0456a53ba9a4fe3e8b3db4",
     "pages/模型校准 Calibration.md": "9dfec39b832c196245882d18fc5aa97039bf4662cdae775ca6dc52fe81558845",
     "pages/残差连接 Residual Connection.md": "c6c4fb31f4184e0ab98360c45dca3e615dddba8197b01489bee4209fe6ba3b5f",
+    "pages/流量控制常见方式 Flow Control.md": "f105e80ebb43cbedea071b1a687be1bebf7ed9dc411ecd0216f1d9d931713220",
     "pages/消融实验 Ablation Study.md": "741354806de95a22ed810f55142b79cddec76a23c49edfcb69895fe1d903f9ca",
     "pages/涌现能力 Emergent Abilities.md": "bfec65f6f13b9b069a5ee259a588ea3f752b7d111901497e8c32ec0dc9e16e62",
     "pages/混合检索 Hybrid Retrieval.md": "5634321db3f7efe91c083ad06259c45341a0db051a71e29e2efcb3cf5545120d",
