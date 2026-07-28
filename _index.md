@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-28 · 页面 114 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-28 · 页面 115 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -159,6 +159,7 @@
 - [[词嵌入 Word Embedding]] `#基础` — 词嵌入把词映射为低维稠密向量,让语义可计算,从Word2Vec到BERT上下文嵌入是NLP表示学习的基石。
 - [[词性标注 POS Tagging]] `#KG #基础` — 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
+- [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]] `#基础` — ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
 - [[马尔可夫 Markov]] `#基础` — 未来只依赖当下的建模假设,派生出马尔可夫链/HMM/MDP/MCMC等一族方法
 - [[高斯混合模型 GMM Gaussian Mixture Model]] `#基础` — GMM是用K个高斯分量的加权和拟合数据的概率模型,通过EM算法估计参数,常用于软聚类和密度估计。

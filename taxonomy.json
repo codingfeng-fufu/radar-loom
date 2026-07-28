@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 3,
+  "changes_since_global": 4,
   "events": [
     {
       "category_ids": [
@@ -4060,6 +4060,34 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8189393043518066,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9482321739196777,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.8600874304771423,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9543123841285706,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/预训练与微调 Pretrain vs Finetune.md",
@@ -4284,6 +4312,7 @@
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
+    "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md": "8f2a2c2c3cbb2a8639bad0960b510c8aa90bf9c44162952e038f265efff96bd4",
     "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
     "pages/马尔可夫 Markov.md": "3a12bea9b62ce126594b4ae01ceb07a4bcc9340a55ea8209b134b72947b153cd",
     "pages/高斯混合模型 GMM Gaussian Mixture Model.md": "55e6f06cf474fa2a68cc69bf683f3d77eb3f4cd31bb62a2b8baf2c33a6944646",
