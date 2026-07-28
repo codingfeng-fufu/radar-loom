@@ -3222,301 +3222,316 @@
     },
     {
       "id": "e0643",
-      "source": "过拟合 Overfitting",
-      "target": "EvidenceFirst"
+      "source": "路由协议 RIP OSPF BGP",
+      "target": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models"
     },
     {
       "id": "e0644",
-      "source": "过拟合 Overfitting",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "source": "路由协议 RIP OSPF BGP",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
       "id": "e0645",
-      "source": "过拟合 Overfitting",
-      "target": "知识图谱质量评估维度"
+      "source": "路由协议 RIP OSPF BGP",
+      "target": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA"
     },
     {
       "id": "e0646",
       "source": "过拟合 Overfitting",
-      "target": "预训练与微调 Pretrain vs Finetune"
-    },
-    {
-      "id": "e0647",
-      "source": "选择性预测 Selective Prediction",
       "target": "EvidenceFirst"
     },
     {
+      "id": "e0647",
+      "source": "过拟合 Overfitting",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
       "id": "e0648",
-      "source": "选择性预测 Selective Prediction",
-      "target": "不确定性量化 Uncertainty Quantification"
+      "source": "过拟合 Overfitting",
+      "target": "知识图谱质量评估维度"
     },
     {
       "id": "e0649",
-      "source": "选择性预测 Selective Prediction",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "source": "过拟合 Overfitting",
+      "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
       "id": "e0650",
       "source": "选择性预测 Selective Prediction",
-      "target": "模型校准 Calibration"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0651",
       "source": "选择性预测 Selective Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "不确定性量化 Uncertainty Quantification"
     },
     {
       "id": "e0652",
-      "source": "链接预测 Link Prediction",
-      "target": "EvidenceFirst"
+      "source": "选择性预测 Selective Prediction",
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0653",
-      "source": "链接预测 Link Prediction",
-      "target": "FinGraph 财务知识图谱"
+      "source": "选择性预测 Selective Prediction",
+      "target": "模型校准 Calibration"
     },
     {
       "id": "e0654",
-      "source": "链接预测 Link Prediction",
-      "target": "Graph Fusion 图融合"
+      "source": "选择性预测 Selective Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
     },
     {
       "id": "e0655",
       "source": "链接预测 Link Prediction",
-      "target": "GraphRAG 架构"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0656",
       "source": "链接预测 Link Prediction",
-      "target": "KG-RAG 工作原理"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0657",
       "source": "链接预测 Link Prediction",
-      "target": "TransE 图嵌入"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0658",
       "source": "链接预测 Link Prediction",
-      "target": "TripleChecker"
+      "target": "GraphRAG 架构"
     },
     {
       "id": "e0659",
       "source": "链接预测 Link Prediction",
-      "target": "关系图卷积网络 RGCN"
+      "target": "KG-RAG 工作原理"
     },
     {
       "id": "e0660",
       "source": "链接预测 Link Prediction",
-      "target": "图神经网络 GNN"
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0661",
       "source": "链接预测 Link Prediction",
-      "target": "图结构一致性 Graph Structure Consistency"
+      "target": "TripleChecker"
     },
     {
       "id": "e0662",
       "source": "链接预测 Link Prediction",
-      "target": "实体对齐 Entity Alignment"
+      "target": "关系图卷积网络 RGCN"
     },
     {
       "id": "e0663",
       "source": "链接预测 Link Prediction",
-      "target": "实体消歧 Entity Disambiguation"
+      "target": "图神经网络 GNN"
     },
     {
       "id": "e0664",
       "source": "链接预测 Link Prediction",
-      "target": "开放信息抽取 OpenIE"
+      "target": "图结构一致性 Graph Structure Consistency"
     },
     {
       "id": "e0665",
       "source": "链接预测 Link Prediction",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "实体对齐 Entity Alignment"
     },
     {
       "id": "e0666",
       "source": "链接预测 Link Prediction",
-      "target": "本体 Ontology"
+      "target": "实体消歧 Entity Disambiguation"
     },
     {
       "id": "e0667",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱 KG"
+      "target": "开放信息抽取 OpenIE"
     },
     {
       "id": "e0668",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱补全 Knowledge Graph Completion"
+      "target": "文本蕴含与自然语言推理 NLI"
     },
     {
       "id": "e0669",
       "source": "链接预测 Link Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "本体 Ontology"
     },
     {
       "id": "e0670",
       "source": "链接预测 Link Prediction",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0671",
-      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
-      "target": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models"
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱补全 Knowledge Graph Completion"
     },
     {
       "id": "e0672",
-      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
-      "target": "信道复用技术 FDM TDM WDM CDM"
+      "source": "链接预测 Link Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
     },
     {
       "id": "e0673",
-      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "source": "链接预测 Link Prediction",
+      "target": "置信度评分 Confidence Scoring"
     },
     {
       "id": "e0674",
       "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
-      "target": "流量控制常见方式 Flow Control"
+      "target": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models"
     },
     {
       "id": "e0675",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "EvidenceFirst"
+      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+      "target": "信道复用技术 FDM TDM WDM CDM"
     },
     {
       "id": "e0676",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "TripleChecker"
+      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
       "id": "e0677",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "人类反馈强化学习 RLHF"
+      "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+      "target": "流量控制常见方式 Flow Control"
     },
     {
       "id": "e0678",
       "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0679",
       "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "思维链 Chain-of-Thought"
+      "target": "TripleChecker"
     },
     {
       "id": "e0680",
       "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "提示工程 Prompt Engineering"
+      "target": "人类反馈强化学习 RLHF"
     },
     {
       "id": "e0681",
-      "source": "首页",
-      "target": "ChronoLink"
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0682",
-      "source": "首页",
-      "target": "CoMaGRAG"
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "思维链 Chain-of-Thought"
     },
     {
       "id": "e0683",
-      "source": "首页",
-      "target": "EvidenceFirst"
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "提示工程 Prompt Engineering"
     },
     {
       "id": "e0684",
       "source": "首页",
-      "target": "GSAD"
+      "target": "ChronoLink"
     },
     {
       "id": "e0685",
       "source": "首页",
-      "target": "TripleChecker"
+      "target": "CoMaGRAG"
     },
     {
       "id": "e0686",
       "source": "首页",
-      "target": "前沿趋势 Frontier"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0687",
       "source": "首页",
-      "target": "多智能体系统 Multi-Agent Systems"
+      "target": "GSAD"
     },
     {
       "id": "e0688",
       "source": "首页",
-      "target": "大模型机制与推理 LLM Mechanisms"
+      "target": "TripleChecker"
     },
     {
       "id": "e0689",
       "source": "首页",
-      "target": "幻觉与可信度 Hallucination Trustworthiness"
+      "target": "前沿趋势 Frontier"
     },
     {
       "id": "e0690",
       "source": "首页",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "多智能体系统 Multi-Agent Systems"
     },
     {
       "id": "e0691",
       "source": "首页",
-      "target": "检索增强生成 RAG-GraphRAG"
+      "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
       "id": "e0692",
       "source": "首页",
-      "target": "知识图谱 KG"
+      "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
       "id": "e0693",
       "source": "首页",
-      "target": "评测方法 Evaluation Methods"
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
       "id": "e0694",
-      "source": "马尔可夫 Markov",
-      "target": "EvidenceFirst"
+      "source": "首页",
+      "target": "检索增强生成 RAG-GraphRAG"
     },
     {
       "id": "e0695",
-      "source": "马尔可夫 Markov",
-      "target": "TripleChecker"
+      "source": "首页",
+      "target": "知识图谱 KG"
     },
     {
       "id": "e0696",
-      "source": "马尔可夫 Markov",
-      "target": "序列标注模型 HMM CRF"
+      "source": "首页",
+      "target": "评测方法 Evaluation Methods"
     },
     {
       "id": "e0697",
       "source": "马尔可夫 Markov",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0698",
-      "source": "高斯混合模型 GMM Gaussian Mixture Model",
-      "target": "EM算法 Expectation-Maximization"
-    },
-    {
-      "id": "e0699",
-      "source": "高斯混合模型 GMM Gaussian Mixture Model",
+      "source": "马尔可夫 Markov",
       "target": "TripleChecker"
     },
     {
+      "id": "e0699",
+      "source": "马尔可夫 Markov",
+      "target": "序列标注模型 HMM CRF"
+    },
+    {
       "id": "e0700",
-      "source": "高斯混合模型 GMM Gaussian Mixture Model",
-      "target": "主题模型 LDA"
+      "source": "马尔可夫 Markov",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
       "id": "e0701",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
-      "target": "序列标注模型 HMM CRF"
+      "target": "EM算法 Expectation-Maximization"
     },
     {
       "id": "e0702",
+      "source": "高斯混合模型 GMM Gaussian Mixture Model",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0703",
+      "source": "高斯混合模型 GMM Gaussian Mixture Model",
+      "target": "主题模型 LDA"
+    },
+    {
+      "id": "e0704",
+      "source": "高斯混合模型 GMM Gaussian Mixture Model",
+      "target": "序列标注模型 HMM CRF"
+    },
+    {
+      "id": "e0705",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
@@ -3778,7 +3793,7 @@
     {
       "category": "基础",
       "confidence": "高",
-      "degree": 5,
+      "degree": 6,
       "href": "viewer.html?f=pages%2FOSI%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E4%B8%8ETCP-IP%E6%A8%A1%E5%9E%8B%20OSI%20and%20TCP-IP%20Models.md",
       "id": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models",
       "kind": "concept",
@@ -4743,7 +4758,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 22,
+      "degree": 23,
       "href": "viewer.html?f=pages%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8ENLP%E5%9F%BA%E7%A1%80%20ML-NLP%20Foundations.md",
       "id": "机器学习与NLP基础 ML-NLP Foundations",
       "kind": "moc",
@@ -5158,6 +5173,19 @@
       ]
     },
     {
+      "category": "基础",
+      "confidence": "高",
+      "degree": 3,
+      "href": "viewer.html?f=pages%2F%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%20RIP%20OSPF%20BGP.md",
+      "id": "路由协议 RIP OSPF BGP",
+      "kind": "concept",
+      "label": "路由协议 RIP OSPF BGP",
+      "summary": "RIP距离矢量、OSPF链路状态、BGP路径矢量三类核心IP路由协议的算法、报文与适用场景。",
+      "tags": [
+        "基础"
+      ]
+    },
+    {
       "category": "LLM机制",
       "confidence": "高",
       "degree": 5,
@@ -5200,7 +5228,7 @@
     {
       "category": "基础",
       "confidence": "高",
-      "degree": 4,
+      "degree": 5,
       "href": "viewer.html?f=pages%2F%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE%20ALOHA%20CSMA%20CSMA-CD%20CSMA-CA.md",
       "id": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
       "kind": "concept",
@@ -5266,12 +5294,12 @@
   ],
   "stats": {
     "broken": 0,
-    "edges": 702,
+    "edges": 705,
     "externalNodeCount": 0,
-    "internalNodeCount": 129,
+    "internalNodeCount": 130,
     "isolated": 0,
-    "nodeCount": 129,
-    "nodes": 129
+    "nodeCount": 130,
+    "nodes": 130
   },
   "taxonomy": {
     "candidates": [],
@@ -5580,14 +5608,30 @@
         "createdAt": "2026-07-28",
         "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
         "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d",
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-07-28",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
     "generatedAt": "2026-07-28",
     "lastRun": {
       "finished_at": "2026-07-28",
-      "operation": "sync",
-      "outcome": "unchanged",
-      "reason": "",
+      "operation": "global",
+      "outcome": "rejected",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "started_at": "2026-07-28"
     },
     "memberships": [
@@ -9252,6 +9296,34 @@
       },
       {
         "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-07-28",
+        "lastConfirmedAt": "2026-07-28",
+        "page": "路由协议 RIP OSPF BGP",
+        "reason": "双链 1.00，语义 0.95",
+        "score": 0.8217973232269287,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9529955387115479,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-07-28",
+        "lastConfirmedAt": "2026-07-28",
+        "page": "路由协议 RIP OSPF BGP",
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.8414331237475077,
+        "signals": {
+          "links": 0.6666666666666666,
+          "projects": 0.0,
+          "semantic": 0.9579440951347351,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
         "lastConfirmedAt": "2026-07-19",
         "page": "过拟合 Overfitting",
@@ -9564,7 +9636,7 @@
       "candidates": 0,
       "categories": 9,
       "forming": 1,
-      "memberships": 303,
+      "memberships": 305,
       "pendingPages": 0,
       "seedCategories": 8
     }

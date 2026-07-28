@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -298,15 +298,31 @@
       "created_at": "2026-07-28",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-07-28",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
   "generated_at": "2026-07-28",
   "last_global_at": "2026-07-28",
   "last_run": {
     "finished_at": "2026-07-28",
-    "operation": "sync",
-    "outcome": "unchanged",
-    "reason": "",
+    "operation": "global",
+    "outcome": "rejected",
+    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
     "started_at": "2026-07-28"
   },
   "memberships": [
@@ -3971,6 +3987,34 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/路由协议 RIP OSPF BGP.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8217973232269287,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9529955387115479,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/路由协议 RIP OSPF BGP.md",
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.8414331237475077,
+      "signals": {
+        "links": 0.6666666666666666,
+        "projects": 0.0,
+        "semantic": 0.9579440951347351,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/过拟合 Overfitting.md",
@@ -4309,6 +4353,7 @@
     "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",
     "pages/语言模型困惑度 Perplexity.md": "cced8b4fd4d9082b4cd4c4b66c752516c993b363419ed69a41986a4687891836",
     "pages/资源描述框架 RDF OWL SPARQL.md": "f1923ad7f20020e7db58ff33f36599d1826ee256b6088fb6fc98da6ac6768de5",
+    "pages/路由协议 RIP OSPF BGP.md": "8a9ca5cba8009a9d439b71d7584c10be9d1b958eb09873273a137c5de2b0e6cb",
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
