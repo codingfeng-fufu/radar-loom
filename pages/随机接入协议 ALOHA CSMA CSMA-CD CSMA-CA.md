@@ -1,6 +1,6 @@
 ---
 摘要: ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
-来源: https://www.rfc-editor.org/rfc/rfc793
+来源: 对话记录 2026-07-28；Abramson 1970 The ALOHA System；IEEE 802.3 (CSMA/CD) / IEEE 802.11 (CSMA/CA)；Tanenbaum《计算机网络》第6版 第4章
 信度: 高
 首次记录: 2026-07-28
 tags: [基础]
