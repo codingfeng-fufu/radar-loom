@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -1696,6 +1696,34 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/信道复用技术 FDM TDM WDM CDM.md",
+      "reason": "双链 1.00，语义 0.94",
+      "score": 0.8152155756950378,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9420259594917297,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-28",
+      "last_confirmed_at": "2026-07-28",
+      "page": "pages/信道复用技术 FDM TDM WDM CDM.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.7936522006988525,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9477536678314209,
         "tags": 1.0
       }
     },
@@ -4148,6 +4176,7 @@
     "pages/位置编码 Positional Encoding.md": "59dc873a2262da500ddf6169d5c04d525ff80957452727c6fb35b97493644795",
     "pages/依存句法分析 Dependency Parsing.md": "b4b9b30995ba4a81142396d0d27c8e27d2b002a917defd748eeb6c8d0d0d55a4",
     "pages/信息检索 IR基础模型 Information Retrieval.md": "e99ad6d859909f649fefc18507220851cb8bd1890cc1a18ed4575dc21943d4c0",
+    "pages/信道复用技术 FDM TDM WDM CDM.md": "6fcdf580a12c8d244b91c98e772fc77f8fa98db7797f8d1f155cb9975952ed76",
     "pages/关系图卷积网络 RGCN.md": "9cc5311522aad9d5c3c07ef1e44e906d7d869375e870fad5e82ae1be898dd92f",
     "pages/关联规则挖掘 Apriori.md": "ee707cae2f4b4278a6d730e5914cb78b1a0ca133e31129a07260c049b3cd491f",
     "pages/分层评测 Stratified Evaluation.md": "94032ead236e6a67d8cae944c4fa40db119c0ad82f7d42d9a1596b19627401b2",

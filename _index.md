@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-28 · 页面 112 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-28 · 页面 113 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -134,6 +134,7 @@
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
 - [[依存句法分析 Dependency Parsing]] `#KG #基础` — 依存句法分析是分析句子里词和词之间的语法依存关系的任务，用有向图表示，边从修饰词指向被修饰词，边上标注关系类型。
 - [[信息检索 IR基础模型 Information Retrieval]] `#RAG #基础` — 信息检索从布尔匹配、向量空间发展到概率模型和神经检索。
+- [[信道复用技术 FDM TDM WDM CDM]] `#基础` — 频分/时分/波分/码分四类信道复用：在共享物理介质上划分资源承载多路信号的核心机制。
 - [[关联规则挖掘 Apriori]] `#基础` — 关联规则挖掘是从事务数据库里找频繁共现的项目集的任务，典型场景是购物篮分析。
 - [[前馈网络 FFN Feed-Forward Network]] `#LLM机制 #基础` — Transformer的position-wise FFN在每个token独立做两层MLP,承载大部分参数与事实性知识。
 - [[卷积神经网络 CNN]] `#LLM机制 #基础` — 卷积神经网络的核心思想是局部连接和权重共享。
