@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -1520,6 +1520,76 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/交叉编码器 Cross-Encoder.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8341758608818054,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.973626434803009,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/交叉编码器 Cross-Encoder.md",
+      "reason": "语义 0.96，双链 0.18",
+      "score": 0.6243371920152143,
+      "signals": {
+        "links": 0.18181818181818182,
+        "projects": 0.0,
+        "semantic": 0.9648044109344482,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/交叉编码器 Cross-Encoder.md",
+      "reason": "人工标签 1.00，语义 0.98",
+      "score": 0.7770667108622464,
+      "signals": {
+        "links": 0.36363636363636365,
+        "projects": 0.0,
+        "semantic": 0.9769293665885925,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/交叉编码器 Cross-Encoder.md",
+      "reason": "语义 0.97，双链 0.27",
+      "score": 0.6479844624345952,
+      "signals": {
+        "links": 0.2727272727272727,
+        "projects": 0.0,
+        "semantic": 0.9663377404212952,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/交叉编码器 Cross-Encoder.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7974352489818226,
+      "signals": {
+        "links": 0.45454545454545453,
+        "projects": 0.0,
+        "semantic": 0.9729981422424316,
         "tags": 1.0
       }
     },
@@ -4326,6 +4396,7 @@
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
     "pages/主题模型 LDA.md": "9f4e3feee0e83f2a1308d9daab6ab46adab2f8f61d54e254ce82169449bf61ea",
+    "pages/交叉编码器 Cross-Encoder.md": "ae5371cb6dd451886f95b258f909a53e0e8d53440def4f09af7270a9d129407c",
     "pages/交替检索推理 IRCoT.md": "e39fe8bce0f407d9e65eda94036b183d58a66be45bf3f6ed0386175ad40067f9",
     "pages/人类反馈强化学习 RLHF.md": "39b766b1696c8b026d4c2b0390b1242df114c9553f1411a69f1c7716c1d7ee69",
     "pages/人类反馈的知识图谱构建 Human-in-the-Loop KG.md": "9d37b915b2b90bad9d0035fed4367f1e8383e679f8961d1d6ba4da0de0c33d7e",

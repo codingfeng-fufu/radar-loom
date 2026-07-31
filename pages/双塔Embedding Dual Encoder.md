@@ -35,7 +35,7 @@ $$
 - **池化策略**：CLS 向量、mean pooling、max pooling，Sentence-BERT 实验表明 mean pooling 最稳。
 - **负样本质量决定上限**：in-batch negatives 简单高效但偏易；ANCE / RocketQA 提出异步硬负挖掘，用当前模型检索 top-rank 错误样本作负样本，显著提升召回。
 - **向量归一化**：训练时 L2 归一化 + 余弦相似度，能让嵌入空间更均匀，与 FAISS 内积检索兼容。
-- **与 cross-encoder 的取舍**：双塔快但表达力弱（query 和 doc 之间无交叉注意力，无法捕捉细粒度交互词）；cross-encoder 慢但准。工业界通常"双塔粗排召回 + cross-encoder 精排重排"。
+- **与 [[交叉编码器 Cross-Encoder]] 的取舍**：双塔快但表达力弱（query 和 doc 之间无交叉注意力，无法捕捉细粒度交互词）；cross-encoder 慢但准。工业界通常"双塔粗排召回 + cross-encoder 精排重排"。
 
 **局限与误区**：
 - **词汇不匹配问题**：双塔把整段文本压缩成单个向量，丢失了词级信号，对"精确关键词命中但语义不相关"的负样本区分度不如 BM25——这也是为什么 [[混合检索 Hybrid Retrieval]] 必须保留稀疏通路。
@@ -45,11 +45,12 @@ $$
 ## 和我的项目的关系
 
 - **[[EvidenceFirst]]**：检索前端的核心。系统用的 BGE / E5 等嵌入模型本质都是双塔，query 侧在线编码、passage 侧离线建库，FAISS 做 ANN 检索。硬负挖掘和 InfoNCE 微调是领域适配的标准路径。
-- **[[CoMaGRAG]]**：实体链接和提及-实体匹配的候选召回阶段也是双塔范式——mention encoder 和 entity encoder 各自编码，向量近邻搜索生成候选集，再交给 cross-encoder 或 GNN 精排。
+- **[[CoMaGRAG]]**：实体链接和提及-实体匹配的候选召回阶段也是双塔范式——mention encoder 和 entity encoder 各自编码，向量近邻搜索生成候选集，再交给 [[交叉编码器 Cross-Encoder]] 或 GNN 精排。
 - **[[TripleChecker]]**：三元组置信度评估时，如果要做事实声明到 KG 三元组的语义对齐，双塔 embedding 可以作为粗召回通路，缩小需要精判的候选范围。
 
 ## 交叉引用
 
+- [[交叉编码器 Cross-Encoder]]
 - [[对比学习 Contrastive Learning]]
 - [[词嵌入 Word Embedding]]
 - [[信息检索 IR基础模型 Information Retrieval]]

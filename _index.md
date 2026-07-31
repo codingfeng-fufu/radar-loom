@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-31 · 页面 117 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-31 · 页面 118 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -50,6 +50,7 @@
 - [[RAGChecker]] `#RAG #可信度` — RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。
 - [[Self-RAG]] `#RAG` — Self-RAG是让LLM学会自我反思的RAG框架，ICLR 2024的代表作。
 - [[StructRAG 结构化知识推理]] `#RAG #KG #前沿` — StructRAG（Li et al.
+- [[交叉编码器 Cross-Encoder]] `#基础 #RAG` — Cross-encoder拼接query和doc输入同一编码器，用交叉注意力做精排重排
 - [[交替检索推理 IRCoT]] `#RAG` — IRCoT在多跳问答中交替执行思维链推理与证据检索。
 - [[信息检索 IR基础模型 Information Retrieval]] `#RAG #基础` — 信息检索从布尔匹配、向量空间发展到概率模型和神经检索。
 - [[分布偏移 Distribution Shift]] `#可信度 #RAG` — 分布偏移是指模型部署时遇到的数据分布和训练/测试时的数据分布不一致，是AI系统落地失败的首要原因之一。
@@ -132,6 +133,7 @@
 - [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
+- [[交叉编码器 Cross-Encoder]] `#基础 #RAG` — Cross-encoder拼接query和doc输入同一编码器，用交叉注意力做精排重排
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。
 - [[依存句法分析 Dependency Parsing]] `#KG #基础` — 依存句法分析是分析句子里词和词之间的语法依存关系的任务，用有向图表示，边从修饰词指向被修饰词，边上标注关系类型。
 - [[信息检索 IR基础模型 Information Retrieval]] `#RAG #基础` — 信息检索从布尔匹配、向量空间发展到概率模型和神经检索。
