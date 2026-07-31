@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 0,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -316,14 +316,14 @@
       "type": "reject"
     }
   ],
-  "generated_at": "2026-07-28",
+  "generated_at": "2026-07-31",
   "last_global_at": "2026-07-28",
   "last_run": {
-    "finished_at": "2026-07-28",
-    "operation": "global",
-    "outcome": "rejected",
-    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
-    "started_at": "2026-07-28"
+    "finished_at": "2026-07-31",
+    "operation": "sync",
+    "outcome": "unchanged",
+    "reason": "",
+    "started_at": "2026-07-31"
   },
   "memberships": [
     {
@@ -1957,6 +1957,62 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/双塔Embedding Dual Encoder.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8299495935440063,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9665826559066772,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/双塔Embedding Dual Encoder.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7820208311080932,
+      "signals": {
+        "links": 0.4,
+        "projects": 0.0,
+        "semantic": 0.9700347185134888,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/双塔Embedding Dual Encoder.md",
+      "reason": "语义 0.96，双链 0.20",
+      "score": 0.6284548163414002,
+      "signals": {
+        "links": 0.2,
+        "projects": 0.0,
+        "semantic": 0.9640913605690002,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/双塔Embedding Dual Encoder.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8055297374725341,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9675495624542236,
         "tags": 1.0
       }
     },
@@ -4284,6 +4340,7 @@
     "pages/前沿趋势 Frontier.md": "09b0c7ce03547952d78f0949d7b22f1cb1d1c1683ab48ee3c53788904a18b469",
     "pages/前馈网络 FFN Feed-Forward Network.md": "e8f25d762aea55752b7234be202bae5cba4e06d6a2999dfbdc01a79636819c43",
     "pages/卷积神经网络 CNN.md": "5fa3ba414ea2576070e1da3d08fa9ea1bebdc8052388ea67465e131dff0530b0",
+    "pages/双塔Embedding Dual Encoder.md": "6251025115226920f2e56ea96119b0675510852fbef2890ac7fba20ba416c47f",
     "pages/反事实评测 Counterfactual Evaluation.md": "46c8cbb10db07a99726957e2d987f93a52daee3010fdd5c1c53d143fdbd62097",
     "pages/变分自编码器 VAE Variational Autoencoder.md": "e04ba8d970e3d24546734b93c4cf944ccfa85ff3e5d78007a0562a13208e52cc",
     "pages/可审计性 Auditability.md": "66d2a7e11b23d52d6830999b97618309396febd48aa3ffd7fe40d00608acaeab",

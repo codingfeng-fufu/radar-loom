@@ -1,6 +1,6 @@
 # 面试索引(机器生成,勿手工编辑)
 
-> 生成:2026-07-28 · 面试页 1 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-07-31 · 面试页 1 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## 角色: 大模型工程师
 
