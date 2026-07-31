@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 2,
+  "changes_since_global": 4,
   "events": [
     {
       "category_ids": [
@@ -1528,12 +1528,12 @@
       "first_assigned_at": "2026-07-31",
       "last_confirmed_at": "2026-07-31",
       "page": "pages/交叉编码器 Cross-Encoder.md",
-      "reason": "双链 1.00，语义 0.97",
-      "score": 0.8341758608818054,
+      "reason": "语义 0.97，双链 0.91",
+      "score": 0.8112663767554543,
       "signals": {
-        "links": 1.0,
+        "links": 0.9090909090909091,
         "projects": 0.0,
-        "semantic": 0.973626434803009,
+        "semantic": 0.9733227491378784,
         "tags": 0.0
       }
     },
@@ -1543,11 +1543,11 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/交叉编码器 Cross-Encoder.md",
       "reason": "语义 0.96，双链 0.18",
-      "score": 0.6243371920152143,
+      "score": 0.6242458180947736,
       "signals": {
         "links": 0.18181818181818182,
         "projects": 0.0,
-        "semantic": 0.9648044109344482,
+        "semantic": 0.9646521210670471,
         "tags": 0.0
       }
     },
@@ -1557,11 +1557,11 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/交叉编码器 Cross-Encoder.md",
       "reason": "人工标签 1.00，语义 0.98",
-      "score": 0.7770667108622464,
+      "score": 0.7539720112627203,
       "signals": {
-        "links": 0.36363636363636365,
+        "links": 0.2727272727272727,
         "projects": 0.0,
-        "semantic": 0.9769293665885925,
+        "semantic": 0.9763169884681702,
         "tags": 1.0
       }
     },
@@ -1570,12 +1570,12 @@
       "first_assigned_at": "2026-07-31",
       "last_confirmed_at": "2026-07-31",
       "page": "pages/交叉编码器 Cross-Encoder.md",
-      "reason": "语义 0.97，双链 0.27",
-      "score": 0.6479844624345952,
+      "reason": "语义 0.96，双链 0.18",
+      "score": 0.6244149403138594,
       "signals": {
-        "links": 0.2727272727272727,
+        "links": 0.18181818181818182,
         "projects": 0.0,
-        "semantic": 0.9663377404212952,
+        "semantic": 0.9649339914321899,
         "tags": 0.0
       }
     },
@@ -1585,11 +1585,11 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/交叉编码器 Cross-Encoder.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7974352489818226,
+      "score": 0.7737050088969144,
       "signals": {
-        "links": 0.45454545454545453,
+        "links": 0.36363636363636365,
         "projects": 0.0,
-        "semantic": 0.9729981422424316,
+        "semantic": 0.9713265299797058,
         "tags": 1.0
       }
     },
@@ -2036,11 +2036,25 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/双塔Embedding Dual Encoder.md",
       "reason": "双链 1.00，语义 0.97",
-      "score": 0.8299495935440063,
+      "score": 0.8296705365180969,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9665826559066772,
+        "semantic": 0.9661175608634949,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-07-31",
+      "last_confirmed_at": "2026-07-31",
+      "page": "pages/双塔Embedding Dual Encoder.md",
+      "reason": "语义 0.96，双链 0.18",
+      "score": 0.6205905394120649,
+      "signals": {
+        "links": 0.18181818181818182,
+        "projects": 0.0,
+        "semantic": 0.9585599899291992,
         "tags": 0.0
       }
     },
@@ -2050,11 +2064,11 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/双塔Embedding Dual Encoder.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7820208311080932,
+      "score": 0.7958581100810658,
       "signals": {
-        "links": 0.4,
+        "links": 0.45454545454545453,
         "projects": 0.0,
-        "semantic": 0.9700347185134888,
+        "semantic": 0.9703695774078369,
         "tags": 1.0
       }
     },
@@ -2063,12 +2077,12 @@
       "first_assigned_at": "2026-07-31",
       "last_confirmed_at": "2026-07-31",
       "page": "pages/双塔Embedding Dual Encoder.md",
-      "reason": "语义 0.96，双链 0.20",
-      "score": 0.6284548163414002,
+      "reason": "语义 0.96，双链 0.27",
+      "score": 0.6467660958116705,
       "signals": {
-        "links": 0.2,
+        "links": 0.2727272727272727,
         "projects": 0.0,
-        "semantic": 0.9640913605690002,
+        "semantic": 0.9643071293830872,
         "tags": 0.0
       }
     },
@@ -2078,11 +2092,11 @@
       "last_confirmed_at": "2026-07-31",
       "page": "pages/双塔Embedding Dual Encoder.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.8055297374725341,
+      "score": 0.8171330202709545,
       "signals": {
-        "links": 0.5,
+        "links": 0.5454545454545454,
         "projects": 0.0,
-        "semantic": 0.9675495624542236,
+        "semantic": 0.9679489731788635,
         "tags": 1.0
       }
     },
@@ -4396,7 +4410,7 @@
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
     "pages/主题模型 LDA.md": "9f4e3feee0e83f2a1308d9daab6ab46adab2f8f61d54e254ce82169449bf61ea",
-    "pages/交叉编码器 Cross-Encoder.md": "ae5371cb6dd451886f95b258f909a53e0e8d53440def4f09af7270a9d129407c",
+    "pages/交叉编码器 Cross-Encoder.md": "b31f5eaba4fa0b02f61a64514c9ef647f55c3a3d3ac3aa2cbe7975be95c86948",
     "pages/交替检索推理 IRCoT.md": "e39fe8bce0f407d9e65eda94036b183d58a66be45bf3f6ed0386175ad40067f9",
     "pages/人类反馈强化学习 RLHF.md": "39b766b1696c8b026d4c2b0390b1242df114c9553f1411a69f1c7716c1d7ee69",
     "pages/人类反馈的知识图谱构建 Human-in-the-Loop KG.md": "9d37b915b2b90bad9d0035fed4367f1e8383e679f8961d1d6ba4da0de0c33d7e",
@@ -4411,7 +4425,7 @@
     "pages/前沿趋势 Frontier.md": "09b0c7ce03547952d78f0949d7b22f1cb1d1c1683ab48ee3c53788904a18b469",
     "pages/前馈网络 FFN Feed-Forward Network.md": "e8f25d762aea55752b7234be202bae5cba4e06d6a2999dfbdc01a79636819c43",
     "pages/卷积神经网络 CNN.md": "5fa3ba414ea2576070e1da3d08fa9ea1bebdc8052388ea67465e131dff0530b0",
-    "pages/双塔Embedding Dual Encoder.md": "6251025115226920f2e56ea96119b0675510852fbef2890ac7fba20ba416c47f",
+    "pages/双塔Embedding Dual Encoder.md": "3b3ee10233939c83554fda6d1af6c0f6a8583313343523f99d13de219b250aed",
     "pages/反事实评测 Counterfactual Evaluation.md": "46c8cbb10db07a99726957e2d987f93a52daee3010fdd5c1c53d143fdbd62097",
     "pages/变分自编码器 VAE Variational Autoencoder.md": "e04ba8d970e3d24546734b93c4cf944ccfa85ff3e5d78007a0562a13208e52cc",
     "pages/可审计性 Auditability.md": "66d2a7e11b23d52d6830999b97618309396febd48aa3ffd7fe40d00608acaeab",

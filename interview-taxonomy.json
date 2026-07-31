@@ -1,21 +1,39 @@
 {
   "algorithm_version": "taxonomy-v1",
-  "candidates": [],
+  "candidates": [
+    {
+      "cohesion_score": 0.9296759366989136,
+      "first_seen_at": "2026-07-31",
+      "id": "candidate_13f09a7ca9d8",
+      "last_confirmed_at": "2026-07-31",
+      "members": [
+        "pages/多头注意力机制的核心作用是什么.md",
+        "pages/知识图谱的存储方式与索引优化.md"
+      ],
+      "name": "md pages 多头…",
+      "related_category_ids": [],
+      "signals": {
+        "semantic_cohesion": 0.9296759366989136
+      },
+      "target_size": 3
+    }
+  ],
   "categories": {},
-  "changes_since_global": 1,
+  "changes_since_global": 0,
   "events": [],
-  "generated_at": "2026-07-18",
-  "last_global_at": "2026-07-18",
+  "generated_at": "2026-07-31",
+  "last_global_at": "2026-07-31",
   "last_run": {
-    "finished_at": "",
-    "operation": "none",
-    "outcome": "idle",
-    "reason": "",
-    "started_at": ""
+    "finished_at": "2026-07-31",
+    "operation": "global",
+    "outcome": "unchanged",
+    "reason": "全局重组无结构变化",
+    "started_at": "2026-07-31"
   },
   "memberships": [],
   "page_fingerprints": {
-    "pages/多头注意力机制的核心作用是什么.md": "b66992a7e5a7698f1355a63c8017cd5585e245320a734ec6c27ee487db86e595"
+    "pages/多头注意力机制的核心作用是什么.md": "b66992a7e5a7698f1355a63c8017cd5585e245320a734ec6c27ee487db86e595",
+    "pages/知识图谱的存储方式与索引优化.md": "d053205555db5cf98dad8636d3511d57c21564be4610eae0563c9c43359f646d"
   },
   "parameters_hash": "f3ecebe2c139b5cbe2cf2a5dbbd38a1c8d27d417fd1b166a795fef17e10be9fe",
   "pending_pages": [],

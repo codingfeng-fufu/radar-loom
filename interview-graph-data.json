@@ -14,10 +14,51 @@
       "id": "e0001",
       "source": "多头注意力机制的核心作用是什么",
       "target": "多头注意力 Multi-Head Attention"
+    },
+    {
+      "id": "e0002",
+      "source": "知识图谱的存储方式与索引优化",
+      "target": "主流知识图谱 Mainstream KGs"
+    },
+    {
+      "id": "e0003",
+      "source": "知识图谱的存储方式与索引优化",
+      "target": "关联规则挖掘 Apriori"
+    },
+    {
+      "id": "e0004",
+      "source": "知识图谱的存储方式与索引优化",
+      "target": "知识图谱 KG"
     }
   ],
   "generated": "2026-07-31",
   "nodes": [
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2F%E4%B8%BB%E6%B5%81%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20Mainstream%20KGs.md",
+      "id": "主流知识图谱 Mainstream KGs",
+      "kind": "concept",
+      "label": "主流知识图谱 Mainstream KGs",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2F%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E6%8C%96%E6%8E%98%20Apriori.md",
+      "id": "关联规则挖掘 Apriori",
+      "kind": "concept",
+      "label": "关联规则挖掘 Apriori",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
     {
       "category": null,
       "confidence": "",
@@ -47,28 +88,78 @@
         "注意力机制",
         "LLM机制"
       ]
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20KG.md",
+      "id": "知识图谱 KG",
+      "kind": "concept",
+      "label": "知识图谱 KG",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 3,
+      "external": false,
+      "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E4%B8%8E%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96.md",
+      "id": "知识图谱的存储方式与索引优化",
+      "kind": "concept",
+      "label": "知识图谱的存储方式与索引优化",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "知识图谱",
+        "图数据库",
+        "存储",
+        "索引",
+        "RDF",
+        "属性图"
+      ]
     }
   ],
   "stats": {
-    "broken": 0,
-    "edges": 1,
-    "externalNodeCount": 1,
-    "internalNodeCount": 1,
+    "broken": 6,
+    "edges": 4,
+    "externalNodeCount": 4,
+    "internalNodeCount": 2,
     "isolated": 0,
-    "nodeCount": 1,
-    "nodes": 1
+    "nodeCount": 2,
+    "nodes": 2
   },
   "taxonomy": {
-    "candidates": [],
+    "candidates": [
+      {
+        "cohesion_score": 0.9296759366989136,
+        "first_seen_at": "2026-07-31",
+        "id": "candidate_13f09a7ca9d8",
+        "last_confirmed_at": "2026-07-31",
+        "members": [
+          "多头注意力机制的核心作用是什么",
+          "知识图谱的存储方式与索引优化"
+        ],
+        "name": "md pages 多头…",
+        "related_category_ids": [],
+        "signals": {
+          "semantic_cohesion": 0.9296759366989136
+        },
+        "target_size": 3
+      }
+    ],
     "categories": [],
     "events": [],
-    "generatedAt": "2026-07-18",
+    "generatedAt": "2026-07-31",
     "lastRun": {
-      "finished_at": "",
-      "operation": "none",
-      "outcome": "idle",
-      "reason": "",
-      "started_at": ""
+      "finished_at": "2026-07-31",
+      "operation": "global",
+      "outcome": "unchanged",
+      "reason": "全局重组无结构变化",
+      "started_at": "2026-07-31"
     },
     "memberships": [],
     "representatives": [],
@@ -76,7 +167,7 @@
     "stats": {
       "activeCategories": 0,
       "automaticCategories": 0,
-      "candidates": 0,
+      "candidates": 1,
       "categories": 0,
       "forming": 0,
       "memberships": 0,

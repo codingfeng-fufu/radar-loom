@@ -6975,12 +6975,12 @@
         "firstAssignedAt": "2026-07-31",
         "lastConfirmedAt": "2026-07-31",
         "page": "交叉编码器 Cross-Encoder",
-        "reason": "双链 1.00，语义 0.97",
-        "score": 0.8341758608818054,
+        "reason": "语义 0.97，双链 0.91",
+        "score": 0.8112663767554543,
         "signals": {
-          "links": 1.0,
+          "links": 0.9090909090909091,
           "projects": 0.0,
-          "semantic": 0.973626434803009,
+          "semantic": 0.9733227491378784,
           "tags": 0.0
         }
       },
@@ -6990,11 +6990,11 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "交叉编码器 Cross-Encoder",
         "reason": "语义 0.96，双链 0.18",
-        "score": 0.6243371920152143,
+        "score": 0.6242458180947736,
         "signals": {
           "links": 0.18181818181818182,
           "projects": 0.0,
-          "semantic": 0.9648044109344482,
+          "semantic": 0.9646521210670471,
           "tags": 0.0
         }
       },
@@ -7004,11 +7004,11 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "交叉编码器 Cross-Encoder",
         "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.7770667108622464,
+        "score": 0.7539720112627203,
         "signals": {
-          "links": 0.36363636363636365,
+          "links": 0.2727272727272727,
           "projects": 0.0,
-          "semantic": 0.9769293665885925,
+          "semantic": 0.9763169884681702,
           "tags": 1.0
         }
       },
@@ -7017,12 +7017,12 @@
         "firstAssignedAt": "2026-07-31",
         "lastConfirmedAt": "2026-07-31",
         "page": "交叉编码器 Cross-Encoder",
-        "reason": "语义 0.97，双链 0.27",
-        "score": 0.6479844624345952,
+        "reason": "语义 0.96，双链 0.18",
+        "score": 0.6244149403138594,
         "signals": {
-          "links": 0.2727272727272727,
+          "links": 0.18181818181818182,
           "projects": 0.0,
-          "semantic": 0.9663377404212952,
+          "semantic": 0.9649339914321899,
           "tags": 0.0
         }
       },
@@ -7032,11 +7032,11 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "交叉编码器 Cross-Encoder",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7974352489818226,
+        "score": 0.7737050088969144,
         "signals": {
-          "links": 0.45454545454545453,
+          "links": 0.36363636363636365,
           "projects": 0.0,
-          "semantic": 0.9729981422424316,
+          "semantic": 0.9713265299797058,
           "tags": 1.0
         }
       },
@@ -7483,11 +7483,25 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "双塔Embedding Dual Encoder",
         "reason": "双链 1.00，语义 0.97",
-        "score": 0.8299495935440063,
+        "score": 0.8296705365180969,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9665826559066772,
+          "semantic": 0.9661175608634949,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_evaluation",
+        "firstAssignedAt": "2026-07-31",
+        "lastConfirmedAt": "2026-07-31",
+        "page": "双塔Embedding Dual Encoder",
+        "reason": "语义 0.96，双链 0.18",
+        "score": 0.6205905394120649,
+        "signals": {
+          "links": 0.18181818181818182,
+          "projects": 0.0,
+          "semantic": 0.9585599899291992,
           "tags": 0.0
         }
       },
@@ -7497,11 +7511,11 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "双塔Embedding Dual Encoder",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7820208311080932,
+        "score": 0.7958581100810658,
         "signals": {
-          "links": 0.4,
+          "links": 0.45454545454545453,
           "projects": 0.0,
-          "semantic": 0.9700347185134888,
+          "semantic": 0.9703695774078369,
           "tags": 1.0
         }
       },
@@ -7510,12 +7524,12 @@
         "firstAssignedAt": "2026-07-31",
         "lastConfirmedAt": "2026-07-31",
         "page": "双塔Embedding Dual Encoder",
-        "reason": "语义 0.96，双链 0.20",
-        "score": 0.6284548163414002,
+        "reason": "语义 0.96，双链 0.27",
+        "score": 0.6467660958116705,
         "signals": {
-          "links": 0.2,
+          "links": 0.2727272727272727,
           "projects": 0.0,
-          "semantic": 0.9640913605690002,
+          "semantic": 0.9643071293830872,
           "tags": 0.0
         }
       },
@@ -7525,11 +7539,11 @@
         "lastConfirmedAt": "2026-07-31",
         "page": "双塔Embedding Dual Encoder",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.8055297374725341,
+        "score": 0.8171330202709545,
         "signals": {
-          "links": 0.5,
+          "links": 0.5454545454545454,
           "projects": 0.0,
-          "semantic": 0.9675495624542236,
+          "semantic": 0.9679489731788635,
           "tags": 1.0
         }
       },
@@ -9900,7 +9914,7 @@
       "candidates": 0,
       "categories": 9,
       "forming": 1,
-      "memberships": 314,
+      "memberships": 315,
       "pendingPages": 0,
       "seedCategories": 8
     }
