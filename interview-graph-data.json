@@ -29,10 +29,51 @@
       "id": "e0004",
       "source": "知识图谱的存储方式与索引优化",
       "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0005",
+      "source": "设计一个AI Agent的记忆系统",
+      "target": "Agent 记忆架构"
+    },
+    {
+      "id": "e0006",
+      "source": "设计一个AI Agent的记忆系统",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0007",
+      "source": "设计一个AI Agent的记忆系统",
+      "target": "多智能体系统 Multi-Agent Systems"
     }
   ],
   "generated": "2026-07-31",
   "nodes": [
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2FAgent%20%E8%AE%B0%E5%BF%86%E6%9E%B6%E6%9E%84.md",
+      "id": "Agent 记忆架构",
+      "kind": "concept",
+      "label": "Agent 记忆架构",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2FReAct%20Agent%20%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.md",
+      "id": "ReAct Agent 工作原理",
+      "kind": "concept",
+      "label": "ReAct Agent 工作原理",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
     {
       "category": null,
       "confidence": "",
@@ -94,6 +135,19 @@
       "confidence": "",
       "degree": 0,
       "external": true,
+      "href": "viewer.html?f=pages%2F%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E7%B3%BB%E7%BB%9F%20Multi-Agent%20Systems.md",
+      "id": "多智能体系统 Multi-Agent Systems",
+      "kind": "concept",
+      "label": "多智能体系统 Multi-Agent Systems",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
       "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20KG.md",
       "id": "知识图谱 KG",
       "kind": "concept",
@@ -121,56 +175,137 @@
         "RDF",
         "属性图"
       ]
+    },
+    {
+      "category": "RAG",
+      "confidence": "",
+      "degree": 3,
+      "external": false,
+      "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AAAI%20Agent%E7%9A%84%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F.md",
+      "id": "设计一个AI Agent的记忆系统",
+      "kind": "concept",
+      "label": "设计一个AI Agent的记忆系统",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "Agent",
+        "记忆系统",
+        "LLM",
+        "系统设计",
+        "RAG"
+      ]
     }
   ],
   "stats": {
-    "broken": 6,
-    "edges": 4,
-    "externalNodeCount": 4,
-    "internalNodeCount": 2,
+    "broken": 12,
+    "edges": 7,
+    "externalNodeCount": 7,
+    "internalNodeCount": 3,
     "isolated": 0,
-    "nodeCount": 2,
-    "nodes": 2
+    "nodeCount": 3,
+    "nodes": 3
   },
   "taxonomy": {
-    "candidates": [
+    "candidates": [],
+    "categories": [
       {
-        "cohesion_score": 0.9296759366989136,
-        "first_seen_at": "2026-07-31",
-        "id": "candidate_13f09a7ca9d8",
-        "last_confirmed_at": "2026-07-31",
-        "members": [
-          "多头注意力机制的核心作用是什么",
-          "知识图谱的存储方式与索引优化"
-        ],
-        "name": "md pages 多头…",
-        "related_category_ids": [],
-        "signals": {
-          "semantic_cohesion": 0.9296759366989136
-        },
-        "target_size": 3
+        "algorithmVersion": "taxonomy-v1",
+        "aliases": [],
+        "createdAt": "2026-07-31",
+        "definition": "由增量分类发现的高内聚新主题。",
+        "id": "cat_98bd1741fbfb",
+        "lastStableAt": null,
+        "name": "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化",
+        "namingStatus": "pending",
+        "parents": [],
+        "redirectTo": null,
+        "related": [],
+        "source": "automatic",
+        "stableRuns": 0,
+        "status": "forming",
+        "updatedAt": "2026-07-31"
       }
     ],
-    "categories": [],
-    "events": [],
+    "events": [
+      {
+        "categoryIds": [
+          "cat_98bd1741fbfb"
+        ],
+        "createdAt": "2026-07-31",
+        "reason": "至少三个新颖页面形成高内聚群组",
+        "type": "create"
+      }
+    ],
     "generatedAt": "2026-07-31",
     "lastRun": {
       "finished_at": "2026-07-31",
-      "operation": "global",
+      "operation": "sync",
       "outcome": "unchanged",
-      "reason": "全局重组无结构变化",
+      "reason": "",
       "started_at": "2026-07-31"
     },
-    "memberships": [],
-    "representatives": [],
+    "memberships": [
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-07-31",
+        "lastConfirmedAt": "2026-07-31",
+        "page": "多头注意力机制的核心作用是什么",
+        "reason": "与新主题代表页语义相似度 0.93",
+        "score": 0.926540732383728,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.926540732383728,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-07-31",
+        "lastConfirmedAt": "2026-07-31",
+        "page": "知识图谱的存储方式与索引优化",
+        "reason": "与新主题代表页语义相似度 0.96",
+        "score": 0.9552122354507446,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.9552122354507446,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-07-31",
+        "lastConfirmedAt": "2026-07-31",
+        "page": "设计一个AI Agent的记忆系统",
+        "reason": "与新主题代表页语义相似度 1.00",
+        "score": 1.0,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 1.0,
+          "tags": 0.0
+        }
+      }
+    ],
+    "representatives": [
+      {
+        "category": "cat_98bd1741fbfb",
+        "pages": [
+          "设计一个AI Agent的记忆系统",
+          "知识图谱的存储方式与索引优化",
+          "多头注意力机制的核心作用是什么"
+        ]
+      }
+    ],
     "schemaVersion": 2,
     "stats": {
-      "activeCategories": 0,
-      "automaticCategories": 0,
-      "candidates": 1,
-      "categories": 0,
-      "forming": 0,
-      "memberships": 0,
+      "activeCategories": 1,
+      "automaticCategories": 1,
+      "candidates": 0,
+      "categories": 1,
+      "forming": 1,
+      "memberships": 3,
       "pendingPages": 0,
       "seedCategories": 0
     }
