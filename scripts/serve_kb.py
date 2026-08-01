@@ -501,10 +501,6 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
         if path == "/api/catalog":
-            status, payload = self.refresh_payload(force=False)
-            if status != 200:
-                self.send_json(status, payload)
-                return
             try:
                 knowledge = json.loads((self.builder.root / "graph-data.json").read_text(encoding="utf-8"))
                 interview = json.loads((self.builder.root / "interview-graph-data.json").read_text(encoding="utf-8"))
@@ -513,9 +509,12 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 self.send_json(500, {"ok": False, "error": f"catalog unavailable: {error}"})
             return
         if path == "/api/revision":
-            status, payload = self.refresh_payload(force=False)
-            payload.pop("output", None)
-            self.send_json(status, payload)
+            try:
+                payload = {"ok": True, "revision": self.builder.revision(), "rebuilt": False}
+            except RefreshError as error:
+                self.send_json(500, {"ok": False, "error": str(error)})
+                return
+            self.send_json(200, payload)
             return
         if path == "/api/taxonomy/status":
             if not self.taxonomy_allowed():
@@ -528,11 +527,6 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 return
             self.send_json(200, {"ok": True, **result})
             return
-        if path in {"/_index.md", "/_interview_index.md", "/graph-data.json", "/interview-graph-data.json"}:
-            status, payload = self.refresh_payload(force=False)
-            if status != 200:
-                self.send_json(status, payload)
-                return
         super().do_GET()
 
 

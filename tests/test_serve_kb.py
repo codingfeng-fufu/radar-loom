@@ -281,9 +281,10 @@ class KnowledgeServerTests(unittest.TestCase):
             self.upload(files, origin=origin, destination=destination)
         return caught.exception, json.loads(caught.exception.read().decode("utf-8"))
 
-    def test_refresh_and_revision_endpoints_rebuild_and_set_localhost_cors(self):
+    def test_explicit_refresh_rebuilds_and_revision_is_read_only(self):
         response, refreshed = self.request_json("/api/refresh", method="POST")
-        _, revision = self.request_json("/api/revision")
+        with mock.patch.object(self.builder, "refresh", side_effect=AssertionError("revision triggered refresh")):
+            _, revision = self.request_json("/api/revision")
 
         self.assertEqual(response.headers["Access-Control-Allow-Origin"], "http://127.0.0.1:18080")
         self.assertEqual(response.headers["Cache-Control"], "no-store")
@@ -494,12 +495,29 @@ class KnowledgeServerTests(unittest.TestCase):
             {"ok": False, "error": "invalid multipart Content-Type"},
         )
 
-    def test_interview_static_artifacts_trigger_refresh(self):
-        for path in ("/_interview_index.md", "/interview-graph-data.json"):
-            with self.subTest(path=path):
-                with urlopen(self.base + path, timeout=5) as response:
-                    self.assertEqual(response.headers["Cache-Control"], "no-store")
-                    self.assertEqual(response.status, 200)
+    def test_generated_artifact_gets_do_not_run_refresh(self):
+        self.builder.refresh(force=True)
+        with mock.patch.object(self.builder, "refresh", side_effect=AssertionError("read triggered refresh")):
+            for path in (
+                "/_index.md", "/_interview_index.md",
+                "/graph-data.json", "/interview-graph-data.json",
+            ):
+                with self.subTest(path=path):
+                    with urlopen(self.base + path, timeout=5) as response:
+                        self.assertEqual(response.status, 200)
+                        self.assertEqual(response.headers["Cache-Control"], "no-store")
+
+    def test_catalog_reads_current_graphs_without_running_refresh(self):
+        self.builder.refresh(force=True)
+        with mock.patch.object(self.builder, "refresh", side_effect=AssertionError("catalog triggered refresh")):
+            response, payload = self.request_json("/api/catalog")
+
+        self.assertEqual(response.status, 200)
+        self.assertEqual(
+            [(entry["section"], entry["file"]) for entry in payload["entries"]],
+            [],
+        )
+        self.assertEqual(payload["edges"], [])
 
     def test_taxonomy_status_and_rebuild_endpoints_return_json(self):
         _, status = self.request_json("/api/taxonomy/status")
