@@ -32,6 +32,20 @@ class InterviewPageTests(unittest.TestCase):
     def test_skill_contract(self):
         s=(ROOT/'.claude/skills/create-engineering-interview-page/SKILL.md').read_text(); front=s.split('---',2)[1]; self.assertEqual(set(x.split(':',1)[0].strip() for x in front.strip().splitlines()),{'name','description'}); self.assertIn('工程面试题、面试专题页、面试分享材料、更新面试页',s); self.assertIn('--profile interview sync',s); self.assertIn('社区',s); self.assertIn('提示注入',s); self.assertIn('stop',s.lower()); self.assertIn('多题材料',s); self.assertIn('强制工作流门槛',s); self.assertIn('五种失败暂停条件',s); self.assertIn('render_graph.py',s); self.assertIn('check_health.py',s); self.assertIn('radar:',s); self.assertIn('精确/别名/语义',s); self.assertIn('只暂存相关文件',s); self.assertIn('重复歧义',s); self.assertIn('范围过宽',s); self.assertIn('材料不可读',s); self.assertIn('核心无法核验',s); self.assertIn('可靠来源冲突',s); self.assertLess(len(s.splitlines()),500); self.assertNotIn('[TODO',s)
         agent=(ROOT/'.claude/skills/create-engineering-interview-page/agents/openai.yaml').read_text(); self.assertIn('display_name: 创建工程面试页',agent); self.assertIn('核验材料并创建可直接作答的工程面试专题页',agent); self.assertIn('使用 $create-engineering-interview-page 根据我的问题或材料创建工程面试页。',agent)
+    def test_interview_template_encodes_scan_first_body_hierarchy(self):
+        template = (ROOT / 'templates/工程面试页模板.md').read_text()
+        for phrase in (
+            '一句直接结论', '核心机制或主链路', '关键取舍、边界或失败条件',
+            '三至五条', '官方图', 'Mermaid', '图注', '答案首句直接给结论',
+        ):
+            self.assertIn(phrase, template)
+    def test_interview_skill_enforces_visual_evidence_rules(self):
+        skill = (ROOT / '.claude/skills/create-engineering-interview-page/SKILL.md').read_text()
+        for phrase in (
+            '单段不超过三处加粗', '连续三项', '官方图优先', '保存到仓库本地',
+            '禁止远程图片', '纯装饰图', '一至两张', 'Mermaid', '图注',
+        ):
+            self.assertIn(phrase, skill)
     def test_cli_has_no_generators(self):
         src=SCRIPT.read_text();
         for forbidden in ('build_index','render_graph','taxonomy_cli','check_health'): self.assertNotIn(forbidden,src)
