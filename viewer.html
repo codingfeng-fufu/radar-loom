@@ -764,26 +764,32 @@
         const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
         decorateInterviewBody(elements.content, pageMetadata);
-        restoreMathRegions(elements.content, math.regions);
-        renderMathInElement(elements.content, {
-          delimiters: [
-            { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false },
-            { left: '\\(', right: '\\)', display: false },
-            { left: '\\[', right: '\\]', display: true }
-          ],
-          throwOnError: false,
-          trust: false,
-          strict: 'warn'
-        });
-        elements.content.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => hljs.highlightElement(block));
-        elements.content.querySelectorAll('pre code.language-mermaid').forEach((block) => {
-          const container = document.createElement('div');
-          container.className = 'mermaid';
-          container.textContent = block.textContent;
-          block.parentElement.replaceWith(container);
-        });
-        await renderMermaidDiagrams(elements.content);
+        if (math.regions.length) {
+          restoreMathRegions(elements.content, math.regions);
+          renderMathInElement(elements.content, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false },
+              { left: '\\(', right: '\\)', display: false },
+              { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false,
+            trust: false,
+            strict: 'warn'
+          });
+        }
+        const codeBlocks = elements.content.querySelectorAll('pre code:not(.language-mermaid)');
+        codeBlocks.forEach((block) => hljs.highlightElement(block));
+        const mermaidBlocks = elements.content.querySelectorAll('pre code.language-mermaid');
+        if (mermaidBlocks.length) {
+          mermaidBlocks.forEach((block) => {
+            const container = document.createElement('div');
+            container.className = 'mermaid';
+            container.textContent = block.textContent;
+            block.parentElement.replaceWith(container);
+          });
+          await renderMermaidDiagrams(elements.content);
+        }
         if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
         document.title = `${pageTitle} · 技术雷达`;

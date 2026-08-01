@@ -283,6 +283,12 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("let catalog = null", self.html)
         self.assertIn("'未检测到'", self.html)
 
+    def test_expensive_renderers_run_only_when_content_requires_them(self):
+        self.assertIn("if (math.regions.length)", self.html)
+        self.assertIn("const codeBlocks = elements.content.querySelectorAll", self.html)
+        self.assertIn("if (mermaidBlocks.length)", self.html)
+        self.assertIn("await renderMermaidDiagrams(elements.content)", self.html)
+
     def test_page_quality_is_objective_and_workbench_navigation_is_source_checked(self):
         for value in ('id="qualityPanel"', 'id="qualitySummary"', 'id="qualityFacts"', 'objectivePageQuality', 'renderPageQuality', "'未检测到'"):
             self.assertIn(value, self.html)
