@@ -89,7 +89,7 @@ $$
 
 ### 评测
 
-词嵌入的评测分**内在(intrinsic)**与**外在(extrinsic)**两类:
+词嵌入的评测分**内在(intrinsic)** 与 **外在(extrinsic)** 两类:
 
 - **内在**:
   - **词相似度**:在 WordSim-353、SimLex-999、MEN 等人类标注对上算余弦相似度,再与人工评分求 Spearman 相关。
