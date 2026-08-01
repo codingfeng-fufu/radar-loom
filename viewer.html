@@ -188,6 +188,7 @@
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
     let activeSection = 'knowledge';
     let navigationGeneration = 0;
+    let enrichmentGeneration = 0;
     let catalogPromise = null;
     const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
       groups: [], entries: [], activeFile: SECTIONS[section].defaultFile,
@@ -263,9 +264,13 @@
       };
     }
 
-    async function renderPageQuality(metadata, body, file, rawMetadata) {
+    async function renderPageQuality(metadata, body, file, rawMetadata, token, section) {
+      elements.qualitySummary.textContent = '读取中';
+      elements.qualityFacts.replaceChildren();
+      elements.qualityPanel.hidden = false;
       let catalog = null;
       try { catalog = await loadCatalog(); } catch {}
+      if (token !== enrichmentGeneration || file !== navigationState.activeFile || section !== activeSection) return;
       const quality = objectivePageQuality(metadata, body, file, catalog, rawMetadata);
       elements.qualitySummary.textContent = quality.complete ? '基础字段完整' : '存在未检测字段';
       elements.qualityFacts.replaceChildren();
@@ -532,10 +537,7 @@
       return section === 'interview' ? 'interview-graph-data.json' : 'graph-data.json';
     }
 
-    let taxonomyRefreshGeneration = 0;
-
-    function refreshTaxonomySummary(section = activeSection) {
-      const refreshToken = ++taxonomyRefreshGeneration;
+    function refreshTaxonomySummary(section, token, file) {
       const summary = elements.taxonomySummary;
       summary.replaceChildren();
       summary.removeAttribute('data-state');
@@ -546,7 +548,7 @@
       return fetch(taxonomyDataUrl(section), { cache: 'no-store' })
         .then((response) => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
         .then((data) => {
-          if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;
+          if (token !== enrichmentGeneration || section !== activeSection || file !== navigationState.activeFile) return;
           const taxonomy = data?.taxonomy;
           const stats = taxonomy && taxonomy.stats;
           if (!taxonomy || typeof taxonomy !== 'object') throw new Error('invalid taxonomy schema');
@@ -573,7 +575,7 @@
           link.textContent = `${label} · 种子 ${seedCategories} · 自动 ${automaticCategories} · 活跃 ${activeCategories} · 形成中 ${forming}`;
         })
         .catch(() => {
-          if (refreshToken !== taxonomyRefreshGeneration || activeSection !== section) return;
+          if (token !== enrichmentGeneration || section !== activeSection || file !== navigationState.activeFile) return;
           summary.dataset.state = 'unavailable';
           link.textContent = '动态分类状态不可用';
         });
@@ -758,8 +760,6 @@
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
         elements.frontmatterText.textContent = metadata;
-        await renderPageQuality(pageMetadata, body, file, metadata);
-        if (token !== navigationGeneration) return;
         const math = extractMathRegions(rewriteWikilinks(body));
         const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
@@ -803,7 +803,6 @@
       elements.navigationSearch.value = navigationState.search;
       configureInterviewFilters();
       filterNavigation(navigationState.search);
-      refreshTaxonomySummary(section);
     }
 
     function setNavigationBusy(busy, title = '') {
@@ -857,6 +856,11 @@
         await renderPageData(file, detectedSection, page, token);
         if (token !== navigationGeneration) return;
         setNavigationBusy(false);
+        const enrichmentToken = ++enrichmentGeneration;
+        void renderPageQuality(
+          page.pageMetadata, page.body, file, page.metadata, enrichmentToken, detectedSection
+        );
+        void refreshTaxonomySummary(detectedSection, enrichmentToken, file);
         return true;
       } catch (error) {
         if (token !== navigationGeneration) return;
@@ -881,7 +885,13 @@
       navigationGeneration += 1;
       invalidateSectionIndexes();
       catalogPromise = null;
-      await loadSectionIndex(section, { force: true });
+      try {
+        await loadSectionIndex(section, { force: true });
+      } catch (error) {
+        elements.content.setAttribute('aria-busy', 'false');
+        setMessage(`刷新后索引读取失败，当前内容已保留：${error.message}`, true);
+        return false;
+      }
       return navigateTo(navigationStates[section].activeFile, {
         sectionHint: section,
         historyMode: 'replace',

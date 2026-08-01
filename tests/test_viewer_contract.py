@@ -171,9 +171,11 @@ class ViewerContractTests(unittest.TestCase):
         self.assertRegex(self.html, r"graph-data\.json")
         self.assertRegex(self.html, r"interview-graph-data\.json")
         self.assertRegex(self.html, r"function\s+refreshTaxonomySummary\s*\(")
-        self.assertIn("let taxonomyRefreshGeneration = 0", self.html)
-        self.assertIn("const refreshToken = ++taxonomyRefreshGeneration", self.html)
-        self.assertGreaterEqual(self.html.count("refreshToken !== taxonomyRefreshGeneration || activeSection !== section"), 2)
+        self.assertIn("let enrichmentGeneration = 0", self.html)
+        self.assertGreaterEqual(
+            self.html.count("token !== enrichmentGeneration || section !== activeSection || file !== navigationState.activeFile"),
+            2,
+        )
         self.assertIn("动态分类状态不可用", self.html)
         self.assertNotIn("taxonomySummary.innerHTML", self.html)
 
@@ -260,6 +262,26 @@ class ViewerContractTests(unittest.TestCase):
     def test_successful_refresh_invalidates_indexes_before_recovery(self):
         self.assertIn("invalidateSectionIndexes()", self.html)
         self.assertIn("refreshActiveSurface(activeSection)", self.html)
+
+    def test_article_render_does_not_await_page_quality(self):
+        insert_at = self.html.index("elements.content.innerHTML = DOMPurify.sanitize")
+        quality_at = self.html.index("void renderPageQuality")
+        self.assertLess(insert_at, quality_at)
+        self.assertNotIn("await renderPageQuality(pageMetadata, body, file, metadata)", self.html)
+
+    def test_enrichment_is_generation_and_identity_guarded(self):
+        for value in (
+            "let enrichmentGeneration = 0", "const enrichmentToken = ++enrichmentGeneration",
+            "file !== navigationState.activeFile", "section !== activeSection",
+            "void refreshTaxonomySummary(detectedSection, enrichmentToken, file)",
+        ):
+            self.assertIn(value, self.html)
+
+    def test_quality_has_local_fallback_while_catalog_is_unavailable(self):
+        self.assertIn("void renderPageQuality(", self.html)
+        self.assertIn("page.pageMetadata, page.body, file, page.metadata", self.html)
+        self.assertIn("let catalog = null", self.html)
+        self.assertIn("'未检测到'", self.html)
 
     def test_page_quality_is_objective_and_workbench_navigation_is_source_checked(self):
         for value in ('id="qualityPanel"', 'id="qualitySummary"', 'id="qualityFacts"', 'objectivePageQuality', 'renderPageQuality', "'未检测到'"):
