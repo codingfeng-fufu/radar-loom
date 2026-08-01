@@ -87,6 +87,15 @@
     article pre { overflow: auto; padding: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--code); }
     article pre code { padding: 0; }
     article .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+    article.page-type-interview { line-height: 1.7; }
+    article.page-type-interview > h2 { margin-top: 2em; }
+    article.page-type-interview > h3 { margin-top: 1.65em; color: #31443e; }
+    article.page-type-interview .interview-brief-heading { margin-bottom: 0; border-bottom: 0; }
+    article.page-type-interview .interview-answer-brief { margin: 0; padding: 12px 18px; background: #edf7f4; }
+    article.page-type-interview .interview-brief-heading + .interview-answer-brief { padding-top: 14px; border-top: 3px solid var(--accent); }
+    article.page-type-interview .interview-warning-section { margin: 0; padding: 12px 16px; border-left: 4px solid var(--ui-warning); background: #fff8e8; }
+    article.page-type-interview .interview-figure { margin: 22px auto; text-align: center; color: var(--muted); font-size: 13px; }
+    article.page-type-interview li + li { margin-top: 5px; }
     .mermaid { overflow-x: auto; text-align: center; }
     .scrim { display: none; }
     @media (max-width: 760px) {
@@ -674,6 +683,30 @@
       document.querySelector('#viewerPanel').setAttribute('aria-labelledby', section === 'interview' ? 'interviewTab' : 'knowledgeTab');
     }
 
+    function sectionUntilNextHeading(heading) {
+      const nodes = [];
+      for (let node = heading.nextElementSibling; node && node.tagName !== 'H2'; node = node.nextElementSibling) nodes.push(node);
+      return nodes;
+    }
+
+    function decorateInterviewBody(content, pageMetadata) {
+      const interview = pageMetadata.page_type === 'interview';
+      content.classList.toggle('page-type-interview', interview);
+      if (!interview) return;
+      for (const heading of content.querySelectorAll(':scope > h2')) {
+        const title = heading.textContent.trim();
+        if (title === '30 秒回答') {
+          heading.classList.add('interview-brief-heading');
+          sectionUntilNextHeading(heading).forEach((node) => node.classList.add('interview-answer-brief'));
+        }
+        if (title === '常见错误回答') {
+          heading.classList.add('interview-warning-heading');
+          sectionUntilNextHeading(heading).forEach((node) => node.classList.add('interview-warning-section'));
+        }
+      }
+      content.querySelectorAll(':scope > p > img').forEach((image) => image.parentElement.classList.add('interview-figure'));
+    }
+
     async function renderPageData(file, section, page, token) {
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
@@ -683,6 +716,7 @@
         const math = extractMathRegions(rewriteWikilinks(body));
         const rendered = marked.parse(math.markdown, { gfm: true, breaks: false });
         elements.content.innerHTML = DOMPurify.sanitize(rendered, { USE_PROFILES: { html: true } });
+        decorateInterviewBody(elements.content, pageMetadata);
         restoreMathRegions(elements.content, math.regions);
         renderMathInElement(elements.content, {
           delimiters: [

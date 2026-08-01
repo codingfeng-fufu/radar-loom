@@ -250,6 +250,17 @@ class ViewerContractTests(unittest.TestCase):
         for value in ("'/api/catalog'", "个入站", "['断链', quality.broken]", "['健康状态', quality.health]", "broken === 0"):
             self.assertIn(value, self.html)
 
+    def test_interview_pages_receive_scoped_body_hierarchy(self):
+        for value in (
+            "page-type-interview", "interview-answer-brief", "interview-warning-section",
+            "interview-figure", "decorateInterviewBody",
+        ):
+            self.assertIn(value, self.html)
+        self.assertIn("pageMetadata.page_type === 'interview'", self.html)
+
+    def test_regular_pages_clear_interview_body_state(self):
+        self.assertIn("content.classList.toggle('page-type-interview'", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()
