@@ -71,8 +71,25 @@ def test_invalid_explicit_page_type_is_not_ordinary(monkeypatch, capsys):
     assert "page_type 不支持" in output
 
 
+import re
+
 import pytest
 import unittest
+
+INTERVIEW_PAGES = (
+    "设计一个AI Agent的记忆系统.md",
+    "多头注意力机制的核心作用是什么.md",
+    "知识图谱的存储方式与索引优化.md",
+)
+
+def test_existing_interview_pages_use_scan_first_structure():
+    pages = rc.scan_pages()
+    for filename in INTERVIEW_PAGES:
+        body = pages[filename[:-3]].body
+        brief = body.split("## 30 秒回答", 1)[1].split("## ", 1)[0]
+        assert re.search(r"(?m)^1\. .+\n2\. .+\n3\. .+", brief)
+        assert "```mermaid" in body or "](../assets/interview/" in body
+        assert not re.search(r"!\[[^]]*\]\(https?://", body)
 
 class InterviewHealthDiscoveryTests(unittest.TestCase):
     def test_matrix_module_discovery(self):
