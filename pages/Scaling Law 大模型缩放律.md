@@ -32,7 +32,7 @@ Scaling Law(缩放律)刻画的是:在数据充分、架构合理的前提下,�
 <figure>
 <img src="pages/_images/scaling-law/curve2-kaplan-vs-chinchilla.svg" alt="Kaplan 2020 与 Chinchilla 2022 在固定算力下推荐的最优参数量对比" style="width:100%;max-width:720px;">
 <figcaption style="color:#898781;font-size:12px;margin-top:4px">
-同一算力预算 C 下两派给出的最优 N。虚线段落展示 GPT-3 与 Chinchilla-optimal 在同算力下的差距——Chinchilla 拟合表明 GPT-3 在给定算力上**参数过大、数据不足**,这正是 LLaMA 系列反过来"小参数大数据"的直接动因。
+同一算力预算 C 下两派给出的最优 N。虚线段落展示 GPT-3 与 Chinchilla-optimal 在同算力下的差距——Chinchilla 拟合表明 GPT-3 在给定算力上 <strong>参数过大、数据不足</strong>,这正是 LLaMA 系列反过来"小参数大数据"的直接动因。
 </figcaption>
 </figure>
 

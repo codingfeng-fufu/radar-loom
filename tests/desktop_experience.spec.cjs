@@ -218,6 +218,7 @@ test('interview body hierarchy stays scoped across all migrated pages', async ({
     await expect(page.locator('.interview-answer-brief')).toHaveCount(1);
     await expect(page.locator('.interview-answer-brief')).toBeVisible();
     await expect(page.locator('.mermaid svg').first()).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator('#content')).not.toContainText('**');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 
@@ -227,6 +228,26 @@ test('interview body hierarchy stays scoped across all migrated pages', async ({
   }));
   await expect(page.locator('#content h1')).toContainText('LRU');
   await expect(page.locator('#content')).not.toHaveClass(/page-type-interview/);
+});
+
+test('knowledge pages do not expose unresolved strong-emphasis markers', async ({ page }) => {
+  const filenames = [
+    'K近邻 KNN K-Nearest Neighbors.md',
+    'Robust Scaler 鲁棒缩放.md',
+    'Scaling Law 大模型缩放律.md',
+    '层归一化 LayerNorm BatchNorm.md',
+    '词嵌入 Word Embedding.md',
+    '马尔可夫 Markov.md',
+  ];
+
+  for (const filename of filenames) {
+    const target = new URL('/viewer.html', knowledgeUrl);
+    target.searchParams.set('section', 'knowledge');
+    target.searchParams.set('f', `pages/${filename}`);
+    await page.goto(target.toString());
+    await expect(page.locator('#content h1')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('#content')).not.toContainText('**');
+  }
 });
 
 test('unified search, objective quality, and local operation history are visible', async ({ page }) => {

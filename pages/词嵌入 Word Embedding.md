@@ -63,7 +63,7 @@ $$
 
 其中 $X_{ij}$ 是 $i,j$ 的共现次数,$f$ 是抑制高频对的权重函数。它把计数法和局部窗口预测法揉在了一起。
 
-**FastText**(Bojanowski et al. TACL 2017)把词拆成字符 n-gram,词向量是其所有 n-gram 向量之和。这样**未登录词(OOV)**也能拼出向量,对形态丰富的语言(德语、俄语、土耳其语)和拼写变体特别友好。
+**FastText**(Bojanowski et al. TACL 2017)把词拆成字符 n-gram,词向量是其所有 n-gram 向量之和。这样**未登录词(OOV)** 也能拼出向量,对形态丰富的语言(德语、俄语、土耳其语)和拼写变体特别友好。
 
 这三个模型都属于"静态嵌入":训练完成后,每个词得到**一个固定向量**,无论出现在什么句子里都不变。经典产物如 GoogleNews-vectors-300、GloVe-6B/840B、FastText 157 语种 300d 向量,直到 2020 年前后仍是许多 NLP baseline 的默认输入。
 
@@ -95,7 +95,7 @@ $$
   - **词相似度**:在 WordSim-353、SimLex-999、MEN 等人类标注对上算余弦相似度,再与人工评分求 Spearman 相关。
   - **词类比**:Mikolov 提出的 Google Analogy(19,544 对语义 + 语法类比),BATS 是更严格的替代。
   - 内在指标已被广泛质疑与下游任务弱相关(Faruqui et al. 2016),仅供参考。
-- **外在**:嵌入接下游任务(NER、情感分类、NLI、检索、问答)的准确率/F1/召回。**MTEB(Massive Text Embedding Benchmark,Muennighoff et al. 2023)**是当前(2026)句嵌入的事实标准,覆盖 8 大类任务、上百种语言。
+- **外在**:嵌入接下游任务(NER、情感分类、NLI、检索、问答)的准确率/F1/召回。**MTEB(Massive Text Embedding Benchmark,Muennighoff et al. 2023)** 是当前(2026)句嵌入的事实标准,覆盖 8 大类任务、上百种语言。
 
 ### 常见误区与陷阱
 

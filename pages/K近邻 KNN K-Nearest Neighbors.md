@@ -10,7 +10,7 @@ tags: [基础, RAG]
 
 ## 核心内容
 
-KNN(K-Nearest Neighbors,K 近邻)是一种**非参数、基于实例(instance-based)、惰性学习(lazy learning)**的监督算法,由 Fix & Hodges(1951)首次提出,Cover & Hart(1967)证明了它在样本无限时的渐近误差不超过贝叶斯误差的两倍,是机器学习里理论界最清晰的算法之一。
+KNN(K-Nearest Neighbors,K 近邻)是一种**非参数、基于实例(instance-based)、惰性学习(lazy learning)** 的监督算法,由 Fix & Hodges(1951)首次提出,Cover & Hart(1967)证明了它在样本无限时的渐近误差不超过贝叶斯误差的两倍,是机器学习里理论界最清晰的算法之一。
 
 **基本思路**:给定训练集 $\mathcal{D}=\{(x_i,y_i)\}_{i=1}^N$ 与查询点 $x$,在某个距离度量 $d(\cdot,\cdot)$ 下取出与 $x$ 最近的 $K$ 个邻居 $\mathcal{N}_K(x)$:
 

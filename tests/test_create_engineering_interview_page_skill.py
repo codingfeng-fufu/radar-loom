@@ -44,6 +44,7 @@ class InterviewPageTests(unittest.TestCase):
         for phrase in (
             '单段不超过三处加粗', '连续三项', '官方图优先', '保存到仓库本地',
             '禁止远程图片', '纯装饰图', '一至两张', 'Mermaid', '图注',
+            '粗体结束标记与后文之间保留一个空格',
         ):
             self.assertIn(phrase, skill)
     def test_cli_has_no_generators(self):
