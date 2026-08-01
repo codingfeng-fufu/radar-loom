@@ -261,6 +261,11 @@ class ViewerContractTests(unittest.TestCase):
     def test_regular_pages_clear_interview_body_state(self):
         self.assertIn("content.classList.toggle('page-type-interview'", self.html)
 
+    def test_mermaid_failure_is_scoped_to_the_diagram(self):
+        self.assertIn("async function renderMermaidDiagrams", self.html)
+        self.assertIn("mermaid-error", self.html)
+        self.assertNotIn("await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') })", self.html)
+
 
 if __name__ == "__main__":
     unittest.main()

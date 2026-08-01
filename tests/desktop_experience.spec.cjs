@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const workbenchUrl = process.env.WEBUI_URL || 'http://127.0.0.1:18080/';
+const knowledgeUrl = process.env.KB_URL || 'http://127.0.0.1:18081';
 test.use({ viewport: { width: 1440, height: 900 } });
 
 for (const viewport of [
@@ -169,6 +170,35 @@ test('complex knowledge pages and graph render without public network resources'
 
   await page.goto('http://127.0.0.1:18081/graph-view.html');
   await expect(page.locator('#graph canvas').first()).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('invalid Mermaid is isolated without blocking the interview article', async ({ page }) => {
+  await page.route('**/pages/MermaidFailure.md', route => route.fulfill({
+    status: 200,
+    contentType: 'text/markdown; charset=utf-8',
+    body: [
+      '---',
+      'page_type: interview',
+      'summary: Mermaid failure fixture',
+      '---',
+      '# Mermaid failure fixture',
+      '## 30 秒回答',
+      '1. 结论',
+      '2. 机制',
+      '3. 边界',
+      '```mermaid',
+      'graph TD',
+      'A -->',
+      '```',
+      '## 图后内容',
+      '这段正文必须继续显示。',
+    ].join('\n'),
+  }));
+
+  await page.goto(`${knowledgeUrl}/viewer.html?section=interview&f=pages%2FMermaidFailure.md`);
+  await expect(page.locator('.mermaid-error')).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('heading', { name: '图后内容' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 

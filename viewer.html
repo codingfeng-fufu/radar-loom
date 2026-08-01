@@ -97,6 +97,7 @@
     article.page-type-interview .interview-figure { margin: 22px auto; text-align: center; color: var(--muted); font-size: 13px; }
     article.page-type-interview li + li { margin-top: 5px; }
     .mermaid { overflow-x: auto; text-align: center; }
+    .mermaid-error { border-left: 4px solid var(--ui-warning); padding: 10px 14px; background: #fff8e8; color: #6f5212; text-align: left; }
     .scrim { display: none; }
     @media (max-width: 760px) {
       .shell { display: block; }
@@ -707,6 +708,18 @@
       content.querySelectorAll(':scope > p > img').forEach((image) => image.parentElement.classList.add('interview-figure'));
     }
 
+    async function renderMermaidDiagrams(content) {
+      for (const node of content.querySelectorAll('.mermaid')) {
+        try {
+          await mermaid.run({ nodes: [node] });
+        } catch (error) {
+          node.classList.add('mermaid-error');
+          node.setAttribute('role', 'note');
+          node.textContent = `图示暂时无法渲染：${error?.message || 'Mermaid 语法错误'}`;
+        }
+      }
+    }
+
     async function renderPageData(file, section, page, token) {
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
@@ -736,7 +749,7 @@
           container.textContent = block.textContent;
           block.parentElement.replaceWith(container);
         });
-        await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') });
+        await renderMermaidDiagrams(elements.content);
         if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
         document.title = `${pageTitle} · 技术雷达`;
