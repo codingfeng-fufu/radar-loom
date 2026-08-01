@@ -6,6 +6,14 @@ const workbenchUrl = process.env.WEBUI_URL || 'http://127.0.0.1:18080/';
 const knowledgeUrl = process.env.KB_URL || 'http://127.0.0.1:18081';
 test.use({ viewport: { width: 1440, height: 900 } });
 
+async function measuredNavigate(page, file, section) {
+  return page.evaluate(async ({ file, section }) => {
+    const started = performance.now();
+    const ok = await navigateTo(file, { sectionHint: section, historyMode: 'push' });
+    return { ok, elapsed: performance.now() - started };
+  }, { file, section });
+}
+
 for (const viewport of [
   { name: 'desktop-wide', width: 1440, height: 900 },
   { name: 'desktop-tall', width: 1112, height: 1243 },
@@ -164,11 +172,11 @@ test('complex knowledge pages and graph render without public network resources'
     await page.route(pattern, route => route.abort());
   }
 
-  await page.goto('http://127.0.0.1:18081/viewer.html?f=pages%2F%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%20Diffusion%20Models%20DDPM.md');
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2F%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%20Diffusion%20Models%20DDPM.md`);
   await expect(page.locator('.katex').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
-  await page.goto('http://127.0.0.1:18081/graph-view.html');
+  await page.goto(`${knowledgeUrl}/graph-view.html`);
   await expect(page.locator('#graph canvas').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
@@ -248,6 +256,93 @@ test('knowledge pages do not expose unresolved strong-emphasis markers', async (
     await expect(page.locator('#content h1')).toBeVisible({ timeout: 15_000 });
     await expect(page.locator('#content')).not.toContainText('**');
   }
+});
+
+test('slow enrichment never blocks article navigation', async ({ page }) => {
+  await page.route('**/api/catalog', route => new Promise(resolve => {
+    setTimeout(() => resolve(route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: '{"entries":[],"edges":[]}',
+    })), 1500);
+  }));
+  await page.route('**/graph-data.json', route => new Promise(resolve => {
+    setTimeout(() => resolve(route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: '{"taxonomy":{"categories":[],"stats":{}}}',
+    })), 1500);
+  }));
+
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md`);
+  await expect(page.locator('#content h1')).toContainText('K近邻');
+  const result = await measuredNavigate(page, 'pages/词嵌入 Word Embedding.md', 'knowledge');
+  expect(result.ok).toBe(true);
+  expect(result.elapsed).toBeLessThan(300);
+  await expect(page.locator('#content h1')).toContainText('词嵌入');
+});
+
+test('navigation reuses one index per section and meets desktop budgets', async ({ page }) => {
+  const counts = { knowledge: 0, interview: 0 };
+  page.on('request', request => {
+    const pathname = new URL(request.url()).pathname;
+    if (pathname === '/_index.md') counts.knowledge += 1;
+    if (pathname === '/_interview_index.md') counts.interview += 1;
+  });
+
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md`);
+  await expect(page.locator('#content h1')).toContainText('K近邻');
+  const same = await measuredNavigate(page, 'pages/词嵌入 Word Embedding.md', 'knowledge');
+  const cross = await measuredNavigate(page, 'pages/多头注意力机制的核心作用是什么.md', 'interview');
+  const interviewAgain = await measuredNavigate(page, 'pages/知识图谱的存储方式与索引优化.md', 'interview');
+
+  expect(same.elapsed).toBeLessThan(300);
+  expect(cross.elapsed).toBeLessThan(500);
+  expect(interviewAgain.elapsed).toBeLessThan(300);
+  expect(counts).toEqual({ knowledge: 1, interview: 1 });
+});
+
+test('rapid navigation shows feedback and commits only the latest target', async ({ page }) => {
+  await page.route(url => decodeURIComponent(url.pathname).endsWith('/pages/Robust Scaler 鲁棒缩放.md'), async route => {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    await route.continue();
+  });
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md`);
+  await expect(page.locator('#content h1')).toContainText('K近邻');
+
+  await page.evaluate(() => {
+    window.firstNavigation = navigateTo('pages/Robust Scaler 鲁棒缩放.md', {
+      sectionHint: 'knowledge', historyMode: 'push',
+    });
+  });
+  await expect(page.locator('#content')).toHaveAttribute('aria-busy', 'true', { timeout: 100 });
+  await expect(page.locator('#message')).toContainText('正在打开');
+  await page.evaluate(() => {
+    window.secondNavigation = navigateTo('pages/词嵌入 Word Embedding.md', {
+      sectionHint: 'knowledge', historyMode: 'push',
+    });
+  });
+
+  await expect(page.locator('#content h1')).toContainText('词嵌入');
+  await page.waitForTimeout(300);
+  await expect(page.locator('#content h1')).toContainText('词嵌入');
+  await expect(page.locator('#content')).toHaveAttribute('aria-busy', 'false');
+});
+
+test('refresh invalidates cached section indexes before recovery', async ({ page }) => {
+  let indexRequests = 0;
+  page.on('request', request => {
+    if (new URL(request.url()).pathname === '/_index.md') indexRequests += 1;
+  });
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FK%E8%BF%91%E9%82%BB%20KNN%20K-Nearest%20Neighbors.md`);
+  await expect(page.locator('#content h1')).toContainText('K近邻');
+  expect(indexRequests).toBe(1);
+
+  const ok = await page.evaluate(() => refreshActiveSurface('knowledge'));
+
+  expect(ok).toBe(true);
+  expect(indexRequests).toBe(2);
+  await expect(page.locator('#content h1')).toContainText('K近邻');
 });
 
 test('unified search, objective quality, and local operation history are visible', async ({ page }) => {
