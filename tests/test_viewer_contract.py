@@ -261,6 +261,13 @@ class ViewerContractTests(unittest.TestCase):
     def test_regular_pages_clear_interview_body_state(self):
         self.assertIn("content.classList.toggle('page-type-interview'", self.html)
 
+    def test_interview_brief_decoration_does_not_include_diagrams_or_captions(self):
+        self.assertIn("heading.nextElementSibling?.classList.add('interview-answer-brief')", self.html)
+        self.assertNotIn(
+            "sectionUntilNextHeading(heading).forEach((node) => node.classList.add('interview-answer-brief'))",
+            self.html,
+        )
+
     def test_mermaid_failure_is_scoped_to_the_diagram(self):
         self.assertIn("async function renderMermaidDiagrams", self.html)
         self.assertIn("mermaid-error", self.html)

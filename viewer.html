@@ -698,7 +698,7 @@
         const title = heading.textContent.trim();
         if (title === '30 秒回答') {
           heading.classList.add('interview-brief-heading');
-          sectionUntilNextHeading(heading).forEach((node) => node.classList.add('interview-answer-brief'));
+          heading.nextElementSibling?.classList.add('interview-answer-brief');
         }
         if (title === '常见错误回答') {
           heading.classList.add('interview-warning-heading');

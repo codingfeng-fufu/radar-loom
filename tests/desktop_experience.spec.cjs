@@ -202,6 +202,33 @@ test('invalid Mermaid is isolated without blocking the interview article', async
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
+test('interview body hierarchy stays scoped across all migrated pages', async ({ page }) => {
+  const interviewPages = [
+    '设计一个AI Agent的记忆系统.md',
+    '多头注意力机制的核心作用是什么.md',
+    '知识图谱的存储方式与索引优化.md',
+  ];
+
+  for (const filename of interviewPages) {
+    const target = new URL('/viewer.html', knowledgeUrl);
+    target.searchParams.set('section', 'interview');
+    target.searchParams.set('f', `pages/${filename}`);
+    await page.goto(target.toString());
+    await expect(page.locator('#content')).toHaveClass(/page-type-interview/, { timeout: 15_000 });
+    await expect(page.locator('.interview-answer-brief')).toHaveCount(1);
+    await expect(page.locator('.interview-answer-brief')).toBeVisible();
+    await expect(page.locator('.mermaid svg').first()).toBeVisible({ timeout: 30_000 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+
+  await page.evaluate(() => navigateTo('pages/LRU 缓存替换 Least Recently Used.md', {
+    sectionHint: 'knowledge',
+    historyMode: 'push',
+  }));
+  await expect(page.locator('#content h1')).toContainText('LRU');
+  await expect(page.locator('#content')).not.toHaveClass(/page-type-interview/);
+});
+
 test('unified search, objective quality, and local operation history are visible', async ({ page }) => {
   await page.goto(workbenchUrl);
   await page.locator('#globalSearchButton').click();
