@@ -86,6 +86,7 @@
     article :not(pre) > code { padding: 2px 5px; border-radius: 3px; background: var(--code); }
     article pre { overflow: auto; padding: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--code); }
     article pre code { padding: 0; }
+    article[aria-busy="true"] { opacity: .72; transition: opacity 120ms ease; }
     article .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
     article.page-type-interview { line-height: 1.7; }
     article.page-type-interview > h2 { margin-top: 2em; }
@@ -189,7 +190,8 @@
     let navigationGeneration = 0;
     let catalogPromise = null;
     const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
-      groups: [], entries: [], activeFile: SECTIONS[section].defaultFile, expanded: new Set(), initialized: false,
+      groups: [], entries: [], activeFile: SECTIONS[section].defaultFile,
+      expanded: new Set(), initialized: false, indexData: null, indexPromise: null, indexGeneration: 0,
       search: '', filters: { role: '', difficulty: '', tag: '' }
     }]));
     let navigationState = navigationStates.knowledge;
@@ -663,6 +665,38 @@
       return section === 'interview' ? parseInterviewIndex(source) : parseIndex(source);
     }
 
+    async function loadSectionIndex(section, { force = false } = {}) {
+      const state = navigationStates[section];
+      if (force) {
+        state.indexGeneration += 1;
+        state.indexData = null;
+        state.indexPromise = null;
+      }
+      if (state.indexData) return state.indexData;
+      if (!state.indexPromise) {
+        const generation = state.indexGeneration;
+        const promise = fetchIndexData(section)
+          .then((parsed) => {
+            if (generation === state.indexGeneration) state.indexData = parsed;
+            return parsed;
+          })
+          .finally(() => {
+            if (state.indexPromise === promise) state.indexPromise = null;
+          });
+        state.indexPromise = promise;
+      }
+      return state.indexPromise;
+    }
+
+    function invalidateSectionIndexes() {
+      for (const state of Object.values(navigationStates)) {
+        state.indexGeneration += 1;
+        state.indexData = null;
+        state.indexPromise = null;
+        state.initialized = false;
+      }
+    }
+
     async function fetchPageData(file) {
       const response = await fetch(file, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -772,6 +806,12 @@
       refreshTaxonomySummary(section);
     }
 
+    function setNavigationBusy(busy, title = '') {
+      elements.content.setAttribute('aria-busy', String(busy));
+      if (busy) setMessage(`正在打开${title ? `「${title}」` : '页面'}`);
+      else if (!elements.message.classList.contains('error')) setMessage('');
+    }
+
     async function navigateTo(requestedFile = null, { sectionHint = activeSection, historyMode = 'replace' } = {}) {
       const token = ++navigationGeneration;
       const hintedSection = SECTIONS[sectionHint] ? sectionHint : 'knowledge';
@@ -780,10 +820,13 @@
         setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
         return;
       }
+      const requestedTitle = navigationStates[hintedSection].entries
+        .find((entry) => entry.file === requestedFile)?.title || '';
+      setNavigationBusy(true, requestedTitle);
       navigationState.search = elements.navigationSearch.value;
       saveNavigationState();
       try {
-        let parsed = await fetchIndexData(hintedSection);
+        let parsed = await loadSectionIndex(hintedSection);
         if (token !== navigationGeneration) return;
         const persistedFile = sessionStorage.getItem(SECTIONS[hintedSection].activeFileKey);
         const file = requestedFile || persistedFile || parsed.entries[0]?.file || null;
@@ -795,6 +838,7 @@
           else if (historyMode === 'replace') history.replaceState({ file: null, section: hintedSection }, '', url);
           elements.content.replaceChildren();
           elements.frontmatter.hidden = true;
+          setNavigationBusy(false);
           setMessage('当前专区暂无页面。');
           return;
         }
@@ -802,7 +846,7 @@
         if (token !== navigationGeneration) return;
         const detectedSection = sectionForFile(file, page.pageMetadata) || hintedSection;
         if (detectedSection !== hintedSection) {
-          parsed = await fetchIndexData(detectedSection);
+          parsed = await loadSectionIndex(detectedSection);
           if (token !== navigationGeneration) return;
         }
         if (token !== navigationGeneration) return;
@@ -812,6 +856,7 @@
         else if (historyMode === 'replace') history.replaceState({ file, section: detectedSection }, '', canonicalViewerUrl(file, detectedSection));
         await renderPageData(file, detectedSection, page, token);
         if (token !== navigationGeneration) return;
+        setNavigationBusy(false);
         return true;
       } catch (error) {
         if (token !== navigationGeneration) return;
@@ -827,8 +872,20 @@
         retry.addEventListener('click', () => navigateTo(failedIntent.requestedFile, failedIntent));
         elements.navigation.append(message, retry);
         setMessage(`未能打开目标页，当前内容已保留：${error.message}`, true);
+        elements.content.setAttribute('aria-busy', 'false');
         return false;
       }
+    }
+
+    async function refreshActiveSurface(section = activeSection) {
+      navigationGeneration += 1;
+      invalidateSectionIndexes();
+      catalogPromise = null;
+      await loadSectionIndex(section, { force: true });
+      return navigateTo(navigationStates[section].activeFile, {
+        sectionHint: section,
+        historyMode: 'replace',
+      });
     }
 
     function retryIndexLoad(section = activeSection) {
@@ -847,7 +904,10 @@
     window.addEventListener('message', (event) => {
       if (event.origin !== WORKBENCH_ORIGIN || event.source !== window.parent) return;
       if (event.data?.type === 'kb-open-navigation') document.body.classList.add('nav-open');
-      if (event.data?.type === 'kb-refresh') retryIndexLoad(activeSection).then((ok) => notifyRefreshResult(ok, ok ? '' : '当前页面恢复失败'));
+      if (event.data?.type === 'kb-refresh') {
+        refreshActiveSurface(activeSection)
+          .then((ok) => notifyRefreshResult(ok, ok ? '' : '当前页面恢复失败'));
+      }
       if (event.data?.type === 'kb-navigate' && validatePath(event.data.file) && SECTIONS[event.data.section]) navigateTo(event.data.file, { sectionHint: event.data.section, historyMode: 'push' });
     });
     document.querySelector('.section-tabs').addEventListener('click', (event) => {

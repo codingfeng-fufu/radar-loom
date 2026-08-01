@@ -86,7 +86,7 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("kb-context", self.html)
         self.assertIn("kb-open-navigation", self.html)
         self.assertIn("kb-refresh", self.html)
-        self.assertIn("retryIndexLoad(activeSection)", self.html)
+        self.assertIn("refreshActiveSurface(activeSection)", self.html)
         self.assertIn("http://127.0.0.1:18080", self.html)
         self.assertLess(self.html.index("await mermaid.run"), self.html.rindex("notifyActiveFile(file, pageTitle, pageMetadata)"))
 
@@ -193,7 +193,7 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("question:", self.html)
         self.assertIn("roles:", self.html)
         self.assertIn("difficulty:", self.html)
-        self.assertIn("retryIndexLoad(activeSection)", self.html)
+        self.assertIn("refreshActiveSurface(activeSection)", self.html)
         self.assertIn("return navigateTo(navigationStates[section].activeFile", self.html)
 
     def test_workbench_refresh_reports_real_viewer_completion(self):
@@ -202,7 +202,8 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("type: 'kb-refresh-result'", self.html)
         self.assertIn("surface: 'viewer'", self.html)
         self.assertIn("notifyRefreshResult(ok", self.html)
-        self.assertIn("retryIndexLoad(activeSection).then((ok)", self.html)
+        self.assertIn("refreshActiveSurface(activeSection)", self.html)
+        self.assertIn(".then((ok) => notifyRefreshResult(ok", self.html)
         self.assertIn("type: 'kb-operation-result'", self.html)
 
     def test_interview_section_without_file_does_not_fall_back_to_home(self):
@@ -237,10 +238,28 @@ class ViewerContractTests(unittest.TestCase):
         self.assertRegex(self.html, r"async function\s+navigateTo\s*\(")
         self.assertIn("const token = ++navigationGeneration", self.html)
         self.assertIn("if (token !== navigationGeneration) return", self.html)
-        self.assertIn("await fetchIndexData", self.html)
+        self.assertIn("await loadSectionIndex", self.html)
         self.assertIn("await fetchPageData", self.html)
         self.assertNotIn("switchSection(section, { render: false });\n      renderMarkdown", self.html)
         self.assertIn("navigateTo(file, { sectionHint: section, historyMode: 'push' })", self.html)
+
+    def test_section_indexes_are_cached_and_invalidatable(self):
+        for value in (
+            "indexData: null", "indexPromise: null", "loadSectionIndex",
+            "invalidateSectionIndexes", "state.indexData", "state.indexPromise",
+        ):
+            self.assertIn(value, self.html)
+        self.assertNotIn("let parsed = await fetchIndexData(hintedSection)", self.html)
+
+    def test_navigation_exposes_busy_state_without_clearing_article(self):
+        self.assertIn("function setNavigationBusy", self.html)
+        self.assertIn("elements.content.setAttribute('aria-busy', String(busy))", self.html)
+        self.assertIn("setMessage(`正在打开${title ? `「${title}」` : '页面'}`)", self.html)
+        self.assertNotIn("elements.content.replaceChildren();\n      setMessage('正在", self.html)
+
+    def test_successful_refresh_invalidates_indexes_before_recovery(self):
+        self.assertIn("invalidateSectionIndexes()", self.html)
+        self.assertIn("refreshActiveSurface(activeSection)", self.html)
 
     def test_page_quality_is_objective_and_workbench_navigation_is_source_checked(self):
         for value in ('id="qualityPanel"', 'id="qualitySummary"', 'id="qualityFacts"', 'objectivePageQuality', 'renderPageQuality', "'未检测到'"):
