@@ -32,36 +32,61 @@
     },
     {
       "id": "e0005",
+      "source": "LLM上下文窗口的确定因素与超限行为",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0006",
+      "source": "LLM上下文窗口的确定因素与超限行为",
+      "target": "LLM 推理优化 KV Cache Quantization"
+    },
+    {
+      "id": "e0007",
+      "source": "LLM上下文窗口的确定因素与超限行为",
+      "target": "Transformer 架构 Architecture"
+    },
+    {
+      "id": "e0008",
+      "source": "LLM上下文窗口的确定因素与超限行为",
+      "target": "位置编码 Positional Encoding"
+    },
+    {
+      "id": "e0009",
+      "source": "LLM上下文窗口的确定因素与超限行为",
+      "target": "旋转位置编码 RoPE"
+    },
+    {
+      "id": "e0010",
       "source": "多头注意力机制的核心作用是什么",
       "target": "多头注意力 Multi-Head Attention"
     },
     {
-      "id": "e0006",
+      "id": "e0011",
       "source": "知识图谱的存储方式与索引优化",
       "target": "主流知识图谱 Mainstream KGs"
     },
     {
-      "id": "e0007",
+      "id": "e0012",
       "source": "知识图谱的存储方式与索引优化",
       "target": "关联规则挖掘 Apriori"
     },
     {
-      "id": "e0008",
+      "id": "e0013",
       "source": "知识图谱的存储方式与索引优化",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0009",
+      "id": "e0014",
       "source": "设计一个AI Agent的记忆系统",
       "target": "Agent 记忆架构"
     },
     {
-      "id": "e0010",
+      "id": "e0015",
       "source": "设计一个AI Agent的记忆系统",
       "target": "ReAct Agent 工作原理"
     },
     {
-      "id": "e0011",
+      "id": "e0016",
       "source": "设计一个AI Agent的记忆系统",
       "target": "多智能体系统 Multi-Agent Systems"
     }
@@ -71,7 +96,7 @@
     {
       "category": "RAG",
       "confidence": "",
-      "degree": 4,
+      "degree": 5,
       "external": false,
       "href": "viewer.html?f=pages%2FAI%20Agent%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%E4%B8%8D%E8%B6%B3%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%BA%94%E5%AF%B9.md",
       "id": "AI Agent上下文窗口不足的工程应对",
@@ -105,6 +130,38 @@
       "confidence": "",
       "degree": 0,
       "external": true,
+      "href": "viewer.html?f=pages%2FLLM%20%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%20KV%20Cache%20Quantization.md",
+      "id": "LLM 推理优化 KV Cache Quantization",
+      "kind": "concept",
+      "label": "LLM 推理优化 KV Cache Quantization",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 5,
+      "external": false,
+      "href": "viewer.html?f=pages%2FLLM%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%E7%9A%84%E7%A1%AE%E5%AE%9A%E5%9B%A0%E7%B4%A0%E4%B8%8E%E8%B6%85%E9%99%90%E8%A1%8C%E4%B8%BA.md",
+      "id": "LLM上下文窗口的确定因素与超限行为",
+      "kind": "concept",
+      "label": "LLM上下文窗口的确定因素与超限行为",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "LLM",
+        "Transformer",
+        "位置编码",
+        "推理优化",
+        "系统设计"
+      ]
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
       "href": "viewer.html?f=pages%2FReAct%20Agent%20%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.md",
       "id": "ReAct Agent 工作原理",
       "kind": "concept",
@@ -118,10 +175,36 @@
       "confidence": "",
       "degree": 0,
       "external": true,
+      "href": "viewer.html?f=pages%2FTransformer%20%E6%9E%B6%E6%9E%84%20Architecture.md",
+      "id": "Transformer 架构 Architecture",
+      "kind": "concept",
+      "label": "Transformer 架构 Architecture",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
       "href": "viewer.html?f=pages%2F%E4%B8%BB%E6%B5%81%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20Mainstream%20KGs.md",
       "id": "主流知识图谱 Mainstream KGs",
       "kind": "concept",
       "label": "主流知识图谱 Mainstream KGs",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
+      "href": "viewer.html?f=pages%2F%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%20Positional%20Encoding.md",
+      "id": "位置编码 Positional Encoding",
+      "kind": "concept",
+      "label": "位置编码 Positional Encoding",
       "nodeType": "external-concept",
       "summary": "",
       "tags": []
@@ -200,6 +283,19 @@
       "confidence": "",
       "degree": 0,
       "external": true,
+      "href": "viewer.html?f=pages%2F%E6%97%8B%E8%BD%AC%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%20RoPE.md",
+      "id": "旋转位置编码 RoPE",
+      "kind": "concept",
+      "label": "旋转位置编码 RoPE",
+      "nodeType": "external-concept",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 0,
+      "external": true,
       "href": "viewer.html?f=pages%2F%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%20KG.md",
       "id": "知识图谱 KG",
       "kind": "concept",
@@ -249,13 +345,13 @@
     }
   ],
   "stats": {
-    "broken": 19,
-    "edges": 11,
-    "externalNodeCount": 8,
-    "internalNodeCount": 4,
+    "broken": 26,
+    "edges": 16,
+    "externalNodeCount": 12,
+    "internalNodeCount": 5,
     "isolated": 0,
-    "nodeCount": 4,
-    "nodes": 4
+    "nodeCount": 5,
+    "nodes": 5
   },
   "taxonomy": {
     "candidates": [],
@@ -313,6 +409,20 @@
       },
       {
         "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "LLM上下文窗口的确定因素与超限行为",
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8828828692436218,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9736659526824951,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
         "firstAssignedAt": "2026-07-31",
         "lastConfirmedAt": "2026-07-31",
         "page": "多头注意力机制的核心作用是什么",
@@ -361,6 +471,7 @@
           "知识图谱的存储方式与索引优化",
           "多头注意力机制的核心作用是什么",
           "AI Agent上下文窗口不足的工程应对",
+          "LLM上下文窗口的确定因素与超限行为",
           "设计一个AI Agent的记忆系统"
         ]
       }
@@ -372,7 +483,7 @@
       "candidates": 0,
       "categories": 1,
       "forming": 1,
-      "memberships": 4,
+      "memberships": 5,
       "pendingPages": 0,
       "seedCategories": 0
     }

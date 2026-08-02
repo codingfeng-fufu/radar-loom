@@ -19,7 +19,7 @@
       "updated_at": "2026-07-31"
     }
   },
-  "changes_since_global": 3,
+  "changes_since_global": 4,
   "events": [
     {
       "category_ids": [
@@ -51,6 +51,20 @@
         "links": 1.0,
         "projects": 0.0,
         "semantic": 0.9766411185264587,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_98bd1741fbfb",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/LLM上下文窗口的确定因素与超限行为.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8828828692436218,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9736659526824951,
         "tags": 0.0
       }
     },
@@ -99,6 +113,7 @@
   ],
   "page_fingerprints": {
     "pages/AI Agent上下文窗口不足的工程应对.md": "dce043429d6e508a0c9287445c9b7318d77a2017c08a68454671f355b66a2c70",
+    "pages/LLM上下文窗口的确定因素与超限行为.md": "8ce41875ff1dd4c770314fbd4198800af8f8811aadb1013c740cd744eaff6e97",
     "pages/多头注意力机制的核心作用是什么.md": "b66992a7e5a7698f1355a63c8017cd5585e245320a734ec6c27ee487db86e595",
     "pages/知识图谱的存储方式与索引优化.md": "d053205555db5cf98dad8636d3511d57c21564be4610eae0563c9c43359f646d",
     "pages/设计一个AI Agent的记忆系统.md": "0c7b638c5ccf27b575e2c77b48c007406a58f555df97e6b79c6779a543e79405"
