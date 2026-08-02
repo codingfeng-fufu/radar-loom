@@ -1,6 +1,6 @@
 # 工程面试 · 隔离图谱
 
-> 生成:2026-08-02 · 内部节点 5 · 边 16 · 断链 26
+> 生成:2026-08-02 · 内部节点 6 · 边 20 · 断链 34
 
 ```mermaid
 graph LR
@@ -21,6 +21,7 @@ graph LR
     知识图谱_KG["知识图谱 KG"]:::ext
     知识图谱的存储方式与索引优化["知识图谱的存储方式与索引优化"]
     设计一个AI_Agent的记忆系统["设计一个AI Agent的记忆系统"]
+    设计一个Coding_Agent["设计一个Coding Agent"]
     AI_Agent上下文窗口不足的工程应对 --> Agent_记忆架构
     AI_Agent上下文窗口不足的工程应对 --> ReAct_Agent_工作原理
     AI_Agent上下文窗口不足的工程应对 --> 提示工程_Prompt_Engineering
@@ -37,5 +38,9 @@ graph LR
     设计一个AI_Agent的记忆系统 --> Agent_记忆架构
     设计一个AI_Agent的记忆系统 --> ReAct_Agent_工作原理
     设计一个AI_Agent的记忆系统 --> 多智能体系统_Multi_Agent_Systems
+    设计一个Coding_Agent --> AI_Agent上下文窗口不足的工程应对
+    设计一个Coding_Agent --> Agent_记忆架构
+    设计一个Coding_Agent --> ReAct_Agent_工作原理
+    设计一个Coding_Agent --> 设计一个AI_Agent的记忆系统
     classDef ext fill:#eee,stroke:#999;
 ```

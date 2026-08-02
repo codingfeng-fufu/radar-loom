@@ -89,6 +89,26 @@
       "id": "e0016",
       "source": "设计一个AI Agent的记忆系统",
       "target": "多智能体系统 Multi-Agent Systems"
+    },
+    {
+      "id": "e0017",
+      "source": "设计一个Coding Agent",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0018",
+      "source": "设计一个Coding Agent",
+      "target": "Agent 记忆架构"
+    },
+    {
+      "id": "e0019",
+      "source": "设计一个Coding Agent",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0020",
+      "source": "设计一个Coding Agent",
+      "target": "设计一个AI Agent的记忆系统"
     }
   ],
   "generated": "2026-08-02",
@@ -96,7 +116,7 @@
     {
       "category": "RAG",
       "confidence": "",
-      "degree": 5,
+      "degree": 6,
       "external": false,
       "href": "viewer.html?f=pages%2FAI%20Agent%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%E4%B8%8D%E8%B6%B3%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%BA%94%E5%AF%B9.md",
       "id": "AI Agent上下文窗口不足的工程应对",
@@ -327,7 +347,7 @@
     {
       "category": "RAG",
       "confidence": "",
-      "degree": 4,
+      "degree": 5,
       "external": false,
       "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AAAI%20Agent%E7%9A%84%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F.md",
       "id": "设计一个AI Agent的记忆系统",
@@ -342,16 +362,35 @@
         "系统设计",
         "RAG"
       ]
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 4,
+      "external": false,
+      "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AACoding%20Agent.md",
+      "id": "设计一个Coding Agent",
+      "kind": "concept",
+      "label": "设计一个Coding Agent",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "Agent",
+        "Coding",
+        "LLM",
+        "系统设计",
+        "工具调用"
+      ]
     }
   ],
   "stats": {
-    "broken": 26,
-    "edges": 16,
+    "broken": 34,
+    "edges": 20,
     "externalNodeCount": 12,
-    "internalNodeCount": 5,
+    "internalNodeCount": 6,
     "isolated": 0,
-    "nodeCount": 5,
-    "nodes": 5
+    "nodeCount": 6,
+    "nodes": 6
   },
   "taxonomy": {
     "candidates": [],
@@ -359,11 +398,11 @@
       {
         "algorithmVersion": "taxonomy-v1",
         "aliases": [],
-        "createdAt": "2026-07-31",
-        "definition": "由增量分类发现的高内聚新主题。",
-        "id": "cat_98bd1741fbfb",
+        "createdAt": "2026-08-02",
+        "definition": "由候选页面形成的高内聚新主题。",
+        "id": "cat_3a6676312b48",
         "lastStableAt": null,
-        "name": "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化",
+        "name": "AI Agent LLM",
         "namingStatus": "pending",
         "parents": [],
         "redirectTo": null,
@@ -371,7 +410,26 @@
         "source": "automatic",
         "stableRuns": 0,
         "status": "forming",
-        "updatedAt": "2026-07-31"
+        "updatedAt": "2026-08-02"
+      },
+      {
+        "algorithmVersion": "taxonomy-v1",
+        "aliases": [
+          "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化"
+        ],
+        "createdAt": "2026-07-31",
+        "definition": "涵盖LLM上下文窗口的决定因素（训练长度、位置编码、注意力实现）、超限行为与lost-in-the-middle有效窗口问题；Agent在上下文预算受限下的工程应对路径（裁剪、压缩、RAG/记忆外置、分层注入、扩窗）；以及Agent记忆系统的分层架构（工作/情景/语义/程序记忆）与写入-检索-反思-遗忘流水线设计。",
+        "id": "cat_98bd1741fbfb",
+        "lastStableAt": null,
+        "name": "LLM上下文窗口与Agent记忆管理",
+        "namingStatus": "ready",
+        "parents": [],
+        "redirectTo": null,
+        "related": [],
+        "source": "automatic",
+        "stableRuns": 1,
+        "status": "forming",
+        "updatedAt": "2026-08-02"
       }
     ],
     "events": [
@@ -382,6 +440,22 @@
         "createdAt": "2026-07-31",
         "reason": "至少三个新颖页面形成高内聚群组",
         "type": "create"
+      },
+      {
+        "categoryIds": [
+          "cat_3a6676312b48"
+        ],
+        "createdAt": "2026-08-02",
+        "reason": "候选群组达到形成阈值",
+        "type": "create"
+      },
+      {
+        "categoryIds": [
+          "cat_98bd1741fbfb"
+        ],
+        "createdAt": "2026-08-02",
+        "reason": "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化 -> LLM上下文窗口与Agent记忆管理",
+        "type": "rename"
       }
     ],
     "generatedAt": "2026-08-02",
@@ -394,17 +468,39 @@
     },
     "memberships": [
       {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "AI Agent上下文窗口不足的工程应对",
+        "reason": "候选群组语义内聚度 0.95",
+        "score": 0.9534415662288666,
+        "signals": {
+          "semantic_cohesion": 0.9534415662288666
+        }
+      },
+      {
         "category": "cat_98bd1741fbfb",
         "firstAssignedAt": "2026-08-02",
         "lastConfirmedAt": "2026-08-02",
         "page": "AI Agent上下文窗口不足的工程应对",
-        "reason": "双链 1.00，语义 0.98",
-        "score": 0.8848167270421982,
+        "reason": "全局群组语义相似度 0.99",
+        "score": 0.9932857751846313,
         "signals": {
-          "links": 1.0,
+          "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9766411185264587,
+          "semantic": 0.9932857751846313,
           "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "LLM上下文窗口的确定因素与超限行为",
+        "reason": "候选群组语义内聚度 0.95",
+        "score": 0.9534415662288666,
+        "signals": {
+          "semantic_cohesion": 0.9534415662288666
         }
       },
       {
@@ -412,78 +508,120 @@
         "firstAssignedAt": "2026-08-02",
         "lastConfirmedAt": "2026-08-02",
         "page": "LLM上下文窗口的确定因素与超限行为",
-        "reason": "双链 1.00，语义 0.97",
-        "score": 0.8828828692436218,
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.984139084815979,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.984139084815979,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "多头注意力机制的核心作用是什么",
+        "reason": "候选群组语义内聚度 0.95",
+        "score": 0.9534415662288666,
+        "signals": {
+          "semantic_cohesion": 0.9534415662288666
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "知识图谱的存储方式与索引优化",
+        "reason": "候选群组语义内聚度 0.95",
+        "score": 0.9534415662288666,
+        "signals": {
+          "semantic_cohesion": 0.9534415662288666
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "设计一个AI Agent的记忆系统",
+        "reason": "候选群组语义内聚度 0.95",
+        "score": 0.9534415662288666,
+        "signals": {
+          "semantic_cohesion": 0.9534415662288666
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "设计一个AI Agent的记忆系统",
+        "reason": "全局群组语义相似度 0.99",
+        "score": 0.9880685806274414,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.9880685806274414,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "设计一个Coding Agent",
+        "reason": "双链 1.00，语义 0.98",
+        "score": 0.8846837997436524,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9736659526824951,
+          "semantic": 0.9764366149902344,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-07-31",
-        "lastConfirmedAt": "2026-07-31",
-        "page": "多头注意力机制的核心作用是什么",
-        "reason": "与新主题代表页语义相似度 0.93",
-        "score": 0.926540732383728,
+        "firstAssignedAt": "2026-08-02",
+        "lastConfirmedAt": "2026-08-02",
+        "page": "设计一个Coding Agent",
+        "reason": "双链 1.00，语义 0.98",
+        "score": 0.8856977432966232,
         "signals": {
-          "links": 0.0,
+          "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.926540732383728,
-          "tags": 0.0
-        }
-      },
-      {
-        "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-07-31",
-        "lastConfirmedAt": "2026-07-31",
-        "page": "知识图谱的存储方式与索引优化",
-        "reason": "与新主题代表页语义相似度 0.96",
-        "score": 0.9552122354507446,
-        "signals": {
-          "links": 0.0,
-          "projects": 0.0,
-          "semantic": 0.9552122354507446,
-          "tags": 0.0
-        }
-      },
-      {
-        "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-07-31",
-        "lastConfirmedAt": "2026-08-01",
-        "page": "设计一个AI Agent的记忆系统",
-        "reason": "语义 0.96",
-        "score": 0.6226138770580292,
-        "signals": {
-          "links": 0.0,
-          "projects": 0.0,
-          "semantic": 0.9578675031661987,
+          "semantic": 0.9779965281486511,
           "tags": 0.0
         }
       }
     ],
     "representatives": [
       {
-        "category": "cat_98bd1741fbfb",
+        "category": "cat_3a6676312b48",
         "pages": [
-          "知识图谱的存储方式与索引优化",
-          "多头注意力机制的核心作用是什么",
           "AI Agent上下文窗口不足的工程应对",
           "LLM上下文窗口的确定因素与超限行为",
+          "多头注意力机制的核心作用是什么",
+          "知识图谱的存储方式与索引优化",
           "设计一个AI Agent的记忆系统"
+        ]
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "pages": [
+          "AI Agent上下文窗口不足的工程应对",
+          "设计一个AI Agent的记忆系统",
+          "LLM上下文窗口的确定因素与超限行为",
+          "设计一个Coding Agent"
         ]
       }
     ],
     "schemaVersion": 2,
     "stats": {
-      "activeCategories": 1,
-      "automaticCategories": 1,
+      "activeCategories": 2,
+      "automaticCategories": 2,
       "candidates": 0,
-      "categories": 1,
-      "forming": 1,
-      "memberships": 5,
+      "categories": 2,
+      "forming": 2,
+      "memberships": 10,
       "pendingPages": 0,
       "seedCategories": 0
     }
