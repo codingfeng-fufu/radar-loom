@@ -3646,7 +3646,7 @@
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
   ],
-  "generated": "2026-07-31",
+  "generated": "2026-08-02",
   "nodes": [
     {
       "category": "多智能体",
@@ -5762,15 +5762,31 @@
         "createdAt": "2026-07-28",
         "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
         "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d",
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-08-01",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
-    "generatedAt": "2026-07-31",
+    "generatedAt": "2026-08-01",
     "lastRun": {
-      "finished_at": "2026-07-31",
+      "finished_at": "2026-08-01",
       "operation": "sync",
       "outcome": "unchanged",
       "reason": "",
-      "started_at": "2026-07-31"
+      "started_at": "2026-08-01"
     },
     "memberships": [
       {
@@ -6140,39 +6156,42 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "K近邻 KNN K-Nearest Neighbors",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.96",
+        "score": 0.8240372538566589,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9567287564277649,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "K近邻 KNN K-Nearest Neighbors",
-        "reason": "历史人工标签 基础",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.7769440531730651,
         "signals": {
-          "links": 0.0,
+          "links": 0.4,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9615734219551086,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "K近邻 KNN K-Nearest Neighbors",
-        "reason": "历史人工标签 RAG",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.95",
+        "score": 0.7700298190116882,
         "signals": {
-          "links": 0.0,
+          "links": 0.4,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9500496983528137,
           "tags": 1.0
         }
       },
@@ -6491,39 +6510,42 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Robust Scaler 鲁棒缩放",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.95",
+        "score": 0.8182398557662963,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9470664262771606,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Robust Scaler 鲁棒缩放",
         "reason": "人工标签 1.00，语义 0.95",
-        "score": 0.7184846878051758,
+        "score": 0.7701158285140991,
         "signals": {
-          "links": 0.2,
+          "links": 0.4,
           "projects": 0.0,
-          "semantic": 0.947474479675293,
+          "semantic": 0.9501930475234985,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Robust Scaler 鲁棒缩放",
-        "reason": "语义 0.94，双链 0.40",
-        "score": 0.6614792943000793,
+        "reason": "语义 0.94，双链 0.60",
+        "score": 0.7159078001976014,
         "signals": {
-          "links": 0.4,
+          "links": 0.6,
           "projects": 0.0,
-          "semantic": 0.9357988238334656,
+          "semantic": 0.9431796669960022,
           "tags": 0.0
         }
       },
@@ -6555,39 +6577,42 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Scaling Law 大模型缩放律",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.96",
+        "score": 0.8273679494857787,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9622799158096313,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Scaling Law 大模型缩放律",
-        "reason": "历史人工标签 基础",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.7174419919649759,
         "signals": {
-          "links": 0.0,
+          "links": 0.16666666666666666,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9596255421638489,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "Scaling Law 大模型缩放律",
-        "reason": "历史人工标签 LLM机制",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.8019130468368529,
         "signals": {
-          "links": 0.0,
+          "links": 0.5,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9615217447280884,
           "tags": 1.0
         }
       },
@@ -8039,53 +8064,70 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "层归一化 LayerNorm BatchNorm",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8296409606933594,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9660682678222656,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "层归一化 LayerNorm BatchNorm",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7891058598245893,
+        "score": 0.790518489905766,
         "signals": {
           "links": 0.42857142857142855,
           "projects": 0.0,
-          "semantic": 0.969938337802887,
+          "semantic": 0.9722927212715149,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_kg",
+        "firstAssignedAt": "2026-08-01",
+        "lastConfirmedAt": "2026-08-01",
+        "page": "层归一化 LayerNorm BatchNorm",
+        "reason": "语义 0.96，双链 0.29",
+        "score": 0.6460203272955758,
+        "signals": {
+          "links": 0.2857142857142857,
+          "projects": 0.0,
+          "semantic": 0.9576529264450073,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "层归一化 LayerNorm BatchNorm",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.7531083328383309,
+        "score": 0.7550536138670785,
         "signals": {
           "links": 0.2857142857142857,
           "projects": 0.0,
-          "semantic": 0.9694662690162659,
+          "semantic": 0.9727084040641785,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "层归一化 LayerNorm BatchNorm",
-        "reason": "语义 0.96，双链 0.29",
-        "score": 0.645062027658735,
+        "reason": "语义 0.96，双链 0.43",
+        "score": 0.6832717333521161,
         "signals": {
-          "links": 0.2857142857142857,
+          "links": 0.42857142857142855,
           "projects": 0.0,
-          "semantic": 0.956055760383606,
+          "semantic": 0.9602147936820984,
           "tags": 0.0
         }
       },
@@ -9419,67 +9461,70 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "词嵌入 Word Embedding",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8349430799484253,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9749051332473755,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-16",
-        "lastConfirmedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-08-01",
         "page": "词嵌入 Word Embedding",
         "reason": "人工标签 1.00，语义 0.98",
-        "score": 0.780414342880249,
+        "score": 0.7809257864952087,
         "signals": {
           "links": 0.375,
           "projects": 0.0,
-          "semantic": 0.977773904800415,
+          "semantic": 0.9786263108253479,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_kg",
         "firstAssignedAt": "2026-07-16",
-        "lastConfirmedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-08-01",
         "page": "词嵌入 Word Embedding",
-        "reason": "语义 0.97，双链 0.31",
-        "score": 0.6585904717445373,
+        "reason": "语义 0.97，双链 0.38",
+        "score": 0.6765955567359924,
         "signals": {
-          "links": 0.3125,
+          "links": 0.375,
           "projects": 0.0,
-          "semantic": 0.9674424529075623,
+          "semantic": 0.971409261226654,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-07-16",
-        "lastConfirmedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-08-01",
         "page": "词嵌入 Word Embedding",
-        "reason": "语义 0.98，双链 0.19",
-        "score": 0.6319184303283691,
+        "reason": "语义 0.97，双链 0.19",
+        "score": 0.6317702651023864,
         "signals": {
           "links": 0.1875,
           "projects": 0.0,
-          "semantic": 0.9750723838806152,
+          "semantic": 0.9748254418373108,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-07-16",
-        "lastConfirmedAt": "2026-07-16",
+        "lastConfirmedAt": "2026-08-01",
         "page": "词嵌入 Word Embedding",
-        "reason": "语义 0.97，双链 0.25",
-        "score": 0.6438433766365051,
+        "reason": "语义 0.97，双链 0.31",
+        "score": 0.6620051741600036,
         "signals": {
-          "links": 0.25,
+          "links": 0.3125,
           "projects": 0.0,
-          "semantic": 0.9689056277275085,
+          "semantic": 0.9731336236000061,
           "tags": 0.0
         }
       },
@@ -9759,26 +9804,85 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
-        "lastConfirmedAt": "2026-07-19",
+        "lastConfirmedAt": "2026-08-01",
         "page": "马尔可夫 Markov",
-        "reason": "候选群组语义内聚度 0.90",
-        "score": 0.9040175378521204,
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8318670868873596,
         "signals": {
-          "semantic_cohesion": 0.9040175378521204
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9697784781455994,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_evaluation",
+        "firstAssignedAt": "2026-08-01",
+        "lastConfirmedAt": "2026-08-01",
+        "page": "马尔可夫 Markov",
+        "reason": "语义 0.96，双链 0.25",
+        "score": 0.6380812048912048,
+        "signals": {
+          "links": 0.25,
+          "projects": 0.0,
+          "semantic": 0.9593020081520081,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-07-15",
-        "lastConfirmedAt": "2026-07-15",
+        "lastConfirmedAt": "2026-08-01",
         "page": "马尔可夫 Markov",
-        "reason": "历史人工标签 基础",
-        "score": 1.0,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7461178541183471,
         "signals": {
-          "links": 0.0,
+          "links": 0.25,
           "projects": 0.0,
-          "semantic": 0.0,
+          "semantic": 0.9726964235305786,
           "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_kg",
+        "firstAssignedAt": "2026-08-01",
+        "lastConfirmedAt": "2026-08-01",
+        "page": "马尔可夫 Markov",
+        "reason": "语义 0.96，双链 0.50",
+        "score": 0.7032837629318237,
+        "signals": {
+          "links": 0.5,
+          "projects": 0.0,
+          "semantic": 0.9638062715530396,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_rag",
+        "firstAssignedAt": "2026-08-01",
+        "lastConfirmedAt": "2026-08-01",
+        "page": "马尔可夫 Markov",
+        "reason": "语义 0.96，双链 0.25",
+        "score": 0.6408557891845703,
+        "signals": {
+          "links": 0.25,
+          "projects": 0.0,
+          "semantic": 0.9639263153076172,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_trust",
+        "firstAssignedAt": "2026-08-01",
+        "lastConfirmedAt": "2026-08-01",
+        "page": "马尔可夫 Markov",
+        "reason": "语义 0.96，双链 0.25",
+        "score": 0.6376705050468444,
+        "signals": {
+          "links": 0.25,
+          "projects": 0.0,
+          "semantic": 0.9586175084114075,
+          "tags": 0.0
         }
       },
       {
@@ -9850,10 +9954,10 @@
         "category": "cat_seed_foundations",
         "pages": [
           "EM算法 Expectation-Maximization",
-          "K近邻 KNN K-Nearest Neighbors",
-          "Scaling Law 大模型缩放律",
           "主题模型 LDA",
-          "位置编码 Positional Encoding"
+          "位置编码 Positional Encoding",
+          "依存句法分析 Dependency Parsing",
+          "信息检索 IR基础模型 Information Retrieval"
         ]
       },
       {
@@ -9880,10 +9984,10 @@
         "category": "cat_seed_llm",
         "pages": [
           "LLM 推理优化 KV Cache Quantization",
-          "Scaling Law 大模型缩放律",
           "上下文学习 In-context Learning",
           "人类反馈强化学习 RLHF",
-          "位置编码 Positional Encoding"
+          "位置编码 Positional Encoding",
+          "卷积神经网络 CNN"
         ]
       },
       {
@@ -9892,8 +9996,8 @@
           "GNN-RAG 图神经网络检索增强",
           "GraphRAG 架构",
           "KG-RAG 工作原理",
-          "K近邻 KNN K-Nearest Neighbors",
-          "LightRAG"
+          "LightRAG",
+          "RAG 评测指标 EM Recall MRR"
         ]
       },
       {
@@ -9914,7 +10018,7 @@
       "candidates": 0,
       "categories": 9,
       "forming": 1,
-      "memberships": 315,
+      "memberships": 320,
       "pendingPages": 0,
       "seedCategories": 8
     }

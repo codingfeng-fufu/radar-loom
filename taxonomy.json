@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -314,16 +314,32 @@
       "created_at": "2026-07-28",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-01",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
-  "generated_at": "2026-07-31",
-  "last_global_at": "2026-07-28",
+  "generated_at": "2026-08-01",
+  "last_global_at": "2026-08-01",
   "last_run": {
-    "finished_at": "2026-07-31",
+    "finished_at": "2026-08-01",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-07-31"
+    "started_at": "2026-08-01"
   },
   "memberships": [
     {
@@ -693,39 +709,42 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/K近邻 KNN K-Nearest Neighbors.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8240372538566589,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9567287564277649,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/K近邻 KNN K-Nearest Neighbors.md",
-      "reason": "历史人工标签 基础",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.7769440531730651,
       "signals": {
-        "links": 0.0,
+        "links": 0.4,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9615734219551086,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/K近邻 KNN K-Nearest Neighbors.md",
-      "reason": "历史人工标签 RAG",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.7700298190116882,
       "signals": {
-        "links": 0.0,
+        "links": 0.4,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9500496983528137,
         "tags": 1.0
       }
     },
@@ -1044,39 +1063,42 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Robust Scaler 鲁棒缩放.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8182398557662963,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9470664262771606,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Robust Scaler 鲁棒缩放.md",
       "reason": "人工标签 1.00，语义 0.95",
-      "score": 0.7184846878051758,
+      "score": 0.7701158285140991,
       "signals": {
-        "links": 0.2,
+        "links": 0.4,
         "projects": 0.0,
-        "semantic": 0.947474479675293,
+        "semantic": 0.9501930475234985,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Robust Scaler 鲁棒缩放.md",
-      "reason": "语义 0.94，双链 0.40",
-      "score": 0.6614792943000793,
+      "reason": "语义 0.94，双链 0.60",
+      "score": 0.7159078001976014,
       "signals": {
-        "links": 0.4,
+        "links": 0.6,
         "projects": 0.0,
-        "semantic": 0.9357988238334656,
+        "semantic": 0.9431796669960022,
         "tags": 0.0
       }
     },
@@ -1108,39 +1130,42 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Scaling Law 大模型缩放律.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8273679494857787,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9622799158096313,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Scaling Law 大模型缩放律.md",
-      "reason": "历史人工标签 基础",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.7174419919649759,
       "signals": {
-        "links": 0.0,
+        "links": 0.16666666666666666,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9596255421638489,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/Scaling Law 大模型缩放律.md",
-      "reason": "历史人工标签 LLM机制",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.8019130468368529,
       "signals": {
-        "links": 0.0,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9615217447280884,
         "tags": 1.0
       }
     },
@@ -2592,53 +2617,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/层归一化 LayerNorm BatchNorm.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8296409606933594,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9660682678222656,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/层归一化 LayerNorm BatchNorm.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7891058598245893,
+      "score": 0.790518489905766,
       "signals": {
         "links": 0.42857142857142855,
         "projects": 0.0,
-        "semantic": 0.969938337802887,
+        "semantic": 0.9722927212715149,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-08-01",
+      "last_confirmed_at": "2026-08-01",
+      "page": "pages/层归一化 LayerNorm BatchNorm.md",
+      "reason": "语义 0.96，双链 0.29",
+      "score": 0.6460203272955758,
+      "signals": {
+        "links": 0.2857142857142857,
+        "projects": 0.0,
+        "semantic": 0.9576529264450073,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/层归一化 LayerNorm BatchNorm.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7531083328383309,
+      "score": 0.7550536138670785,
       "signals": {
         "links": 0.2857142857142857,
         "projects": 0.0,
-        "semantic": 0.9694662690162659,
+        "semantic": 0.9727084040641785,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/层归一化 LayerNorm BatchNorm.md",
-      "reason": "语义 0.96，双链 0.29",
-      "score": 0.645062027658735,
+      "reason": "语义 0.96，双链 0.43",
+      "score": 0.6832717333521161,
       "signals": {
-        "links": 0.2857142857142857,
+        "links": 0.42857142857142855,
         "projects": 0.0,
-        "semantic": 0.956055760383606,
+        "semantic": 0.9602147936820984,
         "tags": 0.0
       }
     },
@@ -3972,67 +4014,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/词嵌入 Word Embedding.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8349430799484253,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9749051332473755,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-16",
-      "last_confirmed_at": "2026-07-16",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/词嵌入 Word Embedding.md",
       "reason": "人工标签 1.00，语义 0.98",
-      "score": 0.780414342880249,
+      "score": 0.7809257864952087,
       "signals": {
         "links": 0.375,
         "projects": 0.0,
-        "semantic": 0.977773904800415,
+        "semantic": 0.9786263108253479,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_kg",
       "first_assigned_at": "2026-07-16",
-      "last_confirmed_at": "2026-07-16",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/词嵌入 Word Embedding.md",
-      "reason": "语义 0.97，双链 0.31",
-      "score": 0.6585904717445373,
+      "reason": "语义 0.97，双链 0.38",
+      "score": 0.6765955567359924,
       "signals": {
-        "links": 0.3125,
+        "links": 0.375,
         "projects": 0.0,
-        "semantic": 0.9674424529075623,
+        "semantic": 0.971409261226654,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-07-16",
-      "last_confirmed_at": "2026-07-16",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/词嵌入 Word Embedding.md",
-      "reason": "语义 0.98，双链 0.19",
-      "score": 0.6319184303283691,
+      "reason": "语义 0.97，双链 0.19",
+      "score": 0.6317702651023864,
       "signals": {
         "links": 0.1875,
         "projects": 0.0,
-        "semantic": 0.9750723838806152,
+        "semantic": 0.9748254418373108,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-07-16",
-      "last_confirmed_at": "2026-07-16",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/词嵌入 Word Embedding.md",
-      "reason": "语义 0.97，双链 0.25",
-      "score": 0.6438433766365051,
+      "reason": "语义 0.97，双链 0.31",
+      "score": 0.6620051741600036,
       "signals": {
-        "links": 0.25,
+        "links": 0.3125,
         "projects": 0.0,
-        "semantic": 0.9689056277275085,
+        "semantic": 0.9731336236000061,
         "tags": 0.0
       }
     },
@@ -4312,26 +4357,85 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-19",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/马尔可夫 Markov.md",
-      "reason": "候选群组语义内聚度 0.90",
-      "score": 0.9040175378521204,
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8318670868873596,
       "signals": {
-        "semantic_cohesion": 0.9040175378521204
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9697784781455994,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-01",
+      "last_confirmed_at": "2026-08-01",
+      "page": "pages/马尔可夫 Markov.md",
+      "reason": "语义 0.96，双链 0.25",
+      "score": 0.6380812048912048,
+      "signals": {
+        "links": 0.25,
+        "projects": 0.0,
+        "semantic": 0.9593020081520081,
+        "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-07-15",
-      "last_confirmed_at": "2026-07-15",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/马尔可夫 Markov.md",
-      "reason": "历史人工标签 基础",
-      "score": 1.0,
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7461178541183471,
       "signals": {
-        "links": 0.0,
+        "links": 0.25,
         "projects": 0.0,
-        "semantic": 0.0,
+        "semantic": 0.9726964235305786,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-08-01",
+      "last_confirmed_at": "2026-08-01",
+      "page": "pages/马尔可夫 Markov.md",
+      "reason": "语义 0.96，双链 0.50",
+      "score": 0.7032837629318237,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9638062715530396,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-01",
+      "last_confirmed_at": "2026-08-01",
+      "page": "pages/马尔可夫 Markov.md",
+      "reason": "语义 0.96，双链 0.25",
+      "score": 0.6408557891845703,
+      "signals": {
+        "links": 0.25,
+        "projects": 0.0,
+        "semantic": 0.9639263153076172,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-08-01",
+      "last_confirmed_at": "2026-08-01",
+      "page": "pages/马尔可夫 Markov.md",
+      "reason": "语义 0.96，双链 0.25",
+      "score": 0.6376705050468444,
+      "signals": {
+        "links": 0.25,
+        "projects": 0.0,
+        "semantic": 0.9586175084114075,
+        "tags": 0.0
       }
     },
     {
@@ -4386,7 +4490,7 @@
     "pages/Graph Fusion 图融合.md": "04791748b88d96f993bc2544a599bca0afdbdfc7a243730f291487bbd485a2f6",
     "pages/GraphRAG 架构.md": "0c9d3358901326f5ccbe30da3bd7965c00d26d5640bccfa8bac118f485959f8b",
     "pages/KG-RAG 工作原理.md": "28cdb5de212e91e03fbf50933ce1abeb2eba690e20f8a7e4859bf9e6c220e2a2",
-    "pages/K近邻 KNN K-Nearest Neighbors.md": "34a0b8dfcee89852d2e97d09418389642b36bafe27dcac52dff9aebfb5b67d00",
+    "pages/K近邻 KNN K-Nearest Neighbors.md": "d3aa9e1c9250e8c3afeb7f661af8e53baa8880d4250410b92468759e80d5af41",
     "pages/LLM 推理优化 KV Cache Quantization.md": "62189f52af5b6b21a2f7f2796c2516fa70150f1214183f075ac759d94199f24e",
     "pages/LRU 缓存替换 Least Recently Used.md": "edaf48ed426fd72a56d38a205c3fcd0692dfd4eb879b2ae782aa6921fa48ff10",
     "pages/LightRAG.md": "6c18899f5f3214edb589947012ecc7551c83d9edcb5fc3637507c7446fd3029b",
@@ -4396,9 +4500,9 @@
     "pages/RAGChecker.md": "7a5a6dfec257a463b78d381b2d6dfbd77864cbc41d327f5103f0f3d7a302fdaf",
     "pages/ReAct Agent 工作原理.md": "f98d4a38a3d12a5b8bcf747543d493e726b519771c659c0ca400e23fe0d4f5c1",
     "pages/ReDeEP 机制可解释性.md": "0d78e7e3ce5bb359e99f0e0e55667ae86e9035b30554e1c3fe16c284139d1fc6",
-    "pages/Robust Scaler 鲁棒缩放.md": "91d9d23f36ec11b3d772c4cdd4d3071faf5cdcfccc38b2c38dbfb9b9c28944aa",
+    "pages/Robust Scaler 鲁棒缩放.md": "9cf3cd837df05f32a76befea493b39a4a68414aa887a936a08c08208505dc0ad",
     "pages/SHA-256 产物指纹.md": "8c2cae964d25d058fd2e6d747a5c0264a619fd690574e3dba18139a76e5dbbc4",
-    "pages/Scaling Law 大模型缩放律.md": "f1562fe357e96fd63f5afba3e258e6952df291f06f3675d30a00edf9b79d1846",
+    "pages/Scaling Law 大模型缩放律.md": "571120a30eb247fdfaa03b2e2ea7314c39e710e3f2eb737ea553220504cbb5e1",
     "pages/Self-RAG.md": "1af4e09961e70a3fdaad69ff8d86f198414693dcdd17db552395383252d0b037",
     "pages/StructRAG 结构化知识推理.md": "d5f47aa79f26193c00df55382198d3f0b2b8957a75be3040fbecc749c581a769",
     "pages/TCP三次握手与四次挥手 TCP Handshake and Teardown.md": "989cdce8c4dabb4b71d92650dca135d44b610dff3969d1a0d48ef728a80260df",
@@ -4445,7 +4549,7 @@
     "pages/审计风险队列 Audit Risk Queue.md": "0c6d0c136a94ae510b23a63d1e4b77d0dba27b7c66950a7f70b74fc72525ad80",
     "pages/对抗样本 Adversarial Examples.md": "82cc573d80b736b266ac7d55ad8ee2be58bc3af70d7f76ee61ffaf644bba8cbd",
     "pages/对比学习 Contrastive Learning.md": "02d2dab6219d39d846ef80ae78bf39506f5db603fb1bd6de6c90c82e4df070d5",
-    "pages/层归一化 LayerNorm BatchNorm.md": "1cbfe6e9e20e436b46669f9b69483dc930b217c6c190f9d8190535f8bfe23556",
+    "pages/层归一化 LayerNorm BatchNorm.md": "5adfcc1fa95d5967e00149ef8c2463b50c03eec214819b91dc8036a56d1e9862",
     "pages/幻觉与可信度 Hallucination Trustworthiness.md": "b1d3d2885ad0ad92a8fd0386d67f5479108fdac387f65f03ec21e460c01e4677",
     "pages/序列标注模型 HMM CRF.md": "b50dfe999fc0c28af379e02fdd4eb1abe314d559f55a530f9aec899b273a9c89",
     "pages/开放信息抽取 OpenIE.md": "49ed87e93ea7034af74bd496b439afa2e9c419a1c19dc8e51cc14a5d5294b06b",
@@ -4491,7 +4595,7 @@
     "pages/编码器-解码器结构 Encoder-Decoder Architecture.md": "04dd940fce137e0fac9feedee1a6098f176cb427bd337b4c5c538bca41bbca0f",
     "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
     "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
-    "pages/词嵌入 Word Embedding.md": "c038b73223b0fd3301192318a762d8dfe1c5c8eb4358949e4d4e4d8f95619538",
+    "pages/词嵌入 Word Embedding.md": "83cb4b9caf7c07a878b59691f0f7e9f9466d5575efa78bc1e9e9154aae2b58cd",
     "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",
     "pages/语言模型困惑度 Perplexity.md": "cced8b4fd4d9082b4cd4c4b66c752516c993b363419ed69a41986a4687891836",
     "pages/资源描述框架 RDF OWL SPARQL.md": "f1923ad7f20020e7db58ff33f36599d1826ee256b6088fb6fc98da6ac6768de5",
@@ -4501,7 +4605,7 @@
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
     "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md": "8f2a2c2c3cbb2a8639bad0960b510c8aa90bf9c44162952e038f265efff96bd4",
     "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
-    "pages/马尔可夫 Markov.md": "3a12bea9b62ce126594b4ae01ceb07a4bcc9340a55ea8209b134b72947b153cd",
+    "pages/马尔可夫 Markov.md": "93dd00b360ca4cb6aebc11f8f49881d53474878de496a6bd47b353f67b9c3b4d",
     "pages/高斯混合模型 GMM Gaussian Mixture Model.md": "55e6f06cf474fa2a68cc69bf683f3d77eb3f4cd31bb62a2b8baf2c33a6944646",
     "首页.md": "63f9dd208548235a5254b492964718543c28bb0c3f0a96f50f6997e98f39a114"
   },

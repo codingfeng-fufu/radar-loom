@@ -19,7 +19,7 @@
       "updated_at": "2026-07-31"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 3,
   "events": [
     {
       "category_ids": [
@@ -30,16 +30,30 @@
       "type": "create"
     }
   ],
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "last_global_at": "2026-07-31",
   "last_run": {
-    "finished_at": "2026-07-31",
+    "finished_at": "2026-08-02",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-07-31"
+    "started_at": "2026-08-02"
   },
   "memberships": [
+    {
+      "category_id": "cat_98bd1741fbfb",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/AI Agent上下文窗口不足的工程应对.md",
+      "reason": "双链 1.00，语义 0.98",
+      "score": 0.8848167270421982,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9766411185264587,
+        "tags": 0.0
+      }
+    },
     {
       "category_id": "cat_98bd1741fbfb",
       "first_assigned_at": "2026-07-31",
@@ -71,22 +85,23 @@
     {
       "category_id": "cat_98bd1741fbfb",
       "first_assigned_at": "2026-07-31",
-      "last_confirmed_at": "2026-07-31",
+      "last_confirmed_at": "2026-08-01",
       "page": "pages/设计一个AI Agent的记忆系统.md",
-      "reason": "与新主题代表页语义相似度 1.00",
-      "score": 1.0,
+      "reason": "语义 0.96",
+      "score": 0.6226138770580292,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 1.0,
+        "semantic": 0.9578675031661987,
         "tags": 0.0
       }
     }
   ],
   "page_fingerprints": {
+    "pages/AI Agent上下文窗口不足的工程应对.md": "dce043429d6e508a0c9287445c9b7318d77a2017c08a68454671f355b66a2c70",
     "pages/多头注意力机制的核心作用是什么.md": "b66992a7e5a7698f1355a63c8017cd5585e245320a734ec6c27ee487db86e595",
     "pages/知识图谱的存储方式与索引优化.md": "d053205555db5cf98dad8636d3511d57c21564be4610eae0563c9c43359f646d",
-    "pages/设计一个AI Agent的记忆系统.md": "5b0100a8b9af40ba51d85464186a2b210aeb40fe1e3b6b010455a8db7685503d"
+    "pages/设计一个AI Agent的记忆系统.md": "0c7b638c5ccf27b575e2c77b48c007406a58f555df97e6b79c6779a543e79405"
   },
   "parameters_hash": "f3ecebe2c139b5cbe2cf2a5dbbd38a1c8d27d417fd1b166a795fef17e10be9fe",
   "pending_pages": [],
