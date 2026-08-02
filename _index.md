@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-02 · 页面 118 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-02 · 页面 119 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -127,6 +127,7 @@
 - [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
 - [[LRU 缓存替换 Least Recently Used]] `#基础` — LRU用近期访问时间近似最优替换,以哈希表加双向链表实现O(1)存取,是缓存与页面替换基线算法。
 - [[OSI参考模型与TCP-IP模型 OSI and TCP-IP Models]] `#基础` — OSI七层与TCP/IP四层网络参考模型的分层设计、协议映射与历史演进对比。
+- [[Redis 内存数据存储]] `#基础` — Redis 是开源的内存数据结构存储，常用作数据库、缓存和消息代理。
 - [[Robust Scaler 鲁棒缩放]] `#基础` — Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
 - [[TCP三次握手与四次挥手 TCP Handshake and Teardown]] `#基础` — TCP通过三次握手建立可靠连接、四次挥手可靠关闭的连接管理核心机制，出自RFC 793标准。

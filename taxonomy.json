@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -332,14 +332,14 @@
       "type": "reject"
     }
   ],
-  "generated_at": "2026-08-01",
+  "generated_at": "2026-08-02",
   "last_global_at": "2026-08-01",
   "last_run": {
-    "finished_at": "2026-08-01",
+    "finished_at": "2026-08-02",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-08-01"
+    "started_at": "2026-08-02"
   },
   "memberships": [
     {
@@ -1058,6 +1058,90 @@
         "projects": 0.0,
         "semantic": 0.0,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8201985120773315,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9503308534622192,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_agents",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "语义 0.92，双链 0.33",
+      "score": 0.6367494781812032,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9223602414131165,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "语义 0.95，双链 0.33",
+      "score": 0.6521544059117635,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9480351209640503,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.7544226964314779,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9518156051635742,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "语义 0.95，双链 0.33",
+      "score": 0.6505422910054525,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9453482627868652,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/Redis 内存数据存储.md",
+      "reason": "语义 0.95，双链 0.33",
+      "score": 0.6522354086240133,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9481701254844666,
+        "tags": 0.0
       }
     },
     {
@@ -4500,6 +4584,7 @@
     "pages/RAGChecker.md": "7a5a6dfec257a463b78d381b2d6dfbd77864cbc41d327f5103f0f3d7a302fdaf",
     "pages/ReAct Agent 工作原理.md": "f98d4a38a3d12a5b8bcf747543d493e726b519771c659c0ca400e23fe0d4f5c1",
     "pages/ReDeEP 机制可解释性.md": "0d78e7e3ce5bb359e99f0e0e55667ae86e9035b30554e1c3fe16c284139d1fc6",
+    "pages/Redis 内存数据存储.md": "f3b5f5e225bdbf8a2478665290f694a37ce22bae0a46126bc48a828f3018247f",
     "pages/Robust Scaler 鲁棒缩放.md": "9cf3cd837df05f32a76befea493b39a4a68414aa887a936a08c08208505dc0ad",
     "pages/SHA-256 产物指纹.md": "8c2cae964d25d058fd2e6d747a5c0264a619fd690574e3dba18139a76e5dbbc4",
     "pages/Scaling Law 大模型缩放律.md": "571120a30eb247fdfaa03b2e2ea7314c39e710e3f2eb737ea553220504cbb5e1",
