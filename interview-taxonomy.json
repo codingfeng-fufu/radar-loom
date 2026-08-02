@@ -37,7 +37,7 @@
       "updated_at": "2026-08-02"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -128,6 +128,34 @@
       "category_id": "cat_3a6676312b48",
       "first_assigned_at": "2026-08-02",
       "last_confirmed_at": "2026-08-02",
+      "page": "pages/什么是Loop Engineering.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8827196061611176,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9734147787094116,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_98bd1741fbfb",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
+      "page": "pages/什么是Loop Engineering.md",
+      "reason": "双链 1.00，语义 0.98",
+      "score": 0.8847827106714249,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.976588785648346,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_3a6676312b48",
+      "first_assigned_at": "2026-08-02",
+      "last_confirmed_at": "2026-08-02",
       "page": "pages/多头注意力机制的核心作用是什么.md",
       "reason": "候选群组语义内聚度 0.95",
       "score": 0.9534415662288666,
@@ -203,6 +231,7 @@
   "page_fingerprints": {
     "pages/AI Agent上下文窗口不足的工程应对.md": "eff74efcdd3c2bcffccfd0180f6b069774953ca9c9c48547da617e4010b3a69a",
     "pages/LLM上下文窗口的确定因素与超限行为.md": "8ce41875ff1dd4c770314fbd4198800af8f8811aadb1013c740cd744eaff6e97",
+    "pages/什么是Loop Engineering.md": "a1fc824803b5af44acc070df89cab9fb05297eca3234ba820a4ef62f09a1f5c9",
     "pages/多头注意力机制的核心作用是什么.md": "76f6cfaf666b0ab1cf1abc7a2aafdf264fd686856b6e0abd7eb65095737285e5",
     "pages/知识图谱的存储方式与索引优化.md": "31a990a03b7ad6dfa84e154294ff40981895b8e32de940c00c6c2a1416480c40",
     "pages/设计一个AI Agent的记忆系统.md": "3d8f2b17361bda24f923fc0d5ebf240dc971cc188f9f5715ddfb68ebf7ab7458",
