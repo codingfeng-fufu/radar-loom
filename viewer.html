@@ -77,6 +77,18 @@
     .quality-panel dd { margin: 0; overflow-wrap: anywhere; }
     article h1, article h2, article h3 { line-height: 1.3; margin: 1.7em 0 .65em; letter-spacing: 0; }
     article h1 { margin-top: 0; font-size: 30px; }
+    .article-header { display: flex; align-items: flex-start; gap: 16px; margin: 0 0 1.25em; }
+    .article-title { flex: 1 1 auto; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+    .export-actions { display: flex; flex: 0 0 auto; gap: 6px; }
+    .export-control { position: relative; }
+    .export-trigger { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
+    .export-trigger:hover, .export-trigger[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+    .export-trigger svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .export-menu { position: absolute; z-index: 12; top: calc(100% + 6px); right: 0; width: max-content; min-width: 190px; padding: 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); box-shadow: 0 10px 28px rgb(32 36 33 / 14%); }
+    .export-menu[hidden] { display: none; }
+    .export-menu button { display: block; width: 100%; border: 0; border-radius: 3px; padding: 8px 10px; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+    .export-menu button:hover, .export-menu button:focus-visible { outline: 0; background: var(--accent-soft); color: var(--accent); }
+    .export-menu button[aria-busy="true"] { cursor: wait; opacity: .65; }
     article h2 { padding-bottom: 7px; border-bottom: 1px solid var(--line); font-size: 22px; }
     article h3 { font-size: 18px; }
     article img, article svg { max-width: 100%; height: auto; }
@@ -109,6 +121,8 @@
       .document { width: min(100% - 32px, 920px); padding-top: 28px; }
       .interview-filters { grid-template-columns: 1fr; }
       article h1 { font-size: 26px; }
+      .article-header { flex-wrap: wrap; }
+      .export-actions { margin-left: auto; }
     }
   </style>
   <script src="vendor/marked/marked.min.js"></script>
@@ -189,6 +203,9 @@
     let activeSection = 'knowledge';
     let navigationGeneration = 0;
     let enrichmentGeneration = 0;
+    let activeExportSnapshot = null;
+    let openExportMenu = null;
+    let exportFeedbackGeneration = 0;
     let catalogPromise = null;
     const navigationStates = Object.fromEntries(Object.keys(SECTIONS).map((section) => [section, {
       groups: [], entries: [], activeFile: SECTIONS[section].defaultFile,
@@ -702,8 +719,9 @@
     async function fetchPageData(file) {
       const response = await fetch(file, { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const { metadata, body } = splitFrontmatter(await response.text());
-      return { metadata, body, pageMetadata: parseMetadata(metadata) };
+      const source = await response.text();
+      const { metadata, body } = splitFrontmatter(source);
+      return { source, metadata, body, pageMetadata: parseMetadata(metadata) };
     }
 
     function resolveSectionFile(requestedFile = null) {
@@ -756,6 +774,327 @@
       }
     }
 
+    function closeExportMenus({ restoreFocus = false } = {}) {
+      if (!openExportMenu) return;
+      const trigger = document.querySelector(`[aria-controls="${openExportMenu.id}"]`);
+      openExportMenu.hidden = true;
+      trigger?.setAttribute('aria-expanded', 'false');
+      openExportMenu = null;
+      if (restoreFocus) trigger?.focus();
+    }
+
+    function restoreExportSnapshotOwnership() {
+      if (!activeExportSnapshot) return;
+      activeExportSnapshot = Object.freeze({
+        ...activeExportSnapshot,
+        token: navigationGeneration,
+      });
+    }
+
+    function toggleExportMenu(trigger, menu) {
+      const opening = menu.hidden;
+      closeExportMenus();
+      if (!opening) return;
+      menu.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      openExportMenu = menu;
+      menu.querySelector('[role="menuitem"]')?.focus();
+    }
+
+    function handleExportMenuKeydown(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeExportMenus({ restoreFocus: true });
+        return;
+      }
+      if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const items = [...event.currentTarget.querySelectorAll('[role="menuitem"]')];
+      const current = Math.max(0, items.indexOf(document.activeElement));
+      const next = event.key === 'Home' ? 0
+        : event.key === 'End' ? items.length - 1
+          : event.key === 'ArrowDown' ? (current + 1) % items.length
+            : (current - 1 + items.length) % items.length;
+      items[next].focus();
+    }
+
+    function exportIcon(kind) {
+      return kind === 'copy'
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5"/><path d="M5 21h14"/></svg>';
+    }
+
+    function createExportControl(kind, label, commands) {
+      const control = document.createElement('div');
+      control.className = 'export-control';
+      const menuId = `export-${kind}-menu`;
+      control.innerHTML = `<button class="export-trigger" type="button" aria-label="${label}" title="${label}" aria-haspopup="menu" aria-expanded="false" aria-controls="${menuId}">${exportIcon(kind)}</button><div class="export-menu" id="${menuId}" role="menu" hidden>${commands.map(([command, text]) => `<button type="button" role="menuitem" data-export-command="${command}">${text}</button>`).join('')}</div>`;
+      const trigger = control.querySelector('.export-trigger');
+      const menu = control.querySelector('.export-menu');
+      trigger.addEventListener('click', () => toggleExportMenu(trigger, menu));
+      menu.addEventListener('keydown', handleExportMenuKeydown);
+      menu.addEventListener('click', handleExportCommand);
+      return control;
+    }
+
+    function mountExportActions(snapshot) {
+      const existingTitle = elements.content.querySelector(':scope > h1');
+      const title = existingTitle || document.createElement('h1');
+      if (!existingTitle) title.textContent = snapshot.title;
+      title.classList.add('article-title');
+      const header = document.createElement('div');
+      header.className = 'article-header';
+      const actions = document.createElement('div');
+      actions.className = 'export-actions';
+      actions.dataset.exportUi = 'true';
+      actions.append(
+        createExportControl('copy', '复制当前页面', [
+          ['copy-source', '原始 Markdown'],
+          ['copy-body', '纯正文 Markdown'],
+          ['copy-rich', '渲染后的富文本'],
+        ]),
+        createExportControl('download', '下载当前页面', [
+          ['download-markdown', '原始 .md'],
+          ['download-html', '自包含 .html'],
+        ]),
+      );
+      header.append(title, actions);
+      elements.content.prepend(header);
+    }
+
+    function cloneExportArticle() {
+      const clone = elements.content.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.removeAttribute('aria-busy');
+      clone.querySelectorAll('[data-export-ui]').forEach((node) => node.remove());
+      const article = document.createElement('article');
+      article.className = elements.content.className;
+      article.innerHTML = DOMPurify.sanitize(clone.innerHTML, {
+        USE_PROFILES: { html: true, svg: true, svgFilters: true },
+        FORBID_TAGS: ['script'],
+        FORBID_ATTR: ['style'],
+      });
+      return article;
+    }
+
+    function setExportFeedback(message, isError = false) {
+      const generation = ++exportFeedbackGeneration;
+      setMessage(message, isError);
+      if (isError) return;
+      window.setTimeout(() => {
+        if (generation === exportFeedbackGeneration && elements.content.getAttribute('aria-busy') !== 'true') setMessage('');
+      }, 2600);
+    }
+
+    async function copyRichText() {
+      const article = cloneExportArticle();
+      const html = article.outerHTML;
+      const plain = article.textContent.trim();
+      if (typeof ClipboardItem !== 'function' || typeof navigator.clipboard?.write !== 'function') {
+        await navigator.clipboard.writeText(plain);
+        setExportFeedback('Plain text copied because rich-text clipboard is unavailable.');
+        return;
+      }
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([plain], { type: 'text/plain' }),
+      })]);
+      setExportFeedback('Rich text copied.');
+    }
+
+    function normalizeExportFilename(name) {
+      const value = String(name || '')
+        .replace(/[\/\\:*?"<>|\x00-\x1f\x7f]/g, '_')
+        .trim()
+        .replace(/[. ]+$/g, '');
+      return value || 'knowledge-page';
+    }
+
+    function triggerBlobDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.hidden = true;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+
+    function downloadMarkdown(snapshot) {
+      const sourceName = snapshot.file.split('/').pop() || `${snapshot.title}.md`;
+      const filename = `${normalizeExportFilename(sourceName.replace(/\.md$/i, ''))}.md`;
+      triggerBlobDownload(new Blob([snapshot.source], { type: 'text/markdown;charset=utf-8' }), filename);
+      setExportFeedback('Markdown downloaded.');
+    }
+
+    async function fetchRequiredBlob(url, label) {
+      let response;
+      try {
+        response = await fetch(url);
+      } catch (error) {
+        throw new Error(`${label}: ${error?.message || 'network failure'}`);
+      }
+      if (!response.ok) throw new Error(`${label}: HTTP ${response.status}`);
+      return response.blob();
+    }
+
+    function blobToDataUrl(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => resolve(reader.result), { once: true });
+        reader.addEventListener('error', () => reject(new Error('Unable to encode required asset.')), { once: true });
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    function safeResolvedLink(rawUrl, baseUrl) {
+      if (!rawUrl || rawUrl.startsWith('#')) return rawUrl;
+      const resolved = new URL(rawUrl, baseUrl);
+      return ['http:', 'https:', 'mailto:'].includes(resolved.protocol) ? resolved.href : '';
+    }
+
+    async function embedArticleAssets(article, snapshot) {
+      for (const image of article.querySelectorAll('img[src]')) {
+        const rawUrl = image.getAttribute('src');
+        const resolved = new URL(rawUrl, snapshot.baseUrl);
+        if (!['http:', 'https:'].includes(resolved.protocol)) throw new Error(`Unsafe image URL: ${rawUrl}`);
+        const blob = await fetchRequiredBlob(resolved.href, rawUrl);
+        image.setAttribute('src', await blobToDataUrl(blob));
+        image.removeAttribute('srcset');
+      }
+      for (const link of article.querySelectorAll('a[href]')) {
+        const safe = safeResolvedLink(link.getAttribute('href'), snapshot.baseUrl);
+        if (safe) link.setAttribute('href', safe);
+        else link.removeAttribute('href');
+      }
+    }
+
+    async function inlineKatexCss() {
+      const cssUrl = new URL('vendor/katex/katex.min.css', document.baseURI);
+      const cssBlob = await fetchRequiredBlob(cssUrl.href, 'vendor/katex/katex.min.css');
+      let css = await cssBlob.text();
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(css);
+      for (const rule of sheet.cssRules) {
+        if (rule.type !== CSSRule.FONT_FACE_RULE) continue;
+        const woff2Sources = rule.style.getPropertyValue('src')
+          .split(',')
+          .map((source) => source.trim())
+          .filter((source) => /\.woff2(?:[)'"\s]|$)/i.test(source));
+        if (!woff2Sources.length) throw new Error(`KaTeX font-face has no local WOFF2 source: ${rule.style.getPropertyValue('font-family')}`);
+        rule.style.setProperty('src', woff2Sources.join(', '));
+      }
+      css = [...sheet.cssRules].map((rule) => rule.cssText).join('\n');
+      const references = [...css.matchAll(/url\((['"]?)([^)'"\s]+)\1\)/g)];
+      const replacements = new Map();
+      for (const reference of references) {
+        const rawUrl = reference[2];
+        if (rawUrl.startsWith('data:') || replacements.has(rawUrl)) continue;
+        const fontUrl = new URL(rawUrl, cssUrl);
+        const fontBlob = await fetchRequiredBlob(fontUrl.href, rawUrl);
+        replacements.set(rawUrl, await blobToDataUrl(fontBlob));
+      }
+      for (const [rawUrl, dataUrl] of replacements) css = css.split(rawUrl).join(dataUrl);
+      return css;
+    }
+
+    const EXPORTED_ARTICLE_CSS = `
+      :root{color-scheme:light;--ink:#202421;--muted:#66706a;--line:#d8ded9;--accent:#087f68;--code:#f5f7f8}
+      *{box-sizing:border-box}html,body{margin:0;background:#fff;color:var(--ink)}
+      body{font:15px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:0}
+      article{width:min(920px,calc(100% - 48px));margin:0 auto;padding:48px 0 80px}
+      .article-header{display:block;margin:0 0 1.25em}.article-title{margin:0;overflow-wrap:anywhere}
+      h1,h2,h3{line-height:1.3;margin:1.7em 0 .65em;letter-spacing:0}h1{margin-top:0;font-size:30px}
+      h2{padding-bottom:7px;border-bottom:1px solid var(--line);font-size:22px}h3{font-size:18px}
+      a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}img,svg{max-width:100%;height:auto}
+      table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+      blockquote{margin-left:0;padding:4px 16px;border-left:4px solid var(--line);color:var(--muted)}
+      :not(pre)>code{padding:2px 5px;border-radius:3px;background:var(--code)}pre{overflow:auto;padding:14px;border:1px solid var(--line);border-radius:4px;background:var(--code)}pre code{padding:0}
+      .katex-display{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:4px 0}.mermaid{overflow-x:auto;text-align:center}
+      .page-type-interview{line-height:1.7}.page-type-interview>h2{margin-top:2em}.interview-answer-brief{padding:12px 18px;background:#edf7f4}.interview-warning-section{padding:12px 16px;border-left:4px solid #9a6700;background:#fff8e8}
+      @media(max-width:760px){article{width:min(100% - 32px,920px);padding-top:28px}h1{font-size:26px}}
+    `;
+
+    function escapeHtmlText(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      })[character]);
+    }
+
+    async function buildSelfContainedHtml(snapshot) {
+      const article = cloneExportArticle();
+      await embedArticleAssets(article, snapshot);
+      const katexCss = article.querySelector('.katex') ? await inlineKatexCss() : '';
+      const serializedArticle = DOMPurify.sanitize(article.outerHTML, {
+        USE_PROFILES: { html: true, svg: true, svgFilters: true },
+        FORBID_TAGS: ['script'],
+        FORBID_ATTR: ['onerror', 'onload', 'onclick'],
+      });
+      const title = escapeHtmlText(snapshot.title);
+      return `<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${title}</title>
+<style>${katexCss}\n${EXPORTED_ARTICLE_CSS}</style>
+</head>
+<body>
+${serializedArticle}
+<!-- No JavaScript is required to read this export. -->
+</body>
+</html>`;
+    }
+
+    async function downloadSelfContainedHtml(snapshot) {
+      const html = await buildSelfContainedHtml(snapshot);
+      triggerBlobDownload(
+        new Blob([html], { type: 'text/html;charset=utf-8' }),
+        `${normalizeExportFilename(snapshot.title)}.html`,
+      );
+      setExportFeedback('HTML downloaded.');
+    }
+
+    async function runDownloadCommand(command, snapshot) {
+      if (command === 'download-markdown') {
+        downloadMarkdown(snapshot);
+        return;
+      }
+      if (command === 'download-html') {
+        await downloadSelfContainedHtml(snapshot);
+        return;
+      }
+      throw new Error(`Unknown download command: ${command}`);
+    }
+
+    async function handleExportCommand(event) {
+      const button = event.target.closest('[data-export-command]');
+      if (!button || button.getAttribute('aria-busy') === 'true') return;
+      const snapshot = activeExportSnapshot;
+      if (!snapshot || snapshot.token !== navigationGeneration) return;
+      button.setAttribute('aria-busy', 'true');
+      try {
+        if (button.dataset.exportCommand === 'copy-source') {
+          await navigator.clipboard.writeText(snapshot.source);
+          setExportFeedback('Original Markdown copied.');
+        } else if (button.dataset.exportCommand === 'copy-body') {
+          await navigator.clipboard.writeText(snapshot.body);
+          setExportFeedback('Body-only Markdown copied.');
+        } else if (button.dataset.exportCommand === 'copy-rich') {
+          await copyRichText();
+        } else {
+          await runDownloadCommand(button.dataset.exportCommand, snapshot);
+        }
+        closeExportMenus();
+      } catch (error) {
+        setExportFeedback(`Export failed: ${error?.message || 'Unknown error'}`, true);
+      } finally {
+        button.removeAttribute('aria-busy');
+      }
+    }
+
     async function renderPageData(file, section, page, token) {
         const { metadata, body, pageMetadata } = page;
         elements.frontmatter.hidden = !metadata;
@@ -792,7 +1131,20 @@
         }
         if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
+        const baseUrl = new URL(file, document.baseURI).href;
+        const snapshot = Object.freeze({
+          token,
+          file,
+          section,
+          title: pageTitle,
+          source: page.source,
+          body: page.body,
+          baseUrl,
+        });
+        if (token !== navigationGeneration) return;
         document.title = `${pageTitle} · 技术雷达`;
+        activeExportSnapshot = snapshot;
+        mountExportActions(snapshot);
         setMessage('');
         updateActiveNavigation(file);
         notifyActiveFile(file, pageTitle, pageMetadata);
@@ -819,9 +1171,11 @@
 
     async function navigateTo(requestedFile = null, { sectionHint = activeSection, historyMode = 'replace' } = {}) {
       const token = ++navigationGeneration;
+      closeExportMenus();
       const hintedSection = SECTIONS[sectionHint] ? sectionHint : 'knowledge';
       if (requestedFile && !validatePath(requestedFile)) {
         if (token !== navigationGeneration) return;
+        restoreExportSnapshotOwnership();
         setMessage('已拒绝：文件路径不在知识库允许范围内。', true);
         return;
       }
@@ -841,6 +1195,7 @@
           const url = `viewer.html?section=${hintedSection}`;
           if (historyMode === 'push') history.pushState({ file: null, section: hintedSection }, '', url);
           else if (historyMode === 'replace') history.replaceState({ file: null, section: hintedSection }, '', url);
+          activeExportSnapshot = null;
           elements.content.replaceChildren();
           elements.frontmatter.hidden = true;
           setNavigationBusy(false);
@@ -870,6 +1225,7 @@
         return true;
       } catch (error) {
         if (token !== navigationGeneration) return;
+        restoreExportSnapshotOwnership();
         elements.navigation.replaceChildren();
         const message = document.createElement('p');
         message.className = 'error';
@@ -894,6 +1250,7 @@
       try {
         await loadSectionIndex(section, { force: true });
       } catch (error) {
+        restoreExportSnapshotOwnership();
         elements.content.setAttribute('aria-busy', 'false');
         setMessage(`刷新后索引读取失败，当前内容已保留：${error.message}`, true);
         return false;
@@ -961,6 +1318,9 @@
       const section = link.dataset.section || new URL(link.href).searchParams.get('section') || activeSection;
       navigateTo(file, { sectionHint: section, historyMode: 'push' });
       closeNavigation();
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (openExportMenu && !event.target.closest('.export-control')) closeExportMenus();
     });
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(location.search);

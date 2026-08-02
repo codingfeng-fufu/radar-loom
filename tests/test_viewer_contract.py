@@ -33,8 +33,9 @@ class ViewerContractTests(unittest.TestCase):
                 self.assertIn(delimiter, self.html)
 
     def test_math_runs_after_sanitizing_with_safe_error_handling(self):
-        sanitize_at = self.html.index("DOMPurify.sanitize")
-        render_at = self.html.index("renderMathInElement")
+        markdown_at = self.html.index("marked.parse(math.markdown")
+        sanitize_at = self.html.index("DOMPurify.sanitize", markdown_at)
+        render_at = self.html.index("renderMathInElement", sanitize_at)
         self.assertLess(sanitize_at, render_at)
         self.assertRegex(self.html, r"function\s+extractMathRegions\s*\(")
         self.assertRegex(self.html, r"function\s+restoreMathRegions\s*\(")
@@ -42,7 +43,7 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("MATHREGION_${regions.length}_END", self.html)
         self.assertIn("replaceAll(region.token, () => region.source)", self.html)
         self.assertIn("extractMathRegions(rewriteWikilinks(body))", self.html)
-        self.assertLess(self.html.index("marked.parse(math.markdown"), sanitize_at)
+        self.assertLess(markdown_at, sanitize_at)
         self.assertLess(sanitize_at, self.html.index("restoreMathRegions(elements.content, math.regions)"))
         self.assertNotIn("@@KATEX_", self.html)
         self.assertIn("throwOnError: false", self.html)
@@ -319,6 +320,86 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("async function renderMermaidDiagrams", self.html)
         self.assertIn("mermaid-error", self.html)
         self.assertNotIn("await mermaid.run({ nodes: elements.content.querySelectorAll('.mermaid') })", self.html)
+
+    def test_export_snapshot_retains_exact_source_and_is_generation_owned(self):
+        for value in (
+            "let activeExportSnapshot = null",
+            "const source = await response.text()",
+            "return { source, metadata, body, pageMetadata: parseMetadata(metadata) }",
+            "activeExportSnapshot = snapshot",
+            "closeExportMenus()",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertRegex(
+            self.html,
+            r"Object\.freeze\(\{\s*token,\s*file,\s*section,\s*title: pageTitle,\s*source: page\.source,\s*body: page\.body,\s*baseUrl,?\s*\}\)",
+        )
+        commit_at = self.html.index("activeExportSnapshot = snapshot")
+        guard_at = self.html.rfind("if (token !== navigationGeneration) return", 0, commit_at)
+        self.assertGreater(guard_at, self.html.index("async function renderPageData"))
+
+    def test_export_actions_expose_five_accessible_commands(self):
+        for value in (
+            "function mountExportActions",
+            "复制当前页面",
+            "下载当前页面",
+            "copy-source",
+            "copy-body",
+            "copy-rich",
+            "download-markdown",
+            "download-html",
+            "event.key === 'Escape'",
+            "['ArrowDown', 'ArrowUp', 'Home', 'End']",
+            "mountExportActions(snapshot)",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertRegex(self.html, r"\.article-header\s*\{[^}]*display:\s*flex")
+
+    def test_export_copy_uses_shared_sanitized_clone_and_truthful_fallback(self):
+        for value in (
+            "function cloneExportArticle",
+            "clone.querySelectorAll('[data-export-ui]')",
+            "DOMPurify.sanitize(clone.innerHTML",
+            "navigator.clipboard.writeText(snapshot.source)",
+            "navigator.clipboard.writeText(snapshot.body)",
+            "new ClipboardItem({",
+            "'text/html': new Blob([html], { type: 'text/html' })",
+            "'text/plain': new Blob([plain], { type: 'text/plain' })",
+            "Plain text copied because rich-text clipboard is unavailable.",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+
+    def test_markdown_download_preserves_source_and_normalizes_filenames(self):
+        for value in (
+            "function normalizeExportFilename",
+            "return value || 'knowledge-page'",
+            "snapshot.file.split('/').pop()",
+            "new Blob([snapshot.source], { type: 'text/markdown;charset=utf-8' })",
+            "URL.revokeObjectURL(url)",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertIn(r'.replace(/[\/\\:*?"<>|\x00-\x1f\x7f]/g', self.html)
+
+    def test_html_export_embeds_required_assets_and_rejects_unsafe_urls(self):
+        for value in (
+            "async function buildSelfContainedHtml",
+            "async function fetchRequiredBlob",
+            "function blobToDataUrl",
+            "async function inlineKatexCss",
+            "vendor/katex/katex.min.css",
+            "new URL(rawUrl, snapshot.baseUrl)",
+            "['http:', 'https:', 'mailto:']",
+            "image.setAttribute('src', await blobToDataUrl(blob))",
+            "<!doctype html>",
+            "No JavaScript is required to read this export.",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(value, self.html)
+        self.assertNotIn("<script>${", self.html)
 
 
 if __name__ == "__main__":

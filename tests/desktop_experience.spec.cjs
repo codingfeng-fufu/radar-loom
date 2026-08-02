@@ -14,6 +14,36 @@ async function measuredNavigate(page, file, section) {
   }, { file, section });
 }
 
+async function installClipboardCapture(page, { rich = true } = {}) {
+  await page.addInitScript(({ rich }) => {
+    window.__clipboardWrites = [];
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async text => window.__clipboardWrites.push({ kind: 'text', text }),
+        write: rich ? async items => {
+          const item = items[0];
+          const html = await (await item.getType('text/html')).text();
+          const plain = await (await item.getType('text/plain')).text();
+          window.__clipboardWrites.push({ kind: 'rich', html, plain });
+        } : undefined,
+      },
+    });
+    Object.defineProperty(window, 'ClipboardItem', {
+      configurable: true,
+      value: rich ? class ClipboardItemCapture {
+        constructor(data) { this.data = data; }
+        async getType(type) { return this.data[type]; }
+      } : undefined,
+    });
+  }, { rich });
+}
+
+async function chooseExport(page, triggerName, itemName) {
+  await page.getByRole('button', { name: triggerName }).click();
+  await page.getByRole('menuitem', { name: itemName }).click();
+}
+
 for (const viewport of [
   { name: 'desktop-wide', width: 1440, height: 900 },
   { name: 'desktop-tall', width: 1112, height: 1243 },
@@ -118,6 +148,18 @@ test('failed page navigation keeps the last readable article', async ({ page }) 
   await page.evaluate(() => navigateTo('pages/Unavailable.md', { sectionHint: 'knowledge', historyMode: 'push' }));
   await expect(page.locator('#content h1').first()).toHaveText(oldTitle);
   await expect(page.getByRole('alert')).toContainText('当前内容已保留');
+});
+
+test('failed page navigation keeps export available for the retained article', async ({ page }) => {
+  await installClipboardCapture(page);
+  await page.goto('http://127.0.0.1:18081/viewer.html?f=%E9%A6%96%E9%A1%B5.md');
+  await expect(page.getByRole('button', { name: '复制当前页面' })).toBeVisible();
+  const retainedSource = await page.evaluate(() => activeExportSnapshot.source);
+  await page.route('**/pages/UnavailableExport.md', route => route.fulfill({ status: 503, body: 'unavailable' }));
+  await page.evaluate(() => navigateTo('pages/UnavailableExport.md', { sectionHint: 'knowledge', historyMode: 'push' }));
+  await expect(page.getByRole('alert')).toContainText('当前内容已保留');
+  await chooseExport(page, '复制当前页面', '原始 Markdown');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.text)).toBe(retainedSource);
 });
 
 test('desktop graph controls are not blocked by the mobile scrim', async ({ page }) => {
@@ -327,6 +369,136 @@ test('rapid navigation shows feedback and commits only the latest target', async
   await page.waitForTimeout(300);
   await expect(page.locator('#content h1')).toContainText('词嵌入');
   await expect(page.locator('#content')).toHaveAttribute('aria-busy', 'false');
+});
+
+test('viewer export menus are accessible and a long title does not overlap actions', async ({ page }) => {
+  await page.route('**/pages/LongExportTitle.md', route => route.fulfill({
+    status: 200,
+    contentType: 'text/markdown; charset=utf-8',
+    body: '# 这是一个用于验证标题换行且不会遮挡复制和下载按钮的非常长的知识页面标题\n\n正文。',
+  }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FLongExportTitle.md`);
+  const copy = page.getByRole('button', { name: '复制当前页面' });
+  const download = page.getByRole('button', { name: '下载当前页面' });
+  await copy.click();
+  await expect(page.getByRole('menuitem', { name: '原始 Markdown' })).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('menuitem', { name: '渲染后的富文本' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(copy).toBeFocused();
+  const [titleBox, copyBox, downloadBox] = await Promise.all([
+    page.locator('.article-title').boundingBox(), copy.boundingBox(), download.boundingBox(),
+  ]);
+  expect(titleBox.x + titleBox.width).toBeLessThanOrEqual(copyBox.x);
+  expect(copyBox.x + copyBox.width).toBeLessThanOrEqual(downloadBox.x);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('viewer copies exact source, body-only Markdown, and dual-MIME rich text', async ({ page }) => {
+  await installClipboardCapture(page);
+  const source = '---\ntags: [测试]\nsummary: export fixture\n---\n# Export Fixture\n\n**重点**与公式 $x^2$。';
+  await page.route('**/pages/ExportFixture.md', route => route.fulfill({
+    status: 200, contentType: 'text/markdown; charset=utf-8', body: source,
+  }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FExportFixture.md`);
+  await chooseExport(page, '复制当前页面', '原始 Markdown');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.text)).toBe(source);
+  await chooseExport(page, '复制当前页面', '纯正文 Markdown');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.text)).toBe('# Export Fixture\n\n**重点**与公式 $x^2$。');
+  await chooseExport(page, '复制当前页面', '渲染后的富文本');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.kind)).toBe('rich');
+  const rich = await page.evaluate(() => window.__clipboardWrites.at(-1));
+  expect(rich.kind).toBe('rich');
+  expect(rich.html).toContain('<strong>重点</strong>');
+  expect(rich.html).toContain('class="katex"');
+  expect(rich.html).not.toContain('export-actions');
+  expect(rich.plain).toContain('重点与公式');
+});
+
+test('viewer rich-text copy falls back truthfully to plain text', async ({ page }) => {
+  await installClipboardCapture(page, { rich: false });
+  await page.goto(`${knowledgeUrl}/viewer.html?f=%E9%A6%96%E9%A1%B5.md`);
+  await chooseExport(page, '复制当前页面', '渲染后的富文本');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.kind)).toBe('text');
+  await expect(page.locator('#message')).toContainText('Plain text copied because rich-text clipboard is unavailable.');
+});
+
+test('viewer downloads exact Markdown using the source basename', async ({ page }) => {
+  const source = '---\nsummary: exact bytes\n---\n# Download Fixture\n\n末尾保留两个换行。\n\n';
+  await page.route('**/pages/DownloadFixture.md', route => route.fulfill({
+    status: 200, contentType: 'text/markdown; charset=utf-8', body: source,
+  }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FDownloadFixture.md`);
+  const downloadPromise = page.waitForEvent('download');
+  await chooseExport(page, '下载当前页面', '原始 .md');
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('DownloadFixture.md');
+  expect(fs.readFileSync(await download.path(), 'utf8')).toBe(source);
+  await expect(page.locator('#message')).toContainText('Markdown downloaded.');
+});
+
+test('viewer downloads a self-contained article with image, KaTeX, and Mermaid data', async ({ page }) => {
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
+  await page.route('**/pages/SelfContainedFixture.md', route => route.fulfill({
+    status: 200,
+    contentType: 'text/markdown; charset=utf-8',
+    body: '# Self Contained Fixture\n\n![pixel](assets/pixel.png)\n\n$$x^2$$\n\n```mermaid\ngraph LR\nA --> B\n```',
+  }));
+  await page.route('**/pages/assets/pixel.png', route => route.fulfill({ status: 200, contentType: 'image/png', body: png }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FSelfContainedFixture.md`);
+  await expect(page.locator('.mermaid svg')).toBeVisible({ timeout: 30_000 });
+  const downloadPromise = page.waitForEvent('download');
+  await chooseExport(page, '下载当前页面', '自包含 .html');
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('Self Contained Fixture.html');
+  const html = fs.readFileSync(await download.path(), 'utf8');
+  expect(html).toContain('<!doctype html>');
+  expect(html).toContain('<title>Self Contained Fixture</title>');
+  expect(html).toMatch(/src="data:image\/png;base64,/);
+  expect(html).toMatch(/url\(["']?data:font\/woff2;base64,/);
+  expect(html).toContain('class="katex"');
+  expect(html).toContain('<svg');
+  expect(html).not.toContain('export-actions');
+  expect(html).not.toContain('id="sidebar"');
+  expect(html).not.toContain('<script');
+  expect(html).not.toContain('vendor/katex');
+});
+
+test('viewer refuses partial HTML when a required image cannot be embedded', async ({ page }) => {
+  await page.route('**/pages/BrokenAssetFixture.md', route => route.fulfill({
+    status: 200,
+    contentType: 'text/markdown; charset=utf-8',
+    body: '# Broken Asset Fixture\n\n![missing](assets/missing.png)',
+  }));
+  await page.route('**/pages/assets/missing.png', route => route.fulfill({ status: 404, body: 'missing' }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=pages%2FBrokenAssetFixture.md`);
+  let downloads = 0;
+  page.on('download', () => { downloads += 1; });
+  await chooseExport(page, '下载当前页面', '自包含 .html');
+  await expect(page.getByRole('alert')).toContainText('assets/missing.png');
+  await page.waitForTimeout(200);
+  expect(downloads).toBe(0);
+  await expect(page.getByRole('menuitem', { name: '自包含 .html' })).toBeVisible();
+});
+
+test('viewer export always reads the final active page after rapid navigation', async ({ page }) => {
+  await installClipboardCapture(page);
+  await page.route('**/pages/SlowExport.md', async route => {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    await route.fulfill({ status: 200, contentType: 'text/markdown', body: '# Slow Export\n\nstale-body' });
+  });
+  await page.route('**/pages/FinalExport.md', route => route.fulfill({
+    status: 200, contentType: 'text/markdown', body: '# Final Export\n\nfinal-body',
+  }));
+  await page.goto(`${knowledgeUrl}/viewer.html?f=%E9%A6%96%E9%A1%B5.md`);
+  await page.evaluate(() => {
+    window.slowExportNavigation = navigateTo('pages/SlowExport.md', { sectionHint: 'knowledge', historyMode: 'push' });
+    window.finalExportNavigation = navigateTo('pages/FinalExport.md', { sectionHint: 'knowledge', historyMode: 'push' });
+  });
+  await expect(page.locator('#content h1')).toHaveText('Final Export');
+  await page.waitForTimeout(300);
+  await chooseExport(page, '复制当前页面', '原始 Markdown');
+  await expect.poll(() => page.evaluate(() => window.__clipboardWrites.at(-1)?.text)).toBe('# Final Export\n\nfinal-body');
 });
 
 test('refresh invalidates cached section indexes before recovery', async ({ page }) => {
