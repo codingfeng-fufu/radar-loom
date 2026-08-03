@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 3,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -330,15 +330,31 @@
       "created_at": "2026-08-01",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-03",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
   "generated_at": "2026-08-03",
-  "last_global_at": "2026-08-01",
+  "last_global_at": "2026-08-03",
   "last_run": {
     "finished_at": "2026-08-03",
-    "operation": "sync",
-    "outcome": "unchanged",
-    "reason": "",
+    "operation": "global",
+    "outcome": "rejected",
+    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
     "started_at": "2026-08-03"
   },
   "memberships": [
@@ -1535,70 +1551,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
-      "last_confirmed_at": "2026-07-20",
+      "last_confirmed_at": "2026-08-03",
       "page": "pages/TripleChecker.md",
       "reason": "双链 1.00，语义 0.97",
-      "score": 0.8356631059956745,
+      "score": 0.8364041414475979,
       "signals": {
         "links": 1.0,
-        "projects": 0.04065040650406504,
-        "semantic": 0.9727176427841187,
+        "projects": 0.045112781954887216,
+        "semantic": 0.9735808372497559,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_evaluation",
       "first_assigned_at": "2026-07-20",
-      "last_confirmed_at": "2026-07-20",
+      "last_confirmed_at": "2026-08-03",
       "page": "pages/TripleChecker.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7261971603740345,
+      "score": 0.7527025196287367,
       "signals": {
-        "links": 0.125,
-        "projects": 0.2727272727272727,
-        "semantic": 0.9688513278961182,
+        "links": 0.2222222222222222,
+        "projects": 0.25,
+        "semantic": 0.9744116067886353,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_kg",
       "first_assigned_at": "2026-07-20",
-      "last_confirmed_at": "2026-07-20",
+      "last_confirmed_at": "2026-08-03",
       "page": "pages/TripleChecker.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7792542139689127,
+      "score": 0.7988198035454684,
       "signals": {
-        "links": 0.375,
-        "projects": 0.08333333333333333,
-        "semantic": 0.9688959121704102,
+        "links": 0.4444444444444444,
+        "projects": 0.0975609756097561,
+        "semantic": 0.9713844060897827,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-07-20",
-      "last_confirmed_at": "2026-07-20",
+      "last_confirmed_at": "2026-08-03",
       "page": "pages/TripleChecker.md",
-      "reason": "语义 0.97，双链 0.25",
-      "score": 0.6425031661987305,
+      "reason": "语义 0.97，双链 0.33",
+      "score": 0.6671919471178299,
       "signals": {
-        "links": 0.25,
-        "projects": 0.0,
-        "semantic": 0.9666719436645508,
+        "links": 0.3333333333333333,
+        "projects": 0.038461538461538464,
+        "semantic": 0.9698925614356995,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_trust",
       "first_assigned_at": "2026-07-20",
-      "last_confirmed_at": "2026-07-20",
+      "last_confirmed_at": "2026-08-03",
       "page": "pages/TripleChecker.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.7784375596046448,
+      "score": 0.7990637076021444,
       "signals": {
-        "links": 0.375,
-        "projects": 0.1,
-        "semantic": 0.966145932674408,
+        "links": 0.4444444444444444,
+        "projects": 0.13636363636363635,
+        "semantic": 0.9685573577880859,
         "tags": 1.0
       }
     },
@@ -4131,6 +4147,34 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/网际协议 Internet Protocol.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8231286287307739,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9552143812179565,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/网际协议 Internet Protocol.md",
+      "reason": "双链 1.00，人工标签 1.00",
+      "score": 0.9258798241615295,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9597997069358826,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/置信度评分 Confidence Scoring.md",
@@ -4665,7 +4709,7 @@
     "pages/TransE 图嵌入.md": "583fd72b5031a387f499eb17ca167e32be5e2ba8bc1bf1c68195392837bae3f5",
     "pages/Transformer 架构 Architecture.md": "38bccc185c955ec6fde11f80d978456b6d1abe5bf6b594b933e5c3238967d45d",
     "pages/Transformer 自注意力机制.md": "b75cfbc67470e29dc318adc72df26cec17fd5f78c81c1abe08742b3caeba1702",
-    "pages/TripleChecker.md": "6c8d70026c9896a1c94e143ff6399999ef863850856f65ad846c0de8f0375239",
+    "pages/TripleChecker.md": "654c539c9f9046956a1ed4d2fa5e0048cebb1b2cbb4ef0b27f0197cf16e49ae6",
     "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
@@ -4749,6 +4793,7 @@
     "pages/纠错RAG CRAG.md": "1991d58958538c9bcf689ec4404ea5420c1f66e2016b2986d7a5dcac402d51b4",
     "pages/红队测试 Red-teaming.md": "97ea212529f53fadefbeb5f7527de0236fc35f4598c727ae62f20d98ade7d16f",
     "pages/编码器-解码器结构 Encoder-Decoder Architecture.md": "04dd940fce137e0fac9feedee1a6098f176cb427bd337b4c5c538bca41bbca0f",
+    "pages/网际协议 Internet Protocol.md": "fcc25b0222e50391aad121ed52002654ea679475d02fffae98e173747013a43e",
     "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
     "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
     "pages/词嵌入 Word Embedding.md": "83cb4b9caf7c07a878b59691f0f7e9f9466d5575efa78bc1e9e9154aae2b58cd",

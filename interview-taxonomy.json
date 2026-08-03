@@ -37,7 +37,7 @@
       "updated_at": "2026-08-02"
     }
   },
-  "changes_since_global": 2,
+  "changes_since_global": 3,
   "events": [
     {
       "category_ids": [
@@ -205,11 +205,11 @@
       "last_confirmed_at": "2026-08-02",
       "page": "pages/设计一个Coding Agent.md",
       "reason": "双链 1.00，语义 0.98",
-      "score": 0.8846837997436524,
+      "score": 0.8869983464479446,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9764366149902344,
+        "semantic": 0.979997456073761,
         "tags": 0.0
       }
     },
@@ -219,11 +219,11 @@
       "last_confirmed_at": "2026-08-02",
       "page": "pages/设计一个Coding Agent.md",
       "reason": "双链 1.00，语义 0.98",
-      "score": 0.8856977432966232,
+      "score": 0.8880517691373825,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9779965281486511,
+        "semantic": 0.9816181063652039,
         "tags": 0.0
       }
     }
@@ -235,7 +235,7 @@
     "pages/多头注意力机制的核心作用是什么.md": "76f6cfaf666b0ab1cf1abc7a2aafdf264fd686856b6e0abd7eb65095737285e5",
     "pages/知识图谱的存储方式与索引优化.md": "31a990a03b7ad6dfa84e154294ff40981895b8e32de940c00c6c2a1416480c40",
     "pages/设计一个AI Agent的记忆系统.md": "3d8f2b17361bda24f923fc0d5ebf240dc971cc188f9f5715ddfb68ebf7ab7458",
-    "pages/设计一个Coding Agent.md": "decbe9c414e72f84c30c92234dc719c19c123fe684ed9ebbb8cbf3a04936feee"
+    "pages/设计一个Coding Agent.md": "55e6ed2894fa6e45d85d3b8c0dcbb9e61a3739b0db682a6f5c56826846d8dac6"
   },
   "parameters_hash": "f3ecebe2c139b5cbe2cf2a5dbbd38a1c8d27d417fd1b166a795fef17e10be9fe",
   "pending_pages": [],

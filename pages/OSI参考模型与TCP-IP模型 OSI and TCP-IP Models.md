@@ -88,8 +88,11 @@ TCP/IP 模型在工业实践中以四层划分最为经典，部分教材（如 
 ## 交叉引用
 
 - [[TCP三次握手与四次挥手 TCP Handshake and Teardown]]
+- [[网际协议 Internet Protocol]]
+- [[路由协议 RIP OSPF BGP]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 
 ## 更新记录
 
+- 2026-08-03: 交叉引用补充 [[网际协议 Internet Protocol]] 与 [[路由协议 RIP OSPF BGP]]，补全网络层与控制平面的下游页
 - 2026-07-28: 首次建页
