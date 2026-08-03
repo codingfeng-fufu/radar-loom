@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-03 · 页面 121 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-03 · 页面 122 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -60,6 +60,7 @@
 - [[知识冲突 Knowledge Conflict]] `#KG #RAG` — 知识冲突是指模型的参数化知识（训练时记住的）和检索到的外部知识（KG或文本）发生矛盾时如何处理的问题。
 - [[知识接地 Grounding]] `#KG #RAG` — Grounding（接地）是指生成的内容能够追溯并锚定到具体的、外部可验证的证据上，而不是悬空依赖模型的参数化记忆。
 - [[纠错RAG CRAG]] `#RAG #可信度` — CRAG先评估检索质量，再通过补充搜索和结果融合纠正RAG输入。
+- [[近似最近邻检索 ANN Approximate Nearest Neighbor]] `#基础 #RAG` — 以召回换延迟的大规模高维向量检索，IVF/HNSW/PQ 是 FAISS 的三大支柱
 
 ## LLM机制
 
@@ -168,6 +169,7 @@
 - [[词性标注 POS Tagging]] `#KG #基础` — 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 - [[路由协议 RIP OSPF BGP]] `#基础` — RIP距离矢量、OSPF链路状态、BGP路径矢量三类核心IP路由协议的算法、报文与适用场景。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
+- [[近似最近邻检索 ANN Approximate Nearest Neighbor]] `#基础 #RAG` — 以召回换延迟的大规模高维向量检索，IVF/HNSW/PQ 是 FAISS 的三大支柱
 - [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]] `#基础` — ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
 - [[马尔可夫 Markov]] `#基础` — 未来只依赖当下的建模假设,派生出马尔可夫链/HMM/MDP/MCMC等一族方法

@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 0,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -352,9 +352,9 @@
   "last_global_at": "2026-08-03",
   "last_run": {
     "finished_at": "2026-08-03",
-    "operation": "global",
-    "outcome": "rejected",
-    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+    "operation": "sync",
+    "outcome": "unchanged",
+    "reason": "",
     "started_at": "2026-08-03"
   },
   "memberships": [
@@ -4437,6 +4437,76 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8275885701179504,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9626476168632507,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md",
+      "reason": "语义 0.96，双链 0.33",
+      "score": 0.6594373901685079,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9601734280586243,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7833329478899637,
+      "signals": {
+        "links": 0.4166666666666667,
+        "projects": 0.0,
+        "semantic": 0.9652771353721619,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md",
+      "reason": "语义 0.96，双链 0.33",
+      "score": 0.6590422828992208,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9595149159431458,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8249697168668111,
+      "signals": {
+        "links": 0.5833333333333334,
+        "projects": 0.0,
+        "semantic": 0.9652273058891296,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/选择性预测 Selective Prediction.md",
@@ -4802,6 +4872,7 @@
     "pages/资源描述框架 RDF OWL SPARQL.md": "f1923ad7f20020e7db58ff33f36599d1826ee256b6088fb6fc98da6ac6768de5",
     "pages/路由协议 RIP OSPF BGP.md": "8a9ca5cba8009a9d439b71d7584c10be9d1b958eb09873273a137c5de2b0e6cb",
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
+    "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md": "f12b0b1c820bd59b4a690789a9f078592cf3d4d167e6e68a312ff66b5c2227e5",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
     "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md": "8f2a2c2c3cbb2a8639bad0960b510c8aa90bf9c44162952e038f265efff96bd4",

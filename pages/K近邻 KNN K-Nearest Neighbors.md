@@ -44,7 +44,7 @@ KNN(K-Nearest Neighbors,K 近邻)是一种**非参数、基于实例(instance-ba
 - **KD-Tree**:按维度轴对齐切分空间的二叉树,构建 $O(Nd\log N)$,查询期望 $O(\log N)$;**只在低维(经验上 $d\lesssim 20$)有效**,高维退化到接近暴力。
 - **Ball-Tree**:用嵌套的超球分割空间,对**中高维稠密向量**优于 KD-Tree,scikit-learn 的默认选择;仍受维度诅咒制约。
 - **Brute-force**:$O(Nd)$ 但可全部向量化到 BLAS/GPU 上,数据量不大时反而最快。scikit-learn 默认根据 $N$、$d$、$K$ 自动选择 `auto`。
-- **近似最近邻(ANN)**:HNSW、IVF-PQ、LSH 等,在**牺牲精确性换查询延迟**的场景下取代精确 KNN,是 FAISS、Milvus、pgvector 等向量数据库的核心。
+- **近似最近邻(ANN)**:HNSW、IVF-PQ、LSH 等,在**牺牲精确性换查询延迟**的场景下取代精确 KNN,是 FAISS、Milvus、pgvector 等向量数据库的核心,详见 [[近似最近邻检索 ANN Approximate Nearest Neighbor]]。
 
 ### 局限与工程注意事项
 
@@ -70,6 +70,7 @@ KNN 本身不是我 KG / RAG 主线的建模算法,但**作为向量检索的算
 
 ## 交叉引用
 
+- [[近似最近邻检索 ANN Approximate Nearest Neighbor]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 - [[检索增强生成 RAG-GraphRAG]]
 - [[信息检索 IR基础模型 Information Retrieval]]
@@ -78,4 +79,5 @@ KNN 本身不是我 KG / RAG 主线的建模算法,但**作为向量检索的算
 
 ## 更新记录
 
+- 2026-08-03: 交叉引用补充 [[近似最近邻检索 ANN Approximate Nearest Neighbor]]，把原"加速数据结构"小节的 ANN 提及转为双链
 - 2026-07-15: 首次建页
