@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-02 · 页面 119 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-03 · 页面 120 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -46,6 +46,7 @@
 - [[KG-RAG 工作原理]] `#KG #RAG` — KG-RAG在普通RAG的向量检索之外，额外引入知识图谱作为结构化检索层。
 - [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
 - [[LightRAG]] `#RAG` — LightRAG以实体图上的局部和全局检索简化GraphRAG流程。
+- [[MiniCheck 高效事实核查]] `#可信度 #RAG #评测 #TripleChecker` — 用GPT-4合成数据微调Flan-T5，以GPT-4 1/400成本完成 grounding 文档级事实核查
 - [[RAG 评测指标 EM Recall MRR]] `#RAG #评测` — RAG评测分别衡量检索召回、排序质量和最终答案准确性。
 - [[RAGChecker]] `#RAG #可信度` — RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。
 - [[Self-RAG]] `#RAG` — Self-RAG是让LLM学会自我反思的RAG框架，ICLR 2024的代表作。
@@ -94,6 +95,7 @@
 
 ## 可信度
 
+- [[MiniCheck 高效事实核查]] `#可信度 #RAG #评测 #TripleChecker` — 用GPT-4合成数据微调Flan-T5，以GPT-4 1/400成本完成 grounding 文档级事实核查
 - [[RAGChecker]] `#RAG #可信度` — RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。
 - [[ReDeEP 机制可解释性]] `#可信度 #前沿` — ReDeEP（Sun et al.
 - [[不确定性量化 Uncertainty Quantification]] `#可信度` — 不确定性量化是让模型不仅给出预测，还给出对这个预测的置信程度。
@@ -173,6 +175,7 @@
 ## 评测
 
 - [[McNemar检验]] `#评测` — McNemar检验是专门用于配对二分类数据的统计显著性检验方法，是NLP实验中比较两个系统差异的标配工具。
+- [[MiniCheck 高效事实核查]] `#可信度 #RAG #评测 #TripleChecker` — 用GPT-4合成数据微调Flan-T5，以GPT-4 1/400成本完成 grounding 文档级事实核查
 - [[RAG 评测指标 EM Recall MRR]] `#RAG #评测` — RAG评测分别衡量检索召回、排序质量和最终答案准确性。
 - [[分层评测 Stratified Evaluation]] `#可信度 #EvidenceFirst #评测` — 分层评测是指不满足于报告整体平均指标，而是把测试集按某种属性（难度、类别、状态）划分成不同子集分别报告性能。
 - [[反事实评测 Counterfactual Evaluation]] `#可信度 #EvidenceFirst #评测` — 反事实评测通过系统性地改变输入的某个属性，观察输出如何变化，来理解模型的依赖关系和潜在偏见。

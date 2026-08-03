@@ -136,7 +136,7 @@
       "target": "设计一个AI Agent的记忆系统"
     }
   ],
-  "generated": "2026-08-02",
+  "generated": "2026-08-03",
   "nodes": [
     {
       "category": "RAG",
@@ -642,11 +642,11 @@
         "lastConfirmedAt": "2026-08-02",
         "page": "设计一个Coding Agent",
         "reason": "双链 1.00，语义 0.98",
-        "score": 0.8846837997436524,
+        "score": 0.8869983464479446,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9764366149902344,
+          "semantic": 0.979997456073761,
           "tags": 0.0
         }
       },
@@ -656,11 +656,11 @@
         "lastConfirmedAt": "2026-08-02",
         "page": "设计一个Coding Agent",
         "reason": "双链 1.00，语义 0.98",
-        "score": 0.8856977432966232,
+        "score": 0.8880517691373825,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9779965281486511,
+          "semantic": 0.9816181063652039,
           "tags": 0.0
         }
       }

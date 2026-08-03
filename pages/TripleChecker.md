@@ -204,9 +204,11 @@ fixed-template / LLM-only / **RTAV** 三档 verifier F1:**0.762 / 0.788 / 0.811*
 - [[归因评测 Attribution]]
 - [[可验证性 Verifiability]]
 - [[RAGChecker]]
+- [[MiniCheck 高效事实核查]]
 
 ## 更新记录
 
 - 2026-07-20: 从占位页扩为完整项目备忘(问题定义 / 方法 / 贡献边界 / 实验 / 追问 / 电梯陈述),用于保研套磁与面试脱稿准备
 - 2026-07-20: 移除「七、代码级深度回顾」附录,决定以论文口径为准(codebase 级细节暂不纳入知识页)
+- 2026-08-03: 交叉引用新增 [[MiniCheck 高效事实核查]]（英文 baseline，中文 setting 已在 Q5 记录为失效）
 - 2026-07-20: 按 main.pdf 重写主内容——以 SU-F1 = 0.804 on 15,000 行受控 benchmark 为主 headline,替代早期 PROJECT_STATUS.md 的「EM 0.47→0.79」叙事;补齐 SAR × EPR 分解、Table 2 条件切片、supported-loss budget 曲线、Table 3 人工校准、RTAV 消融口径、paper §5 已知失效模式

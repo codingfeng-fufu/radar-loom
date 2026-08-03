@@ -1,6 +1,6 @@
 # 面试索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-02 · 面试页 7 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-03 · 面试页 7 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## 角色: Agent工程师
 

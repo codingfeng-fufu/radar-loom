@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 2,
+  "changes_since_global": 3,
   "events": [
     {
       "category_ids": [
@@ -332,14 +332,14 @@
       "type": "reject"
     }
   ],
-  "generated_at": "2026-08-02",
+  "generated_at": "2026-08-03",
   "last_global_at": "2026-08-01",
   "last_run": {
-    "finished_at": "2026-08-02",
+    "finished_at": "2026-08-03",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-08-02"
+    "started_at": "2026-08-03"
   },
   "memberships": [
     {
@@ -887,6 +887,76 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.0,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/MiniCheck 高效事实核查.md",
+      "reason": "双链 1.00，语义 0.98",
+      "score": 0.8373892989373745,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.045112781954887216,
+        "semantic": 0.9752227663993835,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/MiniCheck 高效事实核查.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7649939352815801,
+      "signals": {
+        "links": 0.2727272727272727,
+        "projects": 0.25,
+        "semantic": 0.9738535284996033,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/MiniCheck 高效事实核查.md",
+      "reason": "语义 0.97，双链 0.27",
+      "score": 0.6563573222731276,
+      "signals": {
+        "links": 0.2727272727272727,
+        "projects": 0.0975609756097561,
+        "semantic": 0.9721624255180359,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/MiniCheck 高效事实核查.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7539298872847656,
+      "signals": {
+        "links": 0.2727272727272727,
+        "projects": 0.038461538461538464,
+        "semantic": 0.9730416536331177,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-08-03",
+      "last_confirmed_at": "2026-08-03",
+      "page": "pages/MiniCheck 高效事实核查.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7778293587944725,
+      "signals": {
+        "links": 0.36363636363636365,
+        "projects": 0.13636363636363635,
+        "semantic": 0.9668368101119995,
         "tags": 1.0
       }
     },
@@ -4579,6 +4649,7 @@
     "pages/LRU 缓存替换 Least Recently Used.md": "edaf48ed426fd72a56d38a205c3fcd0692dfd4eb879b2ae782aa6921fa48ff10",
     "pages/LightRAG.md": "6c18899f5f3214edb589947012ecc7551c83d9edcb5fc3637507c7446fd3029b",
     "pages/McNemar检验.md": "718ca27acc6700591bc7f315de2f3cedf496a9d1b93151decd7add1bc9a2ad94",
+    "pages/MiniCheck 高效事实核查.md": "66d1bc99ce985759580dad28edb601fe5175e974f690b058cc9e7140a5898650",
     "pages/OSI参考模型与TCP-IP模型 OSI and TCP-IP Models.md": "9bfd87cd1584f6448c50fb7de2d20e5741cd8f2e78d2339f027bc60b94a48aaf",
     "pages/RAG 评测指标 EM Recall MRR.md": "fdb67de7bedf44ae7722a2de9ca3ccfe2caa5e965046a86e13f359c1a5a6e733",
     "pages/RAGChecker.md": "7a5a6dfec257a463b78d381b2d6dfbd77864cbc41d327f5103f0f3d7a302fdaf",
