@@ -157,6 +157,7 @@ OS 内核并非一个持续运行的进程，而是**一组可被各种事件激
 
 - [[操作系统 Operating System]]
 - [[进程与线程 Process and Thread]]
+- [[进程调度算法 CPU Scheduling Algorithms]]
 - [[操作系统死锁 Deadlock]]
 - [[饥饿 Starvation]]
 - [[LRU 缓存替换 Least Recently Used]]

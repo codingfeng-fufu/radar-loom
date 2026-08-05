@@ -182,6 +182,7 @@ Go 的 **goroutine** 是 M:N 模型的现代代表：运行时调度器把成千
 - [[操作系统 Operating System]]
 - [[操作系统运行机制 OS Runtime Mechanisms]]
 - [[中断与异常 Interrupts and Exceptions]]
+- [[进程调度算法 CPU Scheduling Algorithms]]
 - [[操作系统死锁 Deadlock]]
 - [[活锁 Livelock]]
 - [[饥饿 Starvation]]

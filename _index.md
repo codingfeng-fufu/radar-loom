@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-05 · 页面 130 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-05 · 页面 131 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -176,6 +176,7 @@
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
 - [[近似最近邻检索 ANN Approximate Nearest Neighbor]] `#基础 #RAG` — 以召回换延迟的大规模高维向量检索，IVF/HNSW/PQ 是 FAISS 的三大支柱
 - [[进程与线程 Process and Thread]] `#基础` — 资源分配与 CPU 调度的两个基本单位，进程隔离地址空间，线程共享进程资源并独立调度
+- [[进程调度算法 CPU Scheduling Algorithms]] `#基础` — 决定哪个就绪进程获得 CPU 的策略集合，按目标分为批处理、交互式、实时与多核调度
 - [[银行家算法 Banker's Algorithm]] `#基础` — Dijkstra 提出的死锁避免算法，以银行放贷隐喻动态检查资源分配是否始终保持安全状态
 - [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]] `#基础` — ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
