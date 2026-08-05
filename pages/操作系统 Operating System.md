@@ -131,6 +131,7 @@ tags: [基础]
 ## 交叉引用
 
 - [[操作系统运行机制 OS Runtime Mechanisms]]
+- [[中断与异常 Interrupts and Exceptions]]
 - [[操作系统死锁 Deadlock]]
 - [[银行家算法 Banker's Algorithm]]
 - [[活锁 Livelock]]

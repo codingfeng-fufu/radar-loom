@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-05 · 页面 128 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-05 · 页面 129 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -136,6 +136,7 @@
 - [[TCP三次握手与四次挥手 TCP Handshake and Teardown]] `#基础` — TCP通过三次握手建立可靠连接、四次挥手可靠关闭的连接管理核心机制，出自RFC 793标准。
 - [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
+- [[中断与异常 Interrupts and Exceptions]] `#基础` — CPU 异步响应硬件事件、同步处理指令故障的硬件机制，OS 夺回控制权的入口
 - [[主题模型 LDA]] `#基础` — LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。
 - [[交叉编码器 Cross-Encoder]] `#基础 #RAG` — Cross-encoder拼接query和doc输入同一编码器，用交叉注意力做精排重排
 - [[位置编码 Positional Encoding]] `#LLM机制 #基础` — 位置编码为Transformer注入词序信息以打破注意力的排列不变性。

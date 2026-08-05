@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -344,6 +344,22 @@
         "cat_seed_trust"
       ],
       "created_at": "2026-08-03",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-05",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
     },
@@ -1714,6 +1730,76 @@
         "projects": 0.0,
         "semantic": 0.0,
         "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/中断与异常 Interrupts and Exceptions.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8197929620742798,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9496549367904663,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/中断与异常 Interrupts and Exceptions.md",
+      "reason": "语义 0.96，双链 0.75",
+      "score": 0.7628637671470642,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9589396119117737,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/中断与异常 Interrupts and Exceptions.md",
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.8605491280555725,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9550818800926208,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/中断与异常 Interrupts and Exceptions.md",
+      "reason": "语义 0.95，双链 0.75",
+      "score": 0.7593114852905273,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9530191421508789,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/中断与异常 Interrupts and Exceptions.md",
+      "reason": "语义 0.96，双链 0.75",
+      "score": 0.7605907559394837,
+      "signals": {
+        "links": 0.75,
+        "projects": 0.0,
+        "semantic": 0.9551512598991394,
+        "tags": 0.0
       }
     },
     {
@@ -3317,11 +3403,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统 Operating System.md",
       "reason": "双链 1.00，语义 0.95",
-      "score": 0.8209236741065978,
+      "score": 0.8211689710617065,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9515394568443298,
+        "semantic": 0.9519482851028442,
         "tags": 0.0
       }
     },
@@ -3330,12 +3416,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.46",
-      "score": 0.6899126419654259,
+      "reason": "语义 0.96，双链 0.50",
+      "score": 0.7005870342254639,
       "signals": {
-        "links": 0.46153846153846156,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9575467109680176,
+        "semantic": 0.9593117237091064,
         "tags": 0.0
       }
     },
@@ -3345,11 +3431,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统 Operating System.md",
       "reason": "人工标签 1.00，语义 0.96",
-      "score": 0.9052595633726853,
+      "score": 0.9071354065622602,
       "signals": {
-        "links": 0.9230769230769231,
+        "links": 0.9285714285714286,
         "projects": 0.0,
-        "semantic": 0.9574838876724243,
+        "semantic": 0.9583209156990051,
         "tags": 1.0
       }
     },
@@ -3358,12 +3444,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.46",
-      "score": 0.6887653002372155,
+      "reason": "语义 0.96，双链 0.50",
+      "score": 0.6991730093955993,
       "signals": {
-        "links": 0.46153846153846156,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9556344747543335,
+        "semantic": 0.9569550156593323,
         "tags": 0.0
       }
     },
@@ -3372,12 +3458,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.46",
-      "score": 0.6887643346419702,
+      "reason": "语义 0.96，双链 0.50",
+      "score": 0.6992264032363892,
       "signals": {
-        "links": 0.46153846153846156,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9556328654289246,
+        "semantic": 0.9570440053939819,
         "tags": 0.0
       }
     },
@@ -3457,11 +3543,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统运行机制 OS Runtime Mechanisms.md",
       "reason": "双链 1.00，语义 0.95",
-      "score": 0.8181656122207641,
+      "score": 0.8180251002311706,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9469426870346069,
+        "semantic": 0.9467085003852844,
         "tags": 0.0
       }
     },
@@ -3470,12 +3556,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统运行机制 OS Runtime Mechanisms.md",
-      "reason": "语义 0.95，双链 0.80",
-      "score": 0.7727232575416565,
+      "reason": "语义 0.96，双链 0.83",
+      "score": 0.781875773270925,
       "signals": {
-        "links": 0.8,
+        "links": 0.8333333333333334,
         "projects": 0.0,
-        "semantic": 0.9545387625694275,
+        "semantic": 0.9559040665626526,
         "tags": 0.0
       }
     },
@@ -3485,11 +3571,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统运行机制 OS Runtime Mechanisms.md",
       "reason": "人工标签 1.00，语义 0.95",
-      "score": 0.8716484069824219,
+      "score": 0.8804067452748616,
       "signals": {
-        "links": 0.8,
+        "links": 0.8333333333333334,
         "projects": 0.0,
-        "semantic": 0.9527473449707031,
+        "semantic": 0.9534556865692139,
         "tags": 1.0
       }
     },
@@ -3498,12 +3584,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统运行机制 OS Runtime Mechanisms.md",
-      "reason": "语义 0.95，双链 0.80",
-      "score": 0.7710194826126098,
+      "reason": "语义 0.95，双链 0.83",
+      "score": 0.7800045212109884,
       "signals": {
-        "links": 0.8,
+        "links": 0.8333333333333334,
         "projects": 0.0,
-        "semantic": 0.9516991376876831,
+        "semantic": 0.952785313129425,
         "tags": 0.0
       }
     },
@@ -3512,12 +3598,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统运行机制 OS Runtime Mechanisms.md",
-      "reason": "语义 0.95，双链 0.80",
-      "score": 0.7708151340484619,
+      "reason": "语义 0.95，双链 0.83",
+      "score": 0.7796613415082296,
       "signals": {
-        "links": 0.8,
+        "links": 0.8333333333333334,
         "projects": 0.0,
-        "semantic": 0.9513585567474365,
+        "semantic": 0.9522133469581604,
         "tags": 0.0
       }
     },
@@ -5250,6 +5336,7 @@
     "pages/TripleChecker.md": "654c539c9f9046956a1ed4d2fa5e0048cebb1b2cbb4ef0b27f0197cf16e49ae6",
     "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
+    "pages/中断与异常 Interrupts and Exceptions.md": "c5323a85e18ee218cfbd7a447e3568ee546bb044673505288a758f0175c8462e",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
     "pages/主题模型 LDA.md": "9f4e3feee0e83f2a1308d9daab6ab46adab2f8f61d54e254ce82169449bf61ea",
     "pages/交叉编码器 Cross-Encoder.md": "b31f5eaba4fa0b02f61a64514c9ef647f55c3a3d3ac3aa2cbe7975be95c86948",
@@ -5301,9 +5388,9 @@
     "pages/扩散模型 Diffusion Models DDPM.md": "947822998f727bdea281a1ca23d8ab36cc5f96606db2d77637498c4ae529644f",
     "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
     "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
-    "pages/操作系统 Operating System.md": "f54ae312bc20ce8e921657a6a4e4d14ce48f58dc9071548c084735dad651fcda",
+    "pages/操作系统 Operating System.md": "a1081f27b90e077e0d35c28cf379a064b82e1880e9eea5aac649c055a949b61c",
     "pages/操作系统死锁 Deadlock.md": "cf497d6e2ce57c71140ea5038a8de71e3dfbbe826c42c1482e6ca2a6e45a99b4",
-    "pages/操作系统运行机制 OS Runtime Mechanisms.md": "cc53a936b9b8d9df571efff412f60aece5e3c5be2d692603c58dfa5b2de19dfc",
+    "pages/操作系统运行机制 OS Runtime Mechanisms.md": "ecb78e0ff2a39ae09a4fd5536419dbba3bee7ef4968b6e8a3f5a0af09928dd8f",
     "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",
     "pages/文本摘要 Text Summarization.md": "47340443576aa55e024c00c9e4e42000f0f39be8870c6a3425eed2b8b028c52e",
     "pages/文本蕴含与自然语言推理 NLI.md": "0087e5bfc4b22f64b860c3a29b14b2dd50a58f61b80a7107d819e0cec0801fd6",
