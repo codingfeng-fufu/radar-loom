@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-05 · 页面 124 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-05 · 页面 125 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -162,6 +162,7 @@
 - [[旋转位置编码 RoPE]] `#LLM机制 #基础` — RoPE（旋转位置编码）是现在LLM最常用的位置编码方案，GPT-3、LLaMA系列都用它。
 - [[机器翻译 Machine Translation]] `#LLM机制 #基础` — 机器翻译经历规则、统计、神经网络到大模型驱动的技术演进。
 - [[残差连接 Residual Connection]] `#LLM机制 #基础` — 残差连接以y=x+F(x)让梯度直通深层,是训练百层以上Transformer/ResNet的必要条件。
+- [[活锁 Livelock]] `#基础` — 进程未被阻塞却无法推进的并发失败状态，进程持续改变状态做无用功
 - [[流量控制常见方式 Flow Control]] `#基础` — 停等ARQ、滑动窗口及TCP基于窗口的流量控制等数据链路与传输层经典流控机制。
 - [[激活函数 Activation Functions]] `#LLM机制 #基础` — 激活函数为神经网络引入非线性，没有它多层网络等价于单层线性模型。
 - [[编码器-解码器结构 Encoder-Decoder Architecture]] `#LLM机制 #基础` — 编码器双向理解输入,解码器因果生成并通过交叉注意力关注编码器输出,原始Transformer与T5的核心结构。
