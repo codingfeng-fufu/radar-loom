@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-05 · 页面 125 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-05 · 页面 126 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -175,6 +175,7 @@
 - [[银行家算法 Banker's Algorithm]] `#基础` — Dijkstra 提出的死锁避免算法，以银行放贷隐喻动态检查资源分配是否始终保持安全状态
 - [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]] `#基础` — ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
+- [[饥饿 Starvation]] `#基础` — 进程因调度或分配策略长期得不到所需资源而无法推进的活性失败
 - [[马尔可夫 Markov]] `#基础` — 未来只依赖当下的建模假设,派生出马尔可夫链/HMM/MDP/MCMC等一族方法
 - [[高斯混合模型 GMM Gaussian Mixture Model]] `#基础` — GMM是用K个高斯分量的加权和拟合数据的概率模型,通过EM算法估计参数,常用于软聚类和密度估计。
 
