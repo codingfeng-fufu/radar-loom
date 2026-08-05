@@ -114,6 +114,7 @@ CSMA/CD 中两个站点同时发送、冲突后若采用**确定性**（而非�
 
 ## 交叉引用
 
+- [[操作系统 Operating System]]
 - [[操作系统死锁 Deadlock]]
 - [[饥饿 Starvation]]
 - [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]]

@@ -123,6 +123,10 @@ $$\text{Need}[i][j] = \text{Max}[i][j] - \text{Allocation}[i][j]$$
 
 ## 交叉引用
 
+- [[操作系统 Operating System]]
+- [[银行家算法 Banker's Algorithm]]
+- [[活锁 Livelock]]
+- [[饥饿 Starvation]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 - [[LRU 缓存替换 Least Recently Used]]
 - [[流量控制常见方式 Flow Control]]

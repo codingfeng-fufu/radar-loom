@@ -128,6 +128,7 @@ $$P_{\text{eff}} = P_0 + f(w)$$
 
 ## 交叉引用
 
+- [[操作系统 Operating System]]
 - [[操作系统死锁 Deadlock]]
 - [[活锁 Livelock]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]

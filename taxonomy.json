@@ -378,6 +378,22 @@
       "created_at": "2026-08-05",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-05",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
   "generated_at": "2026-08-05",
@@ -3299,13 +3315,83 @@
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
-      "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "双链 1.00，语义 0.97",
-      "score": 0.8305342793464661,
+      "page": "pages/操作系统 Operating System.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8210332155227661,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9675571322441101,
+        "semantic": 0.9517220258712769,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/操作系统 Operating System.md",
+      "reason": "语义 0.96，双链 0.42",
+      "score": 0.6773725787798563,
+      "signals": {
+        "links": 0.4166666666666667,
+        "projects": 0.0,
+        "semantic": 0.9553431868553162,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/操作系统 Operating System.md",
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.9034290115038554,
+      "signals": {
+        "links": 0.9166666666666666,
+        "projects": 0.0,
+        "semantic": 0.9571039080619812,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/操作系统 Operating System.md",
+      "reason": "语义 0.95，双链 0.42",
+      "score": 0.6769643823305765,
+      "signals": {
+        "links": 0.4166666666666667,
+        "projects": 0.0,
+        "semantic": 0.9546628594398499,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/操作系统 Operating System.md",
+      "reason": "语义 0.95，双链 0.42",
+      "score": 0.6767520229021707,
+      "signals": {
+        "links": 0.4166666666666667,
+        "projects": 0.0,
+        "semantic": 0.9543089270591736,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/操作系统死锁 Deadlock.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8269128322601318,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9615213871002197,
         "tags": 0.0
       }
     },
@@ -3314,12 +3400,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.97，双链 0.67",
-      "score": 0.7494502822558085,
+      "reason": "语义 0.97，双链 0.71",
+      "score": 0.7590315358979361,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.7142857142857143,
         "projects": 0.0,
-        "semantic": 0.9713060259819031,
+        "semantic": 0.967433512210846,
         "tags": 0.0
       }
     },
@@ -3329,11 +3415,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.891204317410787,
+      "score": 0.8938323327473231,
       "signals": {
-        "links": 0.8333333333333334,
+        "links": 0.8571428571428571,
         "projects": 0.0,
-        "semantic": 0.9714516401290894,
+        "semantic": 0.9659110307693481,
         "tags": 1.0
       }
     },
@@ -3342,12 +3428,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.97，双链 0.67",
-      "score": 0.7481719056765238,
+      "reason": "语义 0.96，双链 0.71",
+      "score": 0.7570874350411552,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.7142857142857143,
         "projects": 0.0,
-        "semantic": 0.969175398349762,
+        "semantic": 0.9641933441162109,
         "tags": 0.0
       }
     },
@@ -3356,12 +3442,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.97，双链 0.67",
-      "score": 0.7483174959818522,
+      "reason": "语义 0.97，双链 0.71",
+      "score": 0.7577557342393058,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.7142857142857143,
         "projects": 0.0,
-        "semantic": 0.9694180488586426,
+        "semantic": 0.9653071761131287,
         "tags": 0.0
       }
     },
@@ -3702,11 +3788,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/活锁 Livelock.md",
       "reason": "双链 1.00，语义 0.94",
-      "score": 0.8155285358428955,
+      "score": 0.8157715082168578,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9425475597381592,
+        "semantic": 0.9429525136947632,
         "tags": 0.0
       }
     },
@@ -3715,12 +3801,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/活锁 Livelock.md",
-      "reason": "语义 0.95，双链 0.50",
-      "score": 0.6950573921203613,
+      "reason": "语义 0.95，双链 0.60",
+      "score": 0.7212546586990356,
       "signals": {
-        "links": 0.5,
+        "links": 0.6,
         "projects": 0.0,
-        "semantic": 0.9500956535339355,
+        "semantic": 0.9520910978317261,
         "tags": 0.0
       }
     },
@@ -3730,11 +3816,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/活锁 Livelock.md",
       "reason": "人工标签 1.00，语义 0.95",
-      "score": 0.8554502487182617,
+      "score": 0.8684796452522278,
       "signals": {
-        "links": 0.75,
+        "links": 0.8,
         "projects": 0.0,
-        "semantic": 0.9465837478637695,
+        "semantic": 0.9474660754203796,
         "tags": 1.0
       }
     },
@@ -3743,12 +3829,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/活锁 Livelock.md",
-      "reason": "语义 0.95，双链 0.50",
-      "score": 0.6924692392349243,
+      "reason": "语义 0.95，双链 0.60",
+      "score": 0.7182996153831482,
       "signals": {
-        "links": 0.5,
+        "links": 0.6,
         "projects": 0.0,
-        "semantic": 0.9457820653915405,
+        "semantic": 0.9471660256385803,
         "tags": 0.0
       }
     },
@@ -3757,12 +3843,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/活锁 Livelock.md",
-      "reason": "语义 0.94，双链 0.50",
-      "score": 0.6918129920959473,
+      "reason": "语义 0.95，双链 0.60",
+      "score": 0.7177559494972229,
       "signals": {
-        "links": 0.5,
+        "links": 0.6,
         "projects": 0.0,
-        "semantic": 0.9446883201599121,
+        "semantic": 0.9462599158287048,
         "tags": 0.0
       }
     },
@@ -4708,11 +4794,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/银行家算法 Banker's Algorithm.md",
       "reason": "双链 1.00，语义 0.95",
-      "score": 0.8210119009017944,
+      "score": 0.822074806690216,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9516865015029907,
+        "semantic": 0.9534580111503601,
         "tags": 0.0
       }
     },
@@ -4721,12 +4807,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/银行家算法 Banker's Algorithm.md",
-      "reason": "语义 0.95，双链 0.50",
-      "score": 0.6974771738052368,
+      "reason": "语义 0.96，双链 0.67",
+      "score": 0.742645267645518,
       "signals": {
-        "links": 0.5,
+        "links": 0.6666666666666666,
         "projects": 0.0,
-        "semantic": 0.954128623008728,
+        "semantic": 0.9599643349647522,
         "tags": 0.0
       }
     },
@@ -4735,12 +4821,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/银行家算法 Banker's Algorithm.md",
-      "reason": "人工标签 1.00，语义 0.95",
-      "score": 0.7978719592094421,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.8413052717844645,
       "signals": {
-        "links": 0.5,
+        "links": 0.6666666666666666,
         "projects": 0.0,
-        "semantic": 0.9547865986824036,
+        "semantic": 0.9577310085296631,
         "tags": 1.0
       }
     },
@@ -4749,12 +4835,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/银行家算法 Banker's Algorithm.md",
-      "reason": "语义 0.95，双链 0.50",
-      "score": 0.6955224514007569,
+      "reason": "语义 0.96，双链 0.67",
+      "score": 0.7397905389467875,
       "signals": {
-        "links": 0.5,
+        "links": 0.6666666666666666,
         "projects": 0.0,
-        "semantic": 0.9508707523345947,
+        "semantic": 0.9552064538002014,
         "tags": 0.0
       }
     },
@@ -4763,12 +4849,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/银行家算法 Banker's Algorithm.md",
-      "reason": "语义 0.95，双链 0.50",
-      "score": 0.6966573119163513,
+      "reason": "语义 0.96，双链 0.67",
+      "score": 0.7411686579386393,
       "signals": {
-        "links": 0.5,
+        "links": 0.6666666666666666,
         "projects": 0.0,
-        "semantic": 0.9527621865272522,
+        "semantic": 0.9575033187866211,
         "tags": 0.0
       }
     },
@@ -4870,11 +4956,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/饥饿 Starvation.md",
       "reason": "双链 1.00，语义 0.95",
-      "score": 0.8173592686653137,
+      "score": 0.817631995677948,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9455987811088562,
+        "semantic": 0.9460533261299133,
         "tags": 0.0
       }
     },
@@ -4883,12 +4969,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/饥饿 Starvation.md",
-      "reason": "语义 0.95，双链 0.67",
-      "score": 0.7382215539614359,
+      "reason": "语义 0.95，双链 0.75",
+      "score": 0.7601773738861084,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9525914788246155,
+        "semantic": 0.9544622898101807,
         "tags": 0.0
       }
     },
@@ -4898,11 +4984,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/饥饿 Starvation.md",
       "reason": "人工标签 1.00，语义 0.95",
-      "score": 0.8356021086374917,
+      "score": 0.8570218801498413,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.948225736618042,
+        "semantic": 0.9492031335830688,
         "tags": 1.0
       }
     },
@@ -4911,12 +4997,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/饥饿 Starvation.md",
-      "reason": "语义 0.95，双链 0.67",
-      "score": 0.7357285658518473,
+      "reason": "语义 0.95，双链 0.75",
+      "score": 0.7573707818984985,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9484364986419678,
+        "semantic": 0.9497846364974976,
         "tags": 0.0
       }
     },
@@ -4925,12 +5011,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/饥饿 Starvation.md",
-      "reason": "语义 0.95，双链 0.67",
-      "score": 0.7360339442888895,
+      "reason": "语义 0.95，双链 0.75",
+      "score": 0.7577372431755066,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9489454627037048,
+        "semantic": 0.950395405292511,
         "tags": 0.0
       }
     },
@@ -5145,7 +5231,8 @@
     "pages/扩散模型 Diffusion Models DDPM.md": "947822998f727bdea281a1ca23d8ab36cc5f96606db2d77637498c4ae529644f",
     "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
     "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
-    "pages/操作系统死锁 Deadlock.md": "a4cabaa504a238a1ce4f9b6bcbfacea43db97ede7c90e1f2ce910a1fecac25cb",
+    "pages/操作系统 Operating System.md": "e763c5350482caa8aca00aead892fc22309211b100458e250d05084f616a597f",
+    "pages/操作系统死锁 Deadlock.md": "cf497d6e2ce57c71140ea5038a8de71e3dfbbe826c42c1482e6ca2a6e45a99b4",
     "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",
     "pages/文本摘要 Text Summarization.md": "47340443576aa55e024c00c9e4e42000f0f39be8870c6a3425eed2b8b028c52e",
     "pages/文本蕴含与自然语言推理 NLI.md": "0087e5bfc4b22f64b860c3a29b14b2dd50a58f61b80a7107d819e0cec0801fd6",
@@ -5157,7 +5244,7 @@
     "pages/检索增强生成 RAG-GraphRAG.md": "11c99786cff99720db20ab34c6d3490bb2549261ce0456a53ba9a4fe3e8b3db4",
     "pages/模型校准 Calibration.md": "9dfec39b832c196245882d18fc5aa97039bf4662cdae775ca6dc52fe81558845",
     "pages/残差连接 Residual Connection.md": "c6c4fb31f4184e0ab98360c45dca3e615dddba8197b01489bee4209fe6ba3b5f",
-    "pages/活锁 Livelock.md": "a8f8ffa069552aad9958b175b9628505d2f1344bc186dbae6ea390325239d59b",
+    "pages/活锁 Livelock.md": "183f1d3fc8f185e48082dcb8b41011b6797e21db276aa4561aa753d800acb2f8",
     "pages/流量控制常见方式 Flow Control.md": "f105e80ebb43cbedea071b1a687be1bebf7ed9dc411ecd0216f1d9d931713220",
     "pages/消融实验 Ablation Study.md": "741354806de95a22ed810f55142b79cddec76a23c49edfcb69895fe1d903f9ca",
     "pages/涌现能力 Emergent Abilities.md": "bfec65f6f13b9b069a5ee259a588ea3f752b7d111901497e8c32ec0dc9e16e62",
@@ -5188,11 +5275,11 @@
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
     "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md": "f12b0b1c820bd59b4a690789a9f078592cf3d4d167e6e68a312ff66b5c2227e5",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
-    "pages/银行家算法 Banker's Algorithm.md": "70565e26ad8a11d6bab5cb6e7f2e5402ca3be78a59fb62298e5b82e626743ff9",
+    "pages/银行家算法 Banker's Algorithm.md": "974e3fa70e1cc6d2474a5da0b1715712ae416991d4550057095bf87af4637327",
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
     "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md": "8f2a2c2c3cbb2a8639bad0960b510c8aa90bf9c44162952e038f265efff96bd4",
     "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
-    "pages/饥饿 Starvation.md": "53713b73fdf9ada7272a90f5abbebcb59c9227724276229cdd4b80c591f7b405",
+    "pages/饥饿 Starvation.md": "68a16b32088094c1508183cc853ed63bf4637204fca6087c3acde7cb31379a04",
     "pages/马尔可夫 Markov.md": "93dd00b360ca4cb6aebc11f8f49881d53474878de496a6bd47b353f67b9c3b4d",
     "pages/高斯混合模型 GMM Gaussian Mixture Model.md": "55e6f06cf474fa2a68cc69bf683f3d77eb3f4cd31bb62a2b8baf2c33a6944646",
     "首页.md": "63f9dd208548235a5254b492964718543c28bb0c3f0a96f50f6997e98f39a114"

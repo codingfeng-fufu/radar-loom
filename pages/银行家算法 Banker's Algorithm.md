@@ -126,6 +126,7 @@ else:
 
 ## 交叉引用
 
+- [[操作系统 Operating System]]
 - [[操作系统死锁 Deadlock]]
 - [[机器学习与NLP基础 ML-NLP Foundations]]
 
