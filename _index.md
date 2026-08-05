@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-05 · 页面 123 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-05 · 页面 124 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -171,6 +171,7 @@
 - [[路由协议 RIP OSPF BGP]] `#基础` — RIP距离矢量、OSPF链路状态、BGP路径矢量三类核心IP路由协议的算法、报文与适用场景。
 - [[过拟合 Overfitting]] `#LLM机制 #基础` — 过拟合指模型记住训练噪声而无法泛化到验证集和测试集。
 - [[近似最近邻检索 ANN Approximate Nearest Neighbor]] `#基础 #RAG` — 以召回换延迟的大规模高维向量检索，IVF/HNSW/PQ 是 FAISS 的三大支柱
+- [[银行家算法 Banker's Algorithm]] `#基础` — Dijkstra 提出的死锁避免算法，以银行放贷隐喻动态检查资源分配是否始终保持安全状态
 - [[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]] `#基础` — ALOHA与CSMA系列介质访问控制协议：从纯ALOHA到以太网CSMA/CD与Wi-Fi CSMA/CA的演进与效率。
 - [[预训练与微调 Pretrain vs Finetune]] `#LLM机制 #基础` — 预训练学习通用语言表示，微调让基础模型适配特定任务和领域。
 - [[马尔可夫 Markov]] `#基础` — 未来只依赖当下的建模假设,派生出马尔可夫链/HMM/MDP/MCMC等一族方法

@@ -63,7 +63,7 @@ tags: [基础]
 
 **单实例资源——资源分配图算法**：引入"声明边"（claim edge）$P_i \dashrightarrow R_j$，表示进程将来可能请求该资源。当进程实际请求时，声明边变为请求边；分配前先检查把请求边转为分配边后图中是否会出现环。无环才分配。
 
-**多实例资源——银行家算法（Banker's Algorithm）**：由 Dijkstra 提出，类比银行确保现金不会全部分配完而无法满足所有客户。设 $n$ 为进程数，$m$ 为资源类型数，维护以下数据结构：
+**多实例资源——银行家算法（Banker's Algorithm）**：由 Dijkstra 提出，类比银行确保现金不会全部分配完而无法满足所有客户。设 $n$ 为进程数，$m$ 为资源类型数，维护以下数据结构（完整算例、伪代码与历史渊源详见 [[银行家算法 Banker's Algorithm]]）：
 
 - `Available[m]`：每种资源的可用实例数
 - `Max[n][m]`：每个进程对每种资源的最大需求
@@ -74,7 +74,7 @@ $$\text{Need}[i][j] = \text{Max}[i][j] - \text{Allocation}[i][j]$$
 
 **安全性检测算法**：
 1. 初始化 `Work = Available`，`Finish[i] = false`
-2. 找到满足 `Finish[i] == false` 且 `Need[i] ≤ Work` 的进程 $P_i$
+2. 找到满足 `Finish[i] == false` 且 $\text{Need}[i] \le \text{Work}$ 的进程 $P_i$
 3. 若找到：`Work = Work + Allocation[i]`，`Finish[i] = true`，回到步骤 2
 4. 若所有 `Finish[i] == true`，则状态安全；否则不安全
 

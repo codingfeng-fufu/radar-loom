@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -346,10 +346,26 @@
       "created_at": "2026-08-03",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-05",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
   "generated_at": "2026-08-05",
-  "last_global_at": "2026-08-03",
+  "last_global_at": "2026-08-05",
   "last_run": {
     "finished_at": "2026-08-05",
     "operation": "sync",
@@ -3268,12 +3284,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "双链 1.00，语义 0.96",
-      "score": 0.828404676914215,
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8301168918609619,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9640077948570251,
+        "semantic": 0.9668614864349365,
         "tags": 0.0
       }
     },
@@ -3282,12 +3298,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.96，双链 0.33",
-      "score": 0.6604527672131857,
+      "reason": "语义 0.97，双链 0.50",
+      "score": 0.7054563522338867,
       "signals": {
-        "links": 0.3333333333333333,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9618657231330872,
+        "semantic": 0.9674272537231445,
         "tags": 0.0
       }
     },
@@ -3296,12 +3312,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "人工标签 1.00，语义 0.96",
-      "score": 0.8452161828676859,
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8694027781486511,
       "signals": {
-        "links": 0.6666666666666666,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9642491936683655,
+        "semantic": 0.9698379635810852,
         "tags": 1.0
       }
     },
@@ -3310,12 +3326,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.96，双链 0.33",
-      "score": 0.658668597539266,
+      "reason": "语义 0.97，双链 0.50",
+      "score": 0.7049392223358154,
       "signals": {
-        "links": 0.3333333333333333,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9588921070098877,
+        "semantic": 0.9665653705596924,
         "tags": 0.0
       }
     },
@@ -3324,12 +3340,12 @@
       "first_assigned_at": "2026-08-05",
       "last_confirmed_at": "2026-08-05",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.96，双链 0.33",
-      "score": 0.6613501985867818,
+      "reason": "语义 0.97，双链 0.50",
+      "score": 0.7048667669296265,
       "signals": {
-        "links": 0.3333333333333333,
+        "links": 0.5,
         "projects": 0.0,
-        "semantic": 0.9633614420890808,
+        "semantic": 0.9664446115493774,
         "tags": 0.0
       }
     },
@@ -4602,6 +4618,76 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/银行家算法 Banker's Algorithm.md",
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8210119009017944,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9516865015029907,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/银行家算法 Banker's Algorithm.md",
+      "reason": "语义 0.95，双链 0.50",
+      "score": 0.6974771738052368,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.954128623008728,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/银行家算法 Banker's Algorithm.md",
+      "reason": "人工标签 1.00，语义 0.95",
+      "score": 0.7978719592094421,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9547865986824036,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/银行家算法 Banker's Algorithm.md",
+      "reason": "语义 0.95，双链 0.50",
+      "score": 0.6955224514007569,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9508707523345947,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-05",
+      "page": "pages/银行家算法 Banker's Algorithm.md",
+      "reason": "语义 0.95，双链 0.50",
+      "score": 0.6966573119163513,
+      "signals": {
+        "links": 0.5,
+        "projects": 0.0,
+        "semantic": 0.9527621865272522,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/链接预测 Link Prediction.md",
@@ -4903,7 +4989,7 @@
     "pages/扩散模型 Diffusion Models DDPM.md": "947822998f727bdea281a1ca23d8ab36cc5f96606db2d77637498c4ae529644f",
     "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
     "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
-    "pages/操作系统死锁 Deadlock.md": "3e4372c1f0d874420b02350bbefff50f5c142db58f5a7878ce0a9e6588066cc4",
+    "pages/操作系统死锁 Deadlock.md": "ce72af5c06e85aae9224646e11aa53ca50fb673e83dfdb8e529bc6797f416a0f",
     "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",
     "pages/文本摘要 Text Summarization.md": "47340443576aa55e024c00c9e4e42000f0f39be8870c6a3425eed2b8b028c52e",
     "pages/文本蕴含与自然语言推理 NLI.md": "0087e5bfc4b22f64b860c3a29b14b2dd50a58f61b80a7107d819e0cec0801fd6",
@@ -4945,6 +5031,7 @@
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
     "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md": "f12b0b1c820bd59b4a690789a9f078592cf3d4d167e6e68a312ff66b5c2227e5",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
+    "pages/银行家算法 Banker's Algorithm.md": "70565e26ad8a11d6bab5cb6e7f2e5402ca3be78a59fb62298e5b82e626743ff9",
     "pages/链接预测 Link Prediction.md": "c42915dbbb438b1c92bbf64c01845b3b12e67225ba766ec7ab21c16a62d6ddcb",
     "pages/随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA.md": "8f2a2c2c3cbb2a8639bad0960b510c8aa90bf9c44162952e038f265efff96bd4",
     "pages/预训练与微调 Pretrain vs Finetune.md": "76a56a9b6bb44c59e37d8cddb12df03d666f973f5967d9518843877268e535e8",
