@@ -18,7 +18,7 @@ tags: [基础]
 
 死锁发生当且仅当以下四个条件**同时成立**，缺一不可：
 
-1. **互斥（Mutual Exclusion）**：资源一次只能被一个进程使用。
+1. **互斥（Mutual Exclusion）**：资源一次只能被一个进程使用。同步与互斥原语（信号量、互斥锁、管程等）的完整介绍见 [[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]。
 2. **持有并等待（Hold and Wait）**：进程持有至少一个资源，同时等待获取被其他进程持有的额外资源。
 3. **不可抢占（No Preemption）**：资源只能由持有者自愿释放，不能被强行剥夺。
 4. **循环等待（Circular Wait）**：存在一个进程等待环 $\{P_0, P_1, \ldots, P_n\}$，其中 $P_i$ 等待 $P_{i+1}$ 持有的资源，而 $P_n$ 等待 $P_0$ 持有的资源。
@@ -124,6 +124,7 @@ $$\text{Need}[i][j] = \text{Max}[i][j] - \text{Allocation}[i][j]$$
 ## 交叉引用
 
 - [[操作系统 Operating System]]
+- [[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]
 - [[银行家算法 Banker's Algorithm]]
 - [[活锁 Livelock]]
 - [[饥饿 Starvation]]
@@ -133,4 +134,5 @@ $$\text{Need}[i][j] = \text{Max}[i][j] - \text{Allocation}[i][j]$$
 
 ## 更新记录
 
+- 2026-08-06: 在互斥必要条件处增加到《操作系统同步与互斥》的指引
 - 2026-08-05: 首次建页

@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 4,
+  "changes_since_global": 1,
   "events": [
     {
       "category_ids": [
@@ -426,16 +426,32 @@
       "created_at": "2026-08-05",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-05",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
-  "generated_at": "2026-08-05",
+  "generated_at": "2026-08-06",
   "last_global_at": "2026-08-05",
   "last_run": {
-    "finished_at": "2026-08-05",
+    "finished_at": "2026-08-06",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-08-05"
+    "started_at": "2026-08-06"
   },
   "memberships": [
     {
@@ -1754,11 +1770,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/中断与异常 Interrupts and Exceptions.md",
       "reason": "双链 1.00，语义 0.95",
-      "score": 0.8197929620742798,
+      "score": 0.820208740234375,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9496549367904663,
+        "semantic": 0.950347900390625,
         "tags": 0.0
       }
     },
@@ -1768,11 +1784,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/中断与异常 Interrupts and Exceptions.md",
       "reason": "语义 0.96，双链 0.75",
-      "score": 0.7628637671470642,
+      "score": 0.7642873048782348,
       "signals": {
         "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9589396119117737,
+        "semantic": 0.9613121747970581,
         "tags": 0.0
       }
     },
@@ -1782,11 +1798,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/中断与异常 Interrupts and Exceptions.md",
       "reason": "人工标签 1.00，语义 0.96",
-      "score": 0.8605491280555725,
+      "score": 0.861319637298584,
       "signals": {
         "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9550818800926208,
+        "semantic": 0.9563660621643066,
         "tags": 1.0
       }
     },
@@ -1796,11 +1812,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/中断与异常 Interrupts and Exceptions.md",
       "reason": "语义 0.95，双链 0.75",
-      "score": 0.7593114852905273,
+      "score": 0.7604778885841369,
       "signals": {
         "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9530191421508789,
+        "semantic": 0.9549631476402283,
         "tags": 0.0
       }
     },
@@ -1810,11 +1826,11 @@
       "last_confirmed_at": "2026-08-05",
       "page": "pages/中断与异常 Interrupts and Exceptions.md",
       "reason": "语义 0.96，双链 0.75",
-      "score": 0.7605907559394837,
+      "score": 0.7618530035018921,
       "signals": {
         "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9551512598991394,
+        "semantic": 0.9572550058364868,
         "tags": 0.0
       }
     },
@@ -3480,6 +3496,76 @@
         "links": 0.5625,
         "projects": 0.0,
         "semantic": 0.9589453339576721,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-06",
+      "last_confirmed_at": "2026-08-06",
+      "page": "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8232393503189087,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9553989171981812,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_evaluation",
+      "first_assigned_at": "2026-08-06",
+      "last_confirmed_at": "2026-08-06",
+      "page": "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8301305174827576,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.966884195804596,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-06",
+      "last_confirmed_at": "2026-08-06",
+      "page": "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md",
+      "reason": "双链 1.00，人工标签 1.00",
+      "score": 0.9273329734802246,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.962221622467041,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-06",
+      "last_confirmed_at": "2026-08-06",
+      "page": "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8280761241912842,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9634602069854736,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-06",
+      "last_confirmed_at": "2026-08-06",
+      "page": "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8273121953010559,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9621869921684265,
         "tags": 0.0
       }
     },
@@ -5492,7 +5578,7 @@
     "pages/TripleChecker.md": "654c539c9f9046956a1ed4d2fa5e0048cebb1b2cbb4ef0b27f0197cf16e49ae6",
     "pages/上下文学习 In-context Learning.md": "a961e64f51745d463af2196947d6bf861206989efb093d8d03fbfbdec25059fb",
     "pages/不确定性量化 Uncertainty Quantification.md": "b41ac46766f9135b169af0d934aa32f9dce3d4fcf95ec532cb28da2eebf70669",
-    "pages/中断与异常 Interrupts and Exceptions.md": "c5323a85e18ee218cfbd7a447e3568ee546bb044673505288a758f0175c8462e",
+    "pages/中断与异常 Interrupts and Exceptions.md": "913359bcff0f009eac01c2c4d668318e8088630db555169ca4b48726b2acc32c",
     "pages/主流知识图谱 Mainstream KGs.md": "2fbdbff28882839b16d3c01951085d3dfe0d43896bffad923e6ba676b20b6283",
     "pages/主题模型 LDA.md": "9f4e3feee0e83f2a1308d9daab6ab46adab2f8f61d54e254ce82169449bf61ea",
     "pages/交叉编码器 Cross-Encoder.md": "b31f5eaba4fa0b02f61a64514c9ef647f55c3a3d3ac3aa2cbe7975be95c86948",
@@ -5545,6 +5631,7 @@
     "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
     "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
     "pages/操作系统 Operating System.md": "fe3b32ae5af8e60277a44c2dc6672b96890d00017fb9ec9a0c27c628869f148a",
+    "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md": "1ddc4b277f9ffd3dca58e34fe7389eb805c6b0d288c5070906a3fff59adc3fec",
     "pages/操作系统死锁 Deadlock.md": "cf497d6e2ce57c71140ea5038a8de71e3dfbbe826c42c1482e6ca2a6e45a99b4",
     "pages/操作系统运行机制 OS Runtime Mechanisms.md": "ae9038e48de51ef74d52c2eaf9d13ff7e0f9b534b9e87ed952c37ca610dd3d91",
     "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",

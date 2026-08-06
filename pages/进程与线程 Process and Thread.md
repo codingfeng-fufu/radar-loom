@@ -120,7 +120,7 @@ Go 的 **goroutine** 是 M:N 模型的现代代表：运行时调度器把成千
 - **原子操作（atomic）**：无锁的单变量读改写。
 - **`futex(2)`**：Linux 快速用户态互斥的内核支撑，无竞争时完全在用户态完成。
 
-错误使用同步原语会导致死锁、活锁、饥饿（分别见 [[操作系统死锁 Deadlock]]、[[活锁 Livelock]]、[[饥饿 Starvation]]）以及优先级反转。
+这些原语的设计原理、临界区三要求（互斥、进展、有限等待）、Peterson/Bakery 算法、管程（Hoare/Mesa 语义）与经典同步问题（生产者-消费者、读者-写者、哲学家就餐）见 [[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]。错误使用同步原语会导致死锁、活锁、饥饿（分别见 [[操作系统死锁 Deadlock]]、[[活锁 Livelock]]、[[饥饿 Starvation]]）以及优先级反转。
 
 ### 上下文切换代价对比
 
@@ -183,6 +183,7 @@ Go 的 **goroutine** 是 M:N 模型的现代代表：运行时调度器把成千
 - [[操作系统运行机制 OS Runtime Mechanisms]]
 - [[中断与异常 Interrupts and Exceptions]]
 - [[进程调度算法 CPU Scheduling Algorithms]]
+- [[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]
 - [[操作系统死锁 Deadlock]]
 - [[活锁 Livelock]]
 - [[饥饿 Starvation]]
@@ -190,4 +191,5 @@ Go 的 **goroutine** 是 M:N 模型的现代代表：运行时调度器把成千
 
 ## 更新记录
 
+- 2026-08-06: 在线程同步小节增加到《操作系统同步与互斥》的指引
 - 2026-08-05: 首次建页

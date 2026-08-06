@@ -112,7 +112,7 @@ tags: [基础]
 本库中关于 OS 的具体主题页：
 
 - 进程与线程：[[进程与线程 Process and Thread]]
-- 并发与同步：[[操作系统死锁 Deadlock]]、[[银行家算法 Banker's Algorithm]]、[[活锁 Livelock]]、[[饥饿 Starvation]]
+- 并发与同步：[[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]、[[操作系统死锁 Deadlock]]、[[银行家算法 Banker's Algorithm]]、[[活锁 Livelock]]、[[饥饿 Starvation]]
 - 内存/缓存：[[LRU 缓存替换 Least Recently Used]]
 - 网络子系统相关：[[TCP三次握手与四次挥手 TCP Handshake and Teardown]]、[[OSI参考模型与TCP-IP模型 OSI and TCP-IP Models]]、[[流量控制常见方式 Flow Control]]、[[路由协议 RIP OSPF BGP]]、[[随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA]]、[[信道复用技术 FDM TDM WDM CDM]]
 
@@ -135,6 +135,7 @@ tags: [基础]
 - [[中断与异常 Interrupts and Exceptions]]
 - [[进程与线程 Process and Thread]]
 - [[进程调度算法 CPU Scheduling Algorithms]]
+- [[操作系统同步与互斥 OS Synchronization and Mutual Exclusion]]
 - [[操作系统死锁 Deadlock]]
 - [[银行家算法 Banker's Algorithm]]
 - [[活锁 Livelock]]
@@ -144,4 +145,5 @@ tags: [基础]
 
 ## 更新记录
 
+- 2026-08-06: 新增到《操作系统同步与互斥》的回链
 - 2026-08-05: 首次建页
