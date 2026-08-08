@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-08 · 页面 132 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-08 · 页面 133 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -171,6 +171,7 @@
 - [[激活函数 Activation Functions]] `#LLM机制 #基础` — 激活函数为神经网络引入非线性，没有它多层网络等价于单层线性模型。
 - [[编码器-解码器结构 Encoder-Decoder Architecture]] `#LLM机制 #基础` — 编码器双向理解输入,解码器因果生成并通过交叉注意力关注编码器输出,原始Transformer与T5的核心结构。
 - [[网际协议 Internet Protocol]] `#基础` — TCP/IP 网络层无连接数据报协议，IPv4/IPv6 提供寻址、路由与分片
+- [[表格基础模型 Tabular Foundation Model]] `#前沿 #基础` — 在异构表格上预训练、对新表做零步上下文预测的通用模型，正在重塑表格ML。
 - [[词嵌入 Word Embedding]] `#基础` — 词嵌入把词映射为低维稠密向量,让语义可计算,从Word2Vec到BERT上下文嵌入是NLP表示学习的基石。
 - [[词性标注 POS Tagging]] `#KG #基础` — 词性标注是给句子里每个词标注语法类别的任务，是很多 NLP 任务的预处理步骤。
 - [[路由协议 RIP OSPF BGP]] `#基础` — RIP距离矢量、OSPF链路状态、BGP路径矢量三类核心IP路由协议的算法、报文与适用场景。
@@ -207,6 +208,7 @@
 - [[ReDeEP 机制可解释性]] `#可信度 #前沿` — ReDeEP（Sun et al.
 - [[StructRAG 结构化知识推理]] `#RAG #KG #前沿` — StructRAG（Li et al.
 - [[机器遗忘 Machine Unlearning]] `#可信度 #前沿` — 机器遗忘让训练好的模型精确去除特定训练数据的影响,服务隐私合规与被遗忘权。
+- [[表格基础模型 Tabular Foundation Model]] `#前沿 #基础` — 在异构表格上预训练、对新表做零步上下文预测的通用模型，正在重塑表格ML。
 
 ## 项目
 

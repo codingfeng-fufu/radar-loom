@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -442,16 +442,32 @@
       "created_at": "2026-08-05",
       "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
       "type": "reject"
+    },
+    {
+      "category_ids": [
+        "cat_43409630836d",
+        "cat_seed_agents",
+        "cat_seed_evaluation",
+        "cat_seed_foundations",
+        "cat_seed_frontier",
+        "cat_seed_kg",
+        "cat_seed_llm",
+        "cat_seed_rag",
+        "cat_seed_trust"
+      ],
+      "created_at": "2026-08-08",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "type": "reject"
     }
   ],
-  "generated_at": "2026-08-06",
-  "last_global_at": "2026-08-05",
+  "generated_at": "2026-08-08",
+  "last_global_at": "2026-08-08",
   "last_run": {
-    "finished_at": "2026-08-06",
-    "operation": "sync",
-    "outcome": "unchanged",
-    "reason": "",
-    "started_at": "2026-08-06"
+    "finished_at": "2026-08-08",
+    "operation": "global",
+    "outcome": "rejected",
+    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+    "started_at": "2026-08-08"
   },
   "memberships": [
     {
@@ -3432,70 +3448,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "双链 1.00，语义 0.95",
-      "score": 0.8213710665702819,
+      "reason": "语义 0.96，双链 0.88",
+      "score": 0.7977682155721327,
       "signals": {
-        "links": 1.0,
+        "links": 0.8823529411764706,
         "projects": 0.0,
-        "semantic": 0.95228511095047,
+        "semantic": 0.9619666337966919,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_evaluation",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.56",
-      "score": 0.7176906108856201,
+      "reason": "语义 0.97，双链 0.47",
+      "score": 0.699184841969434,
       "signals": {
-        "links": 0.5625,
+        "links": 0.47058823529411764,
         "projects": 0.0,
-        "semantic": 0.9617760181427002,
+        "semantic": 0.9692296385765076,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "人工标签 1.00，语义 0.96",
-      "score": 0.9099268078804016,
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.8860236350227805,
       "signals": {
-        "links": 0.9375,
+        "links": 0.8235294117647058,
         "projects": 0.0,
-        "semantic": 0.9592530131340027,
+        "semantic": 0.9669021368026733,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.56",
-      "score": 0.7157525539398193,
+      "reason": "语义 0.97，双链 0.47",
+      "score": 0.697026307442609,
       "signals": {
-        "links": 0.5625,
+        "links": 0.47058823529411764,
         "projects": 0.0,
-        "semantic": 0.9585459232330322,
+        "semantic": 0.9656320810317993,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统 Operating System.md",
-      "reason": "语义 0.96，双链 0.56",
-      "score": 0.7159922003746032,
+      "reason": "语义 0.97，双链 0.47",
+      "score": 0.6981006930856144,
       "signals": {
-        "links": 0.5625,
+        "links": 0.47058823529411764,
         "projects": 0.0,
-        "semantic": 0.9589453339576721,
+        "semantic": 0.9674227237701416,
         "tags": 0.0
       }
     },
@@ -3572,70 +3588,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "双链 1.00，语义 0.96",
-      "score": 0.8269128322601318,
+      "reason": "双链 1.00，语义 0.95",
+      "score": 0.8215318560600281,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9615213871002197,
+        "semantic": 0.9525530934333801,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_evaluation",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.97，双链 0.71",
-      "score": 0.7590315358979361,
+      "reason": "语义 0.96，双链 0.75",
+      "score": 0.7658718466758728,
       "signals": {
-        "links": 0.7142857142857143,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.967433512210846,
+        "semantic": 0.9639530777931213,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.8938323327473231,
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.894208288192749,
       "signals": {
-        "links": 0.8571428571428571,
+        "links": 0.875,
         "projects": 0.0,
-        "semantic": 0.9659110307693481,
+        "semantic": 0.959097146987915,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.96，双链 0.71",
-      "score": 0.7570874350411552,
+      "reason": "语义 0.96，双链 0.75",
+      "score": 0.7628564715385436,
       "signals": {
-        "links": 0.7142857142857143,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9641933441162109,
+        "semantic": 0.9589274525642395,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/操作系统死锁 Deadlock.md",
-      "reason": "语义 0.97，双链 0.71",
-      "score": 0.7577557342393058,
+      "reason": "语义 0.96，双链 0.75",
+      "score": 0.7634252786636352,
       "signals": {
-        "links": 0.7142857142857143,
+        "links": 0.75,
         "projects": 0.0,
-        "semantic": 0.9653071761131287,
+        "semantic": 0.9598754644393921,
         "tags": 0.0
       }
     },
@@ -4716,6 +4732,76 @@
     },
     {
       "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/表格基础模型 Tabular Foundation Model.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8309990167617798,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9683316946029663,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/表格基础模型 Tabular Foundation Model.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.7985396632781395,
+      "signals": {
+        "links": 0.46153846153846156,
+        "projects": 0.0,
+        "semantic": 0.9719250798225403,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_frontier",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/表格基础模型 Tabular Foundation Model.md",
+      "reason": "人工标签 1.00，语义 0.97",
+      "score": 0.6803835749626159,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.9673059582710266,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/表格基础模型 Tabular Foundation Model.md",
+      "reason": "语义 0.97，双链 0.38",
+      "score": 0.6794499424787668,
+      "signals": {
+        "links": 0.38461538461538464,
+        "projects": 0.0,
+        "semantic": 0.9721601605415344,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_trust",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/表格基础模型 Tabular Foundation Model.md",
+      "reason": "语义 0.96，双链 0.31",
+      "score": 0.6514481709553646,
+      "signals": {
+        "links": 0.3076923076923077,
+        "projects": 0.0,
+        "semantic": 0.957541823387146,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
       "last_confirmed_at": "2026-07-19",
       "page": "pages/评测方法 Evaluation Methods.md",
@@ -5024,70 +5110,70 @@
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/进程与线程 Process and Thread.md",
       "reason": "双链 1.00，语义 0.96",
-      "score": 0.8266958951950073,
+      "score": 0.8260653257369995,
       "signals": {
         "links": 1.0,
         "projects": 0.0,
-        "semantic": 0.9611598253250122,
+        "semantic": 0.9601088762283325,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_evaluation",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/进程与线程 Process and Thread.md",
-      "reason": "语义 0.97，双链 0.88",
-      "score": 0.8012207984924317,
+      "reason": "语义 0.97，双链 0.89",
+      "score": 0.8046949876679315,
       "signals": {
-        "links": 0.875,
+        "links": 0.8888888888888888,
         "projects": 0.0,
-        "semantic": 0.9707846641540527,
+        "semantic": 0.9707879424095154,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_foundations",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/进程与线程 Process and Thread.md",
       "reason": "人工标签 1.00，语义 0.97",
-      "score": 0.9004137396812438,
+      "score": 0.9036052597893608,
       "signals": {
-        "links": 0.875,
+        "links": 0.8888888888888888,
         "projects": 0.0,
-        "semantic": 0.9694395661354065,
+        "semantic": 0.9689717292785645,
         "tags": 1.0
       }
     },
     {
       "category_id": "cat_seed_llm",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/进程与线程 Process and Thread.md",
-      "reason": "语义 0.97，双链 0.88",
-      "score": 0.8005186319351196,
+      "reason": "语义 0.97，双链 0.89",
+      "score": 0.8038265956772698,
       "signals": {
-        "links": 0.875,
+        "links": 0.8888888888888888,
         "projects": 0.0,
-        "semantic": 0.9696143865585327,
+        "semantic": 0.9693406224250793,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_seed_rag",
       "first_assigned_at": "2026-08-05",
-      "last_confirmed_at": "2026-08-05",
+      "last_confirmed_at": "2026-08-08",
       "page": "pages/进程与线程 Process and Thread.md",
-      "reason": "语义 0.97，双链 0.88",
-      "score": 0.799057650566101,
+      "reason": "语义 0.97，双链 0.89",
+      "score": 0.802483488453759,
       "signals": {
-        "links": 0.875,
+        "links": 0.8888888888888888,
         "projects": 0.0,
-        "semantic": 0.9671794176101685,
+        "semantic": 0.9671021103858948,
         "tags": 0.0
       }
     },
@@ -5630,9 +5716,9 @@
     "pages/扩散模型 Diffusion Models DDPM.md": "947822998f727bdea281a1ca23d8ab36cc5f96606db2d77637498c4ae529644f",
     "pages/提示工程 Prompt Engineering.md": "ef151315bb4f3efb3bca9a61d919902f2d00263a1e277560f7a5f9adcf5c00d8",
     "pages/提示注入 Prompt Injection.md": "faae2757bf4d7af57f88a54295698bd12b79fd40c840e5402c81ab4518862d09",
-    "pages/操作系统 Operating System.md": "fe3b32ae5af8e60277a44c2dc6672b96890d00017fb9ec9a0c27c628869f148a",
+    "pages/操作系统 Operating System.md": "51089f8f7d7106facf1035ba516bdf701802ab6e3483da3a5df9164c8073b37e",
     "pages/操作系统同步与互斥 OS Synchronization and Mutual Exclusion.md": "1ddc4b277f9ffd3dca58e34fe7389eb805c6b0d288c5070906a3fff59adc3fec",
-    "pages/操作系统死锁 Deadlock.md": "cf497d6e2ce57c71140ea5038a8de71e3dfbbe826c42c1482e6ca2a6e45a99b4",
+    "pages/操作系统死锁 Deadlock.md": "cdc9db978f7536fcda77d1236ff431cc006885863aa3d2bc19ad513216b7b10f",
     "pages/操作系统运行机制 OS Runtime Mechanisms.md": "ae9038e48de51ef74d52c2eaf9d13ff7e0f9b534b9e87ed952c37ca610dd3d91",
     "pages/数据增强 Data Augmentation.md": "b83602deb684521e9dfbd78a2b656304b0089ac9cc66e285b88a363beab35e86",
     "pages/文本摘要 Text Summarization.md": "47340443576aa55e024c00c9e4e42000f0f39be8870c6a3425eed2b8b028c52e",
@@ -5667,6 +5753,7 @@
     "pages/编码器-解码器结构 Encoder-Decoder Architecture.md": "04dd940fce137e0fac9feedee1a6098f176cb427bd337b4c5c538bca41bbca0f",
     "pages/网际协议 Internet Protocol.md": "fcc25b0222e50391aad121ed52002654ea679475d02fffae98e173747013a43e",
     "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
+    "pages/表格基础模型 Tabular Foundation Model.md": "abce722881a109e4f5358deb285c0792ed94bb0442fc7b2f04d3a2aaa6c63bd4",
     "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
     "pages/词嵌入 Word Embedding.md": "83cb4b9caf7c07a878b59691f0f7e9f9466d5575efa78bc1e9e9154aae2b58cd",
     "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",
@@ -5675,7 +5762,7 @@
     "pages/路由协议 RIP OSPF BGP.md": "8a9ca5cba8009a9d439b71d7584c10be9d1b958eb09873273a137c5de2b0e6cb",
     "pages/过拟合 Overfitting.md": "ac28a2b4c208e82f1bc4dd27bfeeaa36fc25588540c4f33381332404537d2270",
     "pages/近似最近邻检索 ANN Approximate Nearest Neighbor.md": "f12b0b1c820bd59b4a690789a9f078592cf3d4d167e6e68a312ff66b5c2227e5",
-    "pages/进程与线程 Process and Thread.md": "cbdfa343ecc35317c5c04c43e0bce4b1ad8fa1990ffd377db3fc955f1697353e",
+    "pages/进程与线程 Process and Thread.md": "36ed2511ba2c2279edddc6fc6194dbea10ce1e5d5bd9b7a69d8cdd0efd420bca",
     "pages/进程调度算法 CPU Scheduling Algorithms.md": "245d80cff110b5a6e4b374439b7d0cd98ef2ea33fff0998670c570c5ab9ed7fd",
     "pages/选择性预测 Selective Prediction.md": "e7e767912dd29277df91eede4edb6c5223cef6afba8cc98ba853c3fc1ba291ac",
     "pages/银行家算法 Banker's Algorithm.md": "974e3fa70e1cc6d2474a5da0b1715712ae416991d4550057095bf87af4637327",

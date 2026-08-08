@@ -3537,641 +3537,706 @@
     },
     {
       "id": "e0706",
-      "source": "词嵌入 Word Embedding",
-      "target": "BERT与GPT的区别 BERT vs GPT"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "Scaling Law 大模型缩放律"
     },
     {
       "id": "e0707",
-      "source": "词嵌入 Word Embedding",
-      "target": "CoMaGRAG"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "Transformer 架构 Architecture"
     },
     {
       "id": "e0708",
-      "source": "词嵌入 Word Embedding",
-      "target": "EvidenceFirst"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "不确定性量化 Uncertainty Quantification"
     },
     {
       "id": "e0709",
-      "source": "词嵌入 Word Embedding",
-      "target": "GSAD"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "分布偏移 Distribution Shift"
     },
     {
       "id": "e0710",
-      "source": "词嵌入 Word Embedding",
-      "target": "K近邻 KNN K-Nearest Neighbors"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "前沿趋势 Frontier"
     },
     {
       "id": "e0711",
-      "source": "词嵌入 Word Embedding",
-      "target": "TransE 图嵌入"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "基准数据集 Benchmark"
     },
     {
       "id": "e0712",
-      "source": "词嵌入 Word Embedding",
-      "target": "Transformer 自注意力机制"
-    },
-    {
-      "id": "e0713",
-      "source": "词嵌入 Word Embedding",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0714",
-      "source": "词嵌入 Word Embedding",
-      "target": "信息检索 IR基础模型 Information Retrieval"
-    },
-    {
-      "id": "e0715",
-      "source": "词嵌入 Word Embedding",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0716",
-      "source": "词嵌入 Word Embedding",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0717",
-      "source": "词嵌入 Word Embedding",
+      "source": "表格基础模型 Tabular Foundation Model",
       "target": "对比学习 Contrastive Learning"
     },
     {
+      "id": "e0713",
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "数据增强 Data Augmentation"
+    },
+    {
+      "id": "e0714",
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0715",
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "模型校准 Calibration"
+    },
+    {
+      "id": "e0716",
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "过拟合 Overfitting"
+    },
+    {
+      "id": "e0717",
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "选择性预测 Selective Prediction"
+    },
+    {
       "id": "e0718",
-      "source": "词嵌入 Word Embedding",
-      "target": "归一化 Normalization"
+      "source": "表格基础模型 Tabular Foundation Model",
+      "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
       "id": "e0719",
       "source": "词嵌入 Word Embedding",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "BERT与GPT的区别 BERT vs GPT"
     },
     {
       "id": "e0720",
       "source": "词嵌入 Word Embedding",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
+      "target": "CoMaGRAG"
     },
     {
       "id": "e0721",
       "source": "词嵌入 Word Embedding",
-      "target": "混合检索 Hybrid Retrieval"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0722",
+      "source": "词嵌入 Word Embedding",
+      "target": "GSAD"
+    },
+    {
+      "id": "e0723",
+      "source": "词嵌入 Word Embedding",
+      "target": "K近邻 KNN K-Nearest Neighbors"
+    },
+    {
+      "id": "e0724",
+      "source": "词嵌入 Word Embedding",
+      "target": "TransE 图嵌入"
+    },
+    {
+      "id": "e0725",
+      "source": "词嵌入 Word Embedding",
+      "target": "Transformer 自注意力机制"
+    },
+    {
+      "id": "e0726",
+      "source": "词嵌入 Word Embedding",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0727",
+      "source": "词嵌入 Word Embedding",
+      "target": "信息检索 IR基础模型 Information Retrieval"
+    },
+    {
+      "id": "e0728",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0729",
+      "source": "词嵌入 Word Embedding",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0730",
+      "source": "词嵌入 Word Embedding",
+      "target": "对比学习 Contrastive Learning"
+    },
+    {
+      "id": "e0731",
+      "source": "词嵌入 Word Embedding",
+      "target": "归一化 Normalization"
+    },
+    {
+      "id": "e0732",
+      "source": "词嵌入 Word Embedding",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0733",
+      "source": "词嵌入 Word Embedding",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0734",
+      "source": "词嵌入 Word Embedding",
+      "target": "混合检索 Hybrid Retrieval"
+    },
+    {
+      "id": "e0735",
       "source": "词性标注 POS Tagging",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0723",
+      "id": "e0736",
       "source": "词性标注 POS Tagging",
       "target": "TripleChecker"
     },
     {
-      "id": "e0724",
+      "id": "e0737",
       "source": "词性标注 POS Tagging",
       "target": "依存句法分析 Dependency Parsing"
     },
     {
-      "id": "e0725",
+      "id": "e0738",
       "source": "词性标注 POS Tagging",
       "target": "命名实体识别 NER"
     },
     {
-      "id": "e0726",
+      "id": "e0739",
       "source": "词性标注 POS Tagging",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0727",
+      "id": "e0740",
       "source": "词性标注 POS Tagging",
       "target": "开放信息抽取 OpenIE"
     },
     {
-      "id": "e0728",
+      "id": "e0741",
       "source": "语言模型困惑度 Perplexity",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0729",
+      "id": "e0742",
       "source": "语言模型困惑度 Perplexity",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0730",
+      "id": "e0743",
       "source": "语言模型困惑度 Perplexity",
       "target": "TripleChecker"
     },
     {
-      "id": "e0731",
+      "id": "e0744",
       "source": "语言模型困惑度 Perplexity",
       "target": "分层评测 Stratified Evaluation"
     },
     {
-      "id": "e0732",
+      "id": "e0745",
       "source": "语言模型困惑度 Perplexity",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0733",
+      "id": "e0746",
       "source": "语言模型困惑度 Perplexity",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0734",
+      "id": "e0747",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "本体 Ontology"
     },
     {
-      "id": "e0735",
+      "id": "e0748",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0736",
+      "id": "e0749",
       "source": "资源描述框架 RDF OWL SPARQL",
       "target": "知识图谱构建流程 KG Construction Pipeline"
     },
     {
-      "id": "e0737",
+      "id": "e0750",
       "source": "路由协议 RIP OSPF BGP",
       "target": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models"
     },
     {
-      "id": "e0738",
+      "id": "e0751",
       "source": "路由协议 RIP OSPF BGP",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0739",
+      "id": "e0752",
       "source": "路由协议 RIP OSPF BGP",
       "target": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA"
     },
     {
-      "id": "e0740",
+      "id": "e0753",
       "source": "过拟合 Overfitting",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0741",
+      "id": "e0754",
       "source": "过拟合 Overfitting",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0742",
+      "id": "e0755",
       "source": "过拟合 Overfitting",
       "target": "知识图谱质量评估维度"
     },
     {
-      "id": "e0743",
+      "id": "e0756",
       "source": "过拟合 Overfitting",
       "target": "预训练与微调 Pretrain vs Finetune"
     },
     {
-      "id": "e0744",
+      "id": "e0757",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "CoMaGRAG"
     },
     {
-      "id": "e0745",
+      "id": "e0758",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0746",
+      "id": "e0759",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "K近邻 KNN K-Nearest Neighbors"
     },
     {
-      "id": "e0747",
+      "id": "e0760",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "RAG 评测指标 EM Recall MRR"
     },
     {
-      "id": "e0748",
+      "id": "e0761",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "SHA-256 产物指纹"
     },
     {
-      "id": "e0749",
+      "id": "e0762",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "TripleChecker"
     },
     {
-      "id": "e0750",
+      "id": "e0763",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "交叉编码器 Cross-Encoder"
     },
     {
-      "id": "e0751",
+      "id": "e0764",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "信息检索 IR基础模型 Information Retrieval"
     },
     {
-      "id": "e0752",
+      "id": "e0765",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "双塔Embedding Dual Encoder"
     },
     {
-      "id": "e0753",
+      "id": "e0766",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "对比学习 Contrastive Learning"
     },
     {
-      "id": "e0754",
+      "id": "e0767",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0755",
+      "id": "e0768",
       "source": "近似最近邻检索 ANN Approximate Nearest Neighbor",
       "target": "混合检索 Hybrid Retrieval"
     },
     {
-      "id": "e0756",
+      "id": "e0769",
       "source": "进程与线程 Process and Thread",
       "target": "中断与异常 Interrupts and Exceptions"
     },
     {
-      "id": "e0757",
+      "id": "e0770",
       "source": "进程与线程 Process and Thread",
       "target": "操作系统 Operating System"
     },
     {
-      "id": "e0758",
+      "id": "e0771",
       "source": "进程与线程 Process and Thread",
       "target": "操作系统同步与互斥 OS Synchronization and Mutual Exclusion"
     },
     {
-      "id": "e0759",
+      "id": "e0772",
       "source": "进程与线程 Process and Thread",
       "target": "操作系统死锁 Deadlock"
     },
     {
-      "id": "e0760",
+      "id": "e0773",
       "source": "进程与线程 Process and Thread",
       "target": "操作系统运行机制 OS Runtime Mechanisms"
     },
     {
-      "id": "e0761",
+      "id": "e0774",
       "source": "进程与线程 Process and Thread",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0762",
+      "id": "e0775",
       "source": "进程与线程 Process and Thread",
       "target": "活锁 Livelock"
     },
     {
-      "id": "e0763",
+      "id": "e0776",
       "source": "进程与线程 Process and Thread",
       "target": "进程调度算法 CPU Scheduling Algorithms"
     },
     {
-      "id": "e0764",
+      "id": "e0777",
       "source": "进程与线程 Process and Thread",
       "target": "饥饿 Starvation"
     },
     {
-      "id": "e0765",
+      "id": "e0778",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "操作系统 Operating System"
     },
     {
-      "id": "e0766",
+      "id": "e0779",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "操作系统死锁 Deadlock"
     },
     {
-      "id": "e0767",
+      "id": "e0780",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "操作系统运行机制 OS Runtime Mechanisms"
     },
     {
-      "id": "e0768",
+      "id": "e0781",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0769",
+      "id": "e0782",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "进程与线程 Process and Thread"
     },
     {
-      "id": "e0770",
+      "id": "e0783",
       "source": "进程调度算法 CPU Scheduling Algorithms",
       "target": "饥饿 Starvation"
     },
     {
-      "id": "e0771",
+      "id": "e0784",
       "source": "选择性预测 Selective Prediction",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0772",
+      "id": "e0785",
       "source": "选择性预测 Selective Prediction",
       "target": "不确定性量化 Uncertainty Quantification"
     },
     {
-      "id": "e0773",
+      "id": "e0786",
       "source": "选择性预测 Selective Prediction",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0774",
+      "id": "e0787",
       "source": "选择性预测 Selective Prediction",
       "target": "模型校准 Calibration"
     },
     {
-      "id": "e0775",
+      "id": "e0788",
       "source": "选择性预测 Selective Prediction",
       "target": "确定性状态机 Deterministic State Machine"
     },
     {
-      "id": "e0776",
+      "id": "e0789",
       "source": "银行家算法 Banker's Algorithm",
       "target": "操作系统 Operating System"
     },
     {
-      "id": "e0777",
+      "id": "e0790",
       "source": "银行家算法 Banker's Algorithm",
       "target": "操作系统死锁 Deadlock"
     },
     {
-      "id": "e0778",
+      "id": "e0791",
       "source": "银行家算法 Banker's Algorithm",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
-    },
-    {
-      "id": "e0779",
-      "source": "链接预测 Link Prediction",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0780",
-      "source": "链接预测 Link Prediction",
-      "target": "FinGraph 财务知识图谱"
-    },
-    {
-      "id": "e0781",
-      "source": "链接预测 Link Prediction",
-      "target": "Graph Fusion 图融合"
-    },
-    {
-      "id": "e0782",
-      "source": "链接预测 Link Prediction",
-      "target": "GraphRAG 架构"
-    },
-    {
-      "id": "e0783",
-      "source": "链接预测 Link Prediction",
-      "target": "KG-RAG 工作原理"
-    },
-    {
-      "id": "e0784",
-      "source": "链接预测 Link Prediction",
-      "target": "TransE 图嵌入"
-    },
-    {
-      "id": "e0785",
-      "source": "链接预测 Link Prediction",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0786",
-      "source": "链接预测 Link Prediction",
-      "target": "关系图卷积网络 RGCN"
-    },
-    {
-      "id": "e0787",
-      "source": "链接预测 Link Prediction",
-      "target": "图神经网络 GNN"
-    },
-    {
-      "id": "e0788",
-      "source": "链接预测 Link Prediction",
-      "target": "图结构一致性 Graph Structure Consistency"
-    },
-    {
-      "id": "e0789",
-      "source": "链接预测 Link Prediction",
-      "target": "实体对齐 Entity Alignment"
-    },
-    {
-      "id": "e0790",
-      "source": "链接预测 Link Prediction",
-      "target": "实体消歧 Entity Disambiguation"
-    },
-    {
-      "id": "e0791",
-      "source": "链接预测 Link Prediction",
-      "target": "开放信息抽取 OpenIE"
     },
     {
       "id": "e0792",
       "source": "链接预测 Link Prediction",
-      "target": "文本蕴含与自然语言推理 NLI"
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0793",
       "source": "链接预测 Link Prediction",
-      "target": "本体 Ontology"
+      "target": "FinGraph 财务知识图谱"
     },
     {
       "id": "e0794",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱 KG"
+      "target": "Graph Fusion 图融合"
     },
     {
       "id": "e0795",
       "source": "链接预测 Link Prediction",
-      "target": "知识图谱补全 Knowledge Graph Completion"
+      "target": "GraphRAG 架构"
     },
     {
       "id": "e0796",
       "source": "链接预测 Link Prediction",
-      "target": "确定性状态机 Deterministic State Machine"
+      "target": "KG-RAG 工作原理"
     },
     {
       "id": "e0797",
       "source": "链接预测 Link Prediction",
-      "target": "置信度评分 Confidence Scoring"
+      "target": "TransE 图嵌入"
     },
     {
       "id": "e0798",
+      "source": "链接预测 Link Prediction",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0799",
+      "source": "链接预测 Link Prediction",
+      "target": "关系图卷积网络 RGCN"
+    },
+    {
+      "id": "e0800",
+      "source": "链接预测 Link Prediction",
+      "target": "图神经网络 GNN"
+    },
+    {
+      "id": "e0801",
+      "source": "链接预测 Link Prediction",
+      "target": "图结构一致性 Graph Structure Consistency"
+    },
+    {
+      "id": "e0802",
+      "source": "链接预测 Link Prediction",
+      "target": "实体对齐 Entity Alignment"
+    },
+    {
+      "id": "e0803",
+      "source": "链接预测 Link Prediction",
+      "target": "实体消歧 Entity Disambiguation"
+    },
+    {
+      "id": "e0804",
+      "source": "链接预测 Link Prediction",
+      "target": "开放信息抽取 OpenIE"
+    },
+    {
+      "id": "e0805",
+      "source": "链接预测 Link Prediction",
+      "target": "文本蕴含与自然语言推理 NLI"
+    },
+    {
+      "id": "e0806",
+      "source": "链接预测 Link Prediction",
+      "target": "本体 Ontology"
+    },
+    {
+      "id": "e0807",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱 KG"
+    },
+    {
+      "id": "e0808",
+      "source": "链接预测 Link Prediction",
+      "target": "知识图谱补全 Knowledge Graph Completion"
+    },
+    {
+      "id": "e0809",
+      "source": "链接预测 Link Prediction",
+      "target": "确定性状态机 Deterministic State Machine"
+    },
+    {
+      "id": "e0810",
+      "source": "链接预测 Link Prediction",
+      "target": "置信度评分 Confidence Scoring"
+    },
+    {
+      "id": "e0811",
       "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
       "target": "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models"
     },
     {
-      "id": "e0799",
+      "id": "e0812",
       "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
       "target": "信道复用技术 FDM TDM WDM CDM"
     },
     {
-      "id": "e0800",
+      "id": "e0813",
       "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0801",
+      "id": "e0814",
       "source": "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
       "target": "流量控制常见方式 Flow Control"
     },
     {
-      "id": "e0802",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "EvidenceFirst"
-    },
-    {
-      "id": "e0803",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "TripleChecker"
-    },
-    {
-      "id": "e0804",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "人类反馈强化学习 RLHF"
-    },
-    {
-      "id": "e0805",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "大模型机制与推理 LLM Mechanisms"
-    },
-    {
-      "id": "e0806",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "思维链 Chain-of-Thought"
-    },
-    {
-      "id": "e0807",
-      "source": "预训练与微调 Pretrain vs Finetune",
-      "target": "提示工程 Prompt Engineering"
-    },
-    {
-      "id": "e0808",
-      "source": "饥饿 Starvation",
-      "target": "操作系统 Operating System"
-    },
-    {
-      "id": "e0809",
-      "source": "饥饿 Starvation",
-      "target": "操作系统死锁 Deadlock"
-    },
-    {
-      "id": "e0810",
-      "source": "饥饿 Starvation",
-      "target": "机器学习与NLP基础 ML-NLP Foundations"
-    },
-    {
-      "id": "e0811",
-      "source": "饥饿 Starvation",
-      "target": "活锁 Livelock"
-    },
-    {
-      "id": "e0812",
-      "source": "首页",
-      "target": "ChronoLink"
-    },
-    {
-      "id": "e0813",
-      "source": "首页",
-      "target": "CoMaGRAG"
-    },
-    {
-      "id": "e0814",
-      "source": "首页",
-      "target": "EvidenceFirst"
-    },
-    {
       "id": "e0815",
-      "source": "首页",
-      "target": "GSAD"
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "EvidenceFirst"
     },
     {
       "id": "e0816",
-      "source": "首页",
+      "source": "预训练与微调 Pretrain vs Finetune",
       "target": "TripleChecker"
     },
     {
       "id": "e0817",
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "人类反馈强化学习 RLHF"
+    },
+    {
+      "id": "e0818",
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "大模型机制与推理 LLM Mechanisms"
+    },
+    {
+      "id": "e0819",
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "思维链 Chain-of-Thought"
+    },
+    {
+      "id": "e0820",
+      "source": "预训练与微调 Pretrain vs Finetune",
+      "target": "提示工程 Prompt Engineering"
+    },
+    {
+      "id": "e0821",
+      "source": "饥饿 Starvation",
+      "target": "操作系统 Operating System"
+    },
+    {
+      "id": "e0822",
+      "source": "饥饿 Starvation",
+      "target": "操作系统死锁 Deadlock"
+    },
+    {
+      "id": "e0823",
+      "source": "饥饿 Starvation",
+      "target": "机器学习与NLP基础 ML-NLP Foundations"
+    },
+    {
+      "id": "e0824",
+      "source": "饥饿 Starvation",
+      "target": "活锁 Livelock"
+    },
+    {
+      "id": "e0825",
+      "source": "首页",
+      "target": "ChronoLink"
+    },
+    {
+      "id": "e0826",
+      "source": "首页",
+      "target": "CoMaGRAG"
+    },
+    {
+      "id": "e0827",
+      "source": "首页",
+      "target": "EvidenceFirst"
+    },
+    {
+      "id": "e0828",
+      "source": "首页",
+      "target": "GSAD"
+    },
+    {
+      "id": "e0829",
+      "source": "首页",
+      "target": "TripleChecker"
+    },
+    {
+      "id": "e0830",
       "source": "首页",
       "target": "前沿趋势 Frontier"
     },
     {
-      "id": "e0818",
+      "id": "e0831",
       "source": "首页",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0819",
+      "id": "e0832",
       "source": "首页",
       "target": "大模型机制与推理 LLM Mechanisms"
     },
     {
-      "id": "e0820",
+      "id": "e0833",
       "source": "首页",
       "target": "幻觉与可信度 Hallucination Trustworthiness"
     },
     {
-      "id": "e0821",
+      "id": "e0834",
       "source": "首页",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0822",
+      "id": "e0835",
       "source": "首页",
       "target": "检索增强生成 RAG-GraphRAG"
     },
     {
-      "id": "e0823",
+      "id": "e0836",
       "source": "首页",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0824",
+      "id": "e0837",
       "source": "首页",
       "target": "评测方法 Evaluation Methods"
     },
     {
-      "id": "e0825",
+      "id": "e0838",
       "source": "马尔可夫 Markov",
       "target": "EvidenceFirst"
     },
     {
-      "id": "e0826",
+      "id": "e0839",
       "source": "马尔可夫 Markov",
       "target": "TripleChecker"
     },
     {
-      "id": "e0827",
+      "id": "e0840",
       "source": "马尔可夫 Markov",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0828",
+      "id": "e0841",
       "source": "马尔可夫 Markov",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     },
     {
-      "id": "e0829",
+      "id": "e0842",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "EM算法 Expectation-Maximization"
     },
     {
-      "id": "e0830",
+      "id": "e0843",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "TripleChecker"
     },
     {
-      "id": "e0831",
+      "id": "e0844",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "主题模型 LDA"
     },
     {
-      "id": "e0832",
+      "id": "e0845",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "序列标注模型 HMM CRF"
     },
     {
-      "id": "e0833",
+      "id": "e0846",
       "source": "高斯混合模型 GMM Gaussian Mixture Model",
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
@@ -4557,7 +4622,7 @@
     {
       "category": "LLM机制",
       "confidence": "中",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2FScaling%20Law%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BC%A9%E6%94%BE%E5%BE%8B.md",
       "id": "Scaling Law 大模型缩放律",
       "kind": "concept",
@@ -4625,7 +4690,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 27,
+      "degree": 28,
       "href": "viewer.html?f=pages%2FTransformer%20%E6%9E%B6%E6%9E%84%20Architecture.md",
       "id": "Transformer 架构 Architecture",
       "kind": "concept",
@@ -4683,7 +4748,7 @@
     {
       "category": "可信度",
       "confidence": "中",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2F%E4%B8%8D%E7%A1%AE%E5%AE%9A%E6%80%A7%E9%87%8F%E5%8C%96%20Uncertainty%20Quantification.md",
       "id": "不确定性量化 Uncertainty Quantification",
       "kind": "concept",
@@ -4884,7 +4949,7 @@
     {
       "category": "RAG",
       "confidence": "中",
-      "degree": 7,
+      "degree": 8,
       "href": "viewer.html?f=pages%2F%E5%88%86%E5%B8%83%E5%81%8F%E7%A7%BB%20Distribution%20Shift.md",
       "id": "分布偏移 Distribution Shift",
       "kind": "concept",
@@ -4898,7 +4963,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 11,
+      "degree": 12,
       "href": "viewer.html?f=pages%2F%E5%89%8D%E6%B2%BF%E8%B6%8B%E5%8A%BF%20Frontier.md",
       "id": "前沿趋势 Frontier",
       "kind": "moc",
@@ -5076,7 +5141,7 @@
     {
       "category": "评测",
       "confidence": "中",
-      "degree": 7,
+      "degree": 8,
       "href": "viewer.html?f=pages%2F%E5%9F%BA%E5%87%86%E6%95%B0%E6%8D%AE%E9%9B%86%20Benchmark.md",
       "id": "基准数据集 Benchmark",
       "kind": "concept",
@@ -5195,7 +5260,7 @@
     {
       "category": "基础",
       "confidence": "高",
-      "degree": 13,
+      "degree": 14,
       "href": "viewer.html?f=pages%2F%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%20Contrastive%20Learning.md",
       "id": "对比学习 Contrastive Learning",
       "kind": "concept",
@@ -5451,7 +5516,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 5,
+      "degree": 6,
       "href": "viewer.html?f=pages%2F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%20Data%20Augmentation.md",
       "id": "数据增强 Data Augmentation",
       "kind": "concept",
@@ -5520,7 +5585,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 35,
+      "degree": 36,
       "href": "viewer.html?f=pages%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8ENLP%E5%9F%BA%E7%A1%80%20ML-NLP%20Foundations.md",
       "id": "机器学习与NLP基础 ML-NLP Foundations",
       "kind": "moc",
@@ -5574,7 +5639,7 @@
     {
       "category": "可信度",
       "confidence": "中",
-      "degree": 6,
+      "degree": 7,
       "href": "viewer.html?f=pages%2F%E6%A8%A1%E5%9E%8B%E6%A0%A1%E5%87%86%20Calibration.md",
       "id": "模型校准 Calibration",
       "kind": "concept",
@@ -5895,6 +5960,20 @@
       ]
     },
     {
+      "category": "基础",
+      "confidence": "高",
+      "degree": 13,
+      "href": "viewer.html?f=pages%2F%E8%A1%A8%E6%A0%BC%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%20Tabular%20Foundation%20Model.md",
+      "id": "表格基础模型 Tabular Foundation Model",
+      "kind": "concept",
+      "label": "表格基础模型 Tabular Foundation Model",
+      "summary": "在异构表格上预训练、对新表做零步上下文预测的通用模型，正在重塑表格ML。",
+      "tags": [
+        "前沿",
+        "基础"
+      ]
+    },
+    {
       "category": null,
       "confidence": "",
       "degree": 2,
@@ -5976,7 +6055,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 5,
+      "degree": 6,
       "href": "viewer.html?f=pages%2F%E8%BF%87%E6%8B%9F%E5%90%88%20Overfitting.md",
       "id": "过拟合 Overfitting",
       "kind": "concept",
@@ -6030,7 +6109,7 @@
     {
       "category": "可信度",
       "confidence": "中",
-      "degree": 9,
+      "degree": 10,
       "href": "viewer.html?f=pages%2F%E9%80%89%E6%8B%A9%E6%80%A7%E9%A2%84%E6%B5%8B%20Selective%20Prediction.md",
       "id": "选择性预测 Selective Prediction",
       "kind": "concept",
@@ -6082,7 +6161,7 @@
     {
       "category": "LLM机制",
       "confidence": "高",
-      "degree": 13,
+      "degree": 14,
       "href": "viewer.html?f=pages%2F%E9%A2%84%E8%AE%AD%E7%BB%83%E4%B8%8E%E5%BE%AE%E8%B0%83%20Pretrain%20vs%20Finetune.md",
       "id": "预训练与微调 Pretrain vs Finetune",
       "kind": "concept",
@@ -6148,12 +6227,12 @@
   ],
   "stats": {
     "broken": 0,
-    "edges": 833,
+    "edges": 846,
     "externalNodeCount": 0,
-    "internalNodeCount": 146,
+    "internalNodeCount": 147,
     "isolated": 0,
-    "nodeCount": 146,
-    "nodes": 146
+    "nodeCount": 147,
+    "nodes": 147
   },
   "taxonomy": {
     "candidates": [],
@@ -6606,15 +6685,31 @@
         "createdAt": "2026-08-05",
         "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
         "type": "reject"
+      },
+      {
+        "categoryIds": [
+          "cat_43409630836d",
+          "cat_seed_agents",
+          "cat_seed_evaluation",
+          "cat_seed_foundations",
+          "cat_seed_frontier",
+          "cat_seed_kg",
+          "cat_seed_llm",
+          "cat_seed_rag",
+          "cat_seed_trust"
+        ],
+        "createdAt": "2026-08-08",
+        "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+        "type": "reject"
       }
     ],
-    "generatedAt": "2026-08-06",
+    "generatedAt": "2026-08-08",
     "lastRun": {
-      "finished_at": "2026-08-06",
-      "operation": "sync",
-      "outcome": "unchanged",
-      "reason": "",
-      "started_at": "2026-08-06"
+      "finished_at": "2026-08-08",
+      "operation": "global",
+      "outcome": "rejected",
+      "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
+      "started_at": "2026-08-08"
     },
     "memberships": [
       {
@@ -9595,70 +9690,70 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统 Operating System",
-        "reason": "双链 1.00，语义 0.95",
-        "score": 0.8213710665702819,
+        "reason": "语义 0.96，双链 0.88",
+        "score": 0.7977682155721327,
         "signals": {
-          "links": 1.0,
+          "links": 0.8823529411764706,
           "projects": 0.0,
-          "semantic": 0.95228511095047,
+          "semantic": 0.9619666337966919,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统 Operating System",
-        "reason": "语义 0.96，双链 0.56",
-        "score": 0.7176906108856201,
+        "reason": "语义 0.97，双链 0.47",
+        "score": 0.699184841969434,
         "signals": {
-          "links": 0.5625,
+          "links": 0.47058823529411764,
           "projects": 0.0,
-          "semantic": 0.9617760181427002,
+          "semantic": 0.9692296385765076,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统 Operating System",
-        "reason": "人工标签 1.00，语义 0.96",
-        "score": 0.9099268078804016,
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.8860236350227805,
         "signals": {
-          "links": 0.9375,
+          "links": 0.8235294117647058,
           "projects": 0.0,
-          "semantic": 0.9592530131340027,
+          "semantic": 0.9669021368026733,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统 Operating System",
-        "reason": "语义 0.96，双链 0.56",
-        "score": 0.7157525539398193,
+        "reason": "语义 0.97，双链 0.47",
+        "score": 0.697026307442609,
         "signals": {
-          "links": 0.5625,
+          "links": 0.47058823529411764,
           "projects": 0.0,
-          "semantic": 0.9585459232330322,
+          "semantic": 0.9656320810317993,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统 Operating System",
-        "reason": "语义 0.96，双链 0.56",
-        "score": 0.7159922003746032,
+        "reason": "语义 0.97，双链 0.47",
+        "score": 0.6981006930856144,
         "signals": {
-          "links": 0.5625,
+          "links": 0.47058823529411764,
           "projects": 0.0,
-          "semantic": 0.9589453339576721,
+          "semantic": 0.9674227237701416,
           "tags": 0.0
         }
       },
@@ -9735,70 +9830,70 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统死锁 Deadlock",
-        "reason": "双链 1.00，语义 0.96",
-        "score": 0.8269128322601318,
+        "reason": "双链 1.00，语义 0.95",
+        "score": 0.8215318560600281,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9615213871002197,
+          "semantic": 0.9525530934333801,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统死锁 Deadlock",
-        "reason": "语义 0.97，双链 0.71",
-        "score": 0.7590315358979361,
+        "reason": "语义 0.96，双链 0.75",
+        "score": 0.7658718466758728,
         "signals": {
-          "links": 0.7142857142857143,
+          "links": 0.75,
           "projects": 0.0,
-          "semantic": 0.967433512210846,
+          "semantic": 0.9639530777931213,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统死锁 Deadlock",
-        "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.8938323327473231,
+        "reason": "人工标签 1.00，语义 0.96",
+        "score": 0.894208288192749,
         "signals": {
-          "links": 0.8571428571428571,
+          "links": 0.875,
           "projects": 0.0,
-          "semantic": 0.9659110307693481,
+          "semantic": 0.959097146987915,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统死锁 Deadlock",
-        "reason": "语义 0.96，双链 0.71",
-        "score": 0.7570874350411552,
+        "reason": "语义 0.96，双链 0.75",
+        "score": 0.7628564715385436,
         "signals": {
-          "links": 0.7142857142857143,
+          "links": 0.75,
           "projects": 0.0,
-          "semantic": 0.9641933441162109,
+          "semantic": 0.9589274525642395,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "操作系统死锁 Deadlock",
-        "reason": "语义 0.97，双链 0.71",
-        "score": 0.7577557342393058,
+        "reason": "语义 0.96，双链 0.75",
+        "score": 0.7634252786636352,
         "signals": {
-          "links": 0.7142857142857143,
+          "links": 0.75,
           "projects": 0.0,
-          "semantic": 0.9653071761131287,
+          "semantic": 0.9598754644393921,
           "tags": 0.0
         }
       },
@@ -10879,6 +10974,76 @@
       },
       {
         "category": "cat_43409630836d",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "表格基础模型 Tabular Foundation Model",
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8309990167617798,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9683316946029663,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_foundations",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "表格基础模型 Tabular Foundation Model",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.7985396632781395,
+        "signals": {
+          "links": 0.46153846153846156,
+          "projects": 0.0,
+          "semantic": 0.9719250798225403,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_frontier",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "表格基础模型 Tabular Foundation Model",
+        "reason": "人工标签 1.00，语义 0.97",
+        "score": 0.6803835749626159,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.9673059582710266,
+          "tags": 1.0
+        }
+      },
+      {
+        "category": "cat_seed_llm",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "表格基础模型 Tabular Foundation Model",
+        "reason": "语义 0.97，双链 0.38",
+        "score": 0.6794499424787668,
+        "signals": {
+          "links": 0.38461538461538464,
+          "projects": 0.0,
+          "semantic": 0.9721601605415344,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_seed_trust",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "表格基础模型 Tabular Foundation Model",
+        "reason": "语义 0.96，双链 0.31",
+        "score": 0.6514481709553646,
+        "signals": {
+          "links": 0.3076923076923077,
+          "projects": 0.0,
+          "semantic": 0.957541823387146,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_43409630836d",
         "firstAssignedAt": "2026-07-19",
         "lastConfirmedAt": "2026-07-19",
         "page": "评测方法 Evaluation Methods",
@@ -11187,70 +11352,70 @@
       {
         "category": "cat_43409630836d",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "进程与线程 Process and Thread",
         "reason": "双链 1.00，语义 0.96",
-        "score": 0.8266958951950073,
+        "score": 0.8260653257369995,
         "signals": {
           "links": 1.0,
           "projects": 0.0,
-          "semantic": 0.9611598253250122,
+          "semantic": 0.9601088762283325,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_evaluation",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "进程与线程 Process and Thread",
-        "reason": "语义 0.97，双链 0.88",
-        "score": 0.8012207984924317,
+        "reason": "语义 0.97，双链 0.89",
+        "score": 0.8046949876679315,
         "signals": {
-          "links": 0.875,
+          "links": 0.8888888888888888,
           "projects": 0.0,
-          "semantic": 0.9707846641540527,
+          "semantic": 0.9707879424095154,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_foundations",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "进程与线程 Process and Thread",
         "reason": "人工标签 1.00，语义 0.97",
-        "score": 0.9004137396812438,
+        "score": 0.9036052597893608,
         "signals": {
-          "links": 0.875,
+          "links": 0.8888888888888888,
           "projects": 0.0,
-          "semantic": 0.9694395661354065,
+          "semantic": 0.9689717292785645,
           "tags": 1.0
         }
       },
       {
         "category": "cat_seed_llm",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "进程与线程 Process and Thread",
-        "reason": "语义 0.97，双链 0.88",
-        "score": 0.8005186319351196,
+        "reason": "语义 0.97，双链 0.89",
+        "score": 0.8038265956772698,
         "signals": {
-          "links": 0.875,
+          "links": 0.8888888888888888,
           "projects": 0.0,
-          "semantic": 0.9696143865585327,
+          "semantic": 0.9693406224250793,
           "tags": 0.0
         }
       },
       {
         "category": "cat_seed_rag",
         "firstAssignedAt": "2026-08-05",
-        "lastConfirmedAt": "2026-08-05",
+        "lastConfirmedAt": "2026-08-08",
         "page": "进程与线程 Process and Thread",
-        "reason": "语义 0.97，双链 0.88",
-        "score": 0.799057650566101,
+        "reason": "语义 0.97，双链 0.89",
+        "score": 0.802483488453759,
         "signals": {
-          "links": 0.875,
+          "links": 0.8888888888888888,
           "projects": 0.0,
-          "semantic": 0.9671794176101685,
+          "semantic": 0.9671021103858948,
           "tags": 0.0
         }
       },
@@ -11799,7 +11964,7 @@
       "candidates": 0,
       "categories": 9,
       "forming": 1,
-      "memberships": 388,
+      "memberships": 393,
       "pendingPages": 0,
       "seedCategories": 8
     }
