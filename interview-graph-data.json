@@ -57,86 +57,101 @@
     },
     {
       "id": "e0010",
-      "source": "什么是Loop Engineering",
-      "target": "AI Agent上下文窗口不足的工程应对"
+      "source": "什么是A2A协议",
+      "target": "什么是Loop Engineering"
     },
     {
       "id": "e0011",
-      "source": "什么是Loop Engineering",
-      "target": "Agent 记忆架构"
+      "source": "什么是A2A协议",
+      "target": "多智能体系统 Multi-Agent Systems"
     },
     {
       "id": "e0012",
-      "source": "什么是Loop Engineering",
-      "target": "ReAct Agent 工作原理"
+      "source": "什么是A2A协议",
+      "target": "设计一个Coding Agent"
     },
     {
       "id": "e0013",
       "source": "什么是Loop Engineering",
-      "target": "设计一个AI Agent的记忆系统"
+      "target": "AI Agent上下文窗口不足的工程应对"
     },
     {
       "id": "e0014",
       "source": "什么是Loop Engineering",
-      "target": "设计一个Coding Agent"
+      "target": "Agent 记忆架构"
     },
     {
       "id": "e0015",
+      "source": "什么是Loop Engineering",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0016",
+      "source": "什么是Loop Engineering",
+      "target": "设计一个AI Agent的记忆系统"
+    },
+    {
+      "id": "e0017",
+      "source": "什么是Loop Engineering",
+      "target": "设计一个Coding Agent"
+    },
+    {
+      "id": "e0018",
       "source": "多头注意力机制的核心作用是什么",
       "target": "多头注意力 Multi-Head Attention"
     },
     {
-      "id": "e0016",
+      "id": "e0019",
       "source": "知识图谱的存储方式与索引优化",
       "target": "主流知识图谱 Mainstream KGs"
     },
     {
-      "id": "e0017",
+      "id": "e0020",
       "source": "知识图谱的存储方式与索引优化",
       "target": "关联规则挖掘 Apriori"
     },
     {
-      "id": "e0018",
+      "id": "e0021",
       "source": "知识图谱的存储方式与索引优化",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0019",
+      "id": "e0022",
       "source": "设计一个AI Agent的记忆系统",
       "target": "Agent 记忆架构"
     },
     {
-      "id": "e0020",
+      "id": "e0023",
       "source": "设计一个AI Agent的记忆系统",
       "target": "ReAct Agent 工作原理"
     },
     {
-      "id": "e0021",
+      "id": "e0024",
       "source": "设计一个AI Agent的记忆系统",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0022",
+      "id": "e0025",
       "source": "设计一个Coding Agent",
       "target": "AI Agent上下文窗口不足的工程应对"
     },
     {
-      "id": "e0023",
+      "id": "e0026",
       "source": "设计一个Coding Agent",
       "target": "Agent 记忆架构"
     },
     {
-      "id": "e0024",
+      "id": "e0027",
       "source": "设计一个Coding Agent",
       "target": "ReAct Agent 工作原理"
     },
     {
-      "id": "e0025",
+      "id": "e0028",
       "source": "设计一个Coding Agent",
       "target": "设计一个AI Agent的记忆系统"
     }
   ],
-  "generated": "2026-08-06",
+  "generated": "2026-08-08",
   "nodes": [
     {
       "category": "RAG",
@@ -242,9 +257,29 @@
       "tags": []
     },
     {
+      "category": "多智能体",
+      "confidence": "",
+      "degree": 3,
+      "external": false,
+      "href": "viewer.html?f=pages%2F%E4%BB%80%E4%B9%88%E6%98%AFA2A%E5%8D%8F%E8%AE%AE.md",
+      "id": "什么是A2A协议",
+      "kind": "concept",
+      "label": "什么是A2A协议",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "Agent",
+        "A2A",
+        "MCP",
+        "多智能体",
+        "通信协议",
+        "系统设计"
+      ]
+    },
+    {
       "category": null,
       "confidence": "",
-      "degree": 5,
+      "degree": 6,
       "external": false,
       "href": "viewer.html?f=pages%2F%E4%BB%80%E4%B9%88%E6%98%AFLoop%20Engineering.md",
       "id": "什么是Loop Engineering",
@@ -410,7 +445,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 5,
+      "degree": 6,
       "external": false,
       "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AACoding%20Agent.md",
       "id": "设计一个Coding Agent",
@@ -428,13 +463,13 @@
     }
   ],
   "stats": {
-    "broken": 41,
-    "edges": 25,
+    "broken": 42,
+    "edges": 28,
     "externalNodeCount": 12,
-    "internalNodeCount": 7,
+    "internalNodeCount": 8,
     "isolated": 0,
-    "nodeCount": 7,
-    "nodes": 7
+    "nodeCount": 8,
+    "nodes": 8
   },
   "taxonomy": {
     "candidates": [],
@@ -502,13 +537,13 @@
         "type": "rename"
       }
     ],
-    "generatedAt": "2026-08-02",
+    "generatedAt": "2026-08-08",
     "lastRun": {
-      "finished_at": "2026-08-02",
+      "finished_at": "2026-08-08",
       "operation": "sync",
       "outcome": "unchanged",
       "reason": "",
-      "started_at": "2026-08-02"
+      "started_at": "2026-08-08"
     },
     "memberships": [
       {
@@ -558,6 +593,34 @@
           "links": 0.0,
           "projects": 0.0,
           "semantic": 0.984139084815979,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_3a6676312b48",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "什么是A2A协议",
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8790083348751069,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9677051305770874,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-08",
+        "lastConfirmedAt": "2026-08-08",
+        "page": "什么是A2A协议",
+        "reason": "双链 1.00，语义 0.97",
+        "score": 0.8788904786109925,
+        "signals": {
+          "links": 1.0,
+          "projects": 0.0,
+          "semantic": 0.9675238132476807,
           "tags": 0.0
         }
       },
@@ -694,7 +757,7 @@
       "candidates": 0,
       "categories": 2,
       "forming": 2,
-      "memberships": 12,
+      "memberships": 14,
       "pendingPages": 0,
       "seedCategories": 0
     }

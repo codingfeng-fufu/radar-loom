@@ -1,6 +1,6 @@
 # 工程面试 · 隔离图谱
 
-> 生成:2026-08-06 · 内部节点 7 · 边 25 · 断链 41
+> 生成:2026-08-08 · 内部节点 8 · 边 28 · 断链 42
 
 ```mermaid
 graph LR
@@ -11,6 +11,7 @@ graph LR
     ReAct_Agent_工作原理["ReAct Agent 工作原理"]:::ext
     Transformer_架构_Architecture["Transformer 架构 Architecture"]:::ext
     主流知识图谱_Mainstream_KGs["主流知识图谱 Mainstream KGs"]:::ext
+    什么是A2A协议["什么是A2A协议"]
     什么是Loop_Engineering["什么是Loop Engineering"]
     位置编码_Positional_Encoding["位置编码 Positional Encoding"]:::ext
     关联规则挖掘_Apriori["关联规则挖掘 Apriori"]:::ext
@@ -32,6 +33,9 @@ graph LR
     LLM上下文窗口的确定因素与超限行为 --> Transformer_架构_Architecture
     LLM上下文窗口的确定因素与超限行为 --> 位置编码_Positional_Encoding
     LLM上下文窗口的确定因素与超限行为 --> 旋转位置编码_RoPE
+    什么是A2A协议 --> 什么是Loop_Engineering
+    什么是A2A协议 --> 多智能体系统_Multi_Agent_Systems
+    什么是A2A协议 --> 设计一个Coding_Agent
     什么是Loop_Engineering --> AI_Agent上下文窗口不足的工程应对
     什么是Loop_Engineering --> Agent_记忆架构
     什么是Loop_Engineering --> ReAct_Agent_工作原理

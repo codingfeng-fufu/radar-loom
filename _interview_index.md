@@ -1,9 +1,10 @@
 # 面试索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-06 · 面试页 7 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-08 · 面试页 8 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## 角色: Agent工程师
 
+- [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -12,6 +13,7 @@
 
 ## 角色: 后端工程师
 
+- [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -25,6 +27,7 @@
 
 ## 角色: 大模型工程师
 
+- [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -55,6 +58,7 @@
 ### 基础
 - 无
 ### 进阶
+- [[什么是A2A协议]]
 - [[AI Agent上下文窗口不足的工程应对]]
 - [[设计一个AI Agent的记忆系统]]
 - [[什么是Loop Engineering]]

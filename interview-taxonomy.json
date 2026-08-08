@@ -37,7 +37,7 @@
       "updated_at": "2026-08-02"
     }
   },
-  "changes_since_global": 3,
+  "changes_since_global": 4,
   "events": [
     {
       "category_ids": [
@@ -64,14 +64,14 @@
       "type": "rename"
     }
   ],
-  "generated_at": "2026-08-02",
+  "generated_at": "2026-08-08",
   "last_global_at": "2026-08-02",
   "last_run": {
-    "finished_at": "2026-08-02",
+    "finished_at": "2026-08-08",
     "operation": "sync",
     "outcome": "unchanged",
     "reason": "",
-    "started_at": "2026-08-02"
+    "started_at": "2026-08-08"
   },
   "memberships": [
     {
@@ -121,6 +121,34 @@
         "links": 0.0,
         "projects": 0.0,
         "semantic": 0.984139084815979,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_3a6676312b48",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/什么是A2A协议.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8790083348751069,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9677051305770874,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_98bd1741fbfb",
+      "first_assigned_at": "2026-08-08",
+      "last_confirmed_at": "2026-08-08",
+      "page": "pages/什么是A2A协议.md",
+      "reason": "双链 1.00，语义 0.97",
+      "score": 0.8788904786109925,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.9675238132476807,
         "tags": 0.0
       }
     },
@@ -231,6 +259,7 @@
   "page_fingerprints": {
     "pages/AI Agent上下文窗口不足的工程应对.md": "eff74efcdd3c2bcffccfd0180f6b069774953ca9c9c48547da617e4010b3a69a",
     "pages/LLM上下文窗口的确定因素与超限行为.md": "8ce41875ff1dd4c770314fbd4198800af8f8811aadb1013c740cd744eaff6e97",
+    "pages/什么是A2A协议.md": "e04e8601fb9a8e8e2e8140a45b5de55684829312b80a47c3a452d6c4fc5eb6b3",
     "pages/什么是Loop Engineering.md": "a1fc824803b5af44acc070df89cab9fb05297eca3234ba820a4ef62f09a1f5c9",
     "pages/多头注意力机制的核心作用是什么.md": "76f6cfaf666b0ab1cf1abc7a2aafdf264fd686856b6e0abd7eb65095737285e5",
     "pages/知识图谱的存储方式与索引优化.md": "31a990a03b7ad6dfa84e154294ff40981895b8e32de940c00c6c2a1416480c40",
