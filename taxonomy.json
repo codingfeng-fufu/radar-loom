@@ -147,7 +147,7 @@
       "updated_at": "2026-07-15"
     }
   },
-  "changes_since_global": 0,
+  "changes_since_global": 2,
   "events": [
     {
       "category_ids": [
@@ -460,16 +460,86 @@
       "type": "reject"
     }
   ],
-  "generated_at": "2026-08-08",
+  "generated_at": "2026-08-09",
   "last_global_at": "2026-08-08",
   "last_run": {
-    "finished_at": "2026-08-08",
-    "operation": "global",
-    "outcome": "rejected",
-    "reason": "拒绝全局重组：候选结构丢失超过一半有效类别",
-    "started_at": "2026-08-08"
+    "finished_at": "2026-08-09",
+    "operation": "sync",
+    "outcome": "unchanged",
+    "reason": "",
+    "started_at": "2026-08-09"
   },
   "memberships": [
+    {
+      "category_id": "cat_43409630836d",
+      "first_assigned_at": "2026-08-09",
+      "last_confirmed_at": "2026-08-09",
+      "page": "pages/Adam优化器 Adam Optimizer.md",
+      "reason": "双链 1.00，语义 0.96",
+      "score": 0.8249712347984314,
+      "signals": {
+        "links": 1.0,
+        "projects": 0.0,
+        "semantic": 0.958285391330719,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_foundations",
+      "first_assigned_at": "2026-08-09",
+      "last_confirmed_at": "2026-08-09",
+      "page": "pages/Adam优化器 Adam Optimizer.md",
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.7598798831303915,
+      "signals": {
+        "links": 0.3333333333333333,
+        "projects": 0.0,
+        "semantic": 0.9609109163284302,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_kg",
+      "first_assigned_at": "2026-08-09",
+      "last_confirmed_at": "2026-08-09",
+      "page": "pages/Adam优化器 Adam Optimizer.md",
+      "reason": "语义 0.95，双链 0.22",
+      "score": 0.6259756180975172,
+      "signals": {
+        "links": 0.2222222222222222,
+        "projects": 0.0,
+        "semantic": 0.9507001042366028,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_seed_llm",
+      "first_assigned_at": "2026-08-09",
+      "last_confirmed_at": "2026-08-09",
+      "page": "pages/Adam优化器 Adam Optimizer.md",
+      "reason": "人工标签 1.00，语义 0.96",
+      "score": 0.7875929302639432,
+      "signals": {
+        "links": 0.4444444444444444,
+        "projects": 0.0,
+        "semantic": 0.9608030319213867,
+        "tags": 1.0
+      }
+    },
+    {
+      "category_id": "cat_seed_rag",
+      "first_assigned_at": "2026-08-09",
+      "last_confirmed_at": "2026-08-09",
+      "page": "pages/Adam优化器 Adam Optimizer.md",
+      "reason": "语义 0.96，双链 0.22",
+      "score": 0.6299747917387221,
+      "signals": {
+        "links": 0.2222222222222222,
+        "projects": 0.0,
+        "semantic": 0.9573653936386108,
+        "tags": 0.0
+      }
+    },
     {
       "category_id": "cat_43409630836d",
       "first_assigned_at": "2026-07-19",
@@ -5626,6 +5696,7 @@
     }
   ],
   "page_fingerprints": {
+    "pages/Adam优化器 Adam Optimizer.md": "5665902879beff1db091cdde74ada57466a05b13b8467e9f105fde858a86640a",
     "pages/Agent 记忆架构.md": "df69bba9db493d992944a586552bebb3ff186fdb18819c001e017f77e739f117",
     "pages/BERT与GPT的区别 BERT vs GPT.md": "caea5ea776727e024794c6ddb4a0de40cd97b264b5828fd478aa706525c20105",
     "pages/BigQuery Dremel 宽表建模 BigQuery-Dremel.md": "7d46fa1d0f46d208806c652ebb9a96ad5e23bfd98c7da48a861afc3528c73a97",
@@ -5753,7 +5824,7 @@
     "pages/编码器-解码器结构 Encoder-Decoder Architecture.md": "04dd940fce137e0fac9feedee1a6098f176cb427bd337b4c5c538bca41bbca0f",
     "pages/网际协议 Internet Protocol.md": "fcc25b0222e50391aad121ed52002654ea679475d02fffae98e173747013a43e",
     "pages/置信度评分 Confidence Scoring.md": "59db95e95e4640f1ffa1fab36bc18b6742985dededd9f67feba58303966e29ba",
-    "pages/表格基础模型 Tabular Foundation Model.md": "abce722881a109e4f5358deb285c0792ed94bb0442fc7b2f04d3a2aaa6c63bd4",
+    "pages/表格基础模型 Tabular Foundation Model.md": "77f6c11687bb6885dc25ded4c92c83bf4b358ed91744df7a4ef951ac150156f2",
     "pages/评测方法 Evaluation Methods.md": "cb116e2d4d745b3e62ea2214486fa093b7c58778cb5da515e017adcd3b51eac3",
     "pages/词嵌入 Word Embedding.md": "83cb4b9caf7c07a878b59691f0f7e9f9466d5575efa78bc1e9e9154aae2b58cd",
     "pages/词性标注 POS Tagging.md": "81334d8754d519a3a89b3d027a6d8819ac8a6f2776e9aa9d878e9b2e61223f81",

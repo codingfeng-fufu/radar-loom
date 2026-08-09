@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-08 · 页面 133 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-09 · 页面 134 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -64,6 +64,7 @@
 
 ## LLM机制
 
+- [[Adam优化器 Adam Optimizer]] `#基础 #LLM机制` — Adam结合动量与RMSprop的一阶矩、二阶矩自适应学习率优化器，是深度学习默认优化器
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。
 - [[LLM 推理优化 KV Cache Quantization]] `#LLM机制` — LLM推理优化的两个核心技术是KV Cache和量化。
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
@@ -125,6 +126,7 @@
 
 ## 基础
 
+- [[Adam优化器 Adam Optimizer]] `#基础 #LLM机制` — Adam结合动量与RMSprop的一阶矩、二阶矩自适应学习率优化器，是深度学习默认优化器
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。
 - [[EM算法 Expectation-Maximization]] `#基础` — EM算法是一种处理含隐变量的极大似然估计的迭代算法,通过E步求隐变量后验期望、M步最大化期望对数似然,交替进行直至收敛。
 - [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
