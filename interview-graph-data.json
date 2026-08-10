@@ -102,61 +102,81 @@
     },
     {
       "id": "e0019",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0020",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0021",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "提示工程 Prompt Engineering"
+    },
+    {
+      "id": "e0022",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "设计一个Coding Agent"
+    },
+    {
+      "id": "e0023",
       "source": "知识图谱的存储方式与索引优化",
       "target": "主流知识图谱 Mainstream KGs"
     },
     {
-      "id": "e0020",
+      "id": "e0024",
       "source": "知识图谱的存储方式与索引优化",
       "target": "关联规则挖掘 Apriori"
     },
     {
-      "id": "e0021",
+      "id": "e0025",
       "source": "知识图谱的存储方式与索引优化",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0022",
-      "source": "设计一个AI Agent的记忆系统",
-      "target": "Agent 记忆架构"
-    },
-    {
-      "id": "e0023",
-      "source": "设计一个AI Agent的记忆系统",
-      "target": "ReAct Agent 工作原理"
-    },
-    {
-      "id": "e0024",
-      "source": "设计一个AI Agent的记忆系统",
-      "target": "多智能体系统 Multi-Agent Systems"
-    },
-    {
-      "id": "e0025",
-      "source": "设计一个Coding Agent",
-      "target": "AI Agent上下文窗口不足的工程应对"
-    },
-    {
       "id": "e0026",
-      "source": "设计一个Coding Agent",
+      "source": "设计一个AI Agent的记忆系统",
       "target": "Agent 记忆架构"
     },
     {
       "id": "e0027",
-      "source": "设计一个Coding Agent",
+      "source": "设计一个AI Agent的记忆系统",
       "target": "ReAct Agent 工作原理"
     },
     {
       "id": "e0028",
+      "source": "设计一个AI Agent的记忆系统",
+      "target": "多智能体系统 Multi-Agent Systems"
+    },
+    {
+      "id": "e0029",
+      "source": "设计一个Coding Agent",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0030",
+      "source": "设计一个Coding Agent",
+      "target": "Agent 记忆架构"
+    },
+    {
+      "id": "e0031",
+      "source": "设计一个Coding Agent",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0032",
       "source": "设计一个Coding Agent",
       "target": "设计一个AI Agent的记忆系统"
     }
   ],
-  "generated": "2026-08-09",
+  "generated": "2026-08-11",
   "nodes": [
     {
       "category": "RAG",
       "confidence": "",
-      "degree": 7,
+      "degree": 8,
       "external": false,
       "href": "viewer.html?f=pages%2FAI%20Agent%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%E4%B8%8D%E8%B6%B3%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%BA%94%E5%AF%B9.md",
       "id": "AI Agent上下文窗口不足的工程应对",
@@ -367,6 +387,25 @@
     {
       "category": null,
       "confidence": "",
+      "degree": 4,
+      "external": false,
+      "href": "viewer.html?f=pages%2F%E5%A6%82%E4%BD%95%E8%AE%A9LLM%E7%A8%B3%E5%AE%9A%E8%BE%93%E5%87%BAJSON.md",
+      "id": "如何让LLM稳定输出JSON",
+      "kind": "concept",
+      "label": "如何让LLM稳定输出JSON",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "LLM",
+        "JSON",
+        "结构化输出",
+        "Prompt Engineering",
+        "约束解码"
+      ]
+    },
+    {
+      "category": null,
+      "confidence": "",
       "degree": 0,
       "external": true,
       "href": "viewer.html?f=pages%2F%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20Prompt%20Engineering.md",
@@ -445,7 +484,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 6,
+      "degree": 7,
       "external": false,
       "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AACoding%20Agent.md",
       "id": "设计一个Coding Agent",
@@ -463,13 +502,13 @@
     }
   ],
   "stats": {
-    "broken": 42,
-    "edges": 28,
+    "broken": 46,
+    "edges": 32,
     "externalNodeCount": 12,
-    "internalNodeCount": 8,
+    "internalNodeCount": 9,
     "isolated": 0,
-    "nodeCount": 8,
-    "nodes": 8
+    "nodeCount": 9,
+    "nodes": 9
   },
   "taxonomy": {
     "candidates": [],
@@ -484,31 +523,32 @@
         "name": "AI Agent LLM",
         "namingStatus": "pending",
         "parents": [],
-        "redirectTo": null,
+        "redirectTo": "cat_98bd1741fbfb",
         "related": [],
         "source": "automatic",
         "stableRuns": 0,
-        "status": "forming",
-        "updatedAt": "2026-08-02"
+        "status": "merged",
+        "updatedAt": "2026-08-11"
       },
       {
         "algorithmVersion": "taxonomy-v1",
         "aliases": [
+          "AI Agent LLM",
           "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化"
         ],
         "createdAt": "2026-07-31",
         "definition": "涵盖LLM上下文窗口的决定因素（训练长度、位置编码、注意力实现）、超限行为与lost-in-the-middle有效窗口问题；Agent在上下文预算受限下的工程应对路径（裁剪、压缩、RAG/记忆外置、分层注入、扩窗）；以及Agent记忆系统的分层架构（工作/情景/语义/程序记忆）与写入-检索-反思-遗忘流水线设计。",
         "id": "cat_98bd1741fbfb",
-        "lastStableAt": null,
+        "lastStableAt": "2026-08-11",
         "name": "LLM上下文窗口与Agent记忆管理",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
         "source": "automatic",
-        "stableRuns": 1,
-        "status": "forming",
-        "updatedAt": "2026-08-02"
+        "stableRuns": 2,
+        "status": "stable",
+        "updatedAt": "2026-08-11"
       }
     ],
     "events": [
@@ -535,229 +575,153 @@
         "createdAt": "2026-08-02",
         "reason": "多头注意力机制的核心作用是什么 知识图谱的存储方式与索引优化 -> LLM上下文窗口与Agent记忆管理",
         "type": "rename"
+      },
+      {
+        "categoryIds": [
+          "cat_3a6676312b48",
+          "cat_98bd1741fbfb"
+        ],
+        "createdAt": "2026-08-11",
+        "reason": "类别高度重叠并入主类别",
+        "type": "merge"
+      },
+      {
+        "categoryIds": [
+          "cat_98bd1741fbfb"
+        ],
+        "createdAt": "2026-08-11",
+        "reason": "类别达到稳定条件",
+        "type": "promote"
       }
     ],
-    "generatedAt": "2026-08-08",
+    "generatedAt": "2026-08-11",
     "lastRun": {
-      "finished_at": "2026-08-08",
-      "operation": "sync",
-      "outcome": "unchanged",
-      "reason": "",
-      "started_at": "2026-08-08"
+      "finished_at": "2026-08-11",
+      "operation": "global",
+      "outcome": "adopted",
+      "reason": "全局重组已采用",
+      "started_at": "2026-08-11"
     },
     "memberships": [
       {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "AI Agent上下文窗口不足的工程应对",
-        "reason": "候选群组语义内聚度 0.95",
-        "score": 0.9534415662288666,
-        "signals": {
-          "semantic_cohesion": 0.9534415662288666
-        }
-      },
-      {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
         "page": "AI Agent上下文窗口不足的工程应对",
         "reason": "全局群组语义相似度 0.99",
-        "score": 0.9932857751846313,
+        "score": 0.989642322063446,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9932857751846313,
+          "semantic": 0.989642322063446,
           "tags": 0.0
         }
       },
       {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "LLM上下文窗口的确定因素与超限行为",
-        "reason": "候选群组语义内聚度 0.95",
-        "score": 0.9534415662288666,
-        "signals": {
-          "semantic_cohesion": 0.9534415662288666
-        }
-      },
-      {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
         "page": "LLM上下文窗口的确定因素与超限行为",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.984139084815979,
+        "score": 0.9783201813697815,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.984139084815979,
+          "semantic": 0.9783201813697815,
           "tags": 0.0
         }
       },
       {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-08",
-        "lastConfirmedAt": "2026-08-08",
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
         "page": "什么是A2A协议",
-        "reason": "双链 1.00，语义 0.97",
-        "score": 0.8790083348751069,
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.9779320359230042,
         "signals": {
-          "links": 1.0,
+          "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9677051305770874,
+          "semantic": 0.9779320359230042,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-08",
-        "lastConfirmedAt": "2026-08-08",
-        "page": "什么是A2A协议",
-        "reason": "双链 1.00，语义 0.97",
-        "score": 0.8788904786109925,
-        "signals": {
-          "links": 1.0,
-          "projects": 0.0,
-          "semantic": 0.9675238132476807,
-          "tags": 0.0
-        }
-      },
-      {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
         "page": "什么是Loop Engineering",
-        "reason": "双链 1.00，语义 0.97",
-        "score": 0.8827196061611176,
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.9834813475608826,
         "signals": {
-          "links": 1.0,
+          "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9734147787094116,
+          "semantic": 0.9834813475608826,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "什么是Loop Engineering",
-        "reason": "双链 1.00，语义 0.98",
-        "score": 0.8847827106714249,
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
+        "page": "如何让LLM稳定输出JSON",
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.9824023842811584,
         "signals": {
-          "links": 1.0,
+          "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.976588785648346,
+          "semantic": 0.9824023842811584,
           "tags": 0.0
         }
       },
       {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "多头注意力机制的核心作用是什么",
-        "reason": "候选群组语义内聚度 0.95",
-        "score": 0.9534415662288666,
-        "signals": {
-          "semantic_cohesion": 0.9534415662288666
-        }
-      },
-      {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "知识图谱的存储方式与索引优化",
-        "reason": "候选群组语义内聚度 0.95",
-        "score": 0.9534415662288666,
-        "signals": {
-          "semantic_cohesion": 0.9534415662288666
-        }
-      },
-      {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
         "page": "设计一个AI Agent的记忆系统",
-        "reason": "候选群组语义内聚度 0.95",
-        "score": 0.9534415662288666,
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.983293890953064,
         "signals": {
-          "semantic_cohesion": 0.9534415662288666
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.983293890953064,
+          "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "设计一个AI Agent的记忆系统",
+        "firstAssignedAt": "2026-08-11",
+        "lastConfirmedAt": "2026-08-11",
+        "page": "设计一个Coding Agent",
         "reason": "全局群组语义相似度 0.99",
-        "score": 0.9880685806274414,
+        "score": 0.9877112507820129,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9880685806274414,
-          "tags": 0.0
-        }
-      },
-      {
-        "category": "cat_3a6676312b48",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "设计一个Coding Agent",
-        "reason": "双链 1.00，语义 0.98",
-        "score": 0.8869983464479446,
-        "signals": {
-          "links": 1.0,
-          "projects": 0.0,
-          "semantic": 0.979997456073761,
-          "tags": 0.0
-        }
-      },
-      {
-        "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-02",
-        "lastConfirmedAt": "2026-08-02",
-        "page": "设计一个Coding Agent",
-        "reason": "双链 1.00，语义 0.98",
-        "score": 0.8880517691373825,
-        "signals": {
-          "links": 1.0,
-          "projects": 0.0,
-          "semantic": 0.9816181063652039,
+          "semantic": 0.9877112507820129,
           "tags": 0.0
         }
       }
     ],
     "representatives": [
       {
-        "category": "cat_3a6676312b48",
-        "pages": [
-          "AI Agent上下文窗口不足的工程应对",
-          "LLM上下文窗口的确定因素与超限行为",
-          "多头注意力机制的核心作用是什么",
-          "知识图谱的存储方式与索引优化",
-          "设计一个AI Agent的记忆系统"
-        ]
-      },
-      {
         "category": "cat_98bd1741fbfb",
         "pages": [
           "AI Agent上下文窗口不足的工程应对",
-          "设计一个AI Agent的记忆系统",
-          "LLM上下文窗口的确定因素与超限行为",
           "设计一个Coding Agent",
-          "什么是Loop Engineering"
+          "什么是Loop Engineering",
+          "设计一个AI Agent的记忆系统",
+          "如何让LLM稳定输出JSON"
         ]
       }
     ],
     "schemaVersion": 2,
     "stats": {
-      "activeCategories": 2,
+      "activeCategories": 1,
       "automaticCategories": 2,
       "candidates": 0,
       "categories": 2,
-      "forming": 2,
-      "memberships": 14,
+      "forming": 0,
+      "memberships": 7,
       "pendingPages": 0,
       "seedCategories": 0
     }

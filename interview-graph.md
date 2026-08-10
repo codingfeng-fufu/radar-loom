@@ -1,6 +1,6 @@
 # 工程面试 · 隔离图谱
 
-> 生成:2026-08-09 · 内部节点 8 · 边 28 · 断链 42
+> 生成:2026-08-11 · 内部节点 9 · 边 32 · 断链 46
 
 ```mermaid
 graph LR
@@ -18,6 +18,7 @@ graph LR
     多头注意力_Multi_Head_Attention["多头注意力 Multi-Head Attention"]:::ext
     多头注意力机制的核心作用是什么["多头注意力机制的核心作用是什么"]
     多智能体系统_Multi_Agent_Systems["多智能体系统 Multi-Agent Systems"]:::ext
+    如何让LLM稳定输出JSON["如何让LLM稳定输出JSON"]
     提示工程_Prompt_Engineering["提示工程 Prompt Engineering"]:::ext
     旋转位置编码_RoPE["旋转位置编码 RoPE"]:::ext
     知识图谱_KG["知识图谱 KG"]:::ext
@@ -42,6 +43,10 @@ graph LR
     什么是Loop_Engineering --> 设计一个AI_Agent的记忆系统
     什么是Loop_Engineering --> 设计一个Coding_Agent
     多头注意力机制的核心作用是什么 --> 多头注意力_Multi_Head_Attention
+    如何让LLM稳定输出JSON --> AI_Agent上下文窗口不足的工程应对
+    如何让LLM稳定输出JSON --> ReAct_Agent_工作原理
+    如何让LLM稳定输出JSON --> 提示工程_Prompt_Engineering
+    如何让LLM稳定输出JSON --> 设计一个Coding_Agent
     知识图谱的存储方式与索引优化 --> 主流知识图谱_Mainstream_KGs
     知识图谱的存储方式与索引优化 --> 关联规则挖掘_Apriori
     知识图谱的存储方式与索引优化 --> 知识图谱_KG
