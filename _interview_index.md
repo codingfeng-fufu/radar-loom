@@ -1,10 +1,11 @@
 # 面试索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-11 · 面试页 9 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-11 · 面试页 10 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## 角色: Agent工程师
 
 - [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
+- [[什么是Harness工程]] `#Agent #Harness #工具调用 #系统设计 #运行时` — 原问题: 什么是 Agent Harness（智能体运行时脚手架）？一个生产级 LLM agent 的 harness 由哪些部件组成？它和 prompt engineering、framework、agent loop 是什么关系？ · 摘要: Harness（运行时脚手架）是包在 LLM 外面、把'一次模型调用'变成'一个能跑任务的 agent'的那层非模型代码：消息循环、工具注册与调度、上下文装配、权限审批、沙箱执行、checkpoint/恢复、预算与停止条件、可观测性。Anthropic 把 agent 定义为'在循环中根据环境反馈使用工具的 LLM'，而 harness 就是实现并约束这条循环的运行时。它与 prompt engineering（单次提示）、framework（LangChain/LangGraph 等库）、loop engineering（循环设计视角）是不同抽象层：harness 是把这些落地成具体运行时的工程层。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 架构师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -15,6 +16,7 @@
 ## 角色: 后端工程师
 
 - [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
+- [[什么是Harness工程]] `#Agent #Harness #工具调用 #系统设计 #运行时` — 原问题: 什么是 Agent Harness（智能体运行时脚手架）？一个生产级 LLM agent 的 harness 由哪些部件组成？它和 prompt engineering、framework、agent loop 是什么关系？ · 摘要: Harness（运行时脚手架）是包在 LLM 外面、把'一次模型调用'变成'一个能跑任务的 agent'的那层非模型代码：消息循环、工具注册与调度、上下文装配、权限审批、沙箱执行、checkpoint/恢复、预算与停止条件、可观测性。Anthropic 把 agent 定义为'在循环中根据环境反馈使用工具的 LLM'，而 harness 就是实现并约束这条循环的运行时。它与 prompt engineering（单次提示）、framework（LangChain/LangGraph 等库）、loop engineering（循环设计视角）是不同抽象层：harness 是把这些落地成具体运行时的工程层。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 架构师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -30,6 +32,7 @@
 ## 角色: 大模型工程师
 
 - [[什么是A2A协议]] `#A2A #Agent #MCP #多智能体 #系统设计 #通信协议` — 原问题: 什么是 A2A（Agent2Agent）协议？它解决什么问题？核心对象模型和通信机制是什么？与 MCP、函数调用有什么区别与配合关系？ · 摘要: A2A（Agent2Agent）是 Google 2025 年 4 月开源的 Agent 间互操作协议：基于 HTTP + JSON-RPC 2.0，通过 AgentCard 在 well-known 端点做能力发现，以 Task / Message / Part / Artifact 为核心对象模型，用 SSE 做流式更新与推送通知，支持长任务、取消、多模态内容和异构 Agent 协作。它与 MCP 互补——MCP 是 Agent 接工具/数据的“南向”协议，A2A 是 Agent 与 Agent 之间的“东西向”协议，二者共同构成 Agent 的协议栈。 · 角色: Agent工程师, 后端工程师, 大模型工程师 · 难度: 进阶
+- [[什么是Harness工程]] `#Agent #Harness #工具调用 #系统设计 #运行时` — 原问题: 什么是 Agent Harness（智能体运行时脚手架）？一个生产级 LLM agent 的 harness 由哪些部件组成？它和 prompt engineering、framework、agent loop 是什么关系？ · 摘要: Harness（运行时脚手架）是包在 LLM 外面、把'一次模型调用'变成'一个能跑任务的 agent'的那层非模型代码：消息循环、工具注册与调度、上下文装配、权限审批、沙箱执行、checkpoint/恢复、预算与停止条件、可观测性。Anthropic 把 agent 定义为'在循环中根据环境反馈使用工具的 LLM'，而 harness 就是实现并约束这条循环的运行时。它与 prompt engineering（单次提示）、framework（LangChain/LangGraph 等库）、loop engineering（循环设计视角）是不同抽象层：harness 是把这些落地成具体运行时的工程层。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 架构师 · 难度: 进阶
 - [[AI Agent上下文窗口不足的工程应对]] `#Agent #LLM #RAG #上下文工程 #系统设计` — 原问题: AI Agent system 的 Context Window 不够用怎么办？请说明工程上的应对策略、取舍和失败模式。 · 摘要: 上下文不够时不要盲目换长上下文模型，而要按「减、压、外置、分层、扩」五条路径组合：裁剪无关内容、摘要压缩历史、用 RAG/记忆/工具把状态外置、用 prompt cache 与状态机做分层注入、必要时再上长上下文模型；关键边界是 lost-in-the-middle、摘要幻觉、检索召回与成本延迟。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[设计一个AI Agent的记忆系统]] `#Agent #LLM #RAG #系统设计 #记忆系统` — 原问题: 请设计一个 AI Agent 的记忆系统，需要说明记忆分层、读写机制、检索策略和工程取舍。 · 摘要: Agent 记忆系统按工作记忆、情景记忆、语义记忆、程序记忆分层，用统一的写入-检索-反思-遗忘流水线串联；关键工程取舍是上下文预算、检索延迟、记忆新鲜度和成本。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[什么是Loop Engineering]] `#Agent #LLM #反馈循环 #工程范式 #系统设计` — 原问题: 什么是 Loop Engineering？它和 Prompt Engineering、Context Engineering 有什么区别？在 Agent 系统里它具体工程化哪些东西？ · 摘要: Loop Engineering 是 2025 年前后出现、尚在形成中的术语，指对 Agent 的观察-思考-行动-反馈闭环进行系统化工程化：设计循环结构、工具-观察接口、状态与上下文、停止/升级条件、评估与可观测性；它与 Prompt Engineering（单次提示词）和 Context Engineering（每次调用的输入装配）并列但作用在「循环」这一层，强调的是多次迭代、状态累积、反馈信号和收敛性，而不是一次性输入质量。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
@@ -37,6 +40,10 @@
 - [[LLM上下文窗口的确定因素与超限行为]] `#LLM #Transformer #位置编码 #推理优化 #系统设计` — 原问题: LLM 的 Context Window 是怎么确定的？为什么会有上限？超过之后会发生什么？ · 摘要: 上下文窗口由训练时的最大序列长度、位置编码方案和注意力实现三者共同决定；上限源于注意力 O(n^2) 计算/显存、KV Cache 随序列线性增长的显存占用、以及位置编码在训练长度外的外推退化；超过上限时 API 通常直接 400 报错（prompt+completion 合计），开源模型可能截断或崩溃，而即使在窗口内还存在 lost-in-the-middle 的有效窗口小于标称窗口问题。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 进阶
 - [[多头注意力机制的核心作用是什么]] `#LLM机制 #Transformer #注意力机制` — 原问题: 多头注意力机制的核心作用到底是什么？ · 摘要: 多头注意力通过多组可学习投影在不同表示子空间并行建模注意力模式，再拼接并投影回模型维度；它增强表示能力，但不保证每个头具有稳定、可解释的专门功能。 · 角色: 大模型工程师, 算法工程师, 自然语言处理工程师 · 难度: 进阶
 - [[设计一个Coding Agent]] `#Agent #Coding #LLM #工具调用 #系统设计` — 原问题: 请设计一个能在真实代码仓库中自主完成任务（修 bug、加功能、重构）的 Coding Agent，需要说明整体架构、上下文管理、工具接口、执行反馈循环、安全边界和评估方法。 · 摘要: Coding Agent 的核心是 ReAct 循环 + Agent-Computer Interface（ACI）+ 沙箱执行 + 测试反馈：LLM 不直接写最终 patch，而是通过精心设计的命令式工具（文件查看器、精确编辑、全局搜索、shell/测试执行）在仓库中观察-修改-验证，配合仓库地图/语义检索压缩上下文、用补丁式编辑降低误改、用沙箱和权限策略控制爆炸半径，最后用 SWE-bench 类基准和真实任务成功率做评估。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 算法工程师 · 难度: 深入
+
+## 角色: 架构师
+
+- [[什么是Harness工程]] `#Agent #Harness #工具调用 #系统设计 #运行时` — 原问题: 什么是 Agent Harness（智能体运行时脚手架）？一个生产级 LLM agent 的 harness 由哪些部件组成？它和 prompt engineering、framework、agent loop 是什么关系？ · 摘要: Harness（运行时脚手架）是包在 LLM 外面、把'一次模型调用'变成'一个能跑任务的 agent'的那层非模型代码：消息循环、工具注册与调度、上下文装配、权限审批、沙箱执行、checkpoint/恢复、预算与停止条件、可观测性。Anthropic 把 agent 定义为'在循环中根据环境反馈使用工具的 LLM'，而 harness 就是实现并约束这条循环的运行时。它与 prompt engineering（单次提示）、framework（LangChain/LangGraph 等库）、loop engineering（循环设计视角）是不同抽象层：harness 是把这些落地成具体运行时的工程层。 · 角色: Agent工程师, 后端工程师, 大模型工程师, 架构师 · 难度: 进阶
 
 ## 角色: 知识图谱工程师
 
@@ -63,6 +70,7 @@
 - 无
 ### 进阶
 - [[什么是A2A协议]]
+- [[什么是Harness工程]]
 - [[AI Agent上下文窗口不足的工程应对]]
 - [[设计一个AI Agent的记忆系统]]
 - [[什么是Loop Engineering]]

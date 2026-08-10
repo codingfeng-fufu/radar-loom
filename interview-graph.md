@@ -1,6 +1,6 @@
 # 工程面试 · 隔离图谱
 
-> 生成:2026-08-11 · 内部节点 9 · 边 32 · 断链 46
+> 生成:2026-08-11 · 内部节点 10 · 边 38 · 断链 52
 
 ```mermaid
 graph LR
@@ -12,6 +12,7 @@ graph LR
     Transformer_架构_Architecture["Transformer 架构 Architecture"]:::ext
     主流知识图谱_Mainstream_KGs["主流知识图谱 Mainstream KGs"]:::ext
     什么是A2A协议["什么是A2A协议"]
+    什么是Harness工程["什么是Harness工程"]
     什么是Loop_Engineering["什么是Loop Engineering"]
     位置编码_Positional_Encoding["位置编码 Positional Encoding"]:::ext
     关联规则挖掘_Apriori["关联规则挖掘 Apriori"]:::ext
@@ -37,6 +38,12 @@ graph LR
     什么是A2A协议 --> 什么是Loop_Engineering
     什么是A2A协议 --> 多智能体系统_Multi_Agent_Systems
     什么是A2A协议 --> 设计一个Coding_Agent
+    什么是Harness工程 --> AI_Agent上下文窗口不足的工程应对
+    什么是Harness工程 --> ReAct_Agent_工作原理
+    什么是Harness工程 --> 什么是A2A协议
+    什么是Harness工程 --> 什么是Loop_Engineering
+    什么是Harness工程 --> 如何让LLM稳定输出JSON
+    什么是Harness工程 --> 设计一个Coding_Agent
     什么是Loop_Engineering --> AI_Agent上下文窗口不足的工程应对
     什么是Loop_Engineering --> Agent_记忆架构
     什么是Loop_Engineering --> ReAct_Agent_工作原理
