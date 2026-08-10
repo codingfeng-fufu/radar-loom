@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-08-09 · 页面 134 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-08-11 · 页面 135 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 
@@ -67,6 +67,7 @@
 - [[Adam优化器 Adam Optimizer]] `#基础 #LLM机制` — Adam结合动量与RMSprop的一阶矩、二阶矩自适应学习率优化器，是深度学习默认优化器
 - [[BERT与GPT的区别 BERT vs GPT]] `#LLM机制 #基础` — BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。
 - [[LLM 推理优化 KV Cache Quantization]] `#LLM机制` — LLM推理优化的两个核心技术是KV Cache和量化。
+- [[LoRA 低秩适配 Low-Rank Adaptation]] `#LLM机制 #基础` — LoRA冻结预训练权重，注入可训练低秩矩阵BA做增量更新，参数量降千倍且推理零额外延迟
 - [[Scaling Law 大模型缩放律]] `#LLM机制 #基础` — 缩放律以幂律刻画 LLM loss 随参数、数据、算力的下降规律。
 - [[Transformer 架构 Architecture]] `#LLM机制 #基础` — Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。
 - [[Transformer 自注意力机制]] `#LLM机制 #基础` — 自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。
@@ -131,6 +132,7 @@
 - [[EM算法 Expectation-Maximization]] `#基础` — EM算法是一种处理含隐变量的极大似然估计的迭代算法,通过E步求隐变量后验期望、M步最大化期望对数似然,交替进行直至收敛。
 - [[K近邻 KNN K-Nearest Neighbors]] `#基础 #RAG` — KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。
 - [[LRU 缓存替换 Least Recently Used]] `#基础` — LRU用近期访问时间近似最优替换,以哈希表加双向链表实现O(1)存取,是缓存与页面替换基线算法。
+- [[LoRA 低秩适配 Low-Rank Adaptation]] `#LLM机制 #基础` — LoRA冻结预训练权重，注入可训练低秩矩阵BA做增量更新，参数量降千倍且推理零额外延迟
 - [[OSI参考模型与TCP-IP模型 OSI and TCP-IP Models]] `#基础` — OSI七层与TCP/IP四层网络参考模型的分层设计、协议映射与历史演进对比。
 - [[Redis 内存数据存储]] `#基础` — Redis 是开源的内存数据结构存储，常用作数据库、缓存和消息代理。
 - [[Robust Scaler 鲁棒缩放]] `#基础` — Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。
