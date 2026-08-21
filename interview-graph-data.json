@@ -57,156 +57,181 @@
     },
     {
       "id": "e0010",
+      "source": "Pi Agent 底层架构剖析",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0011",
+      "source": "Pi Agent 底层架构剖析",
+      "target": "什么是Harness工程"
+    },
+    {
+      "id": "e0012",
+      "source": "Pi Agent 底层架构剖析",
+      "target": "什么是Loop Engineering"
+    },
+    {
+      "id": "e0013",
+      "source": "Pi Agent 底层架构剖析",
+      "target": "如何让LLM稳定输出JSON"
+    },
+    {
+      "id": "e0014",
+      "source": "Pi Agent 底层架构剖析",
+      "target": "设计一个Coding Agent"
+    },
+    {
+      "id": "e0015",
       "source": "什么是A2A协议",
       "target": "什么是Loop Engineering"
     },
     {
-      "id": "e0011",
+      "id": "e0016",
       "source": "什么是A2A协议",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0012",
+      "id": "e0017",
       "source": "什么是A2A协议",
       "target": "设计一个Coding Agent"
-    },
-    {
-      "id": "e0013",
-      "source": "什么是Harness工程",
-      "target": "AI Agent上下文窗口不足的工程应对"
-    },
-    {
-      "id": "e0014",
-      "source": "什么是Harness工程",
-      "target": "ReAct Agent 工作原理"
-    },
-    {
-      "id": "e0015",
-      "source": "什么是Harness工程",
-      "target": "什么是A2A协议"
-    },
-    {
-      "id": "e0016",
-      "source": "什么是Harness工程",
-      "target": "什么是Loop Engineering"
-    },
-    {
-      "id": "e0017",
-      "source": "什么是Harness工程",
-      "target": "如何让LLM稳定输出JSON"
     },
     {
       "id": "e0018",
       "source": "什么是Harness工程",
-      "target": "设计一个Coding Agent"
-    },
-    {
-      "id": "e0019",
-      "source": "什么是Loop Engineering",
       "target": "AI Agent上下文窗口不足的工程应对"
     },
     {
-      "id": "e0020",
-      "source": "什么是Loop Engineering",
-      "target": "Agent 记忆架构"
-    },
-    {
-      "id": "e0021",
-      "source": "什么是Loop Engineering",
+      "id": "e0019",
+      "source": "什么是Harness工程",
       "target": "ReAct Agent 工作原理"
     },
     {
+      "id": "e0020",
+      "source": "什么是Harness工程",
+      "target": "什么是A2A协议"
+    },
+    {
+      "id": "e0021",
+      "source": "什么是Harness工程",
+      "target": "什么是Loop Engineering"
+    },
+    {
       "id": "e0022",
-      "source": "什么是Loop Engineering",
-      "target": "设计一个AI Agent的记忆系统"
+      "source": "什么是Harness工程",
+      "target": "如何让LLM稳定输出JSON"
     },
     {
       "id": "e0023",
-      "source": "什么是Loop Engineering",
+      "source": "什么是Harness工程",
       "target": "设计一个Coding Agent"
     },
     {
       "id": "e0024",
-      "source": "多头注意力机制的核心作用是什么",
-      "target": "多头注意力 Multi-Head Attention"
-    },
-    {
-      "id": "e0025",
-      "source": "如何让LLM稳定输出JSON",
+      "source": "什么是Loop Engineering",
       "target": "AI Agent上下文窗口不足的工程应对"
     },
     {
+      "id": "e0025",
+      "source": "什么是Loop Engineering",
+      "target": "Agent 记忆架构"
+    },
+    {
       "id": "e0026",
-      "source": "如何让LLM稳定输出JSON",
+      "source": "什么是Loop Engineering",
       "target": "ReAct Agent 工作原理"
     },
     {
       "id": "e0027",
-      "source": "如何让LLM稳定输出JSON",
-      "target": "提示工程 Prompt Engineering"
+      "source": "什么是Loop Engineering",
+      "target": "设计一个AI Agent的记忆系统"
     },
     {
       "id": "e0028",
-      "source": "如何让LLM稳定输出JSON",
+      "source": "什么是Loop Engineering",
       "target": "设计一个Coding Agent"
     },
     {
       "id": "e0029",
+      "source": "多头注意力机制的核心作用是什么",
+      "target": "多头注意力 Multi-Head Attention"
+    },
+    {
+      "id": "e0030",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "AI Agent上下文窗口不足的工程应对"
+    },
+    {
+      "id": "e0031",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "ReAct Agent 工作原理"
+    },
+    {
+      "id": "e0032",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "提示工程 Prompt Engineering"
+    },
+    {
+      "id": "e0033",
+      "source": "如何让LLM稳定输出JSON",
+      "target": "设计一个Coding Agent"
+    },
+    {
+      "id": "e0034",
       "source": "知识图谱的存储方式与索引优化",
       "target": "主流知识图谱 Mainstream KGs"
     },
     {
-      "id": "e0030",
+      "id": "e0035",
       "source": "知识图谱的存储方式与索引优化",
       "target": "关联规则挖掘 Apriori"
     },
     {
-      "id": "e0031",
+      "id": "e0036",
       "source": "知识图谱的存储方式与索引优化",
       "target": "知识图谱 KG"
     },
     {
-      "id": "e0032",
+      "id": "e0037",
       "source": "设计一个AI Agent的记忆系统",
       "target": "Agent 记忆架构"
     },
     {
-      "id": "e0033",
+      "id": "e0038",
       "source": "设计一个AI Agent的记忆系统",
       "target": "ReAct Agent 工作原理"
     },
     {
-      "id": "e0034",
+      "id": "e0039",
       "source": "设计一个AI Agent的记忆系统",
       "target": "多智能体系统 Multi-Agent Systems"
     },
     {
-      "id": "e0035",
+      "id": "e0040",
       "source": "设计一个Coding Agent",
       "target": "AI Agent上下文窗口不足的工程应对"
     },
     {
-      "id": "e0036",
+      "id": "e0041",
       "source": "设计一个Coding Agent",
       "target": "Agent 记忆架构"
     },
     {
-      "id": "e0037",
+      "id": "e0042",
       "source": "设计一个Coding Agent",
       "target": "ReAct Agent 工作原理"
     },
     {
-      "id": "e0038",
+      "id": "e0043",
       "source": "设计一个Coding Agent",
       "target": "设计一个AI Agent的记忆系统"
     }
   ],
-  "generated": "2026-08-11",
+  "generated": "2026-08-21",
   "nodes": [
     {
       "category": "RAG",
       "confidence": "",
-      "degree": 9,
+      "degree": 10,
       "external": false,
       "href": "viewer.html?f=pages%2FAI%20Agent%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3%E4%B8%8D%E8%B6%B3%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%BA%94%E5%AF%B9.md",
       "id": "AI Agent上下文窗口不足的工程应对",
@@ -265,6 +290,21 @@
         "位置编码",
         "推理优化",
         "系统设计"
+      ]
+    },
+    {
+      "category": null,
+      "confidence": "",
+      "degree": 5,
+      "external": false,
+      "href": "viewer.html?f=pages%2FPi%20Agent%20%E5%BA%95%E5%B1%82%E6%9E%B6%E6%9E%84%E5%89%96%E6%9E%90.md",
+      "id": "Pi Agent 底层架构剖析",
+      "kind": "concept",
+      "label": "Pi Agent 底层架构剖析",
+      "nodeType": "interview",
+      "summary": "",
+      "tags": [
+        "#Agent #Harness #CodingAgent #LLM #工具调用 #系统设计 #开源"
       ]
     },
     {
@@ -329,7 +369,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 6,
+      "degree": 7,
       "external": false,
       "href": "viewer.html?f=pages%2F%E4%BB%80%E4%B9%88%E6%98%AFHarness%E5%B7%A5%E7%A8%8B.md",
       "id": "什么是Harness工程",
@@ -348,7 +388,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 7,
+      "degree": 8,
       "external": false,
       "href": "viewer.html?f=pages%2F%E4%BB%80%E4%B9%88%E6%98%AFLoop%20Engineering.md",
       "id": "什么是Loop Engineering",
@@ -436,7 +476,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 5,
+      "degree": 6,
       "external": false,
       "href": "viewer.html?f=pages%2F%E5%A6%82%E4%BD%95%E8%AE%A9LLM%E7%A8%B3%E5%AE%9A%E8%BE%93%E5%87%BAJSON.md",
       "id": "如何让LLM稳定输出JSON",
@@ -533,7 +573,7 @@
     {
       "category": null,
       "confidence": "",
-      "degree": 8,
+      "degree": 9,
       "external": false,
       "href": "viewer.html?f=pages%2F%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AACoding%20Agent.md",
       "id": "设计一个Coding Agent",
@@ -551,13 +591,13 @@
     }
   ],
   "stats": {
-    "broken": 52,
-    "edges": 38,
+    "broken": 56,
+    "edges": 43,
     "externalNodeCount": 12,
-    "internalNodeCount": 10,
+    "internalNodeCount": 11,
     "isolated": 0,
-    "nodeCount": 10,
-    "nodes": 10
+    "nodeCount": 11,
+    "nodes": 11
   },
   "taxonomy": {
     "candidates": [],
@@ -597,7 +637,7 @@
         "source": "automatic",
         "stableRuns": 2,
         "status": "stable",
-        "updatedAt": "2026-08-11"
+        "updatedAt": "2026-08-21"
       }
     ],
     "events": [
@@ -643,124 +683,138 @@
         "type": "promote"
       }
     ],
-    "generatedAt": "2026-08-11",
+    "generatedAt": "2026-08-21",
     "lastRun": {
-      "finished_at": "2026-08-11",
-      "operation": "sync",
-      "outcome": "unchanged",
-      "reason": "",
-      "started_at": "2026-08-11"
+      "finished_at": "2026-08-21",
+      "operation": "global",
+      "outcome": "adopted",
+      "reason": "全局重组已采用",
+      "started_at": "2026-08-21"
     },
     "memberships": [
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "AI Agent上下文窗口不足的工程应对",
         "reason": "全局群组语义相似度 0.99",
-        "score": 0.989642322063446,
+        "score": 0.9885260462760925,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.989642322063446,
+          "semantic": 0.9885260462760925,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "LLM上下文窗口的确定因素与超限行为",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.9783201813697815,
+        "score": 0.9769835472106934,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9783201813697815,
+          "semantic": 0.9769835472106934,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
+        "page": "Pi Agent 底层架构剖析",
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.9829192161560059,
+        "signals": {
+          "links": 0.0,
+          "projects": 0.0,
+          "semantic": 0.9829192161560059,
+          "tags": 0.0
+        }
+      },
+      {
+        "category": "cat_98bd1741fbfb",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "什么是A2A协议",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.9779320359230042,
+        "score": 0.9779540300369263,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9779320359230042,
+          "semantic": 0.9779540300369263,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "什么是Harness工程",
-        "reason": "双链 1.00，语义 0.98",
-        "score": 0.8851961761713029,
+        "reason": "全局群组语义相似度 0.98",
+        "score": 0.9822369813919067,
         "signals": {
-          "links": 1.0,
+          "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9772248864173889,
+          "semantic": 0.9822369813919067,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "什么是Loop Engineering",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.9834813475608826,
+        "score": 0.9837538003921509,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9834813475608826,
+          "semantic": 0.9837538003921509,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "如何让LLM稳定输出JSON",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.9824023842811584,
+        "score": 0.9818583726882935,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9824023842811584,
+          "semantic": 0.9818583726882935,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "设计一个AI Agent的记忆系统",
         "reason": "全局群组语义相似度 0.98",
-        "score": 0.983293890953064,
+        "score": 0.9816501140594482,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.983293890953064,
+          "semantic": 0.9816501140594482,
           "tags": 0.0
         }
       },
       {
         "category": "cat_98bd1741fbfb",
-        "firstAssignedAt": "2026-08-11",
-        "lastConfirmedAt": "2026-08-11",
+        "firstAssignedAt": "2026-08-21",
+        "lastConfirmedAt": "2026-08-21",
         "page": "设计一个Coding Agent",
         "reason": "全局群组语义相似度 0.99",
-        "score": 0.9877112507820129,
+        "score": 0.987786054611206,
         "signals": {
           "links": 0.0,
           "projects": 0.0,
-          "semantic": 0.9877112507820129,
+          "semantic": 0.987786054611206,
           "tags": 0.0
         }
       }
@@ -772,8 +826,8 @@
           "AI Agent上下文窗口不足的工程应对",
           "设计一个Coding Agent",
           "什么是Loop Engineering",
-          "设计一个AI Agent的记忆系统",
-          "如何让LLM稳定输出JSON"
+          "Pi Agent 底层架构剖析",
+          "什么是Harness工程"
         ]
       }
     ],
@@ -784,7 +838,7 @@
       "candidates": 0,
       "categories": 2,
       "forming": 0,
-      "memberships": 8,
+      "memberships": 9,
       "pendingPages": 0,
       "seedCategories": 0
     }

@@ -35,10 +35,10 @@
       "related": [],
       "stable_runs": 2,
       "status": "stable",
-      "updated_at": "2026-08-11"
+      "updated_at": "2026-08-21"
     }
   },
-  "changes_since_global": 1,
+  "changes_since_global": 0,
   "events": [
     {
       "category_ids": [
@@ -82,125 +82,139 @@
       "type": "promote"
     }
   ],
-  "generated_at": "2026-08-11",
-  "last_global_at": "2026-08-11",
+  "generated_at": "2026-08-21",
+  "last_global_at": "2026-08-21",
   "last_run": {
-    "finished_at": "2026-08-11",
-    "operation": "sync",
-    "outcome": "unchanged",
-    "reason": "",
-    "started_at": "2026-08-11"
+    "finished_at": "2026-08-21",
+    "operation": "global",
+    "outcome": "adopted",
+    "reason": "全局重组已采用",
+    "started_at": "2026-08-21"
   },
   "memberships": [
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/AI Agent上下文窗口不足的工程应对.md",
       "reason": "全局群组语义相似度 0.99",
-      "score": 0.989642322063446,
+      "score": 0.9885260462760925,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.989642322063446,
+        "semantic": 0.9885260462760925,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/LLM上下文窗口的确定因素与超限行为.md",
       "reason": "全局群组语义相似度 0.98",
-      "score": 0.9783201813697815,
+      "score": 0.9769835472106934,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9783201813697815,
+        "semantic": 0.9769835472106934,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
+      "page": "pages/Pi Agent 底层架构剖析.md",
+      "reason": "全局群组语义相似度 0.98",
+      "score": 0.9829192161560059,
+      "signals": {
+        "links": 0.0,
+        "projects": 0.0,
+        "semantic": 0.9829192161560059,
+        "tags": 0.0
+      }
+    },
+    {
+      "category_id": "cat_98bd1741fbfb",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/什么是A2A协议.md",
       "reason": "全局群组语义相似度 0.98",
-      "score": 0.9779320359230042,
+      "score": 0.9779540300369263,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9779320359230042,
+        "semantic": 0.9779540300369263,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/什么是Harness工程.md",
-      "reason": "双链 1.00，语义 0.98",
-      "score": 0.8851961761713029,
+      "reason": "全局群组语义相似度 0.98",
+      "score": 0.9822369813919067,
       "signals": {
-        "links": 1.0,
+        "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9772248864173889,
+        "semantic": 0.9822369813919067,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/什么是Loop Engineering.md",
       "reason": "全局群组语义相似度 0.98",
-      "score": 0.9834813475608826,
+      "score": 0.9837538003921509,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9834813475608826,
+        "semantic": 0.9837538003921509,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/如何让LLM稳定输出JSON.md",
       "reason": "全局群组语义相似度 0.98",
-      "score": 0.9824023842811584,
+      "score": 0.9818583726882935,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9824023842811584,
+        "semantic": 0.9818583726882935,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/设计一个AI Agent的记忆系统.md",
       "reason": "全局群组语义相似度 0.98",
-      "score": 0.983293890953064,
+      "score": 0.9816501140594482,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.983293890953064,
+        "semantic": 0.9816501140594482,
         "tags": 0.0
       }
     },
     {
       "category_id": "cat_98bd1741fbfb",
-      "first_assigned_at": "2026-08-11",
-      "last_confirmed_at": "2026-08-11",
+      "first_assigned_at": "2026-08-21",
+      "last_confirmed_at": "2026-08-21",
       "page": "pages/设计一个Coding Agent.md",
       "reason": "全局群组语义相似度 0.99",
-      "score": 0.9877112507820129,
+      "score": 0.987786054611206,
       "signals": {
         "links": 0.0,
         "projects": 0.0,
-        "semantic": 0.9877112507820129,
+        "semantic": 0.987786054611206,
         "tags": 0.0
       }
     }
@@ -208,8 +222,9 @@
   "page_fingerprints": {
     "pages/AI Agent上下文窗口不足的工程应对.md": "eff74efcdd3c2bcffccfd0180f6b069774953ca9c9c48547da617e4010b3a69a",
     "pages/LLM上下文窗口的确定因素与超限行为.md": "8ce41875ff1dd4c770314fbd4198800af8f8811aadb1013c740cd744eaff6e97",
+    "pages/Pi Agent 底层架构剖析.md": "655f7ad2f4750664f6d9549f8d1c884faa816d2d09057f1f3bc35f6a2b8113a1",
     "pages/什么是A2A协议.md": "e04e8601fb9a8e8e2e8140a45b5de55684829312b80a47c3a452d6c4fc5eb6b3",
-    "pages/什么是Harness工程.md": "dabfde55ec5af66f75b91e907b91d90b7cea30fd4f834fd6efae0f47ba7ed390",
+    "pages/什么是Harness工程.md": "a0429da2fd1c14408a36e2588ed635044ea1ab2b5dea5ecda2e83dcbea4c5a16",
     "pages/什么是Loop Engineering.md": "a1fc824803b5af44acc070df89cab9fb05297eca3234ba820a4ef62f09a1f5c9",
     "pages/多头注意力机制的核心作用是什么.md": "76f6cfaf666b0ab1cf1abc7a2aafdf264fd686856b6e0abd7eb65095737285e5",
     "pages/如何让LLM稳定输出JSON.md": "7be40e2af74c7a7279d70b9b59a813146b90cc2fb1a4733ebe1ecc7c315bc235",
