@@ -1,0 +1,316 @@
+# EvidenceFirst: Evidence-State Monitoring for Auditable GraphRAG Systems
+
+**作者/机构**：Zonglin Feng\*（冯宗霖，一作）、Shouzheng Xu\*（徐守正，共同一作）、Qicheng Zhao（赵启程），中央财经大学信息学院，北京
+**Venue/年份**：WISE 2026 投稿（submission 版本，2026-08-25 生成）；用户为一作，正准备 WISE2026 线上 pre
+**原文**：`papers/evidencefirst_submission.pdf`，15 页，**无附录/补充材料**（p.14–15 为参考文献，共 25 条）
+**一句话总结**：在 GraphRAG 生成前用确定性状态机把每题的证据图判定为 checked / repaired / residual gap / passage fallback 四态并落盘，使坏答案能按"图坏了还是 reader 坏了"分类路由、离线回放审计，而答案质量维持在近期 GraphRAG baseline 的同一区间——论文卖的是可观测性层而非 SOTA。
+
+> 标注约定：**【论文主张】** 为作者明确写出的结论；**【阅读判断】** 为精读后的独立评价，pre 问答时可作为答辩口径参考但非论文原文。
+
+---
+
+## 1. 问题与动机
+
+### 1.1 解决什么问题，真实需求是什么
+
+固定上下文（fixed-context）Web GraphRAG 系统把网页、图谱、LLM reader 串起来，但事故后运维者面对一条坏答案，真正想问的不是"哪个模型分高"，而是 **"这条答案产出时，证据处于什么状态"**（§1，PDF p.2）：是检索页面缺桥接实体、建的图不连通、还是 reader 误读了连通证据？这些区别在"答案+上下文"日志里不可见。失败来源至少有六类：缺检索上下文、图不完整、缺桥接实体、证据断连、reader 错误、最终答案选择错误（p.2）。
+
+论文把数据库事务日志（ARIES）、分布式系统 trace（Dapper）、数据管理 provenance 的可观测性视角引入 GraphRAG：**把证据图当作 reader 调用之前的可观测状态对象**（§2，p.3）。
+
+### 1.2 已有方法卡在哪
+
+【论文主张】（§2，p.3）
+
+- RAG / KG-RAG / GraphRAG 主线（LightRAG、MS GraphRAG、HippoRAG、RAPTOR、IRCoT、HopRAG 等）主要优化检索、推理、生成，落盘物通常止于"检索证据 + 生成文本 + 工具调用日志"；
+- RAG 评测框架（RAGAS、ARES、RAGBench、RAGChecker）打分但不记录每题的图状态；attribution 研究（citation、faithfulness）问声明是否有据，但不做生成前的图状态路由；
+- 最接近的 S2G-RAG 会输出文本 gap item，但不是围绕"每题四态图状态 + 可回放审计"组织的。
+
+**【阅读判断】** 问题真实且定位聪明：不跟 GraphRAG 主线卷分数，而是占"GraphRAG 可观测性/审计"这个空位，类比"tracing 系统不按是否提速来评判"（p.13）。这个框架在审稿时是把双刃剑——好处是 EM 不显著也能成立，风险是评审可能认为贡献偏工程、novelty 不足。
+
+---
+
+## 2. 核心方法
+
+### 2.1 问题设定（§3.1，p.3–4）
+
+给定问题 $q$、候选段落集 $P=\{p_i\}$、由同一可见证据构建的每题证据图 $G=(V,E)$（节点为实体或证据单元，边为抽取关系/support link/段落关联），系统输出短答案 $a$ + 诊断记录 $D$。设定覆盖搜索结果页、百科页、实体描述、链接文档；**不假设实时爬取或推理中网页变化**。
+
+四态契约（Table 1，p.4）：
+
+| 状态 | 进入条件 | 操作路由 | 落盘字段 |
+|---|---|---|---|
+| Checked path | 候选路径满足实体映射、答案类型过滤、最小路径长度 | 终态 reader 路由：抽取链 + （可选）局部段落 | chain_complete、链长、空 gap 标签 |
+| Repaired path | 初始 gap 触发实体增强或桥接修复，复检通过 | gap→终态 reader 路由，保留修复 provenance | repair tags、chain_complete、链长 |
+| Residual gap | 修复后复检仍不完整/过短 | 终态 reader 路由：可用三元组+段落，保留图因 | gap label、缺失实体、断连对数、repair tags |
+| Passage fallback | 无可用三元组/图证据 | 终态段落路由，标记图证据不可用 | fallback tags、空/未知 chain 字段 |
+
+### 2.2 状态机与数据流（§3.2–3.3，p.4–5）
+
+生成前执行**固定状态机**（Fig 1，p.2）：
+
+1. 抽取问题实体，用 **exact / substring / token-overlap** 三种词法匹配映射到图节点；
+2. 选候选答案节点，按粗粒度答案类型过滤；
+3. 在证据子图中测最短路径；路径充足 → checked，抽取最短路径作为证据链给 reader；
+4. 路径短于题型最小长度 → `short_chain`；无路径时输出具体缺陷标签：
+   - `missing_entities`：问题所需实体不在图中 → **实体增强修复**（从已检索段落抽该实体三元组加入图）；
+   - `disconnected`：端点都在但分属不同连通分量 → **桥接修复**（最多处理 5 个端点对，从同批段落抽桥接三元组）；
+   - `bridge`：部分路径到达答案实体一侧但缺连接关系；
+   - `short_chain`：连通但对推断题型太浅；
+   - 空证据 → passage fallback；
+5. 每轮修复后跑**同一个结构性复检**；通过 → repaired，否则 residual/fallback 状态贯穿生成与选择。
+
+关键性质：
+
+- **测试时不用 gold 答案或 gold support facts**；规则在评测前固定（p.4）；
+- 结构检查与落盘回放是已存三元组和日志的**确定性函数**；图修复本身可用与 KG 构建相同的 temperature-0 LLM 抽取后端，故"可回放"定义在已存产物之上（p.5）；
+- $D$ 记录：path-checked 状态、路径长度、gap 类型、缺失实体数、断连对数、repair/fallback 标签、最终答案选择标记（p.3）。
+
+### 2.3 Reader、选择器与规范化（§3.4，p.5）
+
+- Reader 收到当前路由选中的证据三元组 + 局部段落（主设定 local passage top-k=5），被要求输出简洁答案；
+- **选择器是保守的**：仅当原答案畸形、精修答案与原答案规范化等价、精修答案是更短的有据形式、或修复了题型错配（如实体题答成 yes/no）时才接受精修答案，否则保留 KG-grounded 答案；
+- 轻量 canonicalizer 处理标题大小写、实体别名、yes/no、短答案形式；
+- 主设定开局部段落上下文，仅在 reader-context 消融中关闭——该消融隔离"答案实现在多大程度上依赖三元组之外的文本接地"。
+
+### 2.4 假设及其在真实环境中的可违反性【阅读判断】
+
+- **词法实体映射**（exact/substring/token overlap）是状态机的地基：真实 Web 中大量同义/转述实体无法词法命中，会被误判为 missing entity → 触发不必要修复或错误 residual。论文用 2Wiki gold 审计间接暴露了这一点（complete 态 gold-proxy 精度仅 0.151，见 §3）。
+- **最短路径 = 证据链**：多跳推理可能需要非最短路径或聚合多条路径；结构连通不保证语义充分（论文自己承认，p.13）。
+- **修复语料仅限已检索段落**：桥接三元组抽不出来时修复必然失败（2Wiki 修复成功率仅 22.0%，p.8）。
+- **固定上下文**：不处理抓取新鲜度、网页变化；§5.5 的 Tavily 探针显示真实检索噪声下 residual 率从 39% 飙到 67%（p.12–13）。
+
+---
+
+## 3. 实验与证据
+
+### 3.1 数据集、baseline、指标（§4，p.6–8）
+
+- **HotpotQA-1000**：HotpotQA validation split 的 1000 题 distractor 式评测集（修复版上下文）；
+- **2WikiMultiHopQA-500**：500 题样本，含 5000 个问题-上下文对、3346 个 unique 段落；自带 Wikidata 证据三元组、entity id、evidence id、answer id——**仅在预测后加载**做离线诊断；
+- Baseline：Hotpot 上 Naive RAG、IRCoT、A-RAG、LightRAG、MS GraphRAG、HopRAG strict；2Wiki 上少 MS GraphRAG（未完成）；
+- 后端：qwen-plus（DashScope 兼容 OpenAI 接口），temperature 0，max-iter 3，top-k=5，每轮修复最多 5 个断连端点对；**全部主结果单一后端**，跨后端泛化是 future work；
+- 指标：EM + token F1（标准 QA 规范化）；配对报告共用 question ID、bootstrap CI、EM 用精确 McNemar 检验；
+- 产物治理：每题 JSONL（cache 状态、消融开关、path-state、gap label、repair/fallback 步骤、选择决策）；离线 **no-LLM verifier** 校验 SHA256/行数/schema 指纹并独立重打分；代码 github.com/codingfeng-fufu/evidencefirst，产物包向作者索取。
+
+评测围绕四问（p.6）：Q1 答案质量保持；Q2 可回放审计队列；Q3 路由归因；Q4 协议敏感性（reader 上下文/后处理）。
+
+### 3.2 状态分布与状态有效性（§5.1，p.8–9）
+
+状态分布（p.8）：
+
+| | HotpotQA | 2Wiki |
+|---|---|---|
+| 终态 checked path | 56.8% | 47.8% |
+| 尝试修复比例 | 63.7% | 60.0% |
+| 尝试修复中复检连通比例 | 43.49% | 22.0% |
+
+内部一致性：missing-entity / disconnected / short-chain 标签在两数据集上都满足结构不变量；Hotpot 的 empty-gap 标记 577 行中 568 行（98.44%）同时 chain_complete=true，余 9 行链不完整但 gap 标签为空（p.8）。
+
+**Table 2（p.8）2Wiki 结构审计态分析**（结构一致性=全 500 例；proxy match=100 例离线三代理审计；blind match=100 例无 gold 盲审包）：
+
+| 审计态 | N | EM/F1 | 结构一致 | Gold-proxy 精度 | Proxy match | Blind match |
+|---|---|---|---|---|---|---|
+| complete | 239 | 0.703/0.768 | 1.000 | **0.151** | 0.118 | 0.677 |
+| missing entities | 217 | 0.696/0.767 | 1.000 | **0.687** | 0.743 | 0.571 |
+| short chain | 33 | 0.636/0.704 | 1.000 | 0.455 | 0.400 | 0.200 |
+| disconnected | 11 | 0.455/0.535 | 1.000 | 0.091 | 0.182 | 0.546 |
+
+核心解读（p.8–9）：**缺陷标签相对可信（missing-entity proxy match 0.743），complete 标签结构一致但语义乐观（gold-proxy 精度 0.151）**——这符合设计意图：缺陷态触发修复/检查路由，checked 只证明结构连通、绝不证明语义充分。missing-entity 的 EM 与 complete 几乎持平（2Wiki 0.696 vs 0.703；Hotpot 0.560 vs 0.590），说明是 reader 上下文补偿而非标签失效——Table 8 的去上下文消融（2Wiki EM 0.690→0.184）支持此解释。
+
+Hotpot 逐态结果（无 gold-proxy 审计，p.9）：complete 0.590/0.676；missing-entity 0.560/0.658；short-chain 0.441/0.567；disconnected N=3 不可解读。另：checked-path 例 70.29% EM / 76.81% F1，disconnected 45.45%/53.51%，short-chain 63.64%/70.35%（p.9）。
+
+**Table 3（p.9）2Wiki 证据可见性审计**（预测后用标注）：
+
+| 证据对象 | Support-title recall | Entity cov. | EM/F1 |
+|---|---|---|---|
+| EvidenceFirst reader-full 输入 | 1.0000 | 0.9468 | 0.6900/0.7581 |
+| Naive BM25 top-5 输入 | 0.6020 | 0.6685 | – |
+| A-RAG 实际读入 chunk | 0.2955 | 0.3326 | – |
+| A-RAG search-found 上界 | 0.5885 | 0.6085 | – |
+| EvidenceFirst saved KG | – | 0.7657 | 0.6900/0.7581 |
+
+Saved KG 覆盖 76.57% gold 证据实体、召回 47.78% gold 端点对、**精确匹配仅 4.20% gold 关系**——checked/repaired 是操作态，gold-chain 精确恢复是另一回事。
+
+### 3.3 可回放审计效用（§5.2，p.9–10）
+
+**Table 4（p.10）审计信号分诊**：
+
+| 信号 | Hotpot AUC | Hotpot top-20 错误率 | lift | 2Wiki AUC | 2Wiki top-20 错误率 | lift |
+|---|---|---|---|---|---|---|
+| 复合审计风险 | 0.6321 | 0.6700 | 1.53× | 0.5787 | 0.4000 | 1.29× |
+| 答案未被选择 | 0.6077 | 0.7000 | 1.60× | 0.5754 | 0.4000 | 1.29× |
+| 仅图状态 | 0.5434 | 0.5250 | 1.20× | 0.5230 | 0.3500 | 1.13× |
+| 链不完整 | 0.5321 | 0.5050 | 1.15× | 0.5144 | 0.2900 | 0.94× |
+
+**Table 5（p.10）增量效用**：selection-only AUC 0.6077/0.5754；graph-only 0.5434/0.5230；**组合 0.6321/0.5787**。
+
+【论文主张，且很诚实】top-20% 工作点上复合分**并不优于**单用选择信号（Hotpot 0.670 vs 0.700，2Wiki 持平 0.400）；图状态的增量价值在全分段排序质量（AUC）和**标量信号给不了的类型化失败归因**（p.10）。样本量稳定性：250/500/1000 前缀 AUC 0.632/0.655/0.632，top-20 错误率 0.640/0.690/0.670（p.10）。选择器在 Hotpot 上改动 21 条预测、12 个 EM 标签（p.7）。
+
+### 3.4 路由效用与案例（§5.3，p.10–12）
+
+Table 6（p.11）路由表：checked failure → reader/selector 检查；residual gap → 图构建/桥接修复；missing entity → 实体抽取；fallback → 检索/上下文审查。
+
+**Table 7（p.11）选择队列内的条件路由效用**（Wilson/Newcombe 95% CI）：
+
+| 数据集 | 条件队列对比 | N1/N2 | 错误率 1 | 错误率 2 | Δ [95% CI] |
+|---|---|---|---|---|---|
+| Hotpot | selected checked → selected **未修复不完整** | 468/51 | 0.3419 | 0.6078 | **+0.2660 [0.122, 0.395]** |
+| 2Wiki | non-selected 无 residual → non-selected **residual gap** | 137/11 | 0.3942 | 0.7273 | **+0.3331 [0.029, 0.525]** |
+
+Fig 2（p.11）案例：Ted Kooshian 获奖题，修复前两个连通分量（Ted Kooshian–seen evidence 与 candidate award 断连）→ bridge repair → 复检长度 2 路径（Ted Kooshian→bridge entity→award）→ 答案 EGOT 正确。卖点是**路由可回放**而非答案本身。
+
+**Table 8（p.12）复合操作消融**：
+
+| 变体 | Hotpot EM/F1 | 2Wiki EM/F1 |
+|---|---|---|
+| Full（selector 协议） | 0.5620/0.6564 | 0.6900/0.7581 |
+| w/o 状态检查+修复（复合） | 0.5680/0.6647 | 0.6780/0.7579 |
+| w/o 图修复 | 0.5540/0.6580 | 0.6500/0.7424 |
+| w/o reader 上下文+精修（复合） | **0.2360/0.2899** | **0.1840/0.2289** |
+| w/o 答案精修 | 0.5510/0.6485 | 0.6900/0.7782 |
+
+去 checker 在 Hotpot 上 EM 甚至微升 0.6 点，精确 McNemar p=0.659 不显著——论文明确说这一行应读成"**失去证据状态可观测性**"而非 EM 消融（p.11–12）。去 reader 上下文崩到 0.236/0.184，说明**光靠图三元组不足以支撑答案实现**。
+
+### 3.5 答案质量保持（§5.4，p.12）
+
+- Hotpot：端到端 55.0% EM/64.8% F1；selector 敏感行 56.2%/65.6%；HopRAG strict 54.1%/64.4%、A-RAG 51.7%/62.7%；对 HopRAG ΔEM=0.021，95% CI [−0.008, 0.050] **跨零，不是 SOTA 声明**；bridge 子集 ΔEM=0.058 [0.016, 0.100]（探索性）；
+- 2Wiki：reader-full 审计行 69.0%/75.8%，近 LightRAG 67.4%/77.2%、A-RAG 66.6%/73.2%；**local-context 压力行仅 50.4%/59.5%**；对 HopRAG ΔEM=0.126 [0.084, 0.166]，与 LightRAG/A-RAG 不可分。结论：上下文预算必须显式报告。
+
+### 3.6 真实检索噪声探针（§5.5，p.12–13）
+
+Tavily API、100 道 Hotpot 题、seed=123、top-5 snippet、管线不变：checked 29.0%→20.0%，repaired 31.0%→13.0%，**residual 39.0%→67.0%**，benchmark 的 1.0% fallback 行在真实检索下变成 checked。29 道 benchmark-checked 中 17 道退化为 residual、3 道桥接修复成功；31 道 repaired 中 17 道退化、8 道保持。N=100 探索性，但说明状态契约对检索噪声有响应。
+
+### 3.7 可复现性、成本与部署【阅读判断】
+
+- 复现材料：代码公开、产物包+verifier 索取；verifier 无 LLM 可重算主表，这在审稿口径上是加分项；
+- 论文**未报告**延迟、token 成本、显存；状态机本身是图上最短路+词法匹配，开销小，主要成本在修复用的 LLM 三元组抽取（63.7%/60.0% 的题触发修复）；
+- 工程复杂度中等：需要每题建 KG、缓存产物、维护状态机与选择器；KG 构建产物被缓存复用（p.7）。
+
+### 3.8 方法新颖性【阅读判断】
+
+新颖性不在新模型或新检索，而在**抽象与协议**：把"生成前的图结构状态"做成一等落盘对象 + 四态状态机 + 可回放审计协议 + 类型化路由。 closest prior：RAGChecker 的诊断指标（模块级、非每题图状态）、S2G-RAG 的 gap item（文本侧）、数据库 provenance/trace 的类比移植。属于"新组合 + 新评测问题定义"型贡献。
+
+---
+
+## 4. 局限性
+
+### 4.1 作者明确承认（§7，p.13）
+
+1. **协议效度**：固定上下文、上下文预算"记录但不统一"；开放域/动态 Web 仅 N=100 探针，部署规模评测是 future work；
+2. **诊断效度**：checker 是结构的而非语义的，依赖词法映射和粗答案类型过滤，与 gold 2Wiki 路径仅部分对齐；
+3. **部署效度**：2Wiki 缺 MS GraphRAG 完整运行；消融部分是复合开关；selector 行是确定性后处理；**passage fallback 几乎没被触发**（Hotpot 5/1000、2Wiki 0/500，Tavily 探针也未触发），该路由只在契约和 verifier 中保留、未经压力测试；
+4. 单一后端（qwen-plus），跨后端泛化未验；
+5. future work：专业 gap-label 人工裁定、fallback 压力测试、修复成功的语义分析、统一预算的部署级 Web 检索。
+
+### 4.2 证据显示但作者讨论不足【阅读判断】
+
+1. **complete 标签语义信息量很低**（gold-proxy 精度 0.151、proxy match 0.118）：checked 态占 47.8%–56.8%，是最大的路由桶，但其"放行"含义接近抛硬币；blind match 0.677 与 proxy match 0.118 的巨大落差也说明审计口径本身不稳定，pre 时可能被追问"两个审计哪个可信"；
+2. **图状态作为独立排序信号很弱**（graph-only AUC 0.52–0.54，2Wiki chain-incomplete lift 0.94<1）：论文诚实承认，但"类型化归因"的证据只有 Table 7 两个条件对比，且 2Wiki 那组 N2=11、CI 下界 0.029 很勉强；
+3. **2Wiki 主行上下文预算不对等**：reader-full 用全量上下文（support recall 1.0），local 压力行掉到 50.4% EM——与 LightRAG/A-RAG 的对比口径依赖"显式报告预算"这个辩护，评审可能抓这一点；
+4. **修复收益有限**：2Wiki 仅 22.0% 的修复尝试复检连通；w/o graph repair 只掉 1.2–4.0 个点 EM，修复机制的答案质量增益小（其价值主要在路由/审计，论文也如此定位）；
+5. **fallback 路由零验证**：四态之一基本是理论存在；
+6. 错误分析缺人工环节：100 例盲审包没有交代评审者身份、裁定指南、一致性（IAA）。
+
+---
+
+## 5. 与当前研究的关联
+
+- **OpenFusionKGQA**（`docs/项目面试稿-OpenFusionKGQA.md`）：用户自己的 GraphRAG beta 原型，核心链路是"开放文本→带 provenance 抽取→图谱融合（含 rejected-triple 记录、证据检查）→local/global 路由→citation 回答"，并有"运行可观测性"一节。EvidenceFirst 可视为这条工程线的**研究化抽象**：OpenFusionKGQA 在融合阶段记录 rejected triples、在问答侧给 citation，EvidenceFirst 把"生成前每题证据图处于何种状态"形式化为四态契约并补上可回放审计与路由实验。pre 时可用 OpenFusionKGQA 作为"动机来自真实原型"的背书。
+- **TripleChecker**（`paper-notes/triplechecker-source-faithfulness-notes.md`）：KG 抽取阶段的来源保真审计（三元组是否有原文片段支持）。与 EvidenceFirst **互补**：TripleChecker 审计"边进图时是否有据"（构建时），EvidenceFirst 审计"答题时图处于什么证据状态"（查询时）；两者共享"可核验产物落盘 + 确定性检查"的审计哲学，可在 future work 中串成构建-查询全链路审计。
+- **技术雷达知识库**（`docs/项目面试稿-技术雷达知识库.md`）：方法论层面同源——Git 可追溯、健康检查、产物可回放；与论文内容无直接技术关联。
+
+---
+
+## 6. 待验证问题
+
+1. 100 例 blind packet 的评审者是谁、有无裁定指南和 IAA？论文未报告（p.8）；
+2. 复合审计风险分的具体特征与权重未在正文给出公式，需查代码仓库（github.com/codingfeng-fufu/evidencefirst）；
+3. 实体映射三种策略（exact/substring/token-overlap）各自的命中率/误判率未拆分；词法映射失败在总 gap 中占比未知；
+4. HotpotQA-1000 "repaired contexts" 的具体构造方式论文只引 [25]，子集抽样策略（随机？分层？）未说明；
+5. 修复 LLM 抽取与 KG 构建是否同一 prompt/同一缓存、修复触发的额外调用量与延迟，论文未报告；
+6. selector 改动 21 条预测的净 EM 效果（+12 EM 标签的说法在 p.7，但方向细节需查产物）；
+7. WISE 投稿是否要求/附了补充材料——本 PDF 无附录，若 rebuttal 需要成本表、审计指南，建议提前准备。
+
+---
+
+## 7. 定位索引
+
+| 内容 | 位置 |
+|---|---|
+| 摘要（67.0%/40.0% top-20 错误率、AUC 0.6077→0.6321、26.6/33.3 点） | p.1 Abstract |
+| Fig 1 管线与状态机（Retriever→KG→Checker→Reader→Selector→Audit Trace） | p.2 |
+| 三贡献列表（状态抽象/可回放协议/失败路由） | p.2–3 |
+| Table 1 四态契约 | p.4 |
+| 状态机算法契约（映射、gap 标签、修复上限 5 对、不用 gold） | p.4 |
+| Reader/保守 selector/canonicalizer | p.5 |
+| 数据集与 Q1–Q4、baseline 名单 | p.6 |
+| 协议边界、指标、实现设置（qwen-plus、temp 0、iter 3、top-k 5） | p.7 |
+| 状态分布 56.8/63.7/43.49% 与 47.8/60.0/22.0% | p.8（§5.1） |
+| Table 2 2Wiki 审计态（complete 0.151 vs missing 0.687） | p.8 |
+| Table 3 可见性审计（1.0000 support recall、4.20% 关系精确匹配） | p.9 |
+| Table 4 分诊 AUC/lift | p.10 |
+| Table 5 增量效用（0.6077→0.6321） | p.10 |
+| 样本量稳定性 250/500/1000 | p.10 |
+| Table 6 路由表、Table 7 条件对比（Δ0.266 / Δ0.333）、Fig 2 EGOT 案例 | p.11 |
+| Table 8 消融（去上下文 0.236/0.184；去 checker p=0.659） | p.12 |
+| §5.4 质量保持（CI 跨零；2Wiki local 50.4%） | p.12 |
+| §5.5 Tavily 探针（residual 39%→67%） | p.12–13 |
+| §6 Discussion（tracing 类比、路由归因） | p.13 |
+| §7 Threats（fallback 5/1000、0/500 等） | p.13 |
+| §8 Conclusion | p.14 |
+
+---
+
+## 8. WISE2026 线上 pre 准备要点（阅读者整理，非论文内容）
+
+**30 秒电梯陈述**：GraphRAG 出坏答案后，运维者无法从日志判断是检索缺证据、图断连还是 reader 读错。EvidenceFirst 在生成前用确定性状态机给每题的证据图打四个状态（checked / repaired / residual gap / fallback）并落盘：答案质量不掉队（EM 与 HopRAG/A-RAG/LightRAG 同区间，统计上不可分），同时 top-20% 审计队列浓缩 1.53×/1.29× 错误，且图状态给出选择器信号给不了的类型化失败归因（两个条件队列错误率差 26.6/33.3 点）。
+
+**必讲的三个数字**：① Hotpot AUC 0.6077→0.6321（图状态是互补不是替代）；② complete 态 gold-proxy 精度仅 0.151 而 missing-entity 0.687（状态是结构路由元数据，不是语义证书——主动讲，防被打）；③ 去 reader 上下文 EM 崩到 0.184–0.236（图三元组不够，文本接地是答案实现的主力）。
+
+**高概率追问与建议口径**：
+- *"为什么不叫 SOTA？"* → 定位是可观测性层，类比 Dapper/ARIES；tracing 系统不按提速评判。
+- *"graph-only AUC 才 0.54 有什么用？"* → 价值在类型化路由（Table 7）和可回放，不在标量排序；论文已显式承认 top-20 不 dominate。
+- *"2Wiki 69% 是不是靠全上下文堆的？"* → 是，reader-full 行 support recall=1.0 已如实报告；local 压力行 50.4% 也报告了；主张的是"预算记录在案"而非统一预算。
+- *"fallback 态 0–5 例，四态是不是三态？"* → 承认未压测，契约+verifier 保留，future work 含 fallback 压力测试。
+- *"修复到底有没有用？"* → EM 增益小（1–4 点），修复的价值在把 residual 转成可路由的 repaired 并留下 provenance；2Wiki 修复连通率 22% 也如实报告。
+- *"和 RAGChecker/S2G-RAG 区别？"* → 它们是模块级诊断指标/文本 gap；EvidenceFirst 是每题生成前的图状态契约 + 无 LLM 可回放产物。
+
+---
+
+## 9. 面试五分钟介绍稿（为什么做 / 怎么做 / 结果如何）
+
+> 用途：面试场景口头介绍，第一人称，正常语速约 5 分钟。括号内页码/表号仅供自己对照，讲时不念。
+
+### 0. 开场（约 20 秒）
+
+我介绍的工作叫 EvidenceFirst，是一项关于 GraphRAG 可观测性的研究，投稿在 WISE 2026。一句话概括：我们在 GraphRAG 生成答案之前，用一个确定性状态机把每道题的证据图判定为四种状态并落盘，让坏答案可以被分类路由、离线回放和审计。这项工作卖的不是更高的答题分数，而是一个可观测性层。
+
+### 1. 为什么做（约 1 分钟）
+
+GraphRAG 把网页检索、知识图谱和 LLM reader 串起来回答多跳问题。但系统上线后，运维者面对一条坏答案，真正想问的不是"哪个模型分高"，而是"这条答案产出时，证据处于什么状态"：是检索没召回页面、建的图不连通、缺桥接实体，还是 reader 误读了本来连通的证据？这类失败来源至少有六类，但在传统的"答案加上下文"日志里完全不可见（p.2）。
+
+已有的 RAG 评测框架，比如 RAGAS、RAGChecker，它们打分，但不记录每道题的图状态；attribution 研究问声明是否有据，但不做生成前的状态路由。我们的思路来自数据库和分布式系统：ARIES 事务日志、Dapper 调用链追踪——tracing 系统从来不按"是否提速"来评判。所以我们把证据图当作 reader 调用之前的一个可观测状态对象，给 GraphRAG 补上这一层（p.3、p.13）。
+
+### 2. 怎么做的（约 2 分钟）
+
+核心是一个在生成前执行的固定状态机：每题除了短答案，还输出一份诊断记录。
+
+第一步，把问题里的实体用 exact、substring、token-overlap 三种词法匹配映射到图节点，选候选答案节点并按粗粒度答案类型过滤。第二步，在证据子图里测最短路径：路径长度满足题型要求，就判为 checked，把最短路径作为证据链交给 reader。第三步，路径有问题时输出具体缺陷标签：问题所需实体不在图里，标 missing_entities，触发实体增强修复——从已检索段落抽该实体的三元组加进图；端点都在但分属不同连通分量，标 disconnected，触发桥接修复，最多处理 5 个断连端点对；另外还有 bridge、short_chain 等标签。每轮修复后跑同一个结构性复检：通过就是 repaired，仍不通过就是 residual gap；完全没有图证据则走 passage fallback。这就是四态契约：checked、repaired、residual gap、passage fallback（Table 1，p.4）。
+
+三个关键设计：第一，**测试时不用 gold 答案、不用 gold 证据**，所有规则在评测前固定；第二，结构检查和落盘回放是已有三元组和日志的确定性函数，修复用的 LLM 抽取也是 temperature 0，所以整个产物可以离线无 LLM 重算——我们做了一个 verifier，用 SHA256、行数、schema 指纹校验产物包并独立重新打分；第三，答案选择器是保守的，只有精修答案与原答案规范化等价、或是更短的有据形式时才替换，避免后处理污染对状态机制的评估（p.5、p.7）。
+
+### 3. 结果如何（约 1.5 分钟）
+
+实验在 HotpotQA-1000 和 2WikiMultiHopQA-500 上做，后端 qwen-plus、temperature 0，baseline 包括 Naive RAG、IRCoT、LightRAG、MS GraphRAG、HopRAG、A-RAG。
+
+**第一，答案质量保持在同一区间。** Hotpot 上端到端 55.0% EM，对 HopRAG 的差异是 +2.1 个点、95% 置信区间跨零，我们明确不做 SOTA 声明；2Wiki 上 69.0% EM，和 LightRAG、A-RAG 统计上不可分（p.12）。
+
+**第二，审计信号确实能分诊错误。** 复合审计风险分把 top-20% 高风险队列的错误率浓缩到 1.53 倍和 1.29 倍；图状态单独的排序力不强，AUC 只有 0.52–0.54，但它和选择器信号互补，组合后 AUC 从 0.6077 提升到 0.6321（Table 4–5，p.10）。
+
+**第三，也是我们最看重的，图状态给出标量信号给不了的类型化失败归因。** 同样被选择器选中的题，checked 且链完整的错误率是 34%，未修复且链不完整的是 61%，差 26.6 个点；2Wiki 上 residual gap 队列差 33.3 个点（Table 7，p.11）。这意味着坏答案可以按"图坏了还是 reader 坏了"路由给不同的修复环节。
+
+我们也如实报告了两个反直觉的发现：其一，checked 只代表结构连通、不代表语义充分——用 2Wiki gold 审计，complete 态的 gold-proxy 精度只有 0.151，而缺陷标签 missing-entity 反而是 0.687，这符合设计意图：缺陷态触发修复路由，checked 从不充当语义证书；其二，去掉 reader 的段落上下文，EM 从 0.69 崩到 0.18，说明答题真正靠的是文本接地，图三元组提供的是路由和审计结构（Table 8，p.12）。另外一个 100 题的真实检索探针显示，换成 Tavily 真实检索后 residual 率从 39% 升到 67%，说明状态契约对检索噪声是有响应的（p.12–13）。
+
+### 4. 收尾（约 20 秒）
+
+总结一下：EvidenceFirst 的贡献不是新模型或新检索，而是一个抽象和协议——把生成前的图结构状态做成一等落盘对象，配合四态状态机、可回放审计和类型化路由，让 GraphRAG 系统能像数据库事务一样被事后审计。这也是我个人工程线的研究化沉淀：我此前做的开放域 GraphRAG 原型里已经在融合阶段记录被拒三元组、在问答侧给 citation，这项工作把"生成前每题证据图处于什么状态"形式化成了可检验的契约。
