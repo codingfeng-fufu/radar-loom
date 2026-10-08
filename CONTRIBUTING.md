@@ -17,7 +17,7 @@ npm run test:python
 node scripts/ci_node_checks.mjs
 ```
 
-健康检查应为 `ERROR 0 / WARN 0`。不要提交 API Key、Claude 会话状态、个人备份、PDF 原始材料或本机绝对路径。
+健康检查应为 `ERROR 0 / WARN 0`。不要提交 API Key、Claude 会话状态、个人备份、PDF 原始材料或本机绝对路径。`papers/` 和 `raw/` 下的本地来源可以留在维护者机器上。
 
 ## 页面变更
 

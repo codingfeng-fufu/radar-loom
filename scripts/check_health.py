@@ -42,6 +42,13 @@ def normalize_tags(fm: dict) -> list:
     return [str(raw)]
 
 
+def is_optional_local_source(path: str | None) -> bool:
+    """Local research inputs may be intentionally omitted from public clones."""
+    if not path:
+        return False
+    return Path(path).parts[:1] in {("papers",), ("raw",)}
+
+
 def check_update_record(body: str) -> tuple[bool, bool]:
     """返回(「更新记录」小节是否存在, 是否有 `- ` 条目)。"""
     lines = body.split("\n")
@@ -190,7 +197,7 @@ def main(argv=None) -> int:
             source_type, local_path = rc.parse_source(str(fm.get("来源", "")))
             if source_type == "unknown":
                 add(name, "E9", f"[ERROR E9] 页面《{name}》 来源类型未知")
-            elif source_type == "local" and not (rc.VAULT_ROOT / local_path).exists():
+            elif source_type == "local" and not (rc.VAULT_ROOT / local_path).exists() and not is_optional_local_source(local_path):
                 add(name, "E9", f"[ERROR E9] 页面《{name}》 本地来源不存在:{local_path}")
             summary = str(fm.get("摘要", "")).strip()
             if not summary:
@@ -208,7 +215,7 @@ def main(argv=None) -> int:
         if not _interview_summary(fm):
             add(name, "E12", f"[ERROR E12] 面试页《{name}》 缺少 summary/摘要")
         sources = _values(fm.get("source"))
-        if not sources or any(not str(s).strip() or rc.parse_source(str(s))[0] == "unknown" or (rc.parse_source(str(s))[0] == "local" and not (rc.VAULT_ROOT / rc.parse_source(str(s))[1]).exists()) for s in sources):
+        if not sources or any(not str(s).strip() or rc.parse_source(str(s))[0] == "unknown" or (rc.parse_source(str(s))[0] == "local" and not (rc.VAULT_ROOT / rc.parse_source(str(s))[1]).exists() and not is_optional_local_source(rc.parse_source(str(s))[1])) for s in sources):
             add(name, "E14", f"[ERROR E14] 面试页《{name}》 source 缺失、非法或本地来源不存在")
         if fm.get("confidence") not in VALID_CONFIDENCE and fm.get("信度") not in VALID_CONFIDENCE:
             add(name, "E12", f"[ERROR E12] 面试页《{name}》 confidence/信度缺失或非法值")

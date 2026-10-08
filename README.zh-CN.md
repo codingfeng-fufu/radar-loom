@@ -109,6 +109,8 @@ python3 scripts/new_page.py "Concept Name EnglishName" \
 
 论文笔记放在 `paper-notes/`，并在 Viewer 的“论文笔记”专区渲染。原始 PDF 属于本地输入，默认被 Git 忽略。使用 `paper-reading` Skill 生成笔记时，应记录来源位置、核心结论、限制和后续问题。
 
+知识页可以保留 `papers/` 或 `raw/` 下的本地来源。公开仓库可以不包含这些输入文件，健康检查仍会保留页面元数据校验。
+
 ### Idea Lab
 
 Ideas 放在 `ideas/` 下，拥有独立的页面、索引、图谱、健康检查和 `capture-idea` Skill。Idea Lab 不会修改主知识页的分类。

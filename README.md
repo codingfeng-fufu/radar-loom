@@ -113,6 +113,8 @@ Interview pages remain in `pages/` but use `page_type: interview` and a separate
 
 Paper notes live in `paper-notes/` and are rendered in their own Viewer section. The original PDFs are local inputs and are ignored by Git by default. Use the `paper-reading` Skill to create a note with source locations, claims, limitations, and follow-up questions.
 
+Knowledge pages may retain references to local files under `papers/` or `raw/`. Those inputs are optional and can be omitted from a public clone; the health check keeps the page metadata valid without requiring private source files.
+
 ### Idea Lab
 
 Ideas live under `ideas/` with their own pages, index, graph, health check, and `capture-idea` Skill. They do not modify the main knowledge-page taxonomy.
