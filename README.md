@@ -22,6 +22,12 @@ Most note tools stop at folders and full-text search. RadarLoom keeps the files 
 
 The repository can run as a standalone Markdown knowledge base. Claude Code and its WebUI are optional local integrations.
 
+## Product overview
+
+This concept mockup shows the intended desktop workflow: browse knowledge pages, inspect the community graph, and optionally ask Claude to work with the current page.
+
+![RadarLoom product concept](docs/assets/radarloom-product-concept.png)
+
 ## Architecture
 
 ```mermaid
@@ -40,6 +46,8 @@ flowchart TB
     A --> P
     A --> D
 ```
+
+![RadarLoom architecture](docs/assets/radarloom-architecture.png)
 
 ## Quick start
 

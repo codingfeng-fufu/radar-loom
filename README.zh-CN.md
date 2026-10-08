@@ -18,6 +18,12 @@ RadarLoom 是一个本地优先的技术知识工作台，建立在 Markdown、G
 
 RadarLoom 不依赖 Claude 也可以独立运行。Claude Code 和它的 WebUI 属于可选的本机扩展。
 
+## 产品概念图
+
+这张概念图展示了 RadarLoom 的桌面工作流：浏览知识页、查看社区图谱，并在需要时让 Claude 处理当前页面。
+
+![RadarLoom 产品概念图](docs/assets/radarloom-product-concept.png)
+
 ## 架构
 
 ```mermaid
@@ -36,6 +42,8 @@ flowchart TB
     A --> P
     A --> D
 ```
+
+![RadarLoom 架构图](docs/assets/radarloom-architecture.png)
 
 ## 快速开始
 
