@@ -1,5 +1,7 @@
 # RadarLoom
 
+[English](README.md) · [中文](README.zh-CN.md)
+
 RadarLoom is a local-first technical knowledge workspace built around Markdown, Git, and explicit links.
 
 It turns notes, paper reading, interview preparation, ideas, and project knowledge into a searchable workspace with link graphs and automatically discovered communities. The source of truth remains the Markdown files. Indexes, graph data, taxonomy state, and community summaries are generated artifacts that can be rebuilt and reviewed.
