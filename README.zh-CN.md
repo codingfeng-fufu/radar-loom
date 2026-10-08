@@ -28,17 +28,17 @@ RadarLoom 不依赖 Claude 也可以独立运行。Claude Code 和它的 WebUI �
 
 ```mermaid
 flowchart TB
-    M[Markdown 页面] --> I[build_index.py]
-    M --> G[显式 [[双链]]]
-    G --> R[render_graph.py]
-    G --> L[Leiden 社区发现]
-    L --> C[community-data.json]
-    I --> V[Viewer 与搜索]
-    R --> W[交互式图谱工作台]
+    M["Markdown 页面"] --> I["build_index.py"]
+    M --> G["显式双链"]
+    G --> R["render_graph.py"]
+    G --> L["Leiden 社区发现"]
+    L --> C["community-data.json"]
+    I --> V["Viewer 与搜索"]
+    R --> W["交互式图谱工作台"]
     C --> W
-    P[论文笔记] --> V
-    D[Ideas] --> IV[Idea Lab]
-    A[可选 Claude Code] --> M
+    P["论文笔记"] --> V
+    D["Ideas"] --> IV["Idea Lab"]
+    A["可选 Claude Code"] --> M
     A --> P
     A --> D
 ```

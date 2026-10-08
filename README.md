@@ -32,17 +32,17 @@ This concept mockup shows the intended desktop workflow: browse knowledge pages,
 
 ```mermaid
 flowchart TB
-    M[Markdown pages] --> I[build_index.py]
-    M --> G[Explicit [[wikilinks]]]
-    G --> R[render_graph.py]
-    G --> L[Leiden community discovery]
-    L --> C[community-data.json]
-    I --> V[Viewer and search]
-    R --> W[Interactive graph workbench]
+    M["Markdown pages"] --> I["build_index.py"]
+    M --> G["Explicit wikilinks"]
+    G --> R["render_graph.py"]
+    G --> L["Leiden community discovery"]
+    L --> C["community-data.json"]
+    I --> V["Viewer and search"]
+    R --> W["Interactive graph workbench"]
     C --> W
-    P[Paper notes] --> V
-    D[Ideas] --> IV[Idea Lab]
-    A[Optional Claude Code] --> M
+    P["Paper notes"] --> V
+    D["Ideas"] --> IV["Idea Lab"]
+    A["Optional Claude Code"] --> M
     A --> P
     A --> D
 ```
