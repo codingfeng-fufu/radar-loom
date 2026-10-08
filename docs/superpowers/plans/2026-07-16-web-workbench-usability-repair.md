@@ -12,10 +12,10 @@
 
 ## File Map
 
-- Modify `/home/u2023312337/webui/patch-integrated-workbench.mjs`: workbench dialogs, context protocol, Claude prompts, refresh phases, draft persistence, SVG icons, local Claude Markdown assets.
-- Modify `/home/u2023312337/webui/test-integrated-workbench.mjs`: patch contract and generated-asset assertions.
-- Modify `/home/u2023312337/webui/patch-dangerous-mode.mjs`: replace the permission-mode Unicode tool character with stable inline SVG/CSS output.
-- Modify `/home/u2023312337/webui/test-dangerous-mode.mjs`: permission control icon regression assertions.
+- Modify `<local-webui-root>/patch-integrated-workbench.mjs`: workbench dialogs, context protocol, Claude prompts, refresh phases, draft persistence, SVG icons, local Claude Markdown assets.
+- Modify `<local-webui-root>/test-integrated-workbench.mjs`: patch contract and generated-asset assertions.
+- Modify `<local-webui-root>/patch-dangerous-mode.mjs`: replace the permission-mode Unicode tool character with stable inline SVG/CSS output.
+- Modify `<local-webui-root>/test-dangerous-mode.mjs`: permission control icon regression assertions.
 - Modify `viewer.html`: local dependencies, search UI, directory persistence, no-flicker navigation, page context messages and resource errors.
 - Modify `graph-view.html`: local dependencies, stable SVG icons, graph state persistence, in-place refresh and graph context messages.
 - Modify `首页.md`: Web-first user journey and secondary maintenance instructions.
@@ -27,15 +27,15 @@
 - Create `tests/test_web_workbench_e2e.py`: Playwright-backed desktop/mobile/offline interaction regression entry point.
 - Create `scripts/vendor_web_assets.sh`: reproducible fixed-version browser asset fetch and placement.
 - Create `vendor/`: checked-in Viewer/graph browser distributions, styles and KaTeX fonts.
-- Create `/home/u2023312337/webui/vendor/`: checked-in/generated Claude WebUI Marked and DOMPurify browser distributions.
+- Create `<local-webui-root>/vendor/`: checked-in/generated Claude WebUI Marked and DOMPurify browser distributions.
 
 ### Task 1: Establish Failing Contracts for All Audit Findings
 
 **Files:**
 - Modify: `tests/test_viewer_contract.py`
 - Modify: `tests/test_graph_view_contract.py`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-dangerous-mode.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-dangerous-mode.mjs`
 - Create: `tests/test_home_web_first.py`
 - Create: `tests/test_vendor_assets.py`
 
@@ -161,8 +161,8 @@ Run:
 
 ```bash
 python3 -m unittest tests.test_viewer_contract tests.test_graph_view_contract tests.test_home_web_first tests.test_vendor_assets -v
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 ```
 
 Expected: failures specifically report missing search/state/context/local assets, old `location.reload()`, missing dialog helpers and old homepage guidance. Fix test syntax until failures reflect missing behavior rather than import or parsing errors.
@@ -174,18 +174,18 @@ git add tests/test_viewer_contract.py tests/test_graph_view_contract.py tests/te
 git commit -m "test: cover web workbench usability regressions"
 ```
 
-Commit the two `/home/u2023312337/webui` test files in that repository only if it is a separate Git worktree; otherwise leave them as tracked deployment-source changes for the final scoped commit.
+Commit the two `<local-webui-root>` test files in that repository only if it is a separate Git worktree; otherwise leave them as tracked deployment-source changes for the final scoped commit.
 
 ### Task 2: Vendor Fixed Browser Assets and Remove CDN Runtime Dependencies
 
 **Files:**
 - Create: `scripts/vendor_web_assets.sh`
 - Create: `vendor/**`
-- Create: `/home/u2023312337/webui/vendor/marked.min.js`
-- Create: `/home/u2023312337/webui/vendor/purify.min.js`
+- Create: `<local-webui-root>/vendor/marked.min.js`
+- Create: `<local-webui-root>/vendor/purify.min.js`
 - Modify: `viewer.html`
 - Modify: `graph-view.html`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 
 - [ ] **Step 1: Write the deterministic vendor script**
 
@@ -252,8 +252,8 @@ Run:
 
 ```bash
 python3 -m unittest tests.test_vendor_assets tests.test_viewer_contract tests.test_graph_view_contract -v
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-rg -n "cdn\.jsdelivr\.net|unpkg\.com" viewer.html graph-view.html /home/u2023312337/webui/patch-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+rg -n "cdn\.jsdelivr\.net|unpkg\.com" viewer.html graph-view.html <local-webui-root>/patch-integrated-workbench.mjs
 ```
 
 Expected: tests pass; `rg` produces no runtime dependency matches except the reproducible vendor script.
@@ -268,15 +268,15 @@ git commit -m "fix: serve knowledge rendering assets locally"
 ### Task 3: Repair Dialog Lifecycle, Claude Context and Draft Persistence
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: Verify the Task 1 workbench tests fail for current behavior**
 
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 ```
 
 Expected: FAIL on missing explicit cancel types, dialog lifecycle helpers, `kb-context`, graph prompt and draft persistence.
@@ -343,19 +343,19 @@ Add a small `icon(name)` build-time helper returning audited inline SVG strings 
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
 ```
 
 Expected: tests pass and patch exits 0, reporting generated workbench assets.
 
 - [ ] **Step 8: Commit workbench source changes in its owning repository**
 
-Inspect `/home/u2023312337/webui` with `git status --short`. If tracked there:
+Inspect `<local-webui-root>` with `git status --short`. If tracked there:
 
 ```bash
-git -C /home/u2023312337/webui add patch-integrated-workbench.mjs test-integrated-workbench.mjs vendor
-git -C /home/u2023312337/webui commit -m "fix: preserve workbench context and dialog state"
+git -C <local-webui-root> add patch-integrated-workbench.mjs test-integrated-workbench.mjs vendor
+git -C <local-webui-root> commit -m "fix: preserve workbench context and dialog state"
 ```
 
 Do not commit generated `dist/static` output unless that repository already tracks it.
@@ -502,9 +502,9 @@ Only add generated Markdown files that are already tracked and actually changed 
 ### Task 6: Repair Permission Icon and Mobile Composer Details
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-dangerous-mode.mjs`
-- Modify: `/home/u2023312337/webui/test-dangerous-mode.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-dangerous-mode.mjs`
+- Modify: `<local-webui-root>/test-dangerous-mode.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 
 - [ ] **Step 1: Add a failing icon contract**
 
@@ -519,7 +519,7 @@ assert.match(output, /aria-label/);
 - [ ] **Step 2: Run the test and verify RED**
 
 ```bash
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 ```
 
 Expected: FAIL because the current mode control uses the tool glyph.
@@ -531,10 +531,10 @@ Patch the control to render a local inline SVG before the mode text. In the conv
 - [ ] **Step 4: Verify and apply both patches**
 
 ```bash
-node /home/u2023312337/webui/test-dangerous-mode.mjs
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-dangerous-mode.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/patch-dangerous-mode.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
 ```
 
 Expected: all commands exit 0.
@@ -542,8 +542,8 @@ Expected: all commands exit 0.
 - [ ] **Step 5: Commit in the WebUI repository**
 
 ```bash
-git -C /home/u2023312337/webui add patch-dangerous-mode.mjs test-dangerous-mode.mjs patch-integrated-workbench.mjs
-git -C /home/u2023312337/webui commit -m "fix: stabilize workbench mobile tool controls"
+git -C <local-webui-root> add patch-dangerous-mode.mjs test-dangerous-mode.mjs patch-integrated-workbench.mjs
+git -C <local-webui-root> commit -m "fix: stabilize workbench mobile tool controls"
 ```
 
 ### Task 7: Update Web-First Guidance and Maintenance Documentation
@@ -657,8 +657,8 @@ git commit -m "test: add end-to-end workbench usability coverage"
 
 ```bash
 python3 -m unittest discover -s tests -v
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 ```
 
 Expected: zero failures and zero errors.
@@ -676,12 +676,12 @@ Expected: generators exit 0; health reports `ERROR 0 / WARN 0`.
 - [ ] **Step 3: Reapply patches and restart services**
 
 ```bash
-node /home/u2023312337/webui/patch-dangerous-mode.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
-/home/u2023312337/webui/kbserve-control restart
-/home/u2023312337/webui/webui-control restart
-/home/u2023312337/webui/kbserve-control status
-/home/u2023312337/webui/webui-control status
+node <local-webui-root>/patch-dangerous-mode.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
+<local-webui-root>/kbserve-control restart
+<local-webui-root>/webui-control restart
+<local-webui-root>/kbserve-control status
+<local-webui-root>/webui-control status
 ```
 
 Expected: both status commands report running services on `18081` and `18080`.

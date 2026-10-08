@@ -36,23 +36,23 @@
 ### Task 3: Workbench refresh protocol
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] Add failing assertions that the refresh handler POSTs `/api/refresh`, checks `response.ok`, reports a failure without reloading, and sends `kb-refresh` only after success.
-- [ ] Run `node /home/u2023312337/webui/test-integrated-workbench.mjs` and confirm the new assertions fail.
+- [ ] Run `node <local-webui-root>/test-integrated-workbench.mjs` and confirm the new assertions fail.
 - [ ] Implement the async refresh handler and update the patch-completeness marker so existing installations receive the new workbench JavaScript.
 - [ ] Run the Node test and both patch idempotence checks.
 
 ### Task 4: Service control and documentation
 
 **Files:**
-- Modify: `/home/u2023312337/webui/kbserve-control`
+- Modify: `<local-webui-root>/kbserve-control`
 - Modify: `Web操作台使用与维护说明书.md`
 - Modify: `tests/test_web_console_manual.py`
 
 - [ ] Add failing documentation assertions for automatic graph refresh and the fixed refresh API behavior.
-- [ ] Update `kbserve-control` to run `python3 scripts/serve_kb.py --host 127.0.0.1 --port 18081 --directory /home/u2023312337/知识库`.
+- [ ] Update `kbserve-control` to run `python3 scripts/serve_kb.py --host 127.0.0.1 --port 18081 --directory <repo-root>`.
 - [ ] Document refresh timing, manual refresh semantics, and troubleshooting output without exposing credentials.
 - [ ] Run documentation and service CLI tests.
 

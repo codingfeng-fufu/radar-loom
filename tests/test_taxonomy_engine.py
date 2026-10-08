@@ -114,6 +114,22 @@ class TaxonomyEngineTests(unittest.TestCase):
         registry.last_global_at = "2026-07-14"
         self.assertFalse(te.global_due(registry, CONFIG, "2026-07-15"))
 
+    def test_local_group_keeps_seed_memberships_binds_parent_and_promotes(self):
+        registry = self.engine.migrate(today="2026-07-15")
+        parent = ts.LEGACY_TAG_TO_SEED_ID["基础"]
+        vectors = {"A": np.asarray([1., 0.]), "B": np.asarray([.99, .1]), "C": np.asarray([.98, .1])}
+        group = te.tcan.NovelGroup(["pages/A.md", "pages/B.md", "pages/C.md"], .95,
+                                   {"semantic_cohesion": .95}, [parent], [parent])
+        self.engine._promote_novel_groups(registry, [group], vectors, "2026-07-16")
+        automatic = [category for cid, category in registry.categories.items() if not cid.startswith("cat_seed_")]
+        self.assertEqual(len(automatic), 1)
+        self.assertEqual(automatic[0].parents, [parent])
+        self.assertIn(("pages/B.md", parent), {(item.page, item.category_id) for item in registry.memberships})
+        self.engine._promote_novel_groups(registry, [group], vectors, "2026-07-17")
+        self.assertEqual(automatic[0].id, next(item.id for item in registry.categories.values()
+                                              if not item.id.startswith("cat_seed_")))
+        self.assertEqual(registry.categories[automatic[0].id].status, "stable")
+
     def test_pathological_global_collapse_is_rejected(self):
         before = tm.Registry.empty("hash", "2026-07-15")
         before.categories = {

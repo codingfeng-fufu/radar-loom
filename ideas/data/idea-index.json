@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "generated": "2026-08-07",
+  "stats": {
+    "ideas": 1,
+    "statuses": {
+      "captured": 1
+    }
+  },
+  "entries": [
+    {
+      "id": "IDEA-2026-001",
+      "title": "金融文档数值推理：数值 Token 隐式图 + 算子求解",
+      "file": "pages/IDEA-2026-001 金融文档数值推理：数值 Token 隐式图 + 算子求解.md",
+      "status": "captured",
+      "status_label": "刚记录",
+      "created": "2026-08-07",
+      "updated": "2026-08-07",
+      "problem": "金融文档中的数值统计与计算类问答如何做",
+      "domains": [
+        "金融NLP",
+        "数值推理",
+        "信息抽取",
+        "RAG"
+      ],
+      "blockers": [],
+      "restart_when": [],
+      "derived_from": [],
+      "combined_into": [],
+      "related_ideas": [],
+      "external_refs": [],
+      "summary": "我来描述一下我这个过程啊。就是当时呢我们想去处理金融文档当中的这种数值问题，去做一些统计啊，然后做一些计算之类的任务呢。那么我的逻辑，那我们当时的逻辑就是首先我们先利用正则的手段先把所有的数值全部抽取出来，然后呢根据以数值为中心向它周边扩展，去获取它的周边信息。拿到信息之后呢，我们去做一个，你拿到周边信息之后呢，让， OK， 这这是这是一部分，然后让大模型去"
+    }
+  ]
+}

@@ -14,7 +14,7 @@
 
 前端在现有 `default`、`acceptEdits`、`plan` 之外增加 `bypassPermissions`。选项文字使用 `Dangerously skip permissions`，选中时显示“Claude 可不经确认执行命令和修改文件”的红色警示。状态仍由当前 React 页面内存管理，不写 localStorage，因此刷新后回到 `default`。
 
-后端收到 `permissionMode: "bypassPermissions"` 时，将 SDK `permissionMode` 设为 `bypassPermissions`，并通过 SDK `extraArgs` 添加 `--allow-dangerously-skip-permissions`。其他三种模式不增加该参数。由于安装包只有编译产物，本地维护 `/home/u2023312337/webui/patch-dangerous-mode.mjs`，对特定版本 bundle 做有前置断言的幂等补丁；包重装后可重新执行，若上游结构变化则明确失败而不是静默误改。
+后端收到 `permissionMode: "bypassPermissions"` 时，将 SDK `permissionMode` 设为 `bypassPermissions`，并通过 SDK `extraArgs` 添加 `--allow-dangerously-skip-permissions`。其他三种模式不增加该参数。由于安装包只有编译产物，本地维护 `<local-webui-root>/patch-dangerous-mode.mjs`，对特定版本 bundle 做有前置断言的幂等补丁；包重装后可重新执行，若上游结构变化则明确失败而不是静默误改。
 
 ## 安全边界
 

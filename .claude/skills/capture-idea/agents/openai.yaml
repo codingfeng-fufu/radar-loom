@@ -1,0 +1,4 @@
+interface:
+  display_name: "记录 Idea"
+  short_description: "快速保存灵感与失败尝试，并发现可组合的旧 Idea"
+  default_prompt: "使用 $capture-idea 记录这条灵感，并检查是否能补全已有 Idea。"

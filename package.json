@@ -1,8 +1,20 @@
 {
   "name": "tech-radar-knowledge-base-tests",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A local-first Markdown knowledge base with searchable pages, explicit-link graphs, community views, and reproducible health checks.",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "test:e2e": "playwright test tests/web_workbench.spec.cjs --config tests/playwright.config.cjs --reporter=line"
+    "refresh:artifacts": "python3 scripts/build_index.py && python3 scripts/render_graph.py && python3 scripts/check_health.py && python3 scripts/taxonomy_cli.py validate",
+    "test:python": "python3 -m unittest discover -s tests -p 'test_*.py'",
+    "test:all": "npm run refresh:artifacts && npm run test:python && npm run test:e2e:all",
+    "start:kb": "python3 scripts/serve_kb.py --host 127.0.0.1 --port 18081 --directory .",
+    "test:e2e:local": "LD_LIBRARY_PATH=/opt/conda/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH} playwright test tests/web_workbench.spec.cjs tests/desktop_experience.spec.cjs tests/taxonomy_observability.spec.cjs --config tests/playwright.config.cjs --reporter=line",
+    "test:e2e": "LD_LIBRARY_PATH=/opt/conda/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH} playwright test tests/web_workbench.spec.cjs --config tests/playwright.config.cjs --reporter=line",
+    "test:e2e:all": "npm run test:e2e:local"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1"

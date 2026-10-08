@@ -22,8 +22,8 @@
 - `templates/工程面试页模板.md`: canonical interview page structure.
 - `.claude/skills/create-engineering-interview-page/`: skill instructions and UI metadata.
 - `viewer.html`: section tabs, interview navigation/filtering, graph switching, and typed page context.
-- `/home/u2023312337/webui/patch-integrated-workbench.mjs`: upload dialog and interview-skill prompt composition.
-- Tests under `tests/` and `/home/u2023312337/webui/test-integrated-workbench.mjs`: contracts and browser flows.
+- `<local-webui-root>/patch-integrated-workbench.mjs`: upload dialog and interview-skill prompt composition.
+- Tests under `tests/` and `<local-webui-root>/test-integrated-workbench.mjs`: contracts and browser flows.
 
 ### Task 1: Partition Pages by Explicit Type
 
@@ -431,8 +431,8 @@ git commit -m "feat: add interview section to viewer"
 ### Task 9: Add Workbench Upload and Interview Prompt UI
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: Write failing patch tests**
 
@@ -440,7 +440,7 @@ Assert the generated shell has an `创建面试页` command, a dialog with quest
 
 - [ ] **Step 2: Verify patch tests fail**
 
-Run: `node /home/u2023312337/webui/test-integrated-workbench.mjs`
+Run: `node <local-webui-root>/test-integrated-workbench.mjs`
 
 Expected: FAIL because the dialog and upload code are absent.
 
@@ -463,16 +463,16 @@ Retain the dialog and files when upload or prompt insertion fails; clear them on
 Run the patch script against the installed WebUI, then:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
-node --check /home/u2023312337/webui/app/node_modules/claude-code-webui/dist/static/assets/workbench.js
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
+node --check <local-webui-root>/app/node_modules/claude-code-webui/dist/static/assets/workbench.js
 ```
 
 Expected: all tests PASS and syntax check exits 0.
 
 - [ ] **Step 5: Preserve external WebUI edits explicitly**
 
-Do not stage the enclosing `/home/u2023312337` repository. Record the two modified WebUI source files and deployed generated assets in the completion report.
+Do not stage the enclosing `<local-user-home>` repository. Record the two modified WebUI source files and deployed generated assets in the completion report.
 
 ### Task 10: End-to-End Regression, Documentation, and Sample Page
 
@@ -516,8 +516,8 @@ Expected: both indexes and both graph data files are generated; health reports `
 ```bash
 python3 -m unittest discover -s tests -v
 KB_E2E=1 python3 tests/test_web_workbench_e2e.py -v
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 git diff --check
 ```
 

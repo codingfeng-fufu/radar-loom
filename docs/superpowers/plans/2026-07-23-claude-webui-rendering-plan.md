@@ -13,17 +13,17 @@
 ### Task 1: Lock the rendering contract
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs` only after the test is red
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs` only after the test is red
 
 - [ ] **Step 1: Add failing assertions** for the deployed patch source to contain the C-direction root classes, history state classes, tool summary/detail classes, context bar class, permission-state classes, responsive constraints, and Markdown renderer hook.
-- [ ] **Step 2: Run `node /home/u2023312337/webui/test-integrated-workbench.mjs` and verify the new assertions fail for the missing contract.
+- [ ] **Step 2: Run `node <local-webui-root>/test-integrated-workbench.mjs` and verify the new assertions fail for the missing contract.
 - [ ] **Step 3:** Keep the assertions focused on observable class names and behavior, not minified implementation offsets.
 
 ### Task 2: Add the unified Claude visual layer
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 
 - [ ] **Step 1: Add scoped theme variables and layout rules for `.claude-shell`, `.claude-header`, `.claude-thread`, `.claude-composer`, and `.claude-context-bar` using the approved gray-green/white palette, 6-8px radii, readable max width, independent message scrolling, and mobile wrapping.
 - [ ] **Step 2: Add styles for `.claude-user-message`, `.claude-assistant-message`, `.claude-markdown`, headings, lists, tables, blockquotes, inline code, fenced code, and horizontal overflow.
@@ -34,8 +34,8 @@
 ### Task 3: Expose tool, permission, and context semantics
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Test: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Test: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: Add a failing test that verifies the patch output contains semantic wrappers for tool summaries/details, permission prompts, dangerous mode, and knowledge context.
 - [ ] **Step 2: Patch the existing minified render fragments to add those classes while preserving event handlers, request payloads, and permission callbacks.
@@ -45,8 +45,8 @@
 ### Task 4: Improve history and state feedback
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Test: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Test: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: Add a failing contract for history rows, recent-session loading, empty history, and retry/error state selectors.
 - [ ] **Step 2: Add class hooks and visual rules to the existing history markup without changing history API paths or session IDs.
@@ -56,14 +56,14 @@
 ### Task 5: Regenerate and visually verify the deployed UI
 
 **Files:**
-- Modify: generated WebUI static assets under `/home/u2023312337/webui/app/node_modules/claude-code-webui/dist/static/`
+- Modify: generated WebUI static assets under `<local-webui-root>/app/node_modules/claude-code-webui/dist/static/`
 - Do not modify: knowledge-base Markdown, graph data, or Claude session files
 
-- [ ] **Step 1: Run `node /home/u2023312337/webui/patch-integrated-workbench.mjs` and its check mode.
-- [ ] **Step 2: Restart `/home/u2023312337/webui/webui-control` and verify `http://127.0.0.1:18080/` loads.
+- [ ] **Step 1: Run `node <local-webui-root>/patch-integrated-workbench.mjs` and its check mode.
+- [ ] **Step 2: Restart `<local-webui-root>/webui-control` and verify `http://127.0.0.1:18080/` loads.
 - [ ] **Step 3: Use Playwright at desktop and mobile widths to verify conversation Markdown, code block overflow, tool expansion, permission panel, history list, loading state, and error state.
 - [ ] **Step 4: Capture screenshots under `output/playwright/` and inspect for overlap, clipping, unreadable contrast, and input-bar obstruction.
-- [ ] **Step 5: Run `node /home/u2023312337/webui/test-integrated-workbench.mjs`, `node /home/u2023312337/webui/test-dangerous-mode.mjs`, and the repository test suite.
+- [ ] **Step 5: Run `node <local-webui-root>/test-integrated-workbench.mjs`, `node <local-webui-root>/test-dangerous-mode.mjs`, and the repository test suite.
 
 ### Task 6: Final verification and handoff
 

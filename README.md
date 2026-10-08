@@ -1,8 +1,56 @@
-# 技术雷达 · 个人知识外脑
+# 技术雷达知识库
 
 面向 KG / RAG / LLM 等技术方向的纯 Markdown 知识库，由用户与 CC 共同维护。系统以检索优先和增量摄入为两条核心要求：回答问题前先检索库内页面；新知识回到已有概念追加或建立新页，并以 Git 留痕。
 
-Web 端的启动、使用、Claude 配置、知识页创建和故障排查见 [Web 操作台使用与维护说明书](Web操作台使用与维护说明书.md)。
+这是一个本地优先的 Markdown 知识库工具：页面、双链、索引、图谱和自动分类都可以用 Git 追踪。Claude Code 集成属于可选的本机扩展；核心 Viewer、图谱、索引和健康检查不依赖 Claude 或云端服务。
+
+完整的本机 Claude/WebUI 配置见 [Web 操作台使用与维护说明书](Web操作台使用与维护说明书.md)。其中带有 `<repo-root>`、`<local-webui-root>` 的命令是路径模板，请替换为实际目录。
+
+## 快速开始
+
+需要 Python 3.11+；自动分类和部分测试需要 `requirements-taxonomy.txt` 中的依赖。浏览器资源已经随仓库提供。
+
+```bash
+git clone <your-repository-url>
+cd <repository-directory>
+python3 -m pip install -r requirements-taxonomy.txt
+python3 scripts/build_index.py
+python3 scripts/render_graph.py
+python3 scripts/check_health.py
+python3 scripts/serve_kb.py --host 127.0.0.1 --port 18081 --directory .
+```
+
+然后打开 `http://127.0.0.1:18081/viewer.html`。交互图谱地址是 `http://127.0.0.1:18081/graph-view.html`。
+
+运行测试：
+
+```bash
+npm ci
+npm run test:python
+node scripts/ci_node_checks.mjs
+```
+
+Claude WebUI 需要单独安装在本机，并通过环境变量或外部控制脚本连接到本知识库目录；仓库不包含 API Key、Claude 会话配置或 WebUI 安装目录。
+
+## 本地可靠性
+
+- 本机 WebUI 控制脚本的 `start` 命令会在 `.backups/` 自动保留每日一份 ZIP 备份，默认保留最近 14 份。
+- 手动备份：`python3 scripts/local_backup.py create`；校验：`python3 scripts/local_backup.py verify <备份.zip>`；恢复演练：`python3 scripts/local_backup.py stage-restore <备份.zip> --destination /tmp/kb-restore`。
+- 环境诊断：`python3 scripts/doctor.py`，只读检查依赖、关键文件、端口和 Git 工作树。
+- Viewer 在服务暂不可用时可显示最近一次只读缓存；缓存不是正式数据，服务恢复后以 Markdown 文件为准。
+
+面向实习展示的项目背景、架构、真实维护案例和可复核指标见 [项目展示稿](docs/project-portfolio.md)。
+
+## Idea Lab
+
+`ideas/` 是与技术知识库完全隔离的想法实验室，用于保存原始灵感、失败尝试、阻塞点、重新启动条件和 Idea 组合关系。它拥有独立索引、图谱、健康检查和项目级 `capture-idea` Skill，不进入主知识库分类或图谱统计。
+
+- Web 入口：操作台顶部的 `Ideas`
+- 独立入口：`http://127.0.0.1:18081/ideas/viewer.html`
+- 快速创建：`python3 ideas/scripts/new_idea.py "原始想法" --problem "想解决的问题"`
+- 独立检查：`python3 ideas/scripts/check_idea_health.py`
+
+快速记录不会调用 Claude；需要整理、追加尝试或组合旧 Idea 时使用 `$capture-idea`。
 
 与 `MASTER_knowledge_base.md` 的分工：那边是体系化沉淀的“教科书”，这里是持续吸收、检索和关联的个人知识外脑。
 
@@ -40,14 +88,33 @@ python3 scripts/new_page.py "概念名 EnglishName" \
 | 脚本 | 用途 | 命令 |
 |---|---|---|
 | `build_index.py` | 从 frontmatter 生成 `_index.md` 检索索引 | `python3 scripts/build_index.py` |
-| `render_graph.py` | 生成 `graph-data.json`、核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+| `render_graph.py` | 生成知识图、`community-data.json`、核心概览和八个分类 Mermaid 图谱 | `python3 scripts/render_graph.py` |
+| `community_graph.py` | 仅以知识页显式引用生成 Leiden 社区派生数据 | `python3 scripts/community_graph.py` |
 | `taxonomy_cli.py` | 迁移、增量分类、全局重组、状态和校验 | `python3 scripts/taxonomy_cli.py --help` |
 | `new_page.py` | 按模板建页并刷新索引 | 见“给 CC 喂料” |
 | `check_health.py` | 检查格式、链接、来源、摘要和索引一致性 | `python3 scripts/check_health.py` |
 
+## 持续集成与本地检查
+
+GitHub Actions 位于 `.github/workflows/ci.yml`，会在 Push 和 Pull Request 时运行：
+
+- Python 3.11/3.12 单元测试；
+- Node 20/22 的 Viewer/脚本契约检查；
+- 索引、图谱、健康检查和 taxonomy 产物校验。
+
+本地运行等价检查：
+
+```bash
+npm run test:python
+node scripts/ci_node_checks.mjs
+npm run refresh:artifacts
+```
+
+真实 Claude WebUI 联调依赖本机 Claude CLI 和独立 WebUI 服务，不在公共 CI 中启动；可按 `npm run test:e2e:all` 在配置好本地环境后执行。
+
 ## 图谱工作台
 
-知识库静态服务启动后打开 `http://127.0.0.1:18081/graph-view.html`。工作台使用 Cytoscape.js 与 fCoSE 布局，提供知识关系、分类结构和综合视图，支持节点搜索、动态分类导航、一跳聚焦、归属分数与信号详情和 Viewer 跳转。数据来自 `graph-data.json` 与 `taxonomy.json`；`viewer.html?f=graph.md` 及八个分类 Mermaid 图保留为可审计备用视图。
+知识库静态服务启动后打开 `http://127.0.0.1:18081/graph-view.html`。工作台使用 Cytoscape.js 与 fCoSE 布局，提供知识关系、社区结构、分类结构和综合视图，支持节点搜索、动态分类导航、一跳聚焦、归属分数与信号详情和 Viewer 跳转。知识社区只使用概念知识页之间的显式引用边，由 Leiden 派生并写入 `community-data.json`；工程/项目、面试和 MOC 不参与该社区图。数据来自 `graph-data.json`、`community-data.json` 与 `taxonomy.json`；`viewer.html?f=graph.md` 及八个分类 Mermaid 图保留为可审计备用视图。
 
 ## 可演化分类
 

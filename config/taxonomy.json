@@ -6,6 +6,8 @@
   "candidate_min_pages": 2,
   "candidate_neighborhood_k": 12,
   "candidate_cohesion_threshold": 0.78,
+  "candidate_compact_threshold": 0.93,
+  "candidate_max_pages": 15,
   "candidate_related_threshold": 0.70,
   "representative_page_limit": 5,
   "stable_min_pages": 5,

@@ -131,8 +131,16 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn('data-section="interview"', self.html)
         self.assertIn('>知识库<', self.html)
         self.assertIn('>工程面试<', self.html)
+        self.assertIn('data-section="notes"', self.html)
+        self.assertIn('>论文笔记<', self.html)
         self.assertIn("activeSection", self.html)
         self.assertRegex(self.html, r"\.section-tabs\s*\{[^}]*height:\s*36px")
+
+    def test_paper_notes_are_a_safe_renderable_section(self):
+        self.assertIn("notes: { indexUrl: '/api/paper-notes'", self.html)
+        self.assertIn("['pages', 'paper-notes'].includes(segments[0])", self.html)
+        self.assertIn("file.startsWith('paper-notes/')", self.html)
+        self.assertIn("搜索论文笔记", self.html)
 
     def test_sections_load_separate_indexes_and_persist_separate_state(self):
         self.assertIn("knowledge: { indexUrl: '_index.md'", self.html)
@@ -210,7 +218,7 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("type: 'kb-operation-result'", self.html)
 
     def test_interview_section_without_file_does_not_fall_back_to_home(self):
-        self.assertIn("requestedSection === 'interview' ? null : DEFAULT_FILE", self.html)
+        self.assertIn("requestedSection === 'interview' || requestedSection === 'notes' ? null : DEFAULT_FILE", self.html)
         self.assertIn("resolveSectionFile", self.html)
         self.assertIn("navigationState.entries[0]?.file || null", self.html)
 

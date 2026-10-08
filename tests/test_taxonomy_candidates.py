@@ -22,13 +22,33 @@ class CandidateTests(unittest.TestCase):
                        "candidate_neighborhood_k": 12, "candidate_cohesion_threshold": .78,
                        "candidate_related_threshold": .70, "representative_page_limit": 5}
 
-    def test_two_close_pages_form_candidate_even_with_different_seed_categories(self):
+    def test_two_close_pages_form_candidate_inside_the_same_seed_category(self):
         vectors = {"A": unit([1, 0]), "B": unit([.99, .1]), "C": unit([0, 1])}
-        memberships = [Membership("A.md", "cat_seed_a", .9, {}, "seed"), Membership("B.md", "cat_seed_b", .9, {}, "seed")]
-        categories = {"cat_seed_a": Category("cat_seed_a", "A", "", "forming"), "cat_seed_b": Category("cat_seed_b", "B", "", "forming")}
+        memberships = [Membership("A.md", "cat_seed_a", .9, {"tags": 1}, "seed"), Membership("B.md", "cat_seed_a", .9, {"tags": 1}, "seed")]
+        categories = {"cat_seed_a": Category("cat_seed_a", "A", "", "stable")}
         groups = tc.discover_groups(vectors, {"A": "A.md", "B": "B.md", "C": "C.md"}, memberships, categories, {}, self.config, "2026-07-19")
         self.assertEqual(len(groups), 1)
         self.assertEqual(groups[0].members, ["A.md", "B.md"])
+        self.assertEqual(groups[0].parent_category_ids, ["cat_seed_a"])
+
+    def test_complete_link_does_not_collapse_a_similarity_chain(self):
+        self.config["candidate_compact_threshold"] = .75
+        self.config["candidate_max_pages"] = 10
+        vectors = {
+            "A": unit([1.0, 0.0]), "B": unit([.8, .6]),
+            "C": unit([.28, .96]), "D": unit([-.35, .94]),
+        }
+        memberships = [Membership(f"{name}.md", "cat_seed_a", .9, {"tags": 1}, "seed") for name in vectors]
+        categories = {"cat_seed_a": Category("cat_seed_a", "A", "", "stable")}
+        groups = tc.discover_groups(vectors, {name: f"{name}.md" for name in vectors}, memberships,
+                                    categories, {}, self.config, "2026-07-19")
+        self.assertTrue(groups)
+        self.assertLess(max(len(group.members) for group in groups), 4)
+
+    def test_topic_name_prefers_repeated_chinese_subject(self):
+        pages = ["pages/操作系统 Operating System.md", "pages/操作系统运行机制.md",
+                 "pages/操作系统同步与互斥.md", "pages/操作系统死锁.md"]
+        self.assertEqual(tc.temporary_name(pages), "操作系统")
 
     def test_candidate_id_and_name_are_order_independent(self):
         candidate = tc.candidate_id(["b.md", "a.md"])

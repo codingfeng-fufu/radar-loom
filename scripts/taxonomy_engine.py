@@ -225,23 +225,50 @@ class TaxonomyEngine:
 
     def _promote_novel_groups(self, result, groups, vectors, timestamp):
         minimum = int(self.config.get("forming_min_pages", 3))
+        maximum = int(self.config.get("candidate_max_pages", 15))
+        active_keys = {(frozenset(group.members), tuple(group.parent_category_ids)) for group in groups}
+        # Retire invalid historical automatic categories through an auditable event.
+        for category_id, category in list(result.categories.items()):
+            if category_id.startswith("cat_seed_") or category.status == "merged":
+                continue
+            members = {m.page for m in result.memberships if m.category_id == category_id}
+            key = (frozenset(members), tuple(sorted(category.parents)))
+            if len(members) > maximum or (category.status == "forming" and category.parents and key not in active_keys):
+                del result.categories[category_id]
+                result.memberships = [m for m in result.memberships if m.category_id != category_id]
+                reason = "旧自动类别超过局部主题规模上限" if len(members) > maximum else "形成中类别未被局部主题再次确认"
+                result.events.append(TaxonomyEvent("delete", [category_id], reason, timestamp))
+
         for group in groups:
             if len(group.members) < minimum:
                 continue
             member_set = set(group.members)
             existing = next((cid for cid, category in result.categories.items()
-                             if category.status != "merged" and {m.page for m in result.memberships if m.category_id == cid} == member_set), None)
+                             if category.status != "merged" and set(category.parents) == set(group.parent_category_ids)
+                             and {m.page for m in result.memberships if m.category_id == cid} == member_set), None)
             if existing:
+                category = result.categories[existing]
+                stable_runs = category.stable_runs + 1
+                status = category.status
+                last_stable_at = category.last_stable_at
+                if status == "forming" and (len(member_set) >= int(self.config["stable_min_pages"]) or stable_runs >= int(self.config["stable_min_runs"])):
+                    status, last_stable_at = "stable", timestamp
+                    result.events.append(TaxonomyEvent("promote", [existing], "局部主题持续确认并达到稳定条件", timestamp))
+                result.categories[existing] = replace(category, status=status, stable_runs=stable_runs,
+                                                       last_stable_at=last_stable_at, updated_at=timestamp)
                 continue
             category_id = new_category_id(group.members, set(result.categories))
             result.categories[category_id] = Category(
                 id=category_id, name=tcan.temporary_name(group.members),
                 definition="由候选页面形成的高内聚新主题。", status="forming",
-                naming_status="pending", created_at=timestamp, updated_at=timestamp,
+                naming_status="pending", parents=group.parent_category_ids,
+                related=[cid for cid in group.related_category_ids if cid not in group.parent_category_ids],
+                created_at=timestamp, updated_at=timestamp, stable_runs=1,
             )
+            centroid = np.mean([vectors[Path(path).stem] for path in group.members], axis=0)
             for path in group.members:
                 name = Path(path).stem
-                score = float(group.cohesion_score)
+                score = max(0.0, min(1.0, tcan._cosine(vectors[name], centroid)))
                 result.memberships.append(Membership(path, category_id, score, dict(group.signals),
                     f"候选群组语义内聚度 {score:.2f}", timestamp, timestamp))
             result.events.append(TaxonomyEvent("create", [category_id], "候选群组达到形成阈值", timestamp))
@@ -299,6 +326,10 @@ class TaxonomyEngine:
                 continue
             try:
                 assignments = ts.classify_page(name, vectors, result, pages, self.config)
+                tags = pages[name].frontmatter.get("tags", [])
+                if not isinstance(tags, list):
+                    tags = [tags]
+                assigned_ids = {assignment.category_id for assignment in assignments}
                 for assignment in assignments:
                     result.memberships.append(
                         Membership(
@@ -311,6 +342,17 @@ class TaxonomyEngine:
                             last_confirmed_at=timestamp,
                         )
                     )
+                for tag in sorted(set(map(str, tags)) & set(ts.LEGACY_TAG_TO_SEED_ID)):
+                    category_id = ts.LEGACY_TAG_TO_SEED_ID[tag]
+                    if category_id in assigned_ids:
+                        continue
+                    result.memberships.append(Membership(
+                        page=path, category_id=category_id, score=1.0,
+                        signals={"semantic": 0.0, "links": 0.0, "tags": 1.0, "projects": 0.0},
+                        reason=f"历史人工标签 {tag}",
+                        first_assigned_at=first_assignment.get((path, category_id), timestamp),
+                        last_confirmed_at=timestamp,
+                    ))
                 if not assignments:
                     forming = ts.detect_forming_group(name, vectors, result, self.config)
                     if forming is not None:

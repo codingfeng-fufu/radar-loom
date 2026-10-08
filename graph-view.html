@@ -41,7 +41,7 @@
     .search-result:hover, .search-result:focus { background: #eaf4f1; }
     .search-result small { display: block; color: var(--muted); }
     .tools { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
-    .mode-switch { display: grid; grid-template-columns: repeat(3, auto); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .mode-switch { display: grid; grid-template-columns: repeat(4, auto); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
     .mode-button { height: 32px; border: 0; border-right: 1px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--muted); white-space: nowrap; }
     .mode-button:last-child { border-right: 0; }
     .mode-button[aria-pressed="true"] { background: #dcefe9; color: #075545; font-weight: 700; }
@@ -132,6 +132,11 @@
   <script src="vendor/cytoscape/layout-base.js"></script>
   <script src="vendor/cytoscape/cose-base.js"></script>
   <script src="vendor/cytoscape/cytoscape-fcose.js"></script>
+<style>
+  .graph-shell .graph canvas { image-rendering: auto; }
+  .node-title { letter-spacing: 0; }
+  @media (min-width: 1100px) { .graph-shell { background: #111820; } }
+</style>
 </head>
 <body>
   <div class="app">
@@ -139,6 +144,7 @@
       <div class="brand"><a href="viewer.html" title="返回知识库">←</a><strong>交互图谱</strong><span class="statline" id="toolbarStats">载入中</span></div>
       <div class="mode-switch" id="modeSwitch" role="group" aria-label="图谱视图">
         <button class="mode-button" type="button" data-mode="knowledge" aria-pressed="true">知识关系</button>
+        <button class="mode-button" type="button" data-mode="community" aria-pressed="false">社区结构</button>
         <button class="mode-button" type="button" data-mode="taxonomy" aria-pressed="false">分类结构</button>
         <button class="mode-button" type="button" data-mode="combined" aria-pressed="false">综合视图</button>
       </div>
@@ -151,6 +157,11 @@
         <button class="tool-button icon-button" id="fitButton" type="button" title="适应视图" aria-label="适应视图"><svg data-icon="fit" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"/></svg></button>
         <button class="tool-button icon-button" id="rebuildTaxonomy" type="button" title="全局重组分类" aria-label="全局重组分类"><svg data-icon="refresh" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7"/></svg></button>
         <button class="tool-button text-button" id="layoutButton" type="button">重新布局</button>
+        <button class="tool-button text-button" id="communityBackButton" type="button" hidden>返回上层</button>
+        <button class="tool-button text-button" id="exportPngButton" type="button" title="导出 PNG">PNG</button>
+        <button class="tool-button text-button" id="exportSvgButton" type="button" title="导出 SVG">SVG</button>
+        <button class="tool-button text-button" id="exportJsonButton" type="button" title="导出 JSON">JSON</button>
+        <button class="tool-button text-button" id="pathButton" type="button" title="查询两节点最短路径">路径</button>
         <label class="switch-row"><input id="labelsToggle" type="checkbox"> 全部标签</label>
       </div>
     </header>
@@ -166,6 +177,7 @@
         <section class="filter-section"><h3>分类</h3><div class="check-list" id="categoryFilters"></div></section>
         <section class="filter-section"><h3>项目</h3><div class="check-list" id="projectFilters"></div></section>
         <section class="filter-section"><label class="switch-row"><input id="neighborOnly" type="checkbox" disabled> 仅显示选中节点及一跳邻居</label></section>
+        <section class="filter-section" id="pathPanel" hidden><h3>最短路径</h3><input id="pathFrom" class="search" placeholder="起点节点" aria-label="路径起点"><input id="pathTo" class="search" placeholder="终点节点" aria-label="路径终点"><button class="tool-button text-button" id="pathRun" type="button">查找路径</button></section>
       </aside>
 
       <main class="graph-shell">
@@ -191,7 +203,7 @@
     const CATEGORY_COLOR = '#d3924a';
     const urlParams = new URLSearchParams(location.search);
     const profileParam = urlParams.get('profile');
-    const explicitMode = ['knowledge', 'taxonomy', 'combined'].includes(urlParams.get('mode')) ? urlParams.get('mode') : null;
+    const explicitMode = ['knowledge', 'community', 'taxonomy', 'combined'].includes(urlParams.get('mode')) ? urlParams.get('mode') : null;
     const PROFILE = ['knowledge', 'interview'].includes(profileParam) ? profileParam : 'knowledge';
     const GRAPH_DATA_URLS = { knowledge: 'graph-data.json', interview: 'interview-graph-data.json' };
     const GRAPH_STATE_KEYS = { knowledge: 'radar-graph-state-knowledge-v1', interview: 'radar-graph-state-interview-v1' };
@@ -204,7 +216,7 @@
         const stored = sessionStorage.getItem(GRAPH_STATE_KEY)
           || (PROFILE === 'knowledge' ? sessionStorage.getItem(LEGACY_GRAPH_STATE_KEY) : null);
         const value = JSON.parse(stored || 'null');
-        if (!value || value.version !== 1 || !['knowledge', 'taxonomy', 'combined'].includes(value.mode)) return null;
+        if (!value || value.version !== 1 || !['knowledge', 'community', 'taxonomy', 'combined'].includes(value.mode)) return null;
         const finite = (number) => Number.isFinite(number) ? number : null;
         return {
           version: 1, mode: value.mode,
@@ -218,7 +230,7 @@
       } catch (_error) { return null; }
     }
     const state = {
-      payload: null, cy: null, selected: null, showAllLabels: false, mode: 'knowledge',
+      payload: null, cy: null, selected: null, showAllLabels: false, mode: 'knowledge', communityFocus: null,
       revision: null, refreshing: false, handlersBound: false, restoring: false,
       restore: readPersistedState(), lastTap: { id: null, at: 0 }
     };
@@ -228,7 +240,7 @@
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
       'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails',
-      'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'graphLegend', 'toast'
+      'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'communityBackButton', 'graphLegend', 'toast', 'exportPngButton', 'exportSvgButton', 'exportJsonButton', 'pathButton', 'pathPanel', 'pathFrom', 'pathTo', 'pathRun'
     ].map((id) => [id, document.getElementById(id)]));
 
     function createText(tag, text, className) {
@@ -237,6 +249,12 @@
       if (className) node.className = className;
       return node;
     }
+
+    function downloadBlob(blob, filename) { const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = filename; link.click(); setTimeout(() => URL.revokeObjectURL(url), 0); }
+    function exportGraphJson() { if (!state.cy) return; downloadBlob(new Blob([JSON.stringify(state.cy.json(), null, 2)], { type: 'application/json' }), `graph-${state.mode}.json`); }
+    function exportGraphPng() { if (!state.cy) return; const data = state.cy.png({ full: true, scale: 2, bg: '#ffffff' }); const link = document.createElement('a'); link.href = data; link.download = `graph-${state.mode}.png`; link.click(); }
+    function exportGraphSvg() { if (!state.cy) return; const nodes = state.cy.nodes().not('.filtered'); const bounds = state.cy.elements().boundingBox(); const pad = 40; const width = Math.max(1, bounds.w + pad * 2); const height = Math.max(1, bounds.h + pad * 2); const esc = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[char])); const lines = state.cy.edges().filter((edge) => !edge.source().hasClass('filtered') && !edge.target().hasClass('filtered')).map((edge) => { const a = edge.source().position(); const b = edge.target().position(); return `<line x1="${a.x - bounds.x1 + pad}" y1="${a.y - bounds.y1 + pad}" x2="${b.x - bounds.x1 + pad}" y2="${b.y - bounds.y1 + pad}" stroke="#aab4bd" stroke-width="1"/>`; }).join(''); const circles = nodes.map((node) => { const pos = node.position(); const label = esc(node.data('label')); return `<circle cx="${pos.x - bounds.x1 + pad}" cy="${pos.y - bounds.y1 + pad}" r="12" fill="#3f8f78"/><text x="${pos.x - bounds.x1 + pad + 15}" y="${pos.y - bounds.y1 + pad + 4}" font-family="sans-serif" font-size="11" fill="#202421">${label}</text>`; }).join(''); const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="white"/>${lines}${circles}</svg>`; downloadBlob(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), `graph-${state.mode}.svg`); }
+    function findShortestPath() { if (!state.cy) return; const from = el.pathFrom.value.trim(); const to = el.pathTo.value.trim(); if (!from || !to) { showToast('请输入起点和终点节点'); return; } const source = state.cy.nodes().filter((node) => node.data('label') === from || node.data('label')?.includes(from)).first(); const target = state.cy.nodes().filter((node) => node.data('label') === to || node.data('label')?.includes(to)).first(); if (!source.length || !target.length) { showToast('未找到起点或终点节点'); return; } const result = state.cy.elements().aStar({ root: source, goal: target, directed: false }); if (!result.found) { showToast('两个节点之间没有可达路径'); return; } state.cy.elements().removeClass('selected neighbor faded search-hit'); result.path.addClass('selected'); state.selected = target; state.cy.fit(result.path, 70); showToast(`最短路径：${result.path.nodes().map((node) => node.data('label')).join(' → ')}`); }
 
     function closePanels() { document.body.classList.remove('filters-open', 'details-open'); }
 
@@ -275,7 +293,9 @@
       el.categoryFilters.replaceChildren();
       el.projectFilters.replaceChildren();
       const internalPayloadNodes = state.payload.nodes.filter((node) => !node.external);
-      if (state.mode === 'knowledge') {
+      if (state.mode === 'community') {
+        el.categoryFilters.append(checkboxRow({ value: '__all__', label: '全部社区', color: '#5d8fc4', count: state.payload.community?.communities?.length || 0, checked: true, group: 'community' }));
+      } else if (state.mode === 'knowledge') {
         for (const [category, color] of Object.entries(state.payload.categories)) {
           const count = internalPayloadNodes.filter((node) => node.category === category).length;
           const restored = state.restore?.mode === state.mode ? state.restore.categories : [];
@@ -343,6 +363,52 @@
       return [...nodes, ...edges];
     }
 
+    function communityElements(payload, focusId = null) {
+      const community = payload.community || {};
+      const compactLabel = (value, limit) => {
+        const text = String(value || '').replace(/\s+/g, ' ').trim();
+        return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
+      };
+      const allCommunities = community.communities || [];
+      const focus = focusId ? allCommunities.find((item) => item.id === focusId) : null;
+      const visibleCommunities = !focus ? allCommunities.filter((item) => item.level === 2 && !item.parent)
+        : focus.level === 2 ? allCommunities.filter((item) => item.parent === focus.id || item.id === focus.id)
+          : allCommunities.filter((item) => item.id === focus.id || item.id === focus.parent);
+      const visibleIds = new Set(visibleCommunities.map((item) => item.id));
+      const nodes = visibleCommunities.map((item) => ({ group: 'nodes', data: {
+        id: `community:${item.id}`, label: compactLabel(item.name || item.id, item.level === 2 ? 24 : 15), fullLabel: item.name || item.id, nodeType: 'community', communityId: item.id,
+        summary: item.summary, detail: item.detail, degree: item.memberCount || item.members?.length || 0,
+        members: item.members || [], level: item.level || 1, parentCommunity: item.parent || null,
+        size: Math.min(92, 42 + Math.sqrt(item.memberCount || 1) * 10)
+      }}));
+      const pageMap = new Map((payload.nodes || []).map((node) => [node.id, node]));
+      const pageNodes = [];
+      const pageEdges = [];
+      visibleCommunities.filter((item) => item.level === 1 && focus?.level === 1).forEach((communityItem) => {
+        if (focus && focus.level === 1 && communityItem.id !== focus.id) return;
+        (communityItem.members || []).forEach((pageId) => {
+          const page = pageMap.get(pageId);
+          if (!page) return;
+          pageNodes.push({ group: 'nodes', data: {
+            ...page, id: `community-page:${pageId}`, label: page.label, nodeType: 'community-page',
+            pageId, communityId: communityItem.id, degree: page.degree || 0, href: page.href
+          }});
+          pageEdges.push({ group: 'edges', data: {
+            id: `community-membership:${communityItem.id}:${pageId}`,
+            source: `community:${communityItem.id}`, target: `community-page:${pageId}`, edgeType: 'community-membership'
+          }});
+        });
+      });
+      const edges = (community.edges || []).filter((edge) => visibleIds.has(edge.source) && visibleIds.has(edge.target)).map((edge, index) => ({ group: 'edges', data: {
+        id: `community-edge:${index}`, source: `community:${edge.source}`, target: `community:${edge.target}`,
+        count: edge.count || 1, edgeType: edge.edgeType || 'community'
+      }}));
+      const focusEdge = focus && focus.parent && visibleIds.has(focus.parent) ? [{ group: 'edges', data: {
+        id: `community-focus-parent:${focus.parent}:${focus.id}`, source: `community:${focus.parent}`, target: `community:${focus.id}`, edgeType: 'hierarchy'
+      }}] : [];
+      return [...nodes, ...pageNodes, ...edges, ...pageEdges, ...focusEdge];
+    }
+
     function taxonomyStatusSummary(payload) {
       const taxonomy = payload.taxonomy || {};
       const stats = taxonomy.stats || payload.stats || {};
@@ -402,6 +468,7 @@
     }
 
     function elementsFor(mode) {
+      if (mode === 'community') return communityElements(state.payload, state.communityFocus);
       if (mode === 'taxonomy') return taxonomyElements(state.payload);
       if (mode === 'combined') return combinedElements(state.payload);
       return knowledgeElements(state.payload);
@@ -413,7 +480,7 @@
 
     function persistGraphState() {
       if (!state.cy || state.restoring) return;
-      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const group = state.mode === 'knowledge' ? 'category' : state.mode === 'community' ? 'community' : 'taxonomy';
       const pan = state.cy.pan();
       sessionStorage.setItem(GRAPH_STATE_KEY, JSON.stringify({
         version: 1, mode: state.mode, categories: [...checkedValues(group)], projects: [...checkedValues('project')],
@@ -430,7 +497,7 @@
 
     function notifyGraphContext() {
       if (window.parent === window || !state.cy) return;
-      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const group = state.mode === 'knowledge' ? 'category' : state.mode === 'community' ? 'community' : 'taxonomy';
       const visibleNodes = state.cy.nodes().not('.filtered');
       const visibleEdges = state.cy.edges().not('.filtered');
       const selected = state.selected ? {
@@ -448,6 +515,7 @@
     }
 
     function baseNodeVisible(node, categories, projects) {
+      if (state.mode === 'community') return categories.has('__all__') || categories.has(node.data('communityId'));
       if (node.data('nodeType') === 'category') return categories.has(node.data('categoryId'));
       const categoryMatch = state.mode !== 'knowledge' || !node.data('category') || categories.has(node.data('category'));
       const tags = node.data('tags') || [];
@@ -459,7 +527,7 @@
 
     function applyFilters() {
       if (!state.cy) return;
-      const group = state.mode === 'knowledge' ? 'category' : 'taxonomy';
+      const group = state.mode === 'knowledge' ? 'category' : state.mode === 'community' ? 'community' : 'taxonomy';
       const categories = checkedValues(group);
       const projects = checkedValues('project');
       let allowed = new Set(state.cy.nodes().filter((node) => baseNodeVisible(node, categories, projects)).map((node) => node.id()));
@@ -483,7 +551,7 @@
     function updateLabels() {
       if (!state.cy) return;
       state.cy.nodes().forEach((node) => {
-        const important = node.data('nodeType') === 'category' || Number(node.data('degree')) >= 18;
+        const important = node.data('nodeType') === 'category' || Number(node.data('degree')) >= 30;
         const highlighted = node.hasClass('selected') || node.hasClass('neighbor') || node.hasClass('search-hit');
         node.toggleClass('show-label', state.showAllLabels || important || highlighted);
       });
@@ -491,6 +559,18 @@
 
     function runLayout(animate = true) {
       if (!state.cy || state.cy.nodes().length === 0) return;
+      if (state.mode === 'community') {
+        runCommunityHierarchyLayout(animate);
+        return;
+      }
+      // Large graphs use deterministic initial positions instead of an expensive force solve.
+      // Users can still request a deliberate re-layout from the toolbar.
+      if (state.cy.nodes().length > 280 && !animate) {
+        state.cy.layout({ name: 'preset', fit: true, padding: 42 }).run();
+        el.loading.hidden = true;
+        updateLabels();
+        return;
+      }
       if (state.mode === 'taxonomy' && state.cy.edges().length === 0) {
         const compactMobile = state.cy.width() <= 480;
         const gridWidth = Math.min(state.cy.width(), compactMobile ? 260 : 660);
@@ -512,6 +592,74 @@
         fit: true, padding: 44, nodeRepulsion: 9000, idealEdgeLength: state.mode === 'combined' ? 75 : 95,
         edgeElasticity: 0.35, nestingFactor: 0.1, gravity: 0.3, numIter: animate ? 1200 : 450, tile: true
       }).run();
+    }
+
+    function runCommunityHierarchyLayout(animate = true) {
+      const nodes = state.cy.nodes('[nodeType = "community"]');
+      const pageNodes = state.cy.nodes('[nodeType = "community-page"]');
+      const byId = new Map(nodes.map((node) => [node.data('communityId'), node]));
+      const children = new Map(nodes.map((node) => [node.data('communityId'), []]));
+      nodes.forEach((node) => {
+        const parent = node.data('parentCommunity');
+        if (parent && children.has(parent)) children.get(parent).push(node.data('communityId'));
+      });
+      children.forEach((items) => items.sort((a, b) => (byId.get(a)?.data('label') || a).localeCompare(byId.get(b)?.data('label') || b)));
+      const roots = nodes.filter((node) => !node.data('parentCommunity') || !byId.has(node.data('parentCommunity')))
+        .sort((a, b) => a.data('label').localeCompare(b.data('label')));
+      const maxLeaves = Math.max(1, Math.max(...[...children.values()].map((items) => items.length), 1));
+      const gapX = Math.max(92, Math.min(150, (state.cy.width() - 140) / Math.max(8, maxLeaves + 1)));
+      const gapY = Math.max(260, Math.min(360, state.cy.height() * .46));
+      const widths = new Map();
+      function span(id) {
+        if (widths.has(id)) return widths.get(id);
+        const value = Math.max(1, (children.get(id) || []).reduce((sum, child) => sum + span(child), 0));
+        widths.set(id, value); return value;
+      }
+      roots.forEach((root) => span(root.data('communityId')));
+      let cursor = 0;
+      const positions = new Map();
+      function place(id, depth) {
+        const kids = children.get(id) || [];
+        if (!kids.length) {
+          const x = cursor * gapX; cursor += 1; positions.set(id, { x, y: depth * gapY }); return x;
+        }
+        const childXs = kids.map((child) => place(child, depth + 1));
+        const x = (childXs[0] + childXs[childXs.length - 1]) / 2;
+        positions.set(id, { x, y: depth * gapY }); return x;
+      }
+      roots.forEach((root, index) => {
+        if (index) cursor += .7;
+        place(root.data('communityId'), 0);
+      });
+      const offsetX = 80;
+      const offsetY = 80;
+      const targets = new Map();
+      nodes.forEach((node) => {
+        const position = positions.get(node.data('communityId')) || { x: 0, y: 0 };
+        targets.set(node.id(), { x: position.x + offsetX, y: position.y + offsetY });
+      });
+      const pagesByCommunity = new Map();
+      pageNodes.forEach((node) => {
+        const list = pagesByCommunity.get(node.data('communityId')) || [];
+        list.push(node); pagesByCommunity.set(node.data('communityId'), list);
+      });
+      pagesByCommunity.forEach((items, communityId) => {
+        items.sort((a, b) => a.data('label').localeCompare(b.data('label')));
+        const parentPosition = positions.get(communityId) || { x: 0, y: 0 };
+        const columns = Math.max(1, Math.ceil(Math.sqrt(items.length)));
+        const pageGap = 34;
+        const width = (columns - 1) * pageGap;
+        items.forEach((node, index) => targets.set(node.id(), {
+          x: parentPosition.x + offsetX - width / 2 + (index % columns) * pageGap,
+          y: parentPosition.y + offsetY + 150 + Math.floor(index / columns) * pageGap
+        }));
+      });
+      state.cy.batch(() => nodes.forEach((node) => node.position(targets.get(node.id()))));
+      state.cy.batch(() => pageNodes.forEach((node) => node.position(targets.get(node.id()))));
+      if (animate) state.cy.animate({ fit: { eles: nodes.union(pageNodes), padding: 55 }, duration: 420 });
+      else state.cy.fit(nodes.union(pageNodes), 55);
+      el.loading.hidden = true;
+      updateLabels();
     }
 
     function clearFocus({ close = false } = {}) {
@@ -570,7 +718,7 @@
       });
       if (data.aliases?.length) content.append(createText('p', `别名：${data.aliases.join('、')}`, 'summary'));
       const recent = state.payload.taxonomy.events.filter((event) => event.categoryIds.includes(data.categoryId)).slice(-5).reverse();
-      if (recent.length) content.append(createText('p', recent.map((event) => `${event.createdAt} ${event.type}：${event.reason}`).join('\n'), 'summary'));
+      if (recent.length) { const timeline = createText('section', '', 'neighbors'); timeline.append(createText('h3', '分类变化时间线')); const list = createText('ol', '', 'timeline'); recent.forEach((event) => { const item = createText('li', `${event.createdAt || '未知时间'} · ${event.type || '变更'}：${event.reason || ''}`); list.append(item); }); timeline.append(list); content.append(timeline); }
       el.detailContent.replaceChildren(content);
     }
 
@@ -592,6 +740,24 @@
 
     function renderDetails(node) {
       const data = node.data();
+      if (data.nodeType === 'community') {
+        const content = document.createDocumentFragment();
+        content.append(createText('h3', data.fullLabel || data.label, 'node-title'));
+        content.append(createText('p', data.summary || '暂无社区摘要。', 'summary'));
+        if (data.detail) content.append(createText('p', data.detail, 'summary'));
+        const grid = createText('div', '', 'detail-grid');
+        grid.append(createText('span', '成员页面'), createText('span', String(data.degree || 0)), createText('span', '层级'), createText('span', String(data.level || 1)));
+        content.append(grid);
+        const section = createText('section', '', 'neighbors'); section.append(createText('h3', '成员页面'));
+        const list = createText('div', '', 'neighbor-list');
+        (data.members || []).slice(0, 30).forEach((member) => {
+          const button = createText('button', member, 'neighbor-button'); button.type = 'button';
+          button.addEventListener('click', () => { const page = state.cy.nodes().filter((item) => item.data('label') === member).first(); if (page.length) focusNode(page); });
+          list.append(button);
+        });
+        section.append(list); content.append(section);
+        el.detailContent.replaceChildren(content); return;
+      }
       if (data.nodeType === 'category') { renderCategoryDetails(data); return; }
       const content = document.createDocumentFragment();
       content.append(createText('h3', data.label, 'node-title'));
@@ -601,7 +767,7 @@
       if (data.confidence) meta.append(createText('span', `信度 ${data.confidence}`, 'badge'));
       content.append(meta, createText('p', data.summary || '该页面暂无摘要。', 'summary'));
       const grid = createText('div', '', 'detail-grid');
-      grid.append(createText('span', '连接数'), createText('span', String(data.degree)), createText('span', '主分类'), createText('span', data.category || '结构页'));
+      grid.append(createText('span', '连接数'), createText('span', String(data.degree)), createText('span', '入边'), createText('span', String(node.incomers('edge').length)), createText('span', '出边'), createText('span', String(node.outgoers('edge').length)), createText('span', '主分类'), createText('span', data.category || '结构页'));
       content.append(grid);
       const link = createText('a', '在 Viewer 打开', 'open-link'); link.href = node.data('href'); content.append(link);
       renderMembershipDetails(data, content);
@@ -636,7 +802,7 @@
 
     function updateLegend() {
       el.graphLegend.replaceChildren();
-      const items = state.mode === 'knowledge' ? [['知识双链', '']] : state.mode === 'taxonomy'
+      const items = state.mode === 'knowledge' ? [['知识双链', '']] : state.mode === 'community' ? [['社区间引用', 'community-edge']] : state.mode === 'taxonomy'
         ? [['上位关系', ''], ['相关关系', 'related'], ['种子分类', 'seed-source'], ['自动分类', 'automatic-source'], ['候选分类', 'candidate-source']]
         : [['知识双链', ''], ['分类归属', 'membership'], ['相关关系', 'related']];
       items.forEach(([label, kind]) => {
@@ -657,6 +823,7 @@
       const restored = state.restore?.mode === mode ? state.restore : null;
       state.restoring = Boolean(restored);
       state.mode = mode;
+      if (mode !== 'community') state.communityFocus = null;
       state.selected = null;
       state.cy.batch(() => {
         state.cy.elements().remove();
@@ -664,6 +831,7 @@
         seedInitialPositions(added.nodes());
       });
       [...el.modeSwitch.querySelectorAll('[data-mode]')].forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
+      el.communityBackButton.hidden = mode !== 'community' || !state.communityFocus;
       buildFilters(); updateLegend(); clearFocus();
       state.showAllLabels = restored ? restored.showAllLabels : state.showAllLabels;
       el.labelsToggle.checked = state.showAllLabels;
@@ -691,6 +859,11 @@
       state.handlersBound = true;
       state.cy.on('tap', 'node', (event) => {
         const node = event.target; const now = Date.now();
+        if (state.mode === 'community' && node.data('nodeType') === 'community') {
+          state.communityFocus = node.data('communityId');
+          replaceGraphElements('community');
+          state.lastTap = { id: node.id(), at: now }; return;
+        }
         if (state.mode === 'taxonomy' && ['category', 'candidate'].includes(node.data('nodeType'))) {
           if (state.lastTap.id === node.id() && now - state.lastTap.at < 500) { collapseTaxonomyMembers(); clearFocus({ close: true }); }
           else { expandTaxonomyCategory(node); focusNode(node); }
@@ -717,14 +890,18 @@
         container: document.getElementById('graph'), elements: [], minZoom: 0.12, maxZoom: 3.2,
         style: [
           { selector: 'node', style: {
-            'background-color': (node) => node.data('nodeType') === 'category' ? CATEGORY_COLOR : node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
-            'width': (node) => node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'height': (node) => node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
-            'shape': (node) => node.data('nodeType') === 'category' || node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 'ellipse' : node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
+            'background-color': (node) => node.data('nodeType') === 'community' ? '#3978a8' : node.data('nodeType') === 'category' ? CATEGORY_COLOR : node.data('kind') === 'project' ? '#9b68ad' : node.data('kind') === 'moc' ? '#26323d' : (payload.categories[node.data('category')] || '#7a8792'),
+            'width': (node) => node.data('nodeType') === 'community' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'height': (node) => node.data('nodeType') === 'community' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'category' ? Number(node.data('size')) || 58 : node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 34 : Math.min(48, 17 + Math.sqrt(Number(node.data('degree')) + 1) * 3.2),
+            'shape': (node) => node.data('nodeType') === 'community' || node.data('nodeType') === 'category' || node.data('nodeType') === 'representative' || node.data('nodeType') === 'candidate-member' ? 'ellipse' : node.data('kind') === 'project' ? 'diamond' : node.data('kind') === 'moc' ? 'round-rectangle' : 'ellipse',
             'border-width': 1, 'border-color': '#dce4ea', 'label': '', 'color': '#f7fafc', 'font-size': 10,
             'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130, 'text-valign': 'bottom', 'text-margin-y': 8
           }},
           { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3', 'font-size': compactGraph ? 20 : 14, 'text-wrap': 'wrap', 'text-max-width': 120 } },
+          { selector: 'node[nodeType = "community"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#a9dcff', 'font-size': compactGraph ? 15 : 12, 'text-wrap': 'wrap', 'text-max-width': 130, 'text-margin-y': 10 } },
+          { selector: 'node[nodeType = "community"][level = 2]', style: { 'background-color': '#2e779f', 'border-width': 4, 'border-color': '#f1c873', 'font-size': compactGraph ? 18 : 16, 'text-max-width': 180, 'width': 82, 'height': 82, 'text-margin-y': 12 } },
+          { selector: 'node[nodeType = "community"][level = 1]', style: { 'background-color': '#3978a8', 'width': 48, 'height': 48, 'font-size': compactGraph ? 13 : 11 } },
+          { selector: 'node[nodeType = "community-page"]', style: { 'background-color': '#6b7f8d', 'border-width': 1, 'border-color': '#9aabb7', 'width': 13, 'height': 13, 'label': '', 'opacity': .82 } },
           { selector: 'node[nodeType = "category"][source = "seed"]', style: { 'background-color': '#b97832', 'border-color': '#ffe2b3', 'border-style': 'solid' } },
           { selector: 'node[nodeType = "category"][source = "automatic"]', style: { 'background-color': '#6176a8', 'border-color': '#b8c8ff', 'border-style': 'double' } },
           { selector: 'node[nodeType = "candidate"], node[lifecycle = "candidate"]', style: { 'border-style': 'dashed', 'border-color': '#6dc5ad', 'background-color': '#3f8f78' } },
@@ -736,6 +913,9 @@
           { selector: 'edge[edgeType = "parent"]', style: { 'width': 2, 'line-color': '#aab8c3', 'target-arrow-color': '#aab8c3', 'opacity': .75 } },
           { selector: 'edge[edgeType = "related"]', style: { 'line-style': 'dashed', 'line-color': '#d7a85a', 'target-arrow-shape': 'none', 'curve-style': 'bezier', 'opacity': .34 } },
           { selector: 'edge[edgeType = "membership"]', style: { 'line-color': '#6dc5ad', 'target-arrow-color': '#6dc5ad', 'target-arrow-shape': 'none', 'opacity': .28 } },
+          { selector: 'edge[edgeType = "community"]', style: { 'width': (edge) => Math.min(4, 1 + Number(edge.data('count') || 1) * .3), 'line-color': '#668aa1', 'target-arrow-color': '#668aa1', 'curve-style': 'unbundled-bezier', 'control-point-distances': 52, 'control-point-weights': .5, 'opacity': .10 } },
+          { selector: 'edge[edgeType = "hierarchy"]', style: { 'width': 4, 'line-color': '#e2b44f', 'target-arrow-color': '#e2b44f', 'curve-style': 'straight', 'line-style': 'solid', 'opacity': .98 } },
+          { selector: 'edge[edgeType = "community-membership"]', style: { 'width': 1, 'line-color': '#8a9aa5', 'target-arrow-shape': 'none', 'opacity': .24 } },
           { selector: '.selected', style: { 'border-width': 4, 'border-color': '#fff', 'z-index': 20 } },
           { selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#9ee8d4', 'z-index': 10 } },
           { selector: '.faded', style: { 'opacity': .09 } }, { selector: '.filtered', style: { 'display': 'none' } },
@@ -840,6 +1020,17 @@
     el.search.addEventListener('keydown', (event) => { if (event.key === 'Escape') { el.search.value = ''; renderSearchResults(''); } });
     el.fitButton.addEventListener('click', () => state.cy?.fit(state.cy.elements().not('.filtered'), 42));
     el.layoutButton.addEventListener('click', () => runLayout(true));
+    el.communityBackButton.addEventListener('click', () => {
+      if (state.mode !== 'community' || !state.communityFocus) return;
+      const current = state.payload.community.communities.find((item) => item.id === state.communityFocus);
+      state.communityFocus = current?.parent || null;
+      replaceGraphElements('community');
+    });
+    el.exportPngButton.addEventListener('click', exportGraphPng);
+    el.exportSvgButton.addEventListener('click', exportGraphSvg);
+    el.exportJsonButton.addEventListener('click', exportGraphJson);
+    el.pathButton.addEventListener('click', () => { el.pathPanel.hidden = !el.pathPanel.hidden; if (!el.pathPanel.hidden) el.pathFrom.focus(); });
+    el.pathRun.addEventListener('click', findShortestPath);
     el.modeSwitch.addEventListener('click', (event) => {
       const button = event.target.closest('[data-mode]');
       if (button && button.dataset.mode !== state.mode) replaceGraphElements(button.dataset.mode);

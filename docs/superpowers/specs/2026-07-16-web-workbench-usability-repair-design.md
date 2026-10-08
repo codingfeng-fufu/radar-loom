@@ -29,7 +29,7 @@
 
 修复分为三个既有边界：
 
-- `/home/u2023312337/webui/patch-integrated-workbench.mjs` 负责外层操作台、弹窗、Claude 输入桥接、当前上下文和刷新反馈。
+- `<local-webui-root>/patch-integrated-workbench.mjs` 负责外层操作台、弹窗、Claude 输入桥接、当前上下文和刷新反馈。
 - `viewer.html` 负责知识页导航、搜索、目录状态、Markdown 渲染和知识页上下文上报。
 - `graph-view.html` 负责图谱交互状态、状态恢复、图谱上下文上报和热更新。
 

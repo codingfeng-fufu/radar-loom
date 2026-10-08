@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "generated": "2026-08-07",
+  "stats": {
+    "ideas": 1,
+    "nodes": 2,
+    "edges": 1,
+    "statuses": {
+      "captured": 1
+    }
+  },
+  "nodes": [
+    {
+      "data": {
+        "id": "IDEA-2026-001",
+        "label": "金融文档数值推理：数值 Token 隐式图 + 算子求解",
+        "type": "idea",
+        "status": "captured",
+        "file": "pages/IDEA-2026-001 金融文档数值推理：数值 Token 隐式图 + 算子求解.md"
+      }
+    },
+    {
+      "data": {
+        "id": "problem:金融文档中的数值统计与计算类问答如何做",
+        "label": "金融文档中的数值统计与计算类问答如何做",
+        "type": "problem"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "IDEA-2026-001:addresses:problem:金融文档中的数值统计与计算类问答如何做",
+        "source": "IDEA-2026-001",
+        "target": "problem:金融文档中的数值统计与计算类问答如何做",
+        "type": "addresses"
+      }
+    }
+  ]
+}

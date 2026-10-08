@@ -12,8 +12,8 @@
 
 ## 文件边界
 
-- `/home/u2023312337/webui/patch-integrated-workbench.mjs`：消息校验、状态模型、结果存储、顶栏上下文和最近结果面板。
-- `/home/u2023312337/webui/test-integrated-workbench.mjs`：纯函数、补丁产物和幂等部署契约。
+- `<local-webui-root>/patch-integrated-workbench.mjs`：消息校验、状态模型、结果存储、顶栏上下文和最近结果面板。
+- `<local-webui-root>/test-integrated-workbench.mjs`：纯函数、补丁产物和幂等部署契约。
 - `viewer.html`：页面上下文和页面恢复结果上报。
 - `graph-view.html`：图谱上下文、revision、规模和分类重组结果上报。
 - `scripts/serve_kb.py`：在现有刷新与分类接口中返回实际生成统计。
@@ -21,13 +21,13 @@
 - `tests/desktop_experience.spec.cjs`：桌面完整旅程和安全边界测试。
 - `Web操作台使用与维护说明书.md`：最终用户可见行为和恢复说明。
 
-知识库与 `/home/u2023312337/webui` 属于不同 Git 仓库。每个任务必须精确暂存路径，不使用 `git add .` 或 `git add -A`，不覆盖现有未提交文件。
+知识库与 `<local-webui-root>` 属于不同 Git 仓库。每个任务必须精确暂存路径，不使用 `git add .` 或 `git add -A`，不覆盖现有未提交文件。
 
 ### Task 1: 建立版本化消息与结果模型
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: 为消息和结果规范化写失败契约**
 
@@ -66,7 +66,7 @@ assert.equal(normalizeOperationResult({ version: 1, operation: 'knowledge-refres
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 ```
 
 Expected: FAIL，缺少 `normalizeOperationResult` 或 `normalizeKnowledgeContext`。
@@ -101,8 +101,8 @@ export function normalizeOperationResult(value) {
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs --check
 ```
 
 Expected: PASS；补丁检查仍返回 `already-patched` 或在应用新版后返回 `already-patched`。
@@ -110,15 +110,15 @@ Expected: PASS；补丁检查仍返回 `already-patched` 或在应用新版后�
 - [ ] **Step 5: Commit**
 
 ```bash
-git -C /home/u2023312337 add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "feat: validate workbench operation messages" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> commit -m "feat: validate workbench operation messages" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
 ```
 
 ### Task 2: 统一全局状态生命周期
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 - Modify: `tests/desktop_experience.spec.cjs`
 
 - [ ] **Step 1: 写状态呈现和关闭行为测试**
@@ -149,7 +149,7 @@ test('failed refresh explains impact preservation and recovery', async ({ page }
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 npx playwright test tests/desktop_experience.spec.cjs -g "impact preservation" --workers=1
 ```
 
@@ -178,7 +178,7 @@ setWorkbenchStatus({
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 npx playwright test tests/desktop_experience.spec.cjs -g "refresh|desktop shell" --workers=1
 ```
 
@@ -189,8 +189,8 @@ Expected: PASS；状态条不遮挡顶栏、分隔条或 Claude Composer。
 ```bash
 git add -- tests/desktop_experience.spec.cjs
 git commit -m "test: cover unified workbench status"
-git -C /home/u2023312337 add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "feat: unify workbench operation status" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> commit -m "feat: unify workbench operation status" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
 ```
 
 ### Task 3: 让现有服务返回真实结果统计
@@ -353,8 +353,8 @@ git commit -m "feat: report active knowledge context"
 ### Task 5: 增加最近结果摘要与 Claude 上下文详情
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 - Modify: `tests/desktop_experience.spec.cjs`
 
 - [ ] **Step 1: 写会话恢复和上下文详情测试**
@@ -372,7 +372,7 @@ test('last operation result and Claude context survive a page reload', async ({ 
   await expect(page.locator('#lastResultPanel')).toContainText('abc123');
   await expect(page.locator('#lastResultPanel')).toContainText('124 节点');
   await page.locator('#contextButton').click();
-  await expect(page.locator('#contextDetail')).toContainText('/home/u2023312337/知识库');
+  await expect(page.locator('#contextDetail')).toContainText('<repo-root>');
   await expect(page.locator('#contextDetail')).toContainText(/标准|权限确认|危险跳过确认/);
 });
 ```
@@ -384,7 +384,7 @@ Node 测试要求损坏 JSON、未知版本和单个非法字段局部回退，�
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 npx playwright test tests/desktop_experience.spec.cjs -g "last operation result" --workers=1
 ```
 
@@ -410,9 +410,9 @@ Expected: FAIL，缺少结果入口和上下文详情。
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
-/home/u2023312337/webui/webui-control restart
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
+<local-webui-root>/webui-control restart
 npx playwright test tests/desktop_experience.spec.cjs -g "last operation result|successful refresh|context" --workers=1
 ```
 
@@ -423,8 +423,8 @@ Expected: PASS；真实刷新后摘要显示接口返回的 revision 与统计�
 ```bash
 git add -- tests/desktop_experience.spec.cjs
 git commit -m "test: cover trusted workbench handoff"
-git -C /home/u2023312337 add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "feat: show workbench context and recent result" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
+git -C <local-user-home> commit -m "feat: show workbench context and recent result" -- webui/patch-integrated-workbench.mjs webui/test-integrated-workbench.mjs
 ```
 
 ### Task 6: 安全边界、文档和全量验收
@@ -465,8 +465,8 @@ test('forged and malformed messages cannot replace trusted context', async ({ pa
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 python3 -m unittest discover -s tests -v
 npx playwright test tests/desktop_experience.spec.cjs tests/web_workbench.spec.cjs tests/taxonomy_observability.spec.cjs --workers=1
 python3 scripts/build_index.py
@@ -489,7 +489,7 @@ dangerous mode patch tests: PASS
 Run:
 
 ```bash
-/home/u2023312337/webui/webui-control restart
+<local-webui-root>/webui-control restart
 curl -fsS http://127.0.0.1:18080/ >/dev/null
 curl -fsS http://127.0.0.1:18081/api/revision >/dev/null
 ```

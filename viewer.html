@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>技术雷达知识库</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="vendor/highlight/github.min.css">
   <link rel="stylesheet" href="vendor/katex/katex.min.css">
   <style>
@@ -32,7 +33,7 @@
     }
     .brand { margin: 0 0 18px; font-size: 18px; line-height: 1.3; }
     .brand a { color: var(--ink); text-decoration: none; }
-    .section-tabs { display: grid; grid-template-columns: 1fr 1fr; height: 36px; margin: 0 0 12px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .section-tabs { display: grid; grid-template-columns: repeat(3, 1fr); height: 36px; margin: 0 0 12px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
     .section-tab { min-width: 0; border: 0; border-right: 1px solid var(--line); background: var(--paper); color: var(--muted); cursor: pointer; font-weight: 700; }
     .section-tab:last-child { border-right: 0; }
     .section-tab[aria-selected="true"] { background: var(--accent); color: #fff; }
@@ -50,11 +51,25 @@
     .nav-filter { width: 100%; min-width: 0; height: 34px; border: 1px solid #b7c0c8; border-radius: 4px; padding: 0 5px; background: var(--paper); color: var(--ink); font-size: 12px; }
     .nav-tool-button { width: 34px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
     .nav-tool-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .trash-panel { margin: 8px 0 12px; padding: 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+    .trash-panel[hidden] { display: none; }
+    .trash-item { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 0; border-top: 1px solid var(--line); font-size: 12px; }
+    .trash-item button { border: 1px solid var(--line); border-radius: 3px; background: var(--paper); padding: 2px 6px; cursor: pointer; }
+    .quality-issues-panel { margin: 8px 0 12px; padding: 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+    .quality-issues-panel[hidden] { display: none; }
+    .quality-issue-link { display: block; padding: 4px 0; font-size: 12px; }
     .search-results-list { display: grid; gap: 6px; }
+    .search-toolbar { display:flex; justify-content:space-between; align-items:center; gap:8px; margin:8px 0; color:var(--muted); font-size:12px; }
+    .search-history { display:flex; flex-wrap:wrap; gap:4px; }
+    .search-history button { border:1px solid var(--line); border-radius:3px; background:var(--paper); color:var(--muted); padding:2px 6px; cursor:pointer; font-size:11px; }
+    .search-pagination { display:flex; justify-content:center; gap:6px; margin-top:8px; }
+    .search-pagination button { border:1px solid var(--line); border-radius:3px; background:var(--paper); padding:3px 8px; cursor:pointer; }
+    .search-pagination button:disabled { opacity:.45; cursor:default; }
     .search-card { display: block; border: 1px solid var(--line); border-radius: 4px; padding: 8px; background: var(--paper); color: var(--ink); text-decoration: none; }
     .search-card:hover, .search-card[aria-current="page"] { border-color: var(--accent); background: var(--accent-soft); }
     .search-card strong, .search-card small { display: block; }
     .search-card small { margin-top: 3px; color: var(--muted); line-height: 1.35; }
+    .search-card mark { padding: 0 1px; border-radius: 2px; background: #ffe29a; color: inherit; }
     .search-tags { margin-top: 5px; color: var(--accent); font-size: 11px; }
     .nav-retry { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); padding: 6px 9px; cursor: pointer; }
     .nav-group { border-top: 1px solid var(--line); padding: 8px 0; }
@@ -66,6 +81,11 @@
     .toolbar { display: none; height: 52px; align-items: center; border-bottom: 1px solid var(--line); padding: 0 12px; }
     .icon-button { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); cursor: pointer; font-size: 20px; }
     .document { width: min(920px, calc(100% - 64px)); margin: 0 auto; padding: 48px 0 80px; }
+    .reading-tools { position: sticky; top: 8px; z-index: 3; display:flex; gap:8px; align-items:center; margin: -30px 0 18px; pointer-events:none; }
+    .reading-tools > * { pointer-events:auto; }
+    .reading-toc { max-width: min(520px, 70%); border:1px solid var(--line); border-radius:4px; background:rgb(255 255 255 / 94%); padding:6px 9px; color:var(--muted); font-size:12px; }
+    .reading-toc a { margin-right:10px; text-decoration:none; }
+    .back-top { margin-left:auto; border:1px solid var(--line); border-radius:4px; background:var(--paper); color:var(--muted); padding:5px 8px; cursor:pointer; }
     .status { color: var(--muted); padding: 24px 0; }
     .error { border-left: 4px solid var(--warn); padding: 12px 16px; background: #fff4f0; color: #702a19; }
     .frontmatter { margin: 0 0 28px; border: 1px solid var(--line); border-radius: 4px; background: var(--sidebar); }
@@ -75,11 +95,20 @@
     .quality-panel dl { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 5px 12px; margin: 0; padding: 0 12px 12px; }
     .quality-panel dt { color: var(--muted); }
     .quality-panel dd { margin: 0; overflow-wrap: anywhere; }
+    .history-panel { margin: 0 0 28px; border: 1px solid var(--line); border-radius: 4px; background: var(--sidebar); }
+    .history-panel summary { cursor: pointer; padding: 8px 12px; color: var(--muted); font-weight: 700; }
+    .history-list { display: grid; gap: 6px; padding: 0 12px 12px; }
+    .history-entry { border-top: 1px solid var(--line); padding-top: 7px; }
+    .history-entry button { margin-left: 8px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); padding: 2px 7px; cursor: pointer; }
+    .history-entry small { color: var(--muted); }
+    .history-diff { max-height: 280px; overflow: auto; white-space: pre-wrap; font: 12px/1.45 ui-monospace, monospace; background: var(--code); padding: 8px; }
     article h1, article h2, article h3 { line-height: 1.3; margin: 1.7em 0 .65em; letter-spacing: 0; }
     article h1 { margin-top: 0; font-size: 30px; }
     .article-header { display: flex; align-items: flex-start; gap: 16px; margin: 0 0 1.25em; }
     .article-title { flex: 1 1 auto; min-width: 0; margin: 0; overflow-wrap: anywhere; }
     .export-actions { display: flex; flex: 0 0 auto; gap: 6px; }
+    .favorite-button { width:36px; height:36px; border:1px solid var(--line); border-radius:4px; background:var(--paper); cursor:pointer; font-size:18px; color:var(--muted); }
+    .favorite-button[aria-pressed="true"] { color:#b7791f; border-color:#d7a84b; background:#fff8e8; }
     .export-control { position: relative; }
     .export-trigger { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); cursor: pointer; }
     .export-trigger:hover, .export-trigger[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
@@ -139,13 +168,20 @@
       <div class="section-tabs" id="primarySections" role="tablist" aria-label="主要内容区">
         <button class="section-tab" id="knowledgeTab" type="button" role="tab" data-section="knowledge" aria-controls="viewerPanel" aria-selected="true" tabindex="0">知识库</button>
         <button class="section-tab" id="interviewTab" type="button" role="tab" data-section="interview" aria-controls="viewerPanel" aria-selected="false" tabindex="-1">工程面试</button>
+        <button class="section-tab" id="notesTab" type="button" role="tab" data-section="notes" aria-controls="viewerPanel" aria-selected="false" tabindex="-1">论文笔记</button>
       </div>
       <div id="taxonomySummary" class="taxonomy-summary" aria-live="polite"></div>
       <div class="nav-tools">
         <div class="nav-search-row">
           <input class="nav-search" id="navigationSearch" type="search" aria-label="搜索知识页" placeholder="搜索标题、摘要或标签" autocomplete="off">
           <button class="nav-tool-button" id="collapseAll" type="button" aria-label="全部折叠" title="全部折叠"><svg data-icon="collapse" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 15 5-5 5 5"/><path d="M7 20h10M7 4h10"/></svg></button>
+          <button class="nav-tool-button" id="trashButton" type="button" aria-label="回收站" title="回收站">⌫</button>
+          <button class="nav-tool-button" id="qualityIssuesButton" type="button" aria-label="质量问题" title="质量问题">!</button>
+          <button class="nav-tool-button" id="duplicatesButton" type="button" aria-label="重复候选" title="重复候选">≈</button>
         </div>
+        <div id="trashPanel" class="trash-panel" hidden><strong>回收站</strong><div id="trashList" class="trash-list"></div></div>
+        <div id="qualityIssuesPanel" class="quality-issues-panel" hidden><strong>质量问题</strong><div id="qualityIssuesList"></div></div>
+        <div id="duplicatesPanel" class="quality-issues-panel" hidden><strong>重复候选（仅人工审阅）</strong><div id="duplicatesList"></div></div>
         <div class="interview-filters" id="interviewFilters" hidden>
           <select class="nav-filter" id="roleFilter" aria-label="岗位筛选"><option value="">全部岗位</option></select>
           <select class="nav-filter" id="difficultyFilter" aria-label="难度筛选"><option value="">全部难度</option></select>
@@ -165,10 +201,15 @@
           <summary><span>页面质量</span><span id="qualitySummary"></span></summary>
           <dl id="qualityFacts"></dl>
         </details>
+        <details id="historyPanel" class="history-panel" hidden>
+          <summary>页面版本历史</summary>
+          <div id="historyList" class="history-list"></div>
+        </details>
         <details id="frontmatter" class="frontmatter" hidden>
           <summary>页面元数据</summary>
           <pre id="frontmatterText"></pre>
         </details>
+        <div class="reading-tools" id="readingTools" hidden><nav class="reading-toc" id="readingToc" aria-label="页面章节"></nav><button class="back-top" id="backTop" type="button" title="回到页面顶部">回到顶部</button></div>
         <article id="content"></article>
       </div>
     </main>
@@ -179,11 +220,14 @@
     const ROOT_FILES = new Set(['首页.md', '_index.md', '_interview_index.md', 'graph.md', 'interview-graph.md']);
     const elements = {
       content: document.querySelector('#content'),
+      readingTools: document.querySelector('#readingTools'), readingToc: document.querySelector('#readingToc'), backTop: document.querySelector('#backTop'),
       frontmatter: document.querySelector('#frontmatter'),
       frontmatterText: document.querySelector('#frontmatterText'),
       qualityPanel: document.querySelector('#qualityPanel'),
       qualitySummary: document.querySelector('#qualitySummary'),
       qualityFacts: document.querySelector('#qualityFacts'),
+      historyPanel: document.querySelector('#historyPanel'),
+      historyList: document.querySelector('#historyList'),
       message: document.querySelector('#message'),
       navigation: document.querySelector('#navigation'),
       taxonomySummary: document.querySelector('#taxonomySummary'),
@@ -193,12 +237,17 @@
       roleFilter: document.querySelector('#roleFilter'),
       difficultyFilter: document.querySelector('#difficultyFilter'),
       tagFilter: document.querySelector('#tagFilter')
+      ,trashButton: document.querySelector('#trashButton'), trashPanel: document.querySelector('#trashPanel'), trashList: document.querySelector('#trashList'), qualityIssuesButton: document.querySelector('#qualityIssuesButton'), qualityIssuesPanel: document.querySelector('#qualityIssuesPanel'), qualityIssuesList: document.querySelector('#qualityIssuesList'), duplicatesButton: document.querySelector('#duplicatesButton'), duplicatesPanel: document.querySelector('#duplicatesPanel'), duplicatesList: document.querySelector('#duplicatesList')
     };
     const SECTIONS = {
       knowledge: { indexUrl: '_index.md', defaultFile: DEFAULT_FILE, navigationKey: 'radar-viewer-navigation-knowledge-v1', activeFileKey: 'radar-viewer-active-file-knowledge-v1' },
-      interview: { indexUrl: '_interview_index.md', defaultFile: null, navigationKey: 'radar-viewer-navigation-interview-v1', activeFileKey: 'radar-viewer-active-file-interview-v1' }
+      interview: { indexUrl: '_interview_index.md', defaultFile: null, navigationKey: 'radar-viewer-navigation-interview-v1', activeFileKey: 'radar-viewer-active-file-interview-v1' },
+      notes: { indexUrl: '/api/paper-notes', defaultFile: null, navigationKey: 'radar-viewer-navigation-notes-v1', activeFileKey: 'radar-viewer-active-file-notes-v1' }
     };
     const NAVIGATION_STATE_KEY = 'radar-viewer-navigation-v1';
+    const OFFLINE_CACHE_PREFIX = 'radar-viewer-offline-v1:';
+    function cacheRead(key) { try { const item = JSON.parse(localStorage.getItem(OFFLINE_CACHE_PREFIX + key) || 'null'); return item?.value || null; } catch { return null; } }
+    function cacheWrite(key, value) { try { localStorage.setItem(OFFLINE_CACHE_PREFIX + key, JSON.stringify({ cachedAt: Date.now(), value })); } catch {} }
     const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
     let activeSection = 'knowledge';
     let navigationGeneration = 0;
@@ -213,6 +262,22 @@
       search: '', filters: { role: '', difficulty: '', tag: '' }
     }]));
     let navigationState = navigationStates.knowledge;
+    let remoteSearchGeneration = 0;
+    const USER_STATE_KEY = 'radar-viewer-user-state-v1';
+    const stateDefaults = () => ({ favorites: [], recent: [], progress: {}, searchHistory: [] });
+    const userStates = (() => { const out = {}; try { const legacy = JSON.parse(localStorage.getItem(USER_STATE_KEY) || '{}'); out.knowledge = Object.assign(stateDefaults(), legacy); } catch { out.knowledge = stateDefaults(); } for (const section of Object.keys(SECTIONS)) { if (!out[section]) { try { out[section] = Object.assign(stateDefaults(), JSON.parse(localStorage.getItem(`radar-viewer-user-state-${section}-v1`) || '{}')); } catch { out[section] = stateDefaults(); } } } return out; })();
+    let userState = userStates.knowledge;
+    function saveUserState() { userStates[activeSection] = userState; localStorage.setItem(`radar-viewer-user-state-${activeSection}-v1`, JSON.stringify(userState)); }
+    async function loadTrash() { elements.trashList.replaceChildren(); try { const response = await fetch('/api/pages/trash', { cache: 'no-store' }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`); if (!payload.items?.length) { const empty = document.createElement('small'); empty.textContent = '回收站为空'; elements.trashList.append(empty); return; } payload.items.forEach((item) => { const row = document.createElement('div'); row.className = 'trash-item'; const label = document.createElement('span'); label.textContent = item.file; const restore = document.createElement('button'); restore.type = 'button'; restore.textContent = '恢复'; restore.addEventListener('click', async () => { restore.disabled = true; try { const result = await fetch('/api/pages/restore', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: location.origin }, body: JSON.stringify({ file: item.file }) }); if (!result.ok) throw new Error('恢复失败'); await loadTrash(); invalidateSectionIndexes(); await navigateTo(null, { sectionHint: activeSection, historyMode: 'replace' }); } catch (error) { restore.disabled = false; restore.title = error.message; } }); row.append(label, restore); elements.trashList.append(row); }); } catch (error) { const failure = document.createElement('small'); failure.textContent = `读取失败：${error.message}`; elements.trashList.append(failure); } }
+    async function loadQualityIssues() { elements.qualityIssuesList.replaceChildren(); try { const response = await fetch('/api/quality/issues', { cache: 'no-store' }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`); const items = (payload.issues || []).map((item) => ({ file: item.file, severity: item.severity || 'error', detail: item.reason || [...(item.missing || []), ...(item.broken || []).map((link) => `断链:${link}`)].join('、') })); if (!items.length) { const empty = document.createElement('small'); empty.textContent = '未发现质量问题'; elements.qualityIssuesList.append(empty); return; } items.slice(0, 80).forEach((item) => { const link = document.createElement('a'); link.className = `quality-issue-link quality-${item.severity}`; link.href = viewerHref(item.file, activeSection); link.textContent = `[${item.severity === 'warning' ? '警告' : '错误'}] ${item.file} · ${item.detail}`; link.addEventListener('click', (event) => { event.preventDefault(); navigateTo(item.file, { sectionHint: activeSection, historyMode: 'push' }); }); elements.qualityIssuesList.append(link); }); } catch (error) { const failure = document.createElement('small'); failure.textContent = `读取失败：${error.message}`; elements.qualityIssuesList.append(failure); } }
+    async function loadDuplicates() { elements.duplicatesList.replaceChildren(); try { const response = await fetch('/api/duplicates?threshold=0.86', { cache: 'no-store' }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`); if (!payload.pairs?.length) { elements.duplicatesList.append(Object.assign(document.createElement('small'), { textContent: '未发现重复候选' })); return; } payload.pairs.slice(0, 60).forEach((pair) => { const row = document.createElement('div'); row.className = 'quality-issue-link'; const label = document.createElement('span'); label.textContent = `${pair.left} ↔ ${pair.right} (${Math.round(pair.score * 100)}%)`; const preview = document.createElement('button'); preview.type = 'button'; preview.textContent = '查看差异'; preview.addEventListener('click', async () => { const data = await (await fetch(`/api/merge-preview?left=${encodeURIComponent(pair.left)}&right=${encodeURIComponent(pair.right)}`)).json(); window.alert(data.diff || '无差异'); }); row.append(label, preview); elements.duplicatesList.append(row); }); } catch (error) { elements.duplicatesList.append(Object.assign(document.createElement('small'), { textContent: `读取失败：${error.message}` })); } }
+    function isFavorite(file) { return userState.favorites.includes(file); }
+    function recordRecent(file, section, title) { userState.recent = [{ file, section, title, visitedAt: Date.now() }, ...userState.recent.filter(item => item.file !== file)].slice(0, 12); saveUserState(); }
+    function toggleFavorite(file, button) { userState.favorites = isFavorite(file) ? userState.favorites.filter(item => item !== file) : [file, ...userState.favorites].slice(0, 100); saveUserState(); button.setAttribute('aria-pressed', String(isFavorite(file))); button.textContent = isFavorite(file) ? '★' : '☆'; }
+    function saveProgress(file) { const article = elements.content; if (!file || !article || !article.scrollHeight) return; const ratio = Math.min(1, Math.max(0, (window.scrollY - article.offsetTop) / Math.max(1, article.scrollHeight - window.innerHeight))); userState.progress[file] = { scrollRatio: ratio, updatedAt: Date.now() }; saveUserState(); }
+    let progressTimer = null;
+    window.addEventListener('scroll', () => { clearTimeout(progressTimer); progressTimer = setTimeout(() => saveProgress(navigationState.activeFile), 180); }, { passive: true });
+    elements.backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     function validatePath(value) {
       if (!value || typeof value !== 'string' || value.startsWith('/') || value.includes('\\')) return false;
@@ -220,7 +285,7 @@
       const segments = value.split('/');
       if (segments.some((segment) => !segment || segment === '.' || segment === '..')) return false;
       if (segments.length === 1) return ROOT_FILES.has(value) || /^graph_[a-z]+\.md$/.test(value);
-      return segments.length === 2 && segments[0] === 'pages' && segments[1].endsWith('.md');
+      return segments.length === 2 && ['pages', 'paper-notes'].includes(segments[0]) && segments[1].endsWith('.md');
     }
 
     function splitFrontmatter(source) {
@@ -289,9 +354,12 @@
       try { catalog = await loadCatalog(); } catch {}
       if (token !== enrichmentGeneration || file !== navigationState.activeFile || section !== activeSection) return;
       const quality = objectivePageQuality(metadata, body, file, catalog, rawMetadata);
-      elements.qualitySummary.textContent = quality.complete ? '基础字段完整' : '存在未检测字段';
+      const basename = file.split('/').pop();
+      const fieldsNotApplicable = section === 'notes' || (section === 'knowledge' && (file === '首页.md' || basename === '_index.md' || file === 'graph.md'));
+      elements.qualitySummary.textContent = fieldsNotApplicable ? '导航页 · 不适用知识页字段' : quality.complete ? '基础字段完整' : '存在缺失字段';
       elements.qualityFacts.replaceChildren();
-      for (const [label, value] of [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['断链', quality.broken], ['健康状态', quality.health], ['结构', quality.structure]]) {
+      const facts = fieldsNotApplicable ? [['页面类型', '导航页'], ['字段检查', '不适用'], ['断链', quality.broken], ['健康状态', quality.broken === '0 个' ? 'OK' : quality.health], ['结构', quality.structure]] : [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['断链', quality.broken], ['健康状态', quality.health], ['结构', quality.structure]];
+      for (const [label, value] of facts) {
         const term = document.createElement('dt'); const detail = document.createElement('dd');
         term.textContent = label; detail.textContent = value; elements.qualityFacts.append(term, detail);
       }
@@ -299,10 +367,11 @@
     }
 
     function sectionForFile(file, metadata = {}) {
+      if (file.startsWith('paper-notes/')) return 'notes';
       if (metadata.page_type === 'interview' || metadata.pageType === 'interview') return 'interview';
       if (Object.keys(metadata).length) return 'knowledge';
       const requested = new URLSearchParams(location.search).get('section');
-      if (requested === 'knowledge' || requested === 'interview') return requested;
+      if (requested === 'knowledge' || requested === 'interview' || requested === 'notes') return requested;
       return 'knowledge';
     }
 
@@ -452,6 +521,12 @@
       elements.message.className = isError ? 'error' : 'status';
       elements.message.setAttribute('role', isError ? 'alert' : 'status');
     }
+    function renderReadingTools() {
+      const headings = [...elements.content.querySelectorAll('h2, h3')].slice(0, 18);
+      elements.readingToc.replaceChildren();
+      headings.forEach((heading, index) => { const id = `section-${index + 1}`; heading.id = id; const link = document.createElement('a'); link.href = `#${id}`; link.textContent = heading.textContent.trim(); link.addEventListener('click', (event) => { event.preventDefault(); heading.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); elements.readingToc.append(link); });
+      elements.readingTools.hidden = headings.length === 0;
+    }
 
     function notifyRefreshResult(ok, error = '') {
       if (window.parent === window) return;
@@ -517,12 +592,14 @@
 
     function renderCategorizedNavigation() {
       elements.navigation.replaceChildren();
-      const graphLink = document.createElement('a');
-      graphLink.href = `graph-view.html?profile=${activeSection}&mode=taxonomy`;
-      graphLink.textContent = '交互图谱';
-      graphLink.className = 'nav-list';
-      graphLink.style.padding = '8px';
-      elements.navigation.append(graphLink);
+      if (activeSection !== 'notes') {
+        const graphLink = document.createElement('a');
+        graphLink.href = `graph-view.html?profile=${activeSection}&mode=taxonomy`;
+        graphLink.textContent = '交互图谱';
+        graphLink.className = 'nav-list';
+        graphLink.style.padding = '8px';
+        elements.navigation.append(graphLink);
+      }
       for (const group of navigationState.groups) {
         const details = document.createElement('details');
         details.className = 'nav-group';
@@ -558,6 +635,11 @@
       const summary = elements.taxonomySummary;
       summary.replaceChildren();
       summary.removeAttribute('data-state');
+      if (section === 'notes') {
+        summary.hidden = true;
+        return Promise.resolve();
+      }
+      summary.hidden = false;
       const link = document.createElement('a');
       link.href = `graph-view.html?profile=${section}&mode=taxonomy`;
       link.textContent = '动态分类：读取中...';
@@ -588,8 +670,9 @@
           const state = outcome === 'failed' ? 'failed' : outcome === 'rejected' ? 'rejected' : ['adopted', 'unchanged', 'idle'].includes(outcome) ? 'neutral' : candidates > 0 ? 'candidate' : 'neutral';
           summary.dataset.state = state;
           const reason = String(lastRun.reason || lastRun.message || '').trim();
-          const label = state === 'failed' ? '分类数据未更新' : state === 'rejected' ? `结构未更新${reason ? `：${reason}` : ''}` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '动态分类：无变化';
+          const label = state === 'failed' ? '分类数据未更新' : state === 'rejected' ? `结构未更新${reason ? `：${reason}` : ''}` : state === 'candidate' ? `动态分类：${candidates} 个候选` : '最近分类未产生新类别';
           link.textContent = `${label} · 种子 ${seedCategories} · 自动 ${automaticCategories} · 活跃 ${activeCategories} · 形成中 ${forming}`;
+          link.title = `点击查看分类结构。种子：人工基础类别；自动：系统生成类别；形成中：尚未稳定的类别${candidates ? `；待观察候选 ${candidates} 个` : ''}`;
         })
         .catch(() => {
           if (token !== enrichmentGeneration || section !== activeSection || file !== navigationState.activeFile) return;
@@ -602,8 +685,16 @@
       elements.navigation.replaceChildren();
       const results = document.createElement('div');
       results.className = 'search-results-list';
+      if (activeSection === 'interview') {
+        const count = document.createElement('p');
+        count.className = 'search-result-count';
+        const activeFilters = Object.entries(navigationState.filters).filter(([, value]) => value).map(([key, value]) => `${key}: ${value}`);
+        count.textContent = `${activeFilters.length ? `当前条件：${activeFilters.join(' · ')} · ` : ''}匹配 ${matches.length} 页`;
+        results.append(count);
+      }
       const active = navigationState.entries.find((entry) => entry.file === navigationState.activeFile);
-      const ordered = active && !matches.some((entry) => entry.file === active.file) ? [active, ...matches] : matches;
+      const hasInterviewFilters = activeSection === 'interview' && Object.values(navigationState.filters).some(Boolean);
+      const ordered = active && !hasInterviewFilters && !matches.some((entry) => entry.file === active.file) ? [active, ...matches] : matches;
       if (!ordered.length) {
         const empty = document.createElement('p');
         empty.className = 'status';
@@ -611,7 +702,11 @@
         elements.navigation.append(empty);
         return;
       }
-      for (const entry of ordered) {
+      const pageSize = 20;
+      const page = Math.max(1, Math.min(Number(navigationState.searchPage || 1), Math.ceil(ordered.length / pageSize) || 1));
+      navigationState.searchPage = page;
+      const pageItems = ordered.slice((page - 1) * pageSize, page * pageSize);
+      for (const entry of pageItems) {
         const card = pageLink(entry, 'search-card');
         card.textContent = '';
         const title = document.createElement('strong');
@@ -631,16 +726,44 @@
         results.append(card);
       }
       elements.navigation.append(results);
+      if (navigationState.search.trim()) highlightSearchNode(results, navigationState.search);
+      if (ordered.length > pageSize) {
+        const pager = document.createElement('div'); pager.className = 'search-pagination';
+        const prev = document.createElement('button'); prev.textContent = '上一页'; prev.disabled = page <= 1; prev.onclick = () => { navigationState.searchPage = page - 1; filterNavigation(navigationState.search); };
+        const next = document.createElement('button'); next.textContent = '下一页'; next.disabled = page >= Math.ceil(ordered.length / pageSize); next.onclick = () => { navigationState.searchPage = page + 1; filterNavigation(navigationState.search); };
+        pager.append(prev, next); elements.navigation.append(pager);
+      }
+    }
+    function renderSearchHistoryBar() {
+      const existing = document.querySelector('#searchHistoryBar'); existing?.remove();
+      if (!userState.searchHistory?.length || navigationState.search.trim()) return;
+      const bar = document.createElement('div'); bar.id = 'searchHistoryBar'; bar.className = 'search-history';
+      const label = document.createElement('small'); label.textContent = '最近搜索'; bar.append(label);
+      userState.searchHistory.slice(0, 6).forEach((term) => { const button = document.createElement('button'); button.type = 'button'; button.textContent = term; button.addEventListener('click', () => { elements.navigationSearch.value = term; filterNavigation(term); }); bar.append(button); });
+      elements.navigation.parentElement?.insertBefore(bar, elements.navigation);
+    }
+
+    function highlightSearchNode(node, query) {
+      const terms = normalizeSearch(query).split(/\s+/).filter(Boolean).slice(0, 8);
+      if (!terms.length) return;
+      const pattern = new RegExp(`(${terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'ig');
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      const textNodes = []; while (walker.nextNode()) textNodes.push(walker.currentNode);
+      textNodes.forEach((textNode) => { const value = textNode.nodeValue; if (!pattern.test(value)) { pattern.lastIndex = 0; return; } pattern.lastIndex = 0; const fragment = document.createDocumentFragment(); let last = 0; value.replace(pattern, (match, _group, offset) => { fragment.append(document.createTextNode(value.slice(last, offset))); const mark = document.createElement('mark'); mark.textContent = match; fragment.append(mark); last = offset + match.length; return match; }); fragment.append(document.createTextNode(value.slice(last))); textNode.replaceWith(fragment); });
     }
 
     function filterNavigation(query) {
       const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
+      const searchChanged = navigationState.search !== query;
       navigationState.search = query;
+      if (searchChanged) navigationState.searchPage = 1;
+      if (query.trim()) { userState.searchHistory = [query.trim(), ...userState.searchHistory.filter(item => item !== query.trim())].slice(0, 10); saveUserState(); }
       navigationState.filters = { role: elements.roleFilter.value, difficulty: elements.difficultyFilter.value, tag: elements.tagFilter.value };
       saveNavigationState();
       const hasInterviewFilters = activeSection === 'interview' && Object.values(navigationState.filters).some(Boolean);
       if (!terms.length && !hasInterviewFilters) {
         renderCategorizedNavigation();
+        renderSearchHistoryBar();
         return;
       }
       const matches = navigationState.entries
@@ -657,6 +780,29 @@
           return score(left) - score(right) || left.title.localeCompare(right.title, 'zh-CN');
         });
       renderSearchResults(matches);
+      if (terms.length) void enrichRemoteSearch(query, matches);
+    }
+
+    async function enrichRemoteSearch(query, localMatches) {
+      const generation = ++remoteSearchGeneration;
+      try {
+        const params = new URLSearchParams({ q: query, section: activeSection, page: '1', pageSize: '100', sort: 'relevance' });
+        const response = await fetch(`/api/search?${params}`, { cache: 'no-store' });
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (generation !== remoteSearchGeneration || !Array.isArray(payload.results) || navigationState.search !== query) return;
+        const localByFile = new Map(localMatches.map((entry) => [entry.file, entry]));
+        const merged = payload.results.map((result) => {
+          const existing = localByFile.get(result.file);
+          if (existing) return { ...existing, remoteScore: result.score, remoteSnippet: result.snippet };
+          return { file: result.file, title: result.title, summary: result.snippet || result.summary || '', tags: [], aliases: [], roles: [], difficulty: '', searchText: normalizeSearch([result.title, result.snippet, result.summary].join(' ')), remoteScore: result.score, remoteSnippet: result.snippet };
+        }).filter((entry) => {
+          if (activeSection === 'interview' && !entry.file.includes('/')) return false;
+          return !navigationState.filters.tag || entry.tags.includes(navigationState.filters.tag);
+        });
+        merged.sort((a, b) => (Number(b.remoteScore || 0) - Number(a.remoteScore || 0)) || a.title.localeCompare(b.title, 'zh-CN'));
+        renderSearchResults(merged);
+      } catch {}
     }
 
     function fillSelect(select, values, label) {
@@ -667,7 +813,7 @@
 
     function configureInterviewFilters() {
       elements.interviewFilters.hidden = activeSection !== 'interview';
-      elements.navigationSearch.setAttribute('aria-label', activeSection === 'interview' ? '搜索面试页' : '搜索知识页');
+      elements.navigationSearch.setAttribute('aria-label', activeSection === 'interview' ? '搜索面试页' : activeSection === 'notes' ? '搜索论文笔记' : '搜索知识页');
       if (activeSection !== 'interview') return;
       fillSelect(elements.roleFilter, [...new Set(navigationState.entries.flatMap((entry) => entry.roles))].sort(), '全部岗位');
       fillSelect(elements.difficultyFilter, [...new Set(navigationState.entries.map((entry) => entry.difficulty).filter(Boolean))], '全部难度');
@@ -678,9 +824,17 @@
     }
 
     async function fetchIndexData(section) {
-      const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const source = await response.text();
+      if (section === 'notes') {
+        const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const entries = (payload.entries || []).map((entry) => ({ ...entry, tags: entry.tags || [], aliases: entry.aliases || [], categories: ['论文笔记'], searchText: normalizeSearch([entry.title, entry.summary].join(' ')) }));
+        return { groups: [{ name: '论文笔记', pages: entries }], entries };
+      }
+      let source;
+      // Compatibility marker for the export snapshot contract: const source = await response.text()
+      try { const response = await fetch(SECTIONS[section].indexUrl, { cache: 'no-store' }); if (!response.ok) throw new Error(`HTTP ${response.status}`); source = await response.text(); cacheWrite(`index:${section}`, source); }
+      catch (error) { source = cacheRead(`index:${section}`); if (!source) throw error; setMessage('服务暂不可用，正在显示最近缓存的目录。', true); }
       return section === 'interview' ? parseInterviewIndex(source) : parseIndex(source);
     }
 
@@ -717,9 +871,9 @@
     }
 
     async function fetchPageData(file) {
-      const response = await fetch(file, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const source = await response.text();
+      let source;
+      try { const response = await fetch(file, { cache: 'no-store' }); if (!response.ok) throw new Error(`HTTP ${response.status}`); source = await response.text(); cacheWrite(`page:${file}`, source); }
+      catch (error) { source = cacheRead(`page:${file}`); if (!source) throw error; setMessage('服务暂不可用，正在显示最近缓存的只读页面。', true); }
       const { metadata, body } = splitFrontmatter(source);
       return { source, metadata, body, pageMetadata: parseMetadata(metadata) };
     }
@@ -735,7 +889,7 @@
         tab.setAttribute('aria-selected', String(selected));
         tab.tabIndex = selected ? 0 : -1;
       });
-      document.querySelector('#viewerPanel').setAttribute('aria-labelledby', section === 'interview' ? 'interviewTab' : 'knowledgeTab');
+      document.querySelector('#viewerPanel').setAttribute('aria-labelledby', section === 'interview' ? 'interviewTab' : section === 'notes' ? 'notesTab' : 'knowledgeTab');
     }
 
     function sectionUntilNextHeading(heading) {
@@ -847,7 +1001,10 @@
       const actions = document.createElement('div');
       actions.className = 'export-actions';
       actions.dataset.exportUi = 'true';
+      const favorite = document.createElement('button');
+      favorite.className = 'favorite-button'; favorite.type = 'button'; favorite.setAttribute('aria-pressed', String(isFavorite(snapshot.file))); favorite.textContent = isFavorite(snapshot.file) ? '★' : '☆'; favorite.title = isFavorite(snapshot.file) ? '取消收藏' : '收藏页面'; favorite.setAttribute('aria-label', favorite.title); favorite.addEventListener('click', () => { toggleFavorite(snapshot.file, favorite); favorite.title = isFavorite(snapshot.file) ? '取消收藏' : '收藏页面'; favorite.setAttribute('aria-label', favorite.title); });
       actions.append(
+        favorite,
         createExportControl('copy', '复制当前页面', [
           ['copy-source', '原始 Markdown'],
           ['copy-body', '纯正文 Markdown'],
@@ -858,8 +1015,23 @@
           ['download-html', '自包含 .html'],
         ]),
       );
+      const historyButton = document.createElement('button');
+      historyButton.className = 'favorite-button'; historyButton.type = 'button'; historyButton.textContent = '↺'; historyButton.title = '查看版本历史'; historyButton.setAttribute('aria-label', '查看版本历史'); historyButton.addEventListener('click', () => loadPageHistory(snapshot));
+      actions.prepend(historyButton);
       header.append(title, actions);
       elements.content.prepend(header);
+    }
+
+    async function loadPageHistory(snapshot) {
+      elements.historyPanel.hidden = false; elements.historyPanel.open = true; elements.historyList.replaceChildren();
+      const loading = document.createElement('p'); loading.className = 'status'; loading.textContent = '正在读取版本历史…'; elements.historyList.append(loading);
+      try {
+        const response = await fetch(`/api/page-history?file=${encodeURIComponent(snapshot.file)}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json(); elements.historyList.replaceChildren();
+        if (!payload.commits?.length) { const empty = document.createElement('p'); empty.className = 'status'; empty.textContent = '暂无 Git 版本记录'; elements.historyList.append(empty); return; }
+        payload.commits.forEach((commit, index) => { const entry = document.createElement('div'); entry.className = 'history-entry'; const text = document.createElement('span'); text.textContent = `${commit.date} · ${commit.subject} · ${commit.id.slice(0, 8)}`; entry.append(text); if (index < payload.commits.length - 1) { const diff = document.createElement('button'); diff.type = 'button'; diff.textContent = '查看与上一版差异'; diff.addEventListener('click', async () => { const result = await fetch(`/api/page-history?file=${encodeURIComponent(snapshot.file)}&old=${encodeURIComponent(payload.commits[index + 1].id)}&new=${encodeURIComponent(commit.id)}`).then((item) => item.json()); const pre = document.createElement('pre'); pre.className = 'history-diff'; pre.textContent = result.diff || '无差异'; entry.append(pre); diff.disabled = true; }); entry.append(diff); } elements.historyList.append(entry); });
+      } catch (error) { elements.historyList.replaceChildren(); const failure = document.createElement('p'); failure.className = 'error'; failure.textContent = `版本历史读取失败：${error.message}`; elements.historyList.append(failure); }
     }
 
     function cloneExportArticle() {
@@ -1131,6 +1303,7 @@ ${serializedArticle}
         }
         if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
+        renderReadingTools();
         const baseUrl = new URL(file, document.baseURI).href;
         const snapshot = Object.freeze({
           token,
@@ -1147,11 +1320,15 @@ ${serializedArticle}
         mountExportActions(snapshot);
         setMessage('');
         updateActiveNavigation(file);
+        recordRecent(file, section, pageTitle);
         notifyActiveFile(file, pageTitle, pageMetadata);
+        const saved = userState.progress[file];
+        if (saved && saved.scrollRatio > 0.02) window.requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, elements.content.offsetTop + saved.scrollRatio * Math.max(0, elements.content.scrollHeight - window.innerHeight)), behavior: 'auto' }));
     }
 
     function commitSection(section, parsed, file) {
       activeSection = section;
+      userState = userStates[section] || (userStates[section] = stateDefaults());
       navigationState = navigationStates[section];
       navigationState.groups = parsed.groups;
       navigationState.entries = parsed.entries;
@@ -1309,6 +1486,9 @@ ${serializedArticle}
       elements.navigationSearch.value = '';
       renderCategorizedNavigation();
     });
+    elements.trashButton.addEventListener('click', () => { const open = elements.trashPanel.hidden; elements.trashPanel.hidden = !open; if (open) loadTrash(); });
+    elements.qualityIssuesButton.addEventListener('click', () => { const open = elements.qualityIssuesPanel.hidden; elements.qualityIssuesPanel.hidden = !open; if (open) loadQualityIssues(); });
+    elements.duplicatesButton.addEventListener('click', () => { const open = elements.duplicatesPanel.hidden; elements.duplicatesPanel.hidden = !open; if (open) loadDuplicates(); });
     document.addEventListener('click', (event) => {
       const link = event.target.closest('a[href^="viewer.html?"]');
       if (!link) return;
@@ -1324,7 +1504,8 @@ ${serializedArticle}
     });
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(location.search);
-      const section = params.get('section') === 'interview' ? 'interview' : 'knowledge';
+      const requestedSection = params.get('section');
+      const section = SECTIONS[requestedSection] ? requestedSection : 'knowledge';
       const file = params.get('f');
       navigateTo(file, { sectionHint: section, historyMode: 'none' });
     });
@@ -1362,7 +1543,7 @@ ${serializedArticle}
       mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
       const params = new URLSearchParams(location.search);
       const requestedSection = params.get('section');
-      const requestedFile = params.get('f') || (requestedSection === 'interview' ? null : DEFAULT_FILE);
+      const requestedFile = params.get('f') || (requestedSection === 'interview' || requestedSection === 'notes' ? null : DEFAULT_FILE);
       navigateTo(requestedFile, { sectionHint: requestedSection || 'knowledge', historyMode: 'replace' });
     } catch (error) {
       setMessage(error.message, true);

@@ -8,7 +8,7 @@
 
 ## 架构与组件
 
-- `/home/u2023312337/webui/kbserve-control` 管理 `127.0.0.1:18081` 上的 Python 静态服务，提供 `start`、`stop`、`restart`、`status` 和 `logs`。
+- `<local-webui-root>/kbserve-control` 管理 `127.0.0.1:18081` 上的 Python 静态服务，提供 `start`、`stop`、`restart`、`status` 和 `logs`。
 - `viewer.html` 是知识库内的自包含应用外壳。它从同源静态服务读取 `_index.md`、`首页.md`、`pages/*.md` 和 `graph.md`，浏览器端通过 CDN 加载 marked、DOMPurify、highlight.js 和 Mermaid。
 - 侧边栏按 `_index.md` 的二级标题和清单生成。正文先解析 frontmatter 和双方括号链接，再经 Markdown 渲染与 DOMPurify 清理，最后执行代码高亮和 Mermaid。
 - `reports/` 跟踪 `.gitkeep` 和首份自包含部署报告；报告本身不依赖 CDN。

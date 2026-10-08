@@ -63,8 +63,8 @@
 ### Task 3: 外层统一搜索
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 - Modify: `viewer.html` 或现有 Viewer 导航接口（仅在需要提供目标 URL 时）
 - Modify: `tests/desktop_experience.spec.cjs`
 
@@ -91,8 +91,8 @@ Playwright 覆盖普通页命中、面试页命中、同词分区展示、清除
 ### Task 4: 本地操作历史
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
 - Modify: `tests/desktop_experience.spec.cjs`
 - Modify: `Web操作台使用与维护说明书.md`
 

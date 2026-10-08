@@ -26,8 +26,8 @@
 - `scripts/render_graph.py`: adds taxonomy nodes, membership edges, and category relations to graph data.
 - `graph-view.html`: segmented graph modes, taxonomy navigation, taxonomy detail rendering, and manual global rebuild.
 - `.claude/skills/create-knowledge-page/SKILL.md`: invokes taxonomy sync after the page is complete.
-- `/home/u2023312337/webui/claude-taxonomy-namer`: secret-isolating Claude CLI wrapper.
-- `/home/u2023312337/webui/kbserve-control`: points the taxonomy engine at the naming wrapper without exporting credentials into the server process.
+- `<local-webui-root>/claude-taxonomy-namer`: secret-isolating Claude CLI wrapper.
+- `<local-webui-root>/kbserve-control`: points the taxonomy engine at the naming wrapper without exporting credentials into the server process.
 
 ## Milestone 1: Registry And Classification Engine
 
@@ -487,7 +487,7 @@ git commit -m "feat: evolve taxonomy with semantic and graph communities"
 **Files:**
 - Create: `scripts/taxonomy_naming.py`
 - Create: `tests/test_taxonomy_naming.py`
-- Create: `/home/u2023312337/webui/claude-taxonomy-namer`
+- Create: `<local-webui-root>/claude-taxonomy-namer`
 
 - [ ] **Step 1: Write failing naming tests**
 
@@ -545,18 +545,18 @@ The command receives one JSON request on stdin and must return exactly `{"name":
 
 - [ ] **Step 4: Create and statically validate the secret-isolating wrapper**
 
-Create mode-700 `/home/u2023312337/webui/claude-taxonomy-namer` that sources `/home/u2023312337/webui/runtime.env`, exports the same non-secret model/config variables as `webui-control`, reads the JSON request from stdin, constructs a strict JSON-only prompt, and invokes:
+Create mode-700 `<local-webui-root>/claude-taxonomy-namer` that sources `<local-webui-root>/runtime.env`, exports the same non-secret model/config variables as `webui-control`, reads the JSON request from stdin, constructs a strict JSON-only prompt, and invokes:
 
 ```bash
-exec /home/u2023312337/.nvm/versions/node/v24.11.1/bin/claude \
+exec <local-user-home>/.nvm/versions/node/v24.11.1/bin/claude \
   --print --output-format text --tools "" --permission-mode plan "$prompt"
 ```
 
 The wrapper must never echo environment variables or the input prompt. Verify with:
 
 ```bash
-bash -n /home/u2023312337/webui/claude-taxonomy-namer
-stat -c '%a' /home/u2023312337/webui/claude-taxonomy-namer
+bash -n <local-webui-root>/claude-taxonomy-namer
+stat -c '%a' <local-webui-root>/claude-taxonomy-namer
 python3 -m unittest discover -s tests -p 'test_taxonomy_naming.py' -v
 ```
 
@@ -693,7 +693,7 @@ git commit -m "feat: migrate knowledge base to evolving taxonomy"
 **Files:**
 - Modify: `scripts/serve_kb.py`
 - Modify: `tests/test_serve_kb.py`
-- Modify: `/home/u2023312337/webui/kbserve-control`
+- Modify: `<local-webui-root>/kbserve-control`
 
 - [ ] **Step 1: Add failing server tests**
 
@@ -737,10 +737,10 @@ If sync fails during ordinary static freshness refresh, log the taxonomy error, 
 
 - [ ] **Step 4: Point the deployed service at the wrapper safely**
 
-Add one non-secret environment variable in `/home/u2023312337/webui/kbserve-control`:
+Add one non-secret environment variable in `<local-webui-root>/kbserve-control`:
 
 ```bash
-TAXONOMY_NAMER_COMMAND=/home/u2023312337/webui/claude-taxonomy-namer
+TAXONOMY_NAMER_COMMAND=<local-webui-root>/claude-taxonomy-namer
 export TAXONOMY_NAMER_COMMAND
 ```
 
@@ -752,7 +752,7 @@ Run:
 
 ```bash
 python3 -m unittest discover -s tests -p 'test_serve_kb.py' -v
-bash -n /home/u2023312337/webui/kbserve-control
+bash -n <local-webui-root>/kbserve-control
 python3 -m unittest discover -s tests -v
 ```
 
@@ -991,13 +991,13 @@ python3 -m unittest discover -s tests -v
 python3 scripts/taxonomy_cli.py validate
 python3 scripts/taxonomy_cli.py status --json
 python3 scripts/check_health.py
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
-bash /home/u2023312337/webui/test-dedicated-claude-config.sh
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
-node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
-bash -n /home/u2023312337/webui/claude-taxonomy-namer
-sha256sum /home/u2023312337/webui/claude-taxonomy-namer
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
+bash <local-webui-root>/test-dedicated-claude-config.sh
+node <local-webui-root>/patch-integrated-workbench.mjs --check
+node <local-webui-root>/patch-dangerous-mode.mjs --check
+bash -n <local-webui-root>/claude-taxonomy-namer
+sha256sum <local-webui-root>/claude-taxonomy-namer
 git diff --check
 ```
 
@@ -1006,8 +1006,8 @@ Expected: all tests PASS, taxonomy validates, health reports `ERROR 0` and `WARN
 - [ ] **Step 5: Restart localhost services and verify APIs**
 
 ```bash
-/home/u2023312337/webui/kbserve-control restart
-/home/u2023312337/webui/webui-control restart
+<local-webui-root>/kbserve-control restart
+<local-webui-root>/webui-control restart
 curl -fsS http://127.0.0.1:18081/api/taxonomy/status
 curl -fsS http://127.0.0.1:18081/api/revision
 ss -ltnp '( sport = :18080 or sport = :18081 )'

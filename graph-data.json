@@ -9,6 +9,833 @@
     "多智能体": "#7c5cab",
     "评测": "#16849b"
   },
+  "community": {
+    "algorithm": {
+      "name": "leiden",
+      "resolution": 1.0,
+      "seed": 42
+    },
+    "broken": [],
+    "communities": [
+      {
+        "detail": "Adam结合动量与RMSprop的一阶矩、二阶矩自适应学习率优化器，是深度学习默认优化器；BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。；LoRA冻结预训练权重，注入可训练低秩矩阵BA做增量更新，参数量降千倍且推理零额外延迟",
+        "id": "com_0f3032bee088",
+        "internalEdgeCount": 42,
+        "level": 1,
+        "memberCount": 17,
+        "members": [
+          "Adam优化器 Adam Optimizer",
+          "BERT与GPT的区别 BERT vs GPT",
+          "LoRA 低秩适配 Low-Rank Adaptation",
+          "Scaling Law 大模型缩放律",
+          "上下文学习 In-context Learning",
+          "交替检索推理 IRCoT",
+          "人类反馈强化学习 RLHF",
+          "人类反馈的知识图谱构建 Human-in-the-Loop KG",
+          "后训练 Post-training",
+          "强化学习基本框架 Reinforcement Learning",
+          "思维链 Chain-of-Thought",
+          "提示工程 Prompt Engineering",
+          "数据增强 Data Augmentation",
+          "涌现能力 Emergent Abilities",
+          "表格基础模型 Tabular Foundation Model",
+          "过拟合 Overfitting",
+          "预训练与微调 Pretrain vs Finetune"
+        ],
+        "name": "Adam优化器 Adam Optimizer、BERT与GPT的区别 BERT vs GPT、LoRA 低秩适配 Low-Rank Adaptation等",
+        "parent": "com_17a1eab02575",
+        "summary": "由 17 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "Agent记忆由工作记忆、情景记忆和语义记忆三个层次协同构成。；FinGraph是专门为财务分析场景设计的领域知识图谱，核心是把财报中的结构化和非结构化数据转化为可计算的图结构。；GNN-RAG（arxiv 2024）把 GNN 引入 RAG 的检索阶段。",
+        "id": "com_4f7145b9eb3b",
+        "internalEdgeCount": 74,
+        "level": 1,
+        "memberCount": 26,
+        "members": [
+          "Agent 记忆架构",
+          "FinGraph 财务知识图谱",
+          "GNN-RAG 图神经网络检索增强",
+          "Graph Fusion 图融合",
+          "ReAct Agent 工作原理",
+          "StructRAG 结构化知识推理",
+          "TransE 图嵌入",
+          "主流知识图谱 Mainstream KGs",
+          "关系图卷积网络 RGCN",
+          "关联规则挖掘 Apriori",
+          "图神经网络 GNN",
+          "图结构一致性 Graph Structure Consistency",
+          "实体对齐 Entity Alignment",
+          "实体消歧 Entity Disambiguation",
+          "异构图 Heterogeneous Graph",
+          "本体 Ontology",
+          "知识图谱对齐任务 KG Alignment Tasks",
+          "知识图谱构建流程 KG Construction Pipeline",
+          "知识图谱补全 Knowledge Graph Completion",
+          "知识图谱质量评估维度",
+          "确定性状态机 Deterministic State Machine",
+          "神经符号方法 Neuro-Symbolic AI",
+          "符号人工智能 Symbolic AI",
+          "置信度评分 Confidence Scoring",
+          "资源描述框架 RDF OWL SPARQL",
+          "链接预测 Link Prediction"
+        ],
+        "name": "Agent 记忆架构、FinGraph 财务知识图谱、GNN-RAG 图神经网络检索增强等",
+        "parent": "com_17a1eab02575",
+        "summary": "由 26 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "Google Dremel/BigQuery 提出的嵌套列式宽表反规范化数仓范式；Google 2006 论文提出的稀疏分布式多维排序 Map 宽列存储；微软GraphRAG是2024年引爆GraphRAG方向的经典工作。",
+        "id": "com_3428dc92a393",
+        "internalEdgeCount": 51,
+        "level": 1,
+        "memberCount": 21,
+        "members": [
+          "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+          "Google Bigtable 宽表模型 Bigtable",
+          "GraphRAG 架构",
+          "LightRAG",
+          "RAG 评测指标 EM Recall MRR",
+          "SHA-256 产物指纹",
+          "Self-RAG",
+          "分层评测 Stratified Evaluation",
+          "分布偏移 Distribution Shift",
+          "可审计性 Auditability",
+          "可观测性 Observability",
+          "可验证性 Verifiability",
+          "基准数据集 Benchmark",
+          "实验可复现性 Reproducibility",
+          "审计风险队列 Audit Risk Queue",
+          "对抗样本 Adversarial Examples",
+          "提示注入 Prompt Injection",
+          "机器遗忘 Machine Unlearning",
+          "消融实验 Ablation Study",
+          "红队测试 Red-teaming",
+          "语言模型困惑度 Perplexity"
+        ],
+        "name": "BigQuery Dremel 宽表建模 BigQuery-Dremel、Google Bigtable 宽表模型 Bigtable、GraphRAG 架构等",
+        "parent": "com_17a1eab02575",
+        "summary": "由 21 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "EM算法是一种处理含隐变量的极大似然估计的迭代算法,通过E步求隐变量后验期望、M步最大化期望对数似然,交替进行直至收敛。；LDA（Latent Dirichlet Allocation，潜在狄利克雷分配）是一种无监督的文本主题发现模型。；依存句法分析是分析句子里词和词之间的语法依存关系的任务，用有向图表示，边从修饰词指向被修饰词，边上标注关系类型。",
+        "id": "com_b88a3cb3734a",
+        "internalEdgeCount": 27,
+        "level": 1,
+        "memberCount": 11,
+        "members": [
+          "EM算法 Expectation-Maximization",
+          "主题模型 LDA",
+          "依存句法分析 Dependency Parsing",
+          "变分自编码器 VAE Variational Autoencoder",
+          "命名实体识别 NER",
+          "序列标注模型 HMM CRF",
+          "开放信息抽取 OpenIE",
+          "扩散模型 Diffusion Models DDPM",
+          "词性标注 POS Tagging",
+          "马尔可夫 Markov",
+          "高斯混合模型 GMM Gaussian Mixture Model"
+        ],
+        "name": "EM算法 Expectation-Maximization、主题模型 LDA、依存句法分析 Dependency Parsing等",
+        "parent": "com_17a1eab02575",
+        "summary": "由 11 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "KG-RAG在普通RAG的向量检索之外，额外引入知识图谱作为结构化检索层。；KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。；Robust Scaler用中位数和四分位距代替均值方差做特征缩放,对异常值鲁棒,是含离群值数据的首选预处理方法。",
+        "id": "com_577f3910cb20",
+        "internalEdgeCount": 37,
+        "level": 1,
+        "memberCount": 12,
+        "members": [
+          "KG-RAG 工作原理",
+          "K近邻 KNN K-Nearest Neighbors",
+          "Robust Scaler 鲁棒缩放",
+          "交叉编码器 Cross-Encoder",
+          "信息检索 IR基础模型 Information Retrieval",
+          "双塔Embedding Dual Encoder",
+          "对比学习 Contrastive Learning",
+          "归一化 Normalization",
+          "文本摘要 Text Summarization",
+          "混合检索 Hybrid Retrieval",
+          "词嵌入 Word Embedding",
+          "近似最近邻检索 ANN Approximate Nearest Neighbor"
+        ],
+        "name": "KG-RAG 工作原理、K近邻 KNN K-Nearest Neighbors、Robust Scaler 鲁棒缩放等",
+        "parent": "com_b0c3cfa11174",
+        "summary": "由 12 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "LLM推理优化的两个核心技术是KV Cache和量化。；Transformer用堆叠的自注意力和前馈子层加残差归一化实现并行序列建模,是现代LLM的架构基石。；自注意力机制是Transformer的核心，也是大模型技术栈的基础技术。",
+        "id": "com_bb4f05fa03d0",
+        "internalEdgeCount": 57,
+        "level": 1,
+        "memberCount": 14,
+        "members": [
+          "LLM 推理优化 KV Cache Quantization",
+          "Transformer 架构 Architecture",
+          "Transformer 自注意力机制",
+          "位置编码 Positional Encoding",
+          "前馈网络 FFN Feed-Forward Network",
+          "卷积神经网络 CNN",
+          "多头注意力 Multi-Head Attention",
+          "层归一化 LayerNorm BatchNorm",
+          "循环神经网络 RNN LSTM",
+          "旋转位置编码 RoPE",
+          "机器翻译 Machine Translation",
+          "残差连接 Residual Connection",
+          "激活函数 Activation Functions",
+          "编码器-解码器结构 Encoder-Decoder Architecture"
+        ],
+        "name": "LLM 推理优化 KV Cache Quantization、Transformer 架构 Architecture、Transformer 自注意力机制等",
+        "parent": "com_b0c3cfa11174",
+        "summary": "由 14 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "LRU用近期访问时间近似最优替换,以哈希表加双向链表实现O(1)存取,是缓存与页面替换基线算法。；OSI七层与TCP/IP四层网络参考模型的分层设计、协议映射与历史演进对比。；Redis 是开源的内存数据结构存储，常用作数据库、缓存和消息代理。",
+        "id": "com_20f7b0b3f18f",
+        "internalEdgeCount": 80,
+        "level": 1,
+        "memberCount": 19,
+        "members": [
+          "LRU 缓存替换 Least Recently Used",
+          "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models",
+          "Redis 内存数据存储",
+          "TCP三次握手与四次挥手 TCP Handshake and Teardown",
+          "中断与异常 Interrupts and Exceptions",
+          "信道复用技术 FDM TDM WDM CDM",
+          "操作系统 Operating System",
+          "操作系统同步与互斥 OS Synchronization and Mutual Exclusion",
+          "操作系统死锁 Deadlock",
+          "操作系统运行机制 OS Runtime Mechanisms",
+          "活锁 Livelock",
+          "流量控制常见方式 Flow Control",
+          "网际协议 Internet Protocol",
+          "路由协议 RIP OSPF BGP",
+          "进程与线程 Process and Thread",
+          "进程调度算法 CPU Scheduling Algorithms",
+          "银行家算法 Banker's Algorithm",
+          "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+          "饥饿 Starvation"
+        ],
+        "name": "LRU 缓存替换 Least Recently Used、OSI参考模型与TCP-IP模型 OSI and TCP-IP Models、Redis 内存数据存储等",
+        "parent": "com_b0c3cfa11174",
+        "summary": "由 19 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "detail": "McNemar检验是专门用于配对二分类数据的统计显著性检验方法，是NLP实验中比较两个系统差异的标配工具。；用GPT-4合成数据微调Flan-T5，以GPT-4 1/400成本完成 grounding 文档级事实核查；RAGChecker以细粒度指标分别诊断RAG的检索和生成错误。",
+        "id": "com_99821648640c",
+        "internalEdgeCount": 33,
+        "level": 1,
+        "memberCount": 15,
+        "members": [
+          "McNemar检验",
+          "MiniCheck 高效事实核查",
+          "RAGChecker",
+          "ReDeEP 机制可解释性",
+          "不确定性量化 Uncertainty Quantification",
+          "反事实评测 Counterfactual Evaluation",
+          "引用召回与精确率 Citation Recall Precision",
+          "归因评测 Attribution",
+          "文本蕴含与自然语言推理 NLI",
+          "模型校准 Calibration",
+          "溯源 Provenance",
+          "知识冲突 Knowledge Conflict",
+          "知识接地 Grounding",
+          "纠错RAG CRAG",
+          "选择性预测 Selective Prediction"
+        ],
+        "name": "McNemar检验、MiniCheck 高效事实核查、RAGChecker等",
+        "parent": "com_17a1eab02575",
+        "summary": "由 15 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "children": [
+          "com_0f3032bee088",
+          "com_3428dc92a393",
+          "com_4f7145b9eb3b",
+          "com_99821648640c",
+          "com_b88a3cb3734a"
+        ],
+        "detail": "Adam结合动量与RMSprop的一阶矩、二阶矩自适应学习率优化器，是深度学习默认优化器；Agent记忆由工作记忆、情景记忆和语义记忆三个层次协同构成。；BERT 和 GPT 是 Transformer 架构的两个代表性分支,核心区别在于注意力方向和预训练任务。",
+        "id": "com_17a1eab02575",
+        "internalEdgeCount": 283,
+        "level": 2,
+        "memberCount": 90,
+        "members": [
+          "Adam优化器 Adam Optimizer",
+          "Agent 记忆架构",
+          "BERT与GPT的区别 BERT vs GPT",
+          "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+          "EM算法 Expectation-Maximization",
+          "FinGraph 财务知识图谱",
+          "GNN-RAG 图神经网络检索增强",
+          "Google Bigtable 宽表模型 Bigtable",
+          "Graph Fusion 图融合",
+          "GraphRAG 架构",
+          "LightRAG",
+          "LoRA 低秩适配 Low-Rank Adaptation",
+          "McNemar检验",
+          "MiniCheck 高效事实核查",
+          "RAG 评测指标 EM Recall MRR",
+          "RAGChecker",
+          "ReAct Agent 工作原理",
+          "ReDeEP 机制可解释性",
+          "SHA-256 产物指纹",
+          "Scaling Law 大模型缩放律",
+          "Self-RAG",
+          "StructRAG 结构化知识推理",
+          "TransE 图嵌入",
+          "上下文学习 In-context Learning",
+          "不确定性量化 Uncertainty Quantification",
+          "主流知识图谱 Mainstream KGs",
+          "主题模型 LDA",
+          "交替检索推理 IRCoT",
+          "人类反馈强化学习 RLHF",
+          "人类反馈的知识图谱构建 Human-in-the-Loop KG",
+          "依存句法分析 Dependency Parsing",
+          "关系图卷积网络 RGCN",
+          "关联规则挖掘 Apriori",
+          "分层评测 Stratified Evaluation",
+          "分布偏移 Distribution Shift",
+          "反事实评测 Counterfactual Evaluation",
+          "变分自编码器 VAE Variational Autoencoder",
+          "可审计性 Auditability",
+          "可观测性 Observability",
+          "可验证性 Verifiability",
+          "后训练 Post-training",
+          "命名实体识别 NER",
+          "图神经网络 GNN",
+          "图结构一致性 Graph Structure Consistency",
+          "基准数据集 Benchmark",
+          "实体对齐 Entity Alignment",
+          "实体消歧 Entity Disambiguation",
+          "实验可复现性 Reproducibility",
+          "审计风险队列 Audit Risk Queue",
+          "对抗样本 Adversarial Examples",
+          "序列标注模型 HMM CRF",
+          "开放信息抽取 OpenIE",
+          "异构图 Heterogeneous Graph",
+          "引用召回与精确率 Citation Recall Precision",
+          "强化学习基本框架 Reinforcement Learning",
+          "归因评测 Attribution",
+          "思维链 Chain-of-Thought",
+          "扩散模型 Diffusion Models DDPM",
+          "提示工程 Prompt Engineering",
+          "提示注入 Prompt Injection",
+          "数据增强 Data Augmentation",
+          "文本蕴含与自然语言推理 NLI",
+          "本体 Ontology",
+          "机器遗忘 Machine Unlearning",
+          "模型校准 Calibration",
+          "消融实验 Ablation Study",
+          "涌现能力 Emergent Abilities",
+          "溯源 Provenance",
+          "知识冲突 Knowledge Conflict",
+          "知识图谱对齐任务 KG Alignment Tasks",
+          "知识图谱构建流程 KG Construction Pipeline",
+          "知识图谱补全 Knowledge Graph Completion",
+          "知识图谱质量评估维度",
+          "知识接地 Grounding",
+          "确定性状态机 Deterministic State Machine",
+          "神经符号方法 Neuro-Symbolic AI",
+          "符号人工智能 Symbolic AI",
+          "纠错RAG CRAG",
+          "红队测试 Red-teaming",
+          "置信度评分 Confidence Scoring",
+          "表格基础模型 Tabular Foundation Model",
+          "词性标注 POS Tagging",
+          "语言模型困惑度 Perplexity",
+          "资源描述框架 RDF OWL SPARQL",
+          "过拟合 Overfitting",
+          "选择性预测 Selective Prediction",
+          "链接预测 Link Prediction",
+          "预训练与微调 Pretrain vs Finetune",
+          "马尔可夫 Markov",
+          "高斯混合模型 GMM Gaussian Mixture Model"
+        ],
+        "name": "Adam优化器 Adam Optimizer、Agent 记忆架构、BERT与GPT的区别 BERT vs GPT等",
+        "parent": null,
+        "summary": "由 90 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      },
+      {
+        "children": [
+          "com_20f7b0b3f18f",
+          "com_577f3910cb20",
+          "com_bb4f05fa03d0"
+        ],
+        "detail": "KG-RAG在普通RAG的向量检索之外，额外引入知识图谱作为结构化检索层。；KNN是最简单的非参数分类/回归方法,测试时用训练集里最近的K个邻居投票或平均,是稠密向量检索的算法内核。；LLM推理优化的两个核心技术是KV Cache和量化。",
+        "id": "com_b0c3cfa11174",
+        "internalEdgeCount": 183,
+        "level": 2,
+        "memberCount": 45,
+        "members": [
+          "KG-RAG 工作原理",
+          "K近邻 KNN K-Nearest Neighbors",
+          "LLM 推理优化 KV Cache Quantization",
+          "LRU 缓存替换 Least Recently Used",
+          "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models",
+          "Redis 内存数据存储",
+          "Robust Scaler 鲁棒缩放",
+          "TCP三次握手与四次挥手 TCP Handshake and Teardown",
+          "Transformer 架构 Architecture",
+          "Transformer 自注意力机制",
+          "中断与异常 Interrupts and Exceptions",
+          "交叉编码器 Cross-Encoder",
+          "位置编码 Positional Encoding",
+          "信息检索 IR基础模型 Information Retrieval",
+          "信道复用技术 FDM TDM WDM CDM",
+          "前馈网络 FFN Feed-Forward Network",
+          "卷积神经网络 CNN",
+          "双塔Embedding Dual Encoder",
+          "多头注意力 Multi-Head Attention",
+          "对比学习 Contrastive Learning",
+          "层归一化 LayerNorm BatchNorm",
+          "归一化 Normalization",
+          "循环神经网络 RNN LSTM",
+          "操作系统 Operating System",
+          "操作系统同步与互斥 OS Synchronization and Mutual Exclusion",
+          "操作系统死锁 Deadlock",
+          "操作系统运行机制 OS Runtime Mechanisms",
+          "文本摘要 Text Summarization",
+          "旋转位置编码 RoPE",
+          "机器翻译 Machine Translation",
+          "残差连接 Residual Connection",
+          "活锁 Livelock",
+          "流量控制常见方式 Flow Control",
+          "混合检索 Hybrid Retrieval",
+          "激活函数 Activation Functions",
+          "编码器-解码器结构 Encoder-Decoder Architecture",
+          "网际协议 Internet Protocol",
+          "词嵌入 Word Embedding",
+          "路由协议 RIP OSPF BGP",
+          "近似最近邻检索 ANN Approximate Nearest Neighbor",
+          "进程与线程 Process and Thread",
+          "进程调度算法 CPU Scheduling Algorithms",
+          "银行家算法 Banker's Algorithm",
+          "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+          "饥饿 Starvation"
+        ],
+        "name": "KG-RAG 工作原理、K近邻 KNN K-Nearest Neighbors、LLM 推理优化 KV Cache Quantization等",
+        "parent": null,
+        "summary": "由 45 个知识页通过显式引用形成的主题社区。",
+        "summaryMeta": {
+          "confidence": "低",
+          "provider": "fallback"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "count": 4,
+        "source": "com_0f3032bee088",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 5,
+        "source": "com_0f3032bee088",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 4,
+        "source": "com_0f3032bee088",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 4,
+        "source": "com_0f3032bee088",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 2,
+        "source": "com_0f3032bee088",
+        "target": "com_b88a3cb3734a"
+      },
+      {
+        "count": 7,
+        "source": "com_0f3032bee088",
+        "target": "com_bb4f05fa03d0"
+      },
+      {
+        "count": 1,
+        "source": "com_20f7b0b3f18f",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 1,
+        "source": "com_20f7b0b3f18f",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 1,
+        "source": "com_20f7b0b3f18f",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 1,
+        "source": "com_20f7b0b3f18f",
+        "target": "com_bb4f05fa03d0"
+      },
+      {
+        "count": 2,
+        "source": "com_3428dc92a393",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 7,
+        "source": "com_3428dc92a393",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 2,
+        "source": "com_3428dc92a393",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 1,
+        "source": "com_4f7145b9eb3b",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 2,
+        "source": "com_4f7145b9eb3b",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 2,
+        "source": "com_4f7145b9eb3b",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 2,
+        "source": "com_4f7145b9eb3b",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 2,
+        "source": "com_4f7145b9eb3b",
+        "target": "com_b88a3cb3734a"
+      },
+      {
+        "count": 2,
+        "source": "com_577f3910cb20",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 4,
+        "source": "com_577f3910cb20",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 4,
+        "source": "com_577f3910cb20",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 1,
+        "source": "com_577f3910cb20",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 1,
+        "source": "com_577f3910cb20",
+        "target": "com_b88a3cb3734a"
+      },
+      {
+        "count": 3,
+        "source": "com_577f3910cb20",
+        "target": "com_bb4f05fa03d0"
+      },
+      {
+        "count": 2,
+        "source": "com_99821648640c",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 6,
+        "source": "com_99821648640c",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 7,
+        "source": "com_99821648640c",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 1,
+        "source": "com_b88a3cb3734a",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 6,
+        "source": "com_b88a3cb3734a",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 2,
+        "source": "com_b88a3cb3734a",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 1,
+        "source": "com_b88a3cb3734a",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 5,
+        "source": "com_bb4f05fa03d0",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 4,
+        "source": "com_bb4f05fa03d0",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 7,
+        "source": "com_bb4f05fa03d0",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 4,
+        "source": "com_bb4f05fa03d0",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 1,
+        "source": "com_bb4f05fa03d0",
+        "target": "com_99821648640c"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_17a1eab02575",
+        "target": "com_0f3032bee088"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_17a1eab02575",
+        "target": "com_4f7145b9eb3b"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_17a1eab02575",
+        "target": "com_3428dc92a393"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_17a1eab02575",
+        "target": "com_b88a3cb3734a"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_b0c3cfa11174",
+        "target": "com_577f3910cb20"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_b0c3cfa11174",
+        "target": "com_bb4f05fa03d0"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_b0c3cfa11174",
+        "target": "com_20f7b0b3f18f"
+      },
+      {
+        "count": 0,
+        "edgeType": "hierarchy",
+        "source": "com_17a1eab02575",
+        "target": "com_99821648640c"
+      }
+    ],
+    "generatedAt": "2026-10-08",
+    "memberships": {
+      "Adam优化器 Adam Optimizer": "com_0f3032bee088",
+      "Agent 记忆架构": "com_4f7145b9eb3b",
+      "BERT与GPT的区别 BERT vs GPT": "com_0f3032bee088",
+      "BigQuery Dremel 宽表建模 BigQuery-Dremel": "com_3428dc92a393",
+      "EM算法 Expectation-Maximization": "com_b88a3cb3734a",
+      "FinGraph 财务知识图谱": "com_4f7145b9eb3b",
+      "GNN-RAG 图神经网络检索增强": "com_4f7145b9eb3b",
+      "Google Bigtable 宽表模型 Bigtable": "com_3428dc92a393",
+      "Graph Fusion 图融合": "com_4f7145b9eb3b",
+      "GraphRAG 架构": "com_3428dc92a393",
+      "KG-RAG 工作原理": "com_577f3910cb20",
+      "K近邻 KNN K-Nearest Neighbors": "com_577f3910cb20",
+      "LLM 推理优化 KV Cache Quantization": "com_bb4f05fa03d0",
+      "LRU 缓存替换 Least Recently Used": "com_20f7b0b3f18f",
+      "LightRAG": "com_3428dc92a393",
+      "LoRA 低秩适配 Low-Rank Adaptation": "com_0f3032bee088",
+      "McNemar检验": "com_99821648640c",
+      "MiniCheck 高效事实核查": "com_99821648640c",
+      "OSI参考模型与TCP-IP模型 OSI and TCP-IP Models": "com_20f7b0b3f18f",
+      "RAG 评测指标 EM Recall MRR": "com_3428dc92a393",
+      "RAGChecker": "com_99821648640c",
+      "ReAct Agent 工作原理": "com_4f7145b9eb3b",
+      "ReDeEP 机制可解释性": "com_99821648640c",
+      "Redis 内存数据存储": "com_20f7b0b3f18f",
+      "Robust Scaler 鲁棒缩放": "com_577f3910cb20",
+      "SHA-256 产物指纹": "com_3428dc92a393",
+      "Scaling Law 大模型缩放律": "com_0f3032bee088",
+      "Self-RAG": "com_3428dc92a393",
+      "StructRAG 结构化知识推理": "com_4f7145b9eb3b",
+      "TCP三次握手与四次挥手 TCP Handshake and Teardown": "com_20f7b0b3f18f",
+      "TransE 图嵌入": "com_4f7145b9eb3b",
+      "Transformer 架构 Architecture": "com_bb4f05fa03d0",
+      "Transformer 自注意力机制": "com_bb4f05fa03d0",
+      "上下文学习 In-context Learning": "com_0f3032bee088",
+      "不确定性量化 Uncertainty Quantification": "com_99821648640c",
+      "中断与异常 Interrupts and Exceptions": "com_20f7b0b3f18f",
+      "主流知识图谱 Mainstream KGs": "com_4f7145b9eb3b",
+      "主题模型 LDA": "com_b88a3cb3734a",
+      "交叉编码器 Cross-Encoder": "com_577f3910cb20",
+      "交替检索推理 IRCoT": "com_0f3032bee088",
+      "人类反馈强化学习 RLHF": "com_0f3032bee088",
+      "人类反馈的知识图谱构建 Human-in-the-Loop KG": "com_0f3032bee088",
+      "位置编码 Positional Encoding": "com_bb4f05fa03d0",
+      "依存句法分析 Dependency Parsing": "com_b88a3cb3734a",
+      "信息检索 IR基础模型 Information Retrieval": "com_577f3910cb20",
+      "信道复用技术 FDM TDM WDM CDM": "com_20f7b0b3f18f",
+      "关系图卷积网络 RGCN": "com_4f7145b9eb3b",
+      "关联规则挖掘 Apriori": "com_4f7145b9eb3b",
+      "分层评测 Stratified Evaluation": "com_3428dc92a393",
+      "分布偏移 Distribution Shift": "com_3428dc92a393",
+      "前馈网络 FFN Feed-Forward Network": "com_bb4f05fa03d0",
+      "卷积神经网络 CNN": "com_bb4f05fa03d0",
+      "双塔Embedding Dual Encoder": "com_577f3910cb20",
+      "反事实评测 Counterfactual Evaluation": "com_99821648640c",
+      "变分自编码器 VAE Variational Autoencoder": "com_b88a3cb3734a",
+      "可审计性 Auditability": "com_3428dc92a393",
+      "可观测性 Observability": "com_3428dc92a393",
+      "可验证性 Verifiability": "com_3428dc92a393",
+      "后训练 Post-training": "com_0f3032bee088",
+      "命名实体识别 NER": "com_b88a3cb3734a",
+      "图神经网络 GNN": "com_4f7145b9eb3b",
+      "图结构一致性 Graph Structure Consistency": "com_4f7145b9eb3b",
+      "基准数据集 Benchmark": "com_3428dc92a393",
+      "多头注意力 Multi-Head Attention": "com_bb4f05fa03d0",
+      "实体对齐 Entity Alignment": "com_4f7145b9eb3b",
+      "实体消歧 Entity Disambiguation": "com_4f7145b9eb3b",
+      "实验可复现性 Reproducibility": "com_3428dc92a393",
+      "审计风险队列 Audit Risk Queue": "com_3428dc92a393",
+      "对抗样本 Adversarial Examples": "com_3428dc92a393",
+      "对比学习 Contrastive Learning": "com_577f3910cb20",
+      "层归一化 LayerNorm BatchNorm": "com_bb4f05fa03d0",
+      "序列标注模型 HMM CRF": "com_b88a3cb3734a",
+      "开放信息抽取 OpenIE": "com_b88a3cb3734a",
+      "异构图 Heterogeneous Graph": "com_4f7145b9eb3b",
+      "引用召回与精确率 Citation Recall Precision": "com_99821648640c",
+      "强化学习基本框架 Reinforcement Learning": "com_0f3032bee088",
+      "归一化 Normalization": "com_577f3910cb20",
+      "归因评测 Attribution": "com_99821648640c",
+      "循环神经网络 RNN LSTM": "com_bb4f05fa03d0",
+      "思维链 Chain-of-Thought": "com_0f3032bee088",
+      "扩散模型 Diffusion Models DDPM": "com_b88a3cb3734a",
+      "提示工程 Prompt Engineering": "com_0f3032bee088",
+      "提示注入 Prompt Injection": "com_3428dc92a393",
+      "操作系统 Operating System": "com_20f7b0b3f18f",
+      "操作系统同步与互斥 OS Synchronization and Mutual Exclusion": "com_20f7b0b3f18f",
+      "操作系统死锁 Deadlock": "com_20f7b0b3f18f",
+      "操作系统运行机制 OS Runtime Mechanisms": "com_20f7b0b3f18f",
+      "数据增强 Data Augmentation": "com_0f3032bee088",
+      "文本摘要 Text Summarization": "com_577f3910cb20",
+      "文本蕴含与自然语言推理 NLI": "com_99821648640c",
+      "旋转位置编码 RoPE": "com_bb4f05fa03d0",
+      "本体 Ontology": "com_4f7145b9eb3b",
+      "机器翻译 Machine Translation": "com_bb4f05fa03d0",
+      "机器遗忘 Machine Unlearning": "com_3428dc92a393",
+      "模型校准 Calibration": "com_99821648640c",
+      "残差连接 Residual Connection": "com_bb4f05fa03d0",
+      "活锁 Livelock": "com_20f7b0b3f18f",
+      "流量控制常见方式 Flow Control": "com_20f7b0b3f18f",
+      "消融实验 Ablation Study": "com_3428dc92a393",
+      "涌现能力 Emergent Abilities": "com_0f3032bee088",
+      "混合检索 Hybrid Retrieval": "com_577f3910cb20",
+      "溯源 Provenance": "com_99821648640c",
+      "激活函数 Activation Functions": "com_bb4f05fa03d0",
+      "知识冲突 Knowledge Conflict": "com_99821648640c",
+      "知识图谱对齐任务 KG Alignment Tasks": "com_4f7145b9eb3b",
+      "知识图谱构建流程 KG Construction Pipeline": "com_4f7145b9eb3b",
+      "知识图谱补全 Knowledge Graph Completion": "com_4f7145b9eb3b",
+      "知识图谱质量评估维度": "com_4f7145b9eb3b",
+      "知识接地 Grounding": "com_99821648640c",
+      "确定性状态机 Deterministic State Machine": "com_4f7145b9eb3b",
+      "神经符号方法 Neuro-Symbolic AI": "com_4f7145b9eb3b",
+      "符号人工智能 Symbolic AI": "com_4f7145b9eb3b",
+      "纠错RAG CRAG": "com_99821648640c",
+      "红队测试 Red-teaming": "com_3428dc92a393",
+      "编码器-解码器结构 Encoder-Decoder Architecture": "com_bb4f05fa03d0",
+      "网际协议 Internet Protocol": "com_20f7b0b3f18f",
+      "置信度评分 Confidence Scoring": "com_4f7145b9eb3b",
+      "表格基础模型 Tabular Foundation Model": "com_0f3032bee088",
+      "词嵌入 Word Embedding": "com_577f3910cb20",
+      "词性标注 POS Tagging": "com_b88a3cb3734a",
+      "语言模型困惑度 Perplexity": "com_3428dc92a393",
+      "资源描述框架 RDF OWL SPARQL": "com_4f7145b9eb3b",
+      "路由协议 RIP OSPF BGP": "com_20f7b0b3f18f",
+      "过拟合 Overfitting": "com_0f3032bee088",
+      "近似最近邻检索 ANN Approximate Nearest Neighbor": "com_577f3910cb20",
+      "进程与线程 Process and Thread": "com_20f7b0b3f18f",
+      "进程调度算法 CPU Scheduling Algorithms": "com_20f7b0b3f18f",
+      "选择性预测 Selective Prediction": "com_99821648640c",
+      "银行家算法 Banker's Algorithm": "com_20f7b0b3f18f",
+      "链接预测 Link Prediction": "com_4f7145b9eb3b",
+      "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA": "com_20f7b0b3f18f",
+      "预训练与微调 Pretrain vs Finetune": "com_0f3032bee088",
+      "饥饿 Starvation": "com_20f7b0b3f18f",
+      "马尔可夫 Markov": "com_b88a3cb3734a",
+      "高斯混合模型 GMM Gaussian Mixture Model": "com_b88a3cb3734a"
+    },
+    "schemaVersion": 1,
+    "stats": {
+      "communities": 10,
+      "edges": 512,
+      "levels": 2,
+      "pages": 135
+    }
+  },
   "edges": [
     {
       "id": "e0001",
@@ -4341,7 +5168,7 @@
       "target": "机器学习与NLP基础 ML-NLP Foundations"
     }
   ],
-  "generated": "2026-08-11",
+  "generated": "2026-10-08",
   "nodes": [
     {
       "category": "LLM机制",

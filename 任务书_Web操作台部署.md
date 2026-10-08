@@ -25,7 +25,7 @@
 
 1. **只绑 localhost**:服务监听 `127.0.0.1`,禁止 `0.0.0.0`。访问方式为 VSCode Remote-SSH 端口转发(或 `ssh -L`)。
 2. **环境变量必须随服务传递**:本机 CC 走第三方 endpoint(火山引擎 coding plan),认证依赖 `ANTHROPIC_BASE_URL` / `ANTHROPIC_AUTH_TOKEN` 等环境变量。systemd/nohup 启动的服务不继承 shell 环境——必须在 unit 文件(`Environment=`/`EnvironmentFile=`)或启动脚本中显式注入这些变量,并在验证步骤确认 UI 发起的会话真实可用(不能只在交互终端里测)。凭证文件权限 600,放知识库目录之外,不进任何 git。
-3. 工作目录指向知识库根(`/home/u2023312337/知识库`),使 UI 中的会话默认落在知识库上下文里。
+3. 工作目录指向知识库根(`<repo-root>`),使 UI 中的会话默认落在知识库上下文里。
 4. 用 systemd user unit 或 `nohup`+脚本方式让服务常驻并可开机自启(选服务器上更顺手的一种);提供 `start/stop/status` 的一条命令说明。
 5. 部署所产生的文件(配置、启动脚本)放在知识库目录**之外**(如 `~/webui/`),不污染知识库 git。
 

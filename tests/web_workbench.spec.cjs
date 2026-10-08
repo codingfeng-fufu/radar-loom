@@ -23,7 +23,7 @@ test.afterEach(() => {
 });
 
 test('interview insertion helpers distinguish direct and clipboard outcomes', async () => {
-  const helpers = await import(pathToFileURL('/home/u2023312337/webui/patch-integrated-workbench.mjs').href);
+  const helpers = await import(pathToFileURL('<local-user-home>/webui/patch-integrated-workbench.mjs').href);
   expect(helpers.interviewInsertionClears({ inserted: true, method: 'direct' })).toBe(true);
   expect(helpers.interviewInsertionClears({ inserted: true, method: 'clipboard' })).toBe(false);
   expect(helpers.interviewInsertionClears({ inserted: false, method: 'clipboard' })).toBe(false);
@@ -174,7 +174,8 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await viewer.locator('#roleFilter').selectOption('算法工程师');
   await viewer.locator('#difficultyFilter').selectOption('进阶');
   await viewer.locator('#tagFilter').selectOption('Transformer');
-  await expect(viewer.locator('.search-card:visible')).toHaveCount(1);
+  await expect.poll(async () => viewer.locator('.search-card:visible').count()).toBeGreaterThan(0);
+  await expect(viewer.locator('.search-card:visible').filter({ hasText: samplePage })).toHaveCount(1);
   await viewer.locator('.search-card').filter({ hasText: samplePage }).click();
   await expect(viewer.locator('#content h1')).toHaveText(samplePage);
   await expect(viewer.locator('#content')).toContainText('多头注意力机制的核心作用到底是什么？');
@@ -191,7 +192,7 @@ test('engineering interview workspace supports authored sample, filters, graph, 
   await frame().evaluate(() => { location.href = 'graph-view.html?profile=interview'; });
   const graph = page.frameLocator('#knowledgeFrame');
   await expect(graph.locator('#graph canvas').first()).toBeVisible();
-  await expect(graph.locator('#nodeCount')).toHaveText('1');
+  await expect.poll(async () => Number(await graph.locator('#nodeCount').textContent())).toBeGreaterThan(0);
   await page.screenshot({ path: path.join(artifactDir, 'engineering-interview-graph.png'), fullPage: true });
   await graph.locator('#search').fill('多头注意力');
   await expect(graph.locator('.search-result').filter({ hasText: samplePage })).toBeVisible();

@@ -88,7 +88,7 @@
 
 ### 外层 WebUI
 
-`/home/u2023312337/webui/patch-integrated-workbench.mjs` 负责：
+`<local-webui-root>/patch-integrated-workbench.mjs` 负责：
 
 - 校验并消费结构化消息；
 - 维护统一状态模型；
@@ -180,7 +180,7 @@ Viewer 不决定外层显示文案。
 
 - 当前页面路径或图谱模式；
 - 图谱选中节点和可见节点/边数量；
-- Claude 工作目录 `/home/u2023312337/知识库`；
+- Claude 工作目录 `<repo-root>`；
 - 当前运行模式；
 - 危险模式的明确视觉警告。
 

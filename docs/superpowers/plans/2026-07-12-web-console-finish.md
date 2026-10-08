@@ -24,10 +24,10 @@
 ### Task 2: Static service control
 
 **Files:**
-- Create: `/home/u2023312337/webui/kbserve-control`
+- Create: `<local-webui-root>/kbserve-control`
 
 - [x] Write a shell-level preflight that confirms the control script does not yet exist.
-- [x] Implement `start`, `stop`, `restart`, `status`, and `logs` for a tmux-hosted `python3 -m http.server 18081 --bind 127.0.0.1 --directory /home/u2023312337/知识库` process.
+- [x] Implement `start`, `stop`, `restart`, `status`, and `logs` for a tmux-hosted `python3 -m http.server 18081 --bind 127.0.0.1 --directory <repo-root>` process.
 - [x] Start the service and verify the listener and HTTP responses.
 
 ### Task 3: Repository policy and report convention

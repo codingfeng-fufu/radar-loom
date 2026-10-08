@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 import sys
 import tempfile
 import threading
@@ -31,6 +32,7 @@ RENDER_GRAPH = """import json
 from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 (root / 'graph-data.json').write_text(json.dumps({'stats': {'nodes': 1, 'edges': 0}}), encoding='utf-8')
+(root / 'community-data.json').write_text(json.dumps({'stats': {'communities': 1}}), encoding='utf-8')
 (root / 'interview-graph-data.json').write_text(json.dumps({'stats': {'nodes': 2, 'edges': 1}}), encoding='utf-8')
 (root / 'graph.md').write_text('fresh graph\\n', encoding='utf-8')
 with (root / 'runs.log').open('a', encoding='utf-8') as handle:
@@ -82,9 +84,19 @@ class KnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual([(item["section"], item["file"]) for item in payload["entries"]], [("knowledge", "pages/A.md"), ("interview", "pages/Q.md")])
         self.assertEqual(payload["edges"], [{"section": "knowledge", "source": "A", "target": "B"}])
 
+    def test_paper_notes_payload_extracts_renderable_entries(self):
+        notes = self.root / "paper-notes"
+        notes.mkdir()
+        (notes / "sample-notes.md").write_text("# Sample Paper\n\n**一句话总结**：测试摘要。\n", encoding="utf-8")
+        payload = serve_kb.paper_notes_payload(self.root)
+        self.assertEqual(payload["entries"][0]["file"], "paper-notes/sample-notes.md")
+        self.assertEqual(payload["entries"][0]["section"], "notes")
+        self.assertEqual(payload["entries"][0]["title"], "Sample Paper")
+
     def make_outputs_older_than_sources(self):
         (self.root / "_index.md").write_text("old index\n", encoding="utf-8")
         (self.root / "graph-data.json").write_text("{}\n", encoding="utf-8")
+        (self.root / "community-data.json").write_text("{}\n", encoding="utf-8")
         (self.root / "_interview_index.md").write_text("old interview index\n", encoding="utf-8")
         (self.root / "interview-graph-data.json").write_text("{}\n", encoding="utf-8")
         old = time.time_ns() - 2_000_000_000
@@ -191,10 +203,11 @@ class KnowledgeBuilderTests(unittest.TestCase):
             ("taxonomy_cli.py", ("--profile", "interview", "sync")),
         ])
 
-    def test_revision_hashes_both_graph_outputs_in_fixed_order(self):
+    def test_revision_hashes_graph_outputs_in_fixed_order(self):
         self.builder.refresh(force=True)
         expected = __import__("hashlib").sha256(
             (self.root / "graph-data.json").read_bytes()
+            + (self.root / "community-data.json").read_bytes()
             + (self.root / "interview-graph-data.json").read_bytes()
         ).hexdigest()[:16]
 
@@ -280,6 +293,38 @@ class KnowledgeServerTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as caught:
             self.upload(files, origin=origin, destination=destination)
         return caught.exception, json.loads(caught.exception.read().decode("utf-8"))
+
+    def capture_idea(self, payload, origin="http://127.0.0.1:18081"):
+        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        request = Request(
+            self.base + "/api/ideas",
+            data=body,
+            method="POST",
+            headers={"Origin": origin, "Content-Type": "application/json"},
+        )
+        with urlopen(request, timeout=10) as response:
+            return response, json.loads(response.read().decode("utf-8"))
+
+    def test_idea_capture_is_local_isolated_and_rebuilds_idea_artifacts(self):
+        shutil.copytree(ROOT / "ideas" / "scripts", self.root / "ideas" / "scripts")
+        shutil.copytree(ROOT / "ideas" / "templates", self.root / "ideas" / "templates")
+
+        response, payload = self.capture_idea({"idea": "保留这句原始灵感", "problem": "测试独立保存", "domains": ["测试"]})
+
+        self.assertEqual(response.status, 201)
+        self.assertTrue(payload["ok"])
+        self.assertTrue(payload["file"].startswith("ideas/pages/IDEA-"))
+        created = self.root / payload["file"]
+        self.assertIn("保留这句原始灵感", created.read_text(encoding="utf-8"))
+        self.assertTrue((self.root / "ideas" / "data" / "idea-index.json").exists())
+        self.assertTrue((self.root / "ideas" / "data" / "idea-graph-data.json").exists())
+        self.assertFalse((self.root / "pages" / "IDEA-2026-001 保留这句原始灵感.md").exists())
+
+    def test_idea_capture_rejects_untrusted_origin_before_writing(self):
+        with self.assertRaises(HTTPError) as caught:
+            self.capture_idea({"idea": "不应保存"}, origin="http://localhost:18081")
+        self.assertEqual(caught.exception.code, 403)
+        self.assertFalse((self.root / "ideas").exists())
 
     def test_explicit_refresh_rebuilds_and_revision_is_read_only(self):
         response, refreshed = self.request_json("/api/refresh", method="POST")

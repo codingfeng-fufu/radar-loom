@@ -34,7 +34,8 @@ class TaxonomyEndToEndTests(unittest.TestCase):
             (vault / "pages" / "Seed.md").write_text(
                 page("Seed", "knowledge graph entity relation", "KG"), encoding="utf-8"
             )
-            engine = te.TaxonomyEngine(vault, CONFIG)
+            config = dict(CONFIG); config["candidate_compact_threshold"] = .82
+            engine = te.TaxonomyEngine(vault, config)
             engine.migrate(today="2026-07-15")
             topic = "quantum banana lattice phase transport coherent spectral boundary operator manifold tensor diffusion kernel"
             for name in ("Novel A", "Novel B", "Novel C"):
@@ -62,7 +63,8 @@ class TaxonomyEndToEndTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"TAXONOMY_TEST_ENCODER": "deterministic"}, clear=False):
             vault = Path(directory); (vault / "pages").mkdir()
             (vault / "pages" / "Seed.md").write_text(page("Seed", "knowledge graph entity relation", "KG"), encoding="utf-8")
-            engine = te.TaxonomyEngine(vault, CONFIG)
+            config = dict(CONFIG); config["candidate_compact_threshold"] = .82
+            engine = te.TaxonomyEngine(vault, config)
             engine.migrate(today="2026-07-15")
             topic = "quantum banana lattice phase transport coherent spectral boundary operator manifold tensor diffusion kernel"
             for name in ("Novel A", "Novel B"):

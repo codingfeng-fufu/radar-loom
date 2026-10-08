@@ -4,6 +4,31 @@ __pycache__/
 .DS_Store
 .worktrees/
 .cache/taxonomy/
+.cache/
+.playwright-cli/
+test-results/
+output/
+.backups/
+*.tmp
+*.bak
 papers/*.pdf
 papers/_images/
 node_modules/
+.webui-vendor/
+.superpowers/
+image.png
+idea-lab-prototype.html
+paper-reading-skill-folder.zip
+papers/*.txt
+
+# Local credentials and machine-specific runtime configuration
+.env
+.env.*
+!.env.example
+runtime.env
+*.secret
+*.credentials
+
+# Local Claude/WebUI state and logs
+claude-config/
+*.log

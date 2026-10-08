@@ -9,7 +9,7 @@
 ## 第一部分:静态服务器
 
 1. 用 Python 标准库起一个静态文件服务,服务目录 = 知识库根:
-   `python3 -m http.server <端口> --bind 127.0.0.1 --directory /home/u2023312337/知识库`
+   `python3 -m http.server <端口> --bind 127.0.0.1 --directory <repo-root>`
 2. 与候选一同样方式托管(tmux,纳入现有 `webui-control` 脚本或并列新建 `kbserve-control`,提供 start/stop/status)。
 3. 端口选一个与 18080 不冲突的(如 18081),同样只绑 127.0.0.1,经 VSCode 端口转发访问。
 

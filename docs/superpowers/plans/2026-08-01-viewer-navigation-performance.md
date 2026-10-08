@@ -550,7 +550,7 @@ Start from a loaded knowledge page, count `_index.md`, then dispatch the trusted
 Start a dedicated server on an unused port:
 
 ```bash
-python3 scripts/serve_kb.py --host 127.0.0.1 --port 18086 --directory /home/u2023312337/知识库
+python3 scripts/serve_kb.py --host 127.0.0.1 --port 18086 --directory <repo-root>
 ```
 
 In another shell run:

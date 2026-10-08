@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import os
 import unittest
 from pathlib import Path
 
@@ -8,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANUAL = ROOT / "Web操作台使用与维护说明书.md"
 README = ROOT / "README.md"
-KBSERVE_CONTROL = Path("/home/u2023312337/webui/kbserve-control")
+KBSERVE_CONTROL = Path(os.environ["KB_SERVE_CONTROL"]) if os.environ.get("KB_SERVE_CONTROL") else None
 
 
 class WebConsoleManualTests(unittest.TestCase):
@@ -37,13 +38,13 @@ class WebConsoleManualTests(unittest.TestCase):
 
     def test_commands_and_urls_are_current(self):
         for command in (
-            "/home/u2023312337/webui/webui-control start",
-            "/home/u2023312337/webui/webui-control stop",
-            "/home/u2023312337/webui/webui-control restart",
-            "/home/u2023312337/webui/webui-control status",
-            "/home/u2023312337/webui/webui-control logs",
-            "/home/u2023312337/webui/kbserve-control start",
-            "/home/u2023312337/webui/kbserve-control restart",
+            "<local-webui-root>/webui-control start",
+            "<local-webui-root>/webui-control stop",
+            "<local-webui-root>/webui-control restart",
+            "<local-webui-root>/webui-control status",
+            "<local-webui-root>/webui-control logs",
+            "<local-webui-root>/kbserve-control start",
+            "<local-webui-root>/kbserve-control restart",
         ):
             with self.subTest(command=command):
                 self.assertIn(command, self.manual)
@@ -58,8 +59,8 @@ class WebConsoleManualTests(unittest.TestCase):
         for phrase in (
             "$create-knowledge-page",
             "创建知识页",
-            "/home/u2023312337/webui/claude-config",
-            "/home/u2023312337/webui/runtime.env",
+            "<local-webui-root>/claude-config",
+            "<local-webui-root>/runtime.env",
             "https://ark.cn-beijing.volces.com/api/coding",
             "normal",
             "plan",
@@ -98,6 +99,8 @@ class WebConsoleManualTests(unittest.TestCase):
         ):
             self.assertIn(phrase, self.manual)
 
+        if KBSERVE_CONTROL is None or not KBSERVE_CONTROL.is_file():
+            self.skipTest("本机 WebUI 控制脚本不属于公开仓库；设置 KB_SERVE_CONTROL 后运行部署联调检查")
         control = KBSERVE_CONTROL.read_text(encoding="utf-8")
         self.assertIn("scripts/serve_kb.py", control)
         self.assertNotIn("python3 -m http.server", control)

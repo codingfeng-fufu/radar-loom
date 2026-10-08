@@ -129,7 +129,7 @@
 
 ## 实现边界
 
-- 继续以 `/home/u2023312337/webui/patch-integrated-workbench.mjs` 作为可复现补丁源。
+- 继续以 `<local-webui-root>/patch-integrated-workbench.mjs` 作为可复现补丁源。
 - 样式和必要的稳定类名由补丁脚本注入 `claude.html` 或上游静态资源。
 - 不手工依赖一次性修改 `node_modules` 构建产物。
 - 不改变 Claude WebUI 的网络请求、消息结构、历史读取、权限事件和安全清洗。

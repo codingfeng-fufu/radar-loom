@@ -11,6 +11,7 @@ from urllib.parse import quote
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import radar_common as rc  # noqa: E402
 import taxonomy_models as tm  # noqa: E402
+import community_graph  # noqa: E402
 from taxonomy_engine import load_config  # noqa: E402
 
 
@@ -197,7 +198,15 @@ def _taxonomy_payload(registry, node_ids=None, profile="knowledge"):
     }
 
 
-def render_graph_data(pages, edges, broken, degree, registry=None, *, external_nodes=frozenset(), profile="knowledge", external_pages=None):
+def render_graph_data(pages, edges, broken, degree, registry=None, *, external_nodes=frozenset(), profile="knowledge", external_pages=None, community=None):
+    if community is None and profile == "knowledge":
+        all_knowledge, eligible_pages = community_graph._knowledge_pages()
+        community_edges, community_broken = community_graph.explicit_graph(all_knowledge, eligible_pages)
+        community = community_graph.build_communities(
+            eligible_pages, community_edges, community_broken,
+            resolution=community_graph.DEFAULT_RESOLUTION,
+            seed=community_graph.DEFAULT_SEED,
+        )
     isolated = [name for name, value in degree.items() if value == 0 and name != "首页"]
     nodes = []
     all_names = set(pages) | set(external_nodes)
@@ -242,6 +251,8 @@ def render_graph_data(pages, edges, broken, degree, registry=None, *, external_n
         "edges": graph_edges,
         "taxonomy": _taxonomy_payload(registry, pages, profile),
     }
+    if community is not None:
+        payload["community"] = community
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 
 
@@ -316,9 +327,18 @@ def main(argv=None) -> int:
     }
     tm.validate_registry(registry, existing_pages)
     edges, broken, degree = graph_data(pages)
+    # Knowledge communities are a separate derived graph.  The interview
+    # graph below intentionally remains untouched and isolated.
+    all_knowledge, eligible_pages = community_graph._knowledge_pages()
+    community_edges, community_broken = community_graph.explicit_graph(all_knowledge, eligible_pages)
+    community_payload = community_graph.build_communities(
+        eligible_pages, community_edges, community_broken,
+        resolution=community_graph.DEFAULT_RESOLUTION,
+        seed=community_graph.DEFAULT_SEED,
+    )
     rc.GRAPH_FILE.write_text(render_overview(pages, edges, broken, degree), encoding="utf-8")
     rc.GRAPH_DATA_FILE.write_text(
-        render_graph_data(pages, edges, broken, degree, registry),
+        render_graph_data(pages, edges, broken, degree, registry, community=community_payload),
         encoding="utf-8",
     )
     print(f"已生成 graph.md | 概览节点 {min(15, len(pages))}")
@@ -331,6 +351,12 @@ def main(argv=None) -> int:
     print(f"全库节点 {len(pages)} · 边 {len(edges)} · 断链 {len(broken)}")
     for source, target in broken:
         print(f"  - {source} → {target}")
+
+    (rc.VAULT_ROOT / "community-data.json").write_text(
+        json.dumps(community_payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    print(f"已生成 community-data.json | 社区 {community_payload['stats']['communities']} | 页面 {community_payload['stats']['pages']} | 边 {community_payload['stats']['edges']}")
 
     interview_registry_path = rc.VAULT_ROOT / "interview-taxonomy.json"
     interview_registry = (tm.load_registry(interview_registry_path)

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Turn `http://127.0.0.1:18080/` into the daily technical-radar workspace: browse the knowledge base, render a selected document, and interact with Claude Code without switching browser tabs. Claude sessions continue to start in `/home/u2023312337/知识库`.
+Turn `http://127.0.0.1:18080/` into the daily technical-radar workspace: browse the knowledge base, render a selected document, and interact with Claude Code without switching browser tabs. Claude sessions continue to start in `<repo-root>`.
 
 ## Constraints
 
@@ -101,4 +101,4 @@ Browser verification covers:
 
 ## Deployment And Recovery
 
-The new patch script lives under `/home/u2023312337/webui/`, outside the knowledge-base repository. `webui-control start` runs both patch checks before launching the service. Reinstall recovery is: apply the dangerous-mode patch, apply the workbench patch, run both checks, then restart the service.
+The new patch script lives under `<local-webui-root>/`, outside the knowledge-base repository. `webui-control start` runs both patch checks before launching the service. Reinstall recovery is: apply the dangerous-mode patch, apply the workbench patch, run both checks, then restart the service.

@@ -12,8 +12,8 @@
 
 ## 文件边界
 
-- `/home/u2023312337/webui/patch-integrated-workbench.mjs`：外层工作台状态、双栏恢复、刷新闭环、Claude 输入桥接与对话视觉。
-- `/home/u2023312337/webui/test-integrated-workbench.mjs`：WebUI 补丁产物和纯函数契约。
+- `<local-webui-root>/patch-integrated-workbench.mjs`：外层工作台状态、双栏恢复、刷新闭环、Claude 输入桥接与对话视觉。
+- `<local-webui-root>/test-integrated-workbench.mjs`：WebUI 补丁产物和纯函数契约。
 - `viewer.html`：导航、页面加载、阅读状态、内容渲染和 Viewer 恢复。
 - `graph-view.html`：图谱新鲜度、加载/布局/重组状态、失败回退和图谱恢复。
 - `scripts/serve_kb.py`：仅在现有 API 响应缺少可观测结果时补充结构化响应，不增加新端点。
@@ -22,7 +22,7 @@
 - `.claude/skills/create-knowledge-page/SKILL.md`、`.claude/skills/create-engineering-interview-page/SKILL.md`：创建任务最终报告的固定闭环。
 - `Web操作台使用与维护说明书.md`：只记录经验证的最终行为和恢复路径。
 
-`/home/u2023312337/知识库` 和 `/home/u2023312337/webui` 不属于同一 Git 根。跨边界任务必须分别在知识库与 `/home/u2023312337` 上层仓库做精确路径提交，不得使用 `git add .` 或 `git add -A`。
+`<repo-root>` 和 `<local-webui-root>` 不属于同一 Git 根。跨边界任务必须分别在知识库与 `<local-user-home>` 上层仓库做精确路径提交，不得使用 `git add .` 或 `git add -A`。
 
 ### Task 1: 建立桌面旅程基线
 
@@ -101,8 +101,8 @@ git commit -m "test: capture desktop experience baseline"
 ### Task 2: 收口外层工作台恢复
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 - Modify: `tests/desktop_experience.spec.cjs`
 
 - [ ] **Step 1: 为带版本的外层状态添加失败契约**
@@ -121,7 +121,7 @@ assert.deepEqual(normalizeWorkbenchState({ version: 1, knowledgeWidth: 'wide', k
 
 - [ ] **Step 2: 运行聚焦测试并确认 RED**
 
-Run: `node /home/u2023312337/webui/test-integrated-workbench.mjs`
+Run: `node <local-webui-root>/test-integrated-workbench.mjs`
 
 Expected: FAIL，缺少 `normalizeWorkbenchState` 或对应持久化契约。
 
@@ -148,7 +148,7 @@ function persistWorkbenchState() {
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 npx playwright test tests/desktop_experience.spec.cjs -g "restores split width" --workers=1
 ```
 
@@ -159,15 +159,15 @@ Expected: PASS；快照中两个 iframe 均不被裁切。
 ```bash
 git add tests/desktop_experience.spec.cjs
 git commit -m "test: cover desktop workbench state"
-git -C /home/u2023312337 add -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "fix: restore desktop workbench state" -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> commit -m "fix: restore desktop workbench state" -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
 ```
 
 ### Task 3: 建立可信的刷新与状态闭环
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 - Modify: `viewer.html`
 - Modify: `graph-view.html`
 - Modify: `tests/test_viewer_contract.py`
@@ -215,7 +215,7 @@ Viewer 在索引和当前页均已更新后上报；图谱在新数据、筛选�
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 python3 -m unittest tests.test_viewer_contract tests.test_graph_view_contract -v
 npx playwright test tests/desktop_experience.spec.cjs -g "refresh" --workers=1
 ```
@@ -227,8 +227,8 @@ Expected: PASS；状态区不会在 Viewer/图谱尚未恢复时显示成功。
 ```bash
 git add viewer.html graph-view.html tests/test_viewer_contract.py tests/test_graph_view_contract.py tests/desktop_experience.spec.cjs
 git commit -m "fix: report knowledge refresh completion"
-git -C /home/u2023312337 add -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "fix: close the knowledge refresh feedback loop" -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> commit -m "fix: close the knowledge refresh feedback loop" -- webui/test-integrated-workbench.mjs webui/patch-integrated-workbench.mjs
 ```
 
 ### Task 4: 收口 Viewer 阅读与导航体验
@@ -372,9 +372,9 @@ git commit -m "fix: make graph freshness and recovery explicit"
 ### Task 6: 收口 Claude 历史、输入和错误表达
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/test-dangerous-mode.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-dangerous-mode.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 - Modify: `tests/desktop_experience.spec.cjs`
 
 - [ ] **Step 1: 写入真实历史路径和连续输入回归**
@@ -438,8 +438,8 @@ Expected: 未被已有修复覆盖的用例失败；已通过的输入或布局�
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 npx playwright test tests/desktop_experience.spec.cjs -g "ask-Claude|history|401|429|stream" --workers=1
 ```
 
@@ -450,8 +450,8 @@ npx playwright test tests/desktop_experience.spec.cjs -g "ask-Claude|history|401
 ```bash
 git add tests/desktop_experience.spec.cjs
 git commit -m "test: cover Claude desktop conversations"
-git -C /home/u2023312337 add -- webui/test-integrated-workbench.mjs webui/test-dangerous-mode.mjs webui/patch-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "fix: stabilize Claude desktop conversations" -- webui/test-integrated-workbench.mjs webui/test-dangerous-mode.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/test-integrated-workbench.mjs webui/test-dangerous-mode.mjs webui/patch-integrated-workbench.mjs
+git -C <local-user-home> commit -m "fix: stabilize Claude desktop conversations" -- webui/test-integrated-workbench.mjs webui/test-dangerous-mode.mjs webui/patch-integrated-workbench.mjs
 ```
 
 ### Task 7: 统一创建任务的最终报告闭环
@@ -505,7 +505,7 @@ git commit -m "docs: standardize page creation handoff"
 ### Task 8: 统一视觉与错误文案
 
 **Files:**
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 - Modify: `viewer.html`
 - Modify: `graph-view.html`
 - Modify: `tests/desktop_experience.spec.cjs`
@@ -550,8 +550,8 @@ npx playwright test tests/desktop_experience.spec.cjs -g "visual tokens|complete
 ```bash
 git add viewer.html graph-view.html tests/desktop_experience.spec.cjs
 git commit -m "style: align knowledge desktop feedback"
-git -C /home/u2023312337 add -- webui/patch-integrated-workbench.mjs
-git -C /home/u2023312337 commit -m "style: align Claude desktop feedback" -- webui/patch-integrated-workbench.mjs
+git -C <local-user-home> add -- webui/patch-integrated-workbench.mjs
+git -C <local-user-home> commit -m "style: align Claude desktop feedback" -- webui/patch-integrated-workbench.mjs
 ```
 
 ### Task 9: 全旅程回归与文档固化
@@ -570,8 +570,8 @@ git -C /home/u2023312337 commit -m "style: align Claude desktop feedback" -- web
 Run:
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
 python3 -m unittest discover -s tests -v
 npx playwright test tests/desktop_experience.spec.cjs tests/web_workbench.spec.cjs tests/taxonomy_observability.spec.cjs --workers=1
 python3 scripts/build_index.py
@@ -586,10 +586,10 @@ Expected: 所有命令退出码为 `0`；健康检查为 `ERROR 0 / WARN 0`；�
 Run:
 
 ```bash
-/home/u2023312337/webui/kbserve-control restart
-/home/u2023312337/webui/webui-control restart
-/home/u2023312337/webui/kbserve-control status
-/home/u2023312337/webui/webui-control status
+<local-webui-root>/kbserve-control restart
+<local-webui-root>/webui-control restart
+<local-webui-root>/kbserve-control status
+<local-webui-root>/webui-control status
 ```
 
 重启后再运行 `complete desktop journey` 用例，确认恢复行为不依赖旧进程内存。

@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import difflib
 import hashlib
 import ipaddress
 import json
 import os
 import re
 import subprocess
+import shutil
+import io
+import zipfile
 import sys
 import tempfile
 import threading
@@ -21,10 +25,175 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 
+def _search_terms(query: str) -> tuple[list[str], list[str], list[str], list[str]]:
+    phrases = re.findall(r'"([^"]+)"', query)
+    clean = re.sub(r'"[^"]+"', ' ', query)
+    tokens = re.findall(r'\S+', clean)
+    positive, negative, alternatives = [], [], []
+    for token in tokens:
+        upper = token.upper()
+        if upper in {'AND', 'OR'}:
+            continue
+        if token.startswith('-') and len(token) > 1:
+            negative.append(token[1:].lower())
+        elif 'OR' in {part.upper() for part in tokens}:
+            alternatives.append(token.lower())
+        else:
+            positive.append(token.lower())
+    return positive, negative, alternatives, [item.lower() for item in phrases]
+
+
+def search_payload(root: Path, query: str, section: str = '', sort: str = 'relevance', page: int = 1, page_size: int = 20) -> dict[str, object]:
+    positive, negative, alternatives, phrases = _search_terms(query.strip())
+    records = []
+    for path in sorted((root / 'pages').glob('*.md')):
+        try:
+            text = path.read_text(encoding='utf-8')
+        except OSError:
+            continue
+        lower = text.lower()
+        is_interview = bool(re.search(r'(?m)^page[_ -]?type:\s*(?:interview|engineering-interview)', text, re.IGNORECASE))
+        if section and ((section == 'interview') != is_interview):
+            continue
+        if any(term in lower for term in negative) or any(phrase not in lower for phrase in phrases):
+            continue
+        matched = all(term in lower for term in positive) if not alternatives else (all(term in lower for term in positive) or any(term in lower for term in alternatives))
+        fuzzy = 0.0
+        if not matched and len(query.strip()) >= 4:
+            words = re.findall(r'[\w\u4e00-\u9fff-]+', lower)
+            fuzzy = max((difflib.SequenceMatcher(None, query.lower(), word).ratio() for word in words), default=0.0)
+            matched = fuzzy >= 0.72
+        if not matched:
+            continue
+        title = path.stem
+        summary_match = re.search(r'^(?:摘要|summary):\s*(.+)$', text, re.MULTILINE | re.IGNORECASE)
+        summary = summary_match.group(1).strip()[:300] if summary_match else ''
+        position = min([lower.find(term) for term in positive if lower.find(term) >= 0] or [0])
+        snippet = re.sub(r'\s+', ' ', text[max(0, position - 100):position + 260]).strip()
+        records.append({'file': f'pages/{path.name}', 'title': title, 'summary': summary, 'snippet': snippet, 'pageType': 'interview' if is_interview else 'knowledge', 'updatedAt': path.stat().st_mtime_ns, 'score': round((len(positive) + len(phrases)) * 10 + fuzzy * 5, 3)})
+    if sort == 'updated':
+        records.sort(key=lambda item: item['updatedAt'], reverse=True)
+    elif sort == 'title':
+        records.sort(key=lambda item: item['title'])
+    else:
+        records.sort(key=lambda item: (-item['score'], item['title']))
+    page = max(1, int(page)); page_size = min(100, max(1, int(page_size)))
+    start = (page - 1) * page_size
+    return {'version': 1, 'query': query, 'total': len(records), 'page': page, 'pageSize': page_size, 'results': records[start:start + page_size]}
+
+
+def page_history_payload(root: Path, file: str, old: str = '', new: str = 'HEAD') -> dict[str, object]:
+    if not file or file.startswith('/') or '..' in Path(file).parts or not file.endswith('.md'):
+        raise ValueError('invalid page path')
+    target = root / file
+    if not target.is_file() or file not in {f'pages/{p.name}' for p in (root / 'pages').glob('*.md')}:
+        raise FileNotFoundError(file)
+    log = subprocess.run(['git', '-C', str(root), 'log', '--format=%H%x09%ad%x09%s', '--date=iso', '-20', '--', file], capture_output=True, text=True, check=False)
+    commits = []
+    for line in log.stdout.splitlines():
+        parts = line.split('\t', 2)
+        if len(parts) == 3:
+            commits.append({'id': parts[0], 'date': parts[1], 'subject': parts[2]})
+    diff = ''
+    if old:
+        completed = subprocess.run(['git', '-C', str(root), 'diff', '--no-ext-diff', '--unified=3', old, new, '--', file], capture_output=True, text=True, check=False)
+        diff = completed.stdout
+    return {'version': 1, 'file': file, 'commits': commits, 'old': old or None, 'new': new, 'diff': diff}
+
+
+def duplicate_payload(root: Path, threshold: float = 0.86) -> dict[str, object]:
+    pages = []
+    for path in sorted((root / 'pages').glob('*.md')):
+        try:
+            text = path.read_text(encoding='utf-8')
+        except OSError:
+            continue
+        normalized = re.sub(r'\s+', ' ', text.lower())
+        pages.append((path, normalized))
+    pairs = []
+    for index, (left, left_text) in enumerate(pages):
+        for right, right_text in pages[index + 1:]:
+            score = difflib.SequenceMatcher(None, left_text, right_text).ratio()
+            title_score = difflib.SequenceMatcher(None, left.stem.lower(), right.stem.lower()).ratio()
+            score = max(score, title_score * 0.92)
+            if score >= threshold:
+                pairs.append({'left': f'pages/{left.name}', 'right': f'pages/{right.name}', 'score': round(score, 3)})
+    pairs.sort(key=lambda item: item['score'], reverse=True)
+    return {'version': 1, 'threshold': threshold, 'pairs': pairs[:200]}
+
+
+def merge_preview(root: Path, left: str, right: str) -> dict[str, object]:
+    def read(file):
+        if not file.startswith('pages/') or '..' in Path(file).parts:
+            raise ValueError('invalid page path')
+        return (root / file).read_text(encoding='utf-8').splitlines()
+    import difflib as _difflib
+    left_lines, right_lines = read(left), read(right)
+    return {'version': 1, 'left': left, 'right': right, 'diff': ''.join(_difflib.unified_diff(left_lines, right_lines, fromfile=left, tofile=right, lineterm='\n')), 'manualReviewRequired': True}
+
+
+def git_changes(root: Path, base: str = '') -> dict[str, object]:
+    command = ['git', '-C', str(root), 'diff', '--stat', '--name-status']
+    if base:
+        command.insert(5, base)
+    completed = subprocess.run(command, capture_output=True, text=True, check=False)
+    changes = []
+    for line in completed.stdout.splitlines():
+        parts = line.split('\t', 1)
+        if len(parts) == 2:
+            changes.append({'status': parts[0], 'file': parts[1]})
+    return {'version': 1, 'base': base or None, 'changes': changes, 'count': len(changes)}
+
+
+def export_archive(root: Path) -> bytes:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for pattern in ('pages/*.md', '*.md', 'graph-data.json', 'community-data.json', 'interview-graph-data.json', 'config/*.json'):
+            for path in root.glob(pattern):
+                if path.is_file() and '.trash' not in path.parts:
+                    archive.write(path, path.relative_to(root).as_posix())
+        archive.writestr('manifest.json', json.dumps({'version': 1, 'createdAt': time.time()}, ensure_ascii=False, indent=2))
+    return buffer.getvalue()
+
+
+def health_summary(root: Path, builder: 'KnowledgeBuilder') -> dict[str, object]:
+    pages = list((root / 'pages').glob('*.md'))
+    try:
+        status = subprocess.run(['git', '-C', str(root), 'status', '--short'], capture_output=True, text=True, check=False)
+        dirty = bool(status.stdout.strip())
+    except OSError:
+        dirty = None
+    stats = builder.graph_stats()
+    return {'version': 1, 'time': time.time(), 'pages': len(pages), 'nodes': stats['nodes'], 'edges': stats['edges'], 'revision': builder.revision(), 'gitDirty': dirty, 'stale': builder.is_stale()}
+
+
+def quality_issues(root: Path) -> dict[str, object]:
+    pages = sorted((root / 'pages').glob('*.md'))
+    known = {path.stem for path in pages}
+    issues = []
+    referenced = set()
+    for path in pages:
+        text = path.read_text(encoding='utf-8', errors='replace')
+        metadata = re.search(r'\A---\s*\n(.*?)\n---', text, re.DOTALL)
+        front = metadata.group(1) if metadata else ''
+        missing = [field for field, pattern in (('摘要', r'(?m)^(?:摘要|summary):\s*\S'), ('来源', r'(?m)^(?:来源|source):\s*\S'), ('信度', r'(?m)^(?:信度|confidence):\s*\S'), ('标签', r'(?m)^tags:\s*\S')) if not re.search(pattern, front)]
+        links = [target.strip() for target in re.findall(r'\[\[([^\]|]+)', text)]
+        referenced.update(links)
+        broken = [target for target in links if target not in known]
+        if missing or broken:
+            issues.append({'file': f'pages/{path.name}', 'severity': 'error' if (missing or broken) else 'warning', 'missing': missing, 'broken': broken})
+    excluded_orphans = {'首页.md'}
+    orphaned = [f'pages/{path.name}' for path in pages if path.stem not in referenced and path.name not in excluded_orphans]
+    issues.extend({'file': file, 'severity': 'warning', 'missing': [], 'broken': [], 'reason': '孤立节点'} for file in orphaned)
+    return {'version': 2, 'issues': issues, 'orphaned': orphaned, 'counts': {'pages': len(pages), 'issues': len(issues), 'errors': sum(1 for i in issues if i.get('severity') == 'error'), 'warnings': sum(1 for i in issues if i.get('severity') == 'warning'), 'orphaned': len(orphaned)}}
+
+
 ALLOWED_ORIGIN = "http://127.0.0.1:18080"
 ALLOWED_ORIGINS = frozenset({ALLOWED_ORIGIN, "http://127.0.0.1:18081"})
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 MAX_FILENAME_BYTES = 240
+MAX_IDEA_REQUEST_BYTES = 64 * 1024
+MAX_ARCHIVE_BYTES = 100 * 1024 * 1024
 UPLOAD_TYPES = {
     ".pdf": "application/pdf",
     ".md": "text/markdown",
@@ -36,7 +205,28 @@ UPLOAD_TYPES = {
 }
 
 
-def catalog_payload(knowledge: dict, interview: dict) -> dict[str, object]:
+def paper_notes_payload(root: Path) -> dict[str, object]:
+    entries = []
+    for path in sorted((root / "paper-notes").glob("*.md"), key=lambda item: item.stat().st_mtime_ns, reverse=True):
+        if path.name == ".gitkeep":
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        title_match = re.search(r"(?m)^#\s+(.+?)\s*$", text)
+        summary_match = re.search(r"(?m)^\*\*一句话总结\*\*[:：]\s*(.+?)\s*$", text)
+        entries.append({
+            "id": path.stem,
+            "title": (title_match.group(1).strip() if title_match else path.stem),
+            "file": f"paper-notes/{path.name}",
+            "section": "notes",
+            "summary": (summary_match.group(1).strip() if summary_match else "")[:1000],
+            "tags": ["论文笔记"],
+            "aliases": [],
+            "updatedAt": path.stat().st_mtime_ns,
+        })
+    return {"version": 1, "entries": entries}
+
+
+def catalog_payload(knowledge: dict, interview: dict, root: Path | None = None) -> dict[str, object]:
     entries: list[dict[str, object]] = []
     edges: list[dict[str, str]] = []
     for section, graph in (("knowledge", knowledge), ("interview", interview)):
@@ -60,6 +250,8 @@ def catalog_payload(knowledge: dict, interview: dict) -> dict[str, object]:
         for edge in graph.get("edges", []):
             if isinstance(edge, dict) and isinstance(edge.get("source"), str) and isinstance(edge.get("target"), str):
                 edges.append({"section": section, "source": edge["source"], "target": edge["target"]})
+    if root is not None:
+        entries.extend(paper_notes_payload(root)["entries"])
     return {"version": 1, "entries": entries, "edges": edges}
 MIME_TYPE_RE = re.compile(
     r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+(?:\s*;.*)?$"
@@ -87,6 +279,7 @@ class KnowledgeBuilder:
             self.root / "_index.md",
             self.root / "_interview_index.md",
             self.root / "graph-data.json",
+            self.root / "community-data.json",
             self.root / "interview-graph-data.json",
         )
         self.taxonomy_check_interval = 60
@@ -130,6 +323,7 @@ class KnowledgeBuilder:
     def revision(self) -> str:
         graph_outputs = (
             self.root / "graph-data.json",
+            self.root / "community-data.json",
             self.root / "interview-graph-data.json",
         )
         missing = [path.name for path in graph_outputs if not path.exists()]
@@ -266,6 +460,7 @@ class KnowledgeBuilder:
 class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
     builder: KnowledgeBuilder
     upload_lock = threading.Lock()
+    idea_lock = threading.Lock()
 
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-store")
@@ -284,6 +479,15 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def send_bytes(self, status: int, body: bytes, content_type: str, filename: str = '') -> None:
+        self.send_response(status)
+        self.send_header('Content-Type', content_type)
+        self.send_header('Content-Length', str(len(body)))
+        if filename:
+            self.send_header('Content-Disposition', f'attachment; filename="{filename}"')
         self.end_headers()
         self.wfile.write(body)
 
@@ -310,7 +514,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         return not require_origin or self.headers.get("Origin") in ALLOWED_ORIGINS
 
     def do_OPTIONS(self) -> None:
-        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads"}:
+        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import"}:
             self.send_error(404)
             return
         self.send_response(204)
@@ -322,6 +526,15 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == "/api/uploads":
             self.handle_upload()
+            return
+        if path == "/api/ideas":
+            self.handle_idea_capture()
+            return
+        if path in {"/api/pages/trash", "/api/pages/restore"}:
+            self.handle_page_lifecycle(path)
+            return
+        if path == "/api/import":
+            self.handle_archive_import()
             return
         if path == "/api/taxonomy/rebuild":
             if not self.taxonomy_allowed(require_origin=True):
@@ -339,6 +552,65 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return
         status, payload = self.refresh_payload(force=True)
         self.send_json(status, payload)
+
+    def handle_idea_capture(self) -> None:
+        if not self.taxonomy_allowed(require_origin=True):
+            self.send_json(403, {"ok": False, "error": "localhost origin required"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError:
+            length = -1
+        if length < 1:
+            self.send_json(400, {"ok": False, "error": "valid Content-Length required"})
+            return
+        if length > MAX_IDEA_REQUEST_BYTES:
+            self.send_json(413, {"ok": False, "error": "idea request exceeds 64 KiB"})
+            return
+        if self.headers.get_content_type() != "application/json":
+            self.send_json(415, {"ok": False, "error": "application/json required"})
+            return
+        try:
+            payload = json.loads(self.rfile.read(length).decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            self.send_json(400, {"ok": False, "error": "invalid JSON body"})
+            return
+        if not isinstance(payload, dict):
+            self.send_json(400, {"ok": False, "error": "JSON object required"})
+            return
+        idea = payload.get("idea")
+        title = payload.get("title", "")
+        problem = payload.get("problem", "")
+        domains = payload.get("domains", [])
+        if not isinstance(idea, str) or not idea.strip() or len(idea) > 10000:
+            self.send_json(400, {"ok": False, "error": "idea must be 1-10000 characters"})
+            return
+        if not isinstance(title, str) or len(title) > 120 or not isinstance(problem, str) or len(problem) > 2000:
+            self.send_json(400, {"ok": False, "error": "invalid title or problem"})
+            return
+        if not isinstance(domains, list) or len(domains) > 20 or any(not isinstance(item, str) or not item.strip() or len(item) > 80 for item in domains):
+            self.send_json(400, {"ok": False, "error": "domains must be a short string list"})
+            return
+        scripts = self.builder.root / "ideas" / "scripts"
+        command = [sys.executable, str(scripts / "new_idea.py"), idea.strip()]
+        if title.strip():
+            command.extend(["--title", title.strip()])
+        if problem.strip():
+            command.extend(["--problem", problem.strip()])
+        if domains:
+            command.extend(["--domains", ",".join(item.strip() for item in domains)])
+        try:
+            with self.idea_lock:
+                created = subprocess.run(command, cwd=self.builder.root, text=True, capture_output=True, timeout=10, check=True)
+                for script in ("build_idea_index.py", "render_idea_graph.py"):
+                    subprocess.run([sys.executable, str(scripts / script)], cwd=self.builder.root, text=True, capture_output=True, timeout=10, check=True)
+        except (OSError, subprocess.SubprocessError) as error:
+            detail = getattr(error, "stderr", "") or str(error)
+            self.send_json(500, {"ok": False, "error": f"idea capture failed: {detail.strip()[:1000]}"})
+            return
+        match = re.search(r"已创建\s+(.+\.md)", created.stdout)
+        relative = match.group(1) if match else ""
+        self.send_json(201, {"ok": True, "file": relative, "message": "Idea 已保存"})
 
     def handle_upload(self) -> None:
         if not self.taxonomy_allowed(require_origin=True):
@@ -498,13 +770,173 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             "files": stored,
         })
 
+    def handle_page_lifecycle(self, path: str) -> None:
+        if not self.taxonomy_allowed(require_origin=True):
+            self.send_json(403, {"ok": False, "error": "localhost origin required"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            payload = json.loads(self.rfile.read(length).decode("utf-8"))
+            file = payload.get("file", "")
+        except (ValueError, UnicodeDecodeError, json.JSONDecodeError):
+            self.send_json(400, {"ok": False, "error": "valid JSON body required"})
+            return
+        if not isinstance(file, str) or not file.startswith("pages/") or Path(file).name != file[6:] or ".." in Path(file).parts or not file.endswith(".md"):
+            self.send_json(400, {"ok": False, "error": "only pages/*.md is supported"})
+            return
+        source = self.builder.root / file
+        trash = self.builder.root / ".trash" / "pages" / Path(file).name
+        metadata_path = self.builder.root / ".trash" / "manifest.json"
+        try:
+            manifest = json.loads(metadata_path.read_text(encoding="utf-8")) if metadata_path.exists() else {}
+        except (OSError, json.JSONDecodeError):
+            manifest = {}
+        try:
+            if path.endswith("trash"):
+                if not source.is_file():
+                    self.send_json(404, {"ok": False, "error": "page not found"})
+                    return
+                trash.parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(source), str(trash))
+                manifest[file] = {"file": file, "deletedAt": time.time(), "trashPath": str(trash.relative_to(self.builder.root))}
+            else:
+                if not trash.is_file():
+                    self.send_json(404, {"ok": False, "error": "page not found in recycle bin"})
+                    return
+                source.parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(trash), str(source)); manifest.pop(file, None)
+            metadata_path.parent.mkdir(parents=True, exist_ok=True)
+            metadata_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        except OSError as error:
+            self.send_json(500, {"ok": False, "error": f"page lifecycle failed: {error}"})
+            return
+        self.send_json(200, {"ok": True, "file": file, "action": "trash" if path.endswith("trash") else "restore"})
+
+    def handle_archive_import(self) -> None:
+        if not self.taxonomy_allowed(require_origin=True):
+            self.send_json(403, {"ok": False, "error": "localhost origin required"})
+            return
+        try:
+            length = int(self.headers.get('Content-Length', '0'))
+        except ValueError:
+            length = 0
+        if length < 1 or length > MAX_ARCHIVE_BYTES:
+            self.send_json(413, {"ok": False, "error": "archive must be between 1 byte and 100 MiB"})
+            return
+        if self.headers.get_content_type() != 'application/zip':
+            self.send_json(415, {"ok": False, "error": "application/zip required"})
+            return
+        try:
+            archive = zipfile.ZipFile(io.BytesIO(self.rfile.read(length)))
+            allowed = ('.md', '.json', '.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp')
+            members = [item for item in archive.infolist() if not item.is_dir()]
+            forbidden = {'scripts', '.git', '.trash', 'node_modules'}
+            if any(Path(item.filename).is_absolute() or '..' in Path(item.filename).parts or not item.filename.lower().endswith(allowed) or Path(item.filename).parts[0] in forbidden for item in members):
+                raise ValueError('archive contains an unsafe file')
+            staged = [(self.builder.root / item.filename, archive.read(item)) for item in members]
+            originals = {target: target.read_bytes() for target, _ in staged if target.is_file()}
+            created = []
+            try:
+                for target, content in staged:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    fd, temp_name = tempfile.mkstemp(prefix='.restore-', dir=str(target.parent))
+                    with os.fdopen(fd, 'wb') as handle:
+                        handle.write(content); handle.flush(); os.fsync(handle.fileno())
+                    os.replace(temp_name, target)
+                    created.append(target)
+            except OSError:
+                for target in created:
+                    if target in originals: target.write_bytes(originals[target])
+                    else: target.unlink(missing_ok=True)
+                raise
+        except (OSError, ValueError, zipfile.BadZipFile) as error:
+            self.send_json(400, {"ok": False, "error": f"archive import failed: {error}"})
+            return
+        self.send_json(200, {"ok": True, "imported": len(members)})
+
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/api/paper-notes":
+            try:
+                self.send_json(200, paper_notes_payload(self.builder.root))
+            except OSError as error:
+                self.send_json(500, {"ok": False, "error": f"paper notes unavailable: {error}"})
+            return
+        if path == "/api/search":
+            params = parse_qs(urlsplit(self.path).query)
+            query = params.get("q", [""])[0]
+            if not query.strip() or len(query) > 300:
+                self.send_json(400, {"ok": False, "error": "q must contain 1-300 characters"})
+                return
+            try:
+                payload = search_payload(self.builder.root, query, params.get("section", [""])[0], params.get("sort", ["relevance"])[0], int(params.get("page", ["1"])[0]), int(params.get("pageSize", ["20"])[0]))
+            except (ValueError, OSError) as error:
+                self.send_json(400, {"ok": False, "error": f"invalid search request: {error}"})
+                return
+            self.send_json(200, payload)
+            return
+        if path == "/api/page-history":
+            params = parse_qs(urlsplit(self.path).query)
+            try:
+                payload = page_history_payload(self.builder.root, params.get("file", [""])[0], params.get("old", [""])[0], params.get("new", ["HEAD"])[0])
+            except (ValueError, FileNotFoundError, OSError) as error:
+                self.send_json(400, {"ok": False, "error": str(error)})
+                return
+            self.send_json(200, payload)
+            return
+        if path == "/api/pages/trash":
+            manifest_path = self.builder.root / ".trash" / "manifest.json"
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
+            except (OSError, json.JSONDecodeError):
+                manifest = {}
+            self.send_json(200, {"version": 1, "items": list(manifest.values())})
+            return
+        if path == "/api/duplicates":
+            params = parse_qs(urlsplit(self.path).query)
+            try:
+                threshold = float(params.get("threshold", ["0.86"])[0])
+                if not 0.5 <= threshold <= 1:
+                    raise ValueError("threshold must be between 0.5 and 1")
+                self.send_json(200, duplicate_payload(self.builder.root, threshold))
+            except (ValueError, OSError) as error:
+                self.send_json(400, {"ok": False, "error": str(error)})
+            return
+        if path == "/api/merge-preview":
+            params = parse_qs(urlsplit(self.path).query)
+            try:
+                self.send_json(200, merge_preview(self.builder.root, params.get('left', [''])[0], params.get('right', [''])[0]))
+            except (ValueError, OSError) as error:
+                self.send_json(400, {"ok": False, "error": str(error)})
+            return
+        if path == "/api/git/changes":
+            params = parse_qs(urlsplit(self.path).query)
+            base = params.get('base', [''])[0]
+            if len(base) > 100 or any(char in base for char in '\r\n;|&'):
+                self.send_json(400, {"ok": False, "error": "invalid base revision"})
+                return
+            self.send_json(200, git_changes(self.builder.root, base))
+            return
+        if path == "/api/export":
+            self.send_bytes(200, export_archive(self.builder.root), 'application/zip', 'knowledge-base-export.zip')
+            return
+        if path == "/api/health/summary":
+            try:
+                self.send_json(200, health_summary(self.builder.root, self.builder))
+            except (OSError, RefreshError) as error:
+                self.send_json(500, {"ok": False, "error": str(error)})
+            return
+        if path == "/api/quality/issues":
+            try:
+                self.send_json(200, quality_issues(self.builder.root))
+            except OSError as error:
+                self.send_json(500, {"ok": False, "error": str(error)})
+            return
         if path == "/api/catalog":
             try:
                 knowledge = json.loads((self.builder.root / "graph-data.json").read_text(encoding="utf-8"))
                 interview = json.loads((self.builder.root / "interview-graph-data.json").read_text(encoding="utf-8"))
-                self.send_json(200, catalog_payload(knowledge, interview))
+                self.send_json(200, catalog_payload(knowledge, interview, self.builder.root))
             except (OSError, json.JSONDecodeError) as error:
                 self.send_json(500, {"ok": False, "error": f"catalog unavailable: {error}"})
             return

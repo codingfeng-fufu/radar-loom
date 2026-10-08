@@ -4,7 +4,7 @@
 
 **Goal:** Add a project-scoped high-quality knowledge-page Skill, expose it through the integrated WebUI, redesign the right-side Claude conversation surface, and document the completed system.
 
-**Architecture:** Keep knowledge-page quality policy in `.claude/skills/create-knowledge-page/` and let the outer workbench generate only a structured Skill invocation. Keep all Claude UI changes reproducible in `/home/u2023312337/webui/patch-integrated-workbench.mjs`, where exact vendor fragments receive stable semantic classes and `claude.html` receives tokenized theme CSS. Preserve the upstream network, history, permission, and message data paths.
+**Architecture:** Keep knowledge-page quality policy in `.claude/skills/create-knowledge-page/` and let the outer workbench generate only a structured Skill invocation. Keep all Claude UI changes reproducible in `<local-webui-root>/patch-integrated-workbench.mjs`, where exact vendor fragments receive stable semantic classes and `claude.html` receives tokenized theme CSS. Preserve the upstream network, history, permission, and message data paths.
 
 **Tech Stack:** Claude Code project Skills, Markdown/YAML, Python `unittest`, Node.js ESM contract tests, static HTML/CSS/JavaScript patching, Playwright CLI, existing knowledge-base Python scripts.
 
@@ -50,9 +50,9 @@ Expected: failure because `.claude/skills/create-knowledge-page/SKILL.md` does n
 Run:
 
 ```bash
-python3 /home/u2023312337/.codex/skills/.system/skill-creator/scripts/init_skill.py \
+python3 <codex-home>/skills/.system/skill-creator/scripts/init_skill.py \
   create-knowledge-page \
-  --path /home/u2023312337/知识库/.claude/skills \
+  --path <repo-root>/.claude/skills \
   --interface 'display_name=创建高质量知识页' \
   --interface 'short_description=查重、核验来源并创建或更新高质量技术知识页' \
   --interface 'default_prompt=Use $create-knowledge-page to create or update a verified technical knowledge page.'
@@ -83,7 +83,7 @@ Explicitly include the four pause conditions and prompt-injection boundary from 
 Run:
 
 ```bash
-python3 /home/u2023312337/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
+python3 <codex-home>/skills/.system/skill-creator/scripts/quick_validate.py \
   .claude/skills/create-knowledge-page
 python3 -m unittest tests.test_create_knowledge_page_skill -v
 ```
@@ -100,8 +100,8 @@ git commit -m "feat: add high-quality knowledge page skill"
 ### Task 2: Add the Create-Knowledge-Page Workbench Entry
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 
 - [ ] **Step 1: Extend the external workbench test first**
 
@@ -130,7 +130,7 @@ Keep the existing consecutive native-input-event and clipboard fallback assertio
 - [ ] **Step 2: Run the Node test and verify RED**
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 ```
 
 Expected: failure because the create-page controls are absent.
@@ -151,9 +151,9 @@ Reuse `setNativeValue()`, consecutive input verification, the Claude mobile-tab 
 - [ ] **Step 4: Run GREEN and idempotence checks**
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs --check
 ```
 
 Expected: test passes; patch reports `patched` or `already-patched`; check exits 0.
@@ -161,8 +161,8 @@ Expected: test passes; patch reports `patched` or `already-patched`; check exits
 ### Task 3: Add Stable Claude Conversation Hooks and Visual Tokens
 
 **Files:**
-- Modify: `/home/u2023312337/webui/test-integrated-workbench.mjs`
-- Modify: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/test-integrated-workbench.mjs`
+- Modify: `<local-webui-root>/patch-integrated-workbench.mjs`
 
 - [ ] **Step 1: Add failing redesign contract assertions**
 
@@ -184,7 +184,7 @@ Assert the CSS includes `.dark`, `@media (max-width: 640px)`, `max-width:760px`,
 - [ ] **Step 2: Run the Node test and verify RED**
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
+node <local-webui-root>/test-integrated-workbench.mjs
 ```
 
 Expected: failure on the first missing semantic hook.
@@ -209,11 +209,11 @@ Add one marked style block to `claude.html`. Implement the approved neutral pale
 - [ ] **Step 5: Run patch tests and dangerous-mode regression**
 
 ```bash
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
-node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs --check
+node <local-webui-root>/patch-dangerous-mode.mjs --check
 ```
 
 Expected: all tests and checks pass.
@@ -241,8 +241,8 @@ Expected: failure because `Web操作台使用与维护说明书.md` does not exi
 Use the current runtime files as facts. Start with:
 
 ```bash
-/home/u2023312337/webui/webui-control start
-/home/u2023312337/webui/kbserve-control start
+<local-webui-root>/webui-control start
+<local-webui-root>/kbserve-control start
 ```
 
 Cover daily use, Viewer/math/graph, Claude UI and permission modes, the new create-page flow, dedicated Coding Plan config, process/port/data flow, testing, troubleshooting, security boundaries, known limitations, and key file index. Never include the API key. Add a visible README link near the introduction.
@@ -267,13 +267,13 @@ git commit -m "docs: add web console user and maintenance manual"
 ### Task 5: Browser Acceptance and Final Verification
 
 **Files:**
-- Update only if verification exposes a defect: `/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- Update only if verification exposes a defect: `/home/u2023312337/webui/test-integrated-workbench.mjs`
+- Update only if verification exposes a defect: `<local-webui-root>/patch-integrated-workbench.mjs`
+- Update only if verification exposes a defect: `<local-webui-root>/test-integrated-workbench.mjs`
 
 - [ ] **Step 1: Restart the patched WebUI**
 
 ```bash
-/home/u2023312337/webui/webui-control restart
+<local-webui-root>/webui-control restart
 ```
 
 Expected: `WebUI 已启动:http://127.0.0.1:18080`.
@@ -291,11 +291,11 @@ Toggle dark theme and inspect contrast. At 390x844, switch to Claude, verify the
 ```bash
 python3 -m unittest discover -s tests -v
 python3 scripts/check_health.py
-node /home/u2023312337/webui/test-integrated-workbench.mjs
-node /home/u2023312337/webui/test-dangerous-mode.mjs
-bash /home/u2023312337/webui/test-dedicated-claude-config.sh
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
-node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
+node <local-webui-root>/test-integrated-workbench.mjs
+node <local-webui-root>/test-dangerous-mode.mjs
+bash <local-webui-root>/test-dedicated-claude-config.sh
+node <local-webui-root>/patch-integrated-workbench.mjs --check
+node <local-webui-root>/patch-dangerous-mode.mjs --check
 git diff --check
 ```
 
@@ -303,4 +303,4 @@ Expected: every command exits 0; health reports ERROR 0 and WARN 0.
 
 - [ ] **Step 5: Review repository state and commit any verification fixes**
 
-Use `git status --short` and `git diff` to confirm no unrelated files are included. Commit only repository-owned fixes; keep `/home/u2023312337/webui/` deployment files outside the knowledge-base Git commit.
+Use `git status --short` and `git diff` to confirm no unrelated files are included. Commit only repository-owned fixes; keep `<local-webui-root>/` deployment files outside the knowledge-base Git commit.

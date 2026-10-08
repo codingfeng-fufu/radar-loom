@@ -24,9 +24,9 @@
 ### Task 2: Reproducible WebUI patch
 
 **Files:**
-- Create: `/home/u2023312337/webui/patch-dangerous-mode.mjs`
-- Create: `/home/u2023312337/webui/test-dangerous-mode.mjs`
-- Modify: `/home/u2023312337/webui/webui-control`
+- Create: `<local-webui-root>/patch-dangerous-mode.mjs`
+- Create: `<local-webui-root>/test-dangerous-mode.mjs`
+- Modify: `<local-webui-root>/webui-control`
 - Modify: installed `claude-code-webui` frontend/backend bundles through the patch script.
 
 - [x] Write a Node test that runs the patch against fixture copies and asserts it adds the `bypassPermissions` option, warning text, mode-state predicate and backend `extraArgs` mapping; run it and expect failure because the patch script is absent.

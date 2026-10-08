@@ -25,14 +25,14 @@
 
 ### WebUI 外部部署目录
 
-- 修改：`/home/u2023312337/webui/patch-integrated-workbench.mjs`
-- 修改：`/home/u2023312337/webui/test-integrated-workbench.mjs`
+- 修改：`<local-webui-root>/patch-integrated-workbench.mjs`
+- 修改：`<local-webui-root>/test-integrated-workbench.mjs`
 
 WebUI 安装包中的构建产物继续由补丁脚本生成，不直接把不可复现的手工修改作为唯一实现。
 
 ## Skill 位置与发现
 
-Skill 名称为 `create-knowledge-page`，位于知识库项目的 `.claude/skills/create-knowledge-page/`。它随知识库 Git 版本管理，可被以知识库为工作目录的 WebUI 和终端 Claude Code 共同发现，不依赖 `/home/u2023312337/.claude/`。
+Skill 名称为 `create-knowledge-page`，位于知识库项目的 `.claude/skills/create-knowledge-page/`。它随知识库 Git 版本管理，可被以知识库为工作目录的 WebUI 和终端 Claude Code 共同发现，不依赖 `<local-user-home>/.claude/`。
 
 Skill 的 description 同时覆盖以下触发表达：创建知识页、新建概念页、摄入新概念、扩写或更新已有概念页。Skill 正文保持精炼，引用现有 `CLAUDE.md`、模板和脚本，不重复抄写全库规则。
 

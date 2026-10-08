@@ -42,11 +42,11 @@
 - `Web操作台部署完成报告.md`
 - `viewer.html`、`graph-view.html`
 - `scripts/` 与 `tests/`
-- `/home/u2023312337/webui/webui-control`
-- `/home/u2023312337/webui/kbserve-control`
-- `/home/u2023312337/webui/runtime.env`
-- `/home/u2023312337/webui/claude-config/settings.json`
-- `/home/u2023312337/webui/patch-*.mjs` 与对应测试
+- `<local-webui-root>/webui-control`
+- `<local-webui-root>/kbserve-control`
+- `<local-webui-root>/runtime.env`
+- `<local-webui-root>/claude-config/settings.json`
+- `<local-webui-root>/patch-*.mjs` 与对应测试
 
 命令、端口、文件路径和配置优先通过实际读取或运行验证，不直接照抄旧任务书中的预期状态。
 

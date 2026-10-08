@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-WEBUI_VENDOR="${WEBUI_VENDOR:-/home/u2023312337/webui/vendor}"
+WEBUI_VENDOR="${WEBUI_VENDOR:-$ROOT/.webui-vendor}"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 

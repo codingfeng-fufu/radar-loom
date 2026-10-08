@@ -19,19 +19,19 @@
 聊天入口:
 
 ```bash
-/home/u2023312337/webui/webui-control start
-/home/u2023312337/webui/webui-control stop
-/home/u2023312337/webui/webui-control restart
-/home/u2023312337/webui/webui-control status
+<local-webui-root>/webui-control start
+<local-webui-root>/webui-control stop
+<local-webui-root>/webui-control restart
+<local-webui-root>/webui-control status
 ```
 
 知识库浏览入口:
 
 ```bash
-/home/u2023312337/webui/kbserve-control start
-/home/u2023312337/webui/kbserve-control stop
-/home/u2023312337/webui/kbserve-control restart
-/home/u2023312337/webui/kbserve-control status
+<local-webui-root>/kbserve-control start
+<local-webui-root>/kbserve-control stop
+<local-webui-root>/kbserve-control restart
+<local-webui-root>/kbserve-control status
 ```
 
 两个服务都由 tmux 托管。服务器重启后需要手动运行两个 `start` 命令;当前环境没有可用的 root 权限或 user-bus,未配置系统级自启动。
@@ -42,7 +42,7 @@
 - 顶部刷新按钮只刷新知识库目录和当前预览,保留 Claude 会话、权限模式与未发送输入。
 - 点击知识页只更新预览;顶部“询问 Claude”会把当前相对路径和问题放入 Claude 输入框,不会自动发送。
 - Claude 文本回复支持标题、段落、粗斜体、列表、行内/块代码、链接和引用的安全 Markdown 渲染;用户消息与工具/系统消息保持原样。
-- Claude 区默认直接进入 `/home/u2023312337/知识库`,无需从项目列表选择中文目录。
+- Claude 区默认直接进入 `<repo-root>`,无需从项目列表选择中文目录。
 - 390px 等窄屏使用“文件/预览/Claude”三个标签切换,切换不会重载当前页面或聊天。
 - 无参数打开 `viewer.html` 时显示 `首页.md`。
 - 左侧目录从 `_index.md` 实时读取,按分类折叠;点击条目打开相应概念页。
@@ -64,10 +64,10 @@
 WebUI 安装包重装后需重新应用并校验本地补丁:
 
 ```bash
-node /home/u2023312337/webui/patch-dangerous-mode.mjs
-node /home/u2023312337/webui/patch-dangerous-mode.mjs --check
-node /home/u2023312337/webui/patch-integrated-workbench.mjs
-node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
+node <local-webui-root>/patch-dangerous-mode.mjs
+node <local-webui-root>/patch-dangerous-mode.mjs --check
+node <local-webui-root>/patch-integrated-workbench.mjs
+node <local-webui-root>/patch-integrated-workbench.mjs --check
 ```
 
 ## 报告约定
@@ -97,7 +97,7 @@ node /home/u2023312337/webui/patch-integrated-workbench.mjs --check
 | 一体化知识库操作台 | 通过 | 18080 同屏显示目录、预览和 Claude;文件路径联动、询问填入、拖动/折叠、移动标签及知识库默认项目通过 |
 | 刷新与 Claude Markdown | 通过 | 知识库刷新保留 Claude 输入与 plan 模式;助手 Markdown 支持标题/列表/代码/链接/引用,表格和恶意 HTML 被移除 |
 
-2026-07-12 的 429 历史证据保存在 `/home/u2023312337/webui/preflight.ndjson`。2026-07-13 补验收日志保存在 `/home/u2023312337/webui/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
+2026-07-12 的 429 历史证据保存在 `<local-webui-root>/preflight.ndjson`。2026-07-13 补验收日志保存在 `<local-webui-root>/retrieval-20260713.ndjson`、`ingest-20260713.ndjson` 和 `ingest-restore-20260713.ndjson`;补验收期间未再出现 429。
 
 ## 已知限制
 

@@ -125,7 +125,7 @@ test('Claude context details expose the project and do not claim content was rea
   await page.goto(workbenchUrl);
   await expect(page.locator('#contextSummary')).toContainText('首页.md');
   await page.locator('#contextButton').click();
-  await expect(page.locator('#contextDetail')).toContainText('/home/u2023312337/知识库');
+  await expect(page.locator('#contextDetail')).toContainText('<local-user-home>/知识库');
   await expect(page.locator('#contextDetail')).toContainText(/标准|权限确认|危险跳过确认/);
   await expect(page.locator('#contextDetail')).not.toContainText('Claude 已读取');
 });
@@ -191,6 +191,35 @@ test('second ask-Claude insertion updates the controlled textarea', async ({ pag
     await page.locator('#insertPrompt').click();
     await expect(prompt).toHaveValue(new RegExp(question));
   }
+  await expect(page.locator('#status')).toContainText('已替换上一份 Claude 草稿');
+  await expect(page.locator('#status')).toContainText('尚未发送');
+  const meta = await page.evaluate(() => JSON.parse(sessionStorage.getItem('radar-claude-draft-meta-v1')));
+  expect(meta.workspace).toBe('知识库');
+  expect(meta.source).toBeTruthy();
+});
+
+test('homepage quality treats knowledge fields as not applicable', async ({ page }) => {
+  await page.goto(`${knowledgeUrl}/viewer.html?f=%E9%A6%96%E9%A1%B5.md`);
+  await expect(page.locator('#qualitySummary')).toHaveText('导航页 · 不适用知识页字段');
+  await page.locator('#qualityPanel').click();
+  await expect(page.locator('#qualityFacts')).toContainText('字段检查');
+  await expect(page.locator('#qualityFacts')).toContainText('不适用');
+});
+
+test('workbench exposes scoped search, grouped actions, and searchable operation history', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('radar-workbench-history-v1', JSON.stringify([{
+      version: 1, operation: 'knowledge-refresh', status: 'success', surface: 'viewer',
+      time: Date.now(), revision: 'rev-human-flow', stats: { nodes: 1, edges: 2 }, preserved: [], error: null,
+    }]));
+  });
+  await page.goto(workbenchUrl);
+  await expect(page.locator('.primary-actions')).toBeVisible();
+  await page.locator('#globalSearchButton').click();
+  await expect(page.locator('#searchScope')).toHaveText('搜索范围：知识库和工程面试');
+  await page.locator('#historyButton').click();
+  await page.locator('#historySearch').fill('rev-human-flow');
+  await expect(page.locator('#historyList')).toContainText('rev-human-flow');
 });
 
 test('opening a long history keeps the composer at the viewport bottom', async ({ page }) => {
