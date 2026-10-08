@@ -35,8 +35,18 @@ jobs:
           python scripts/render_graph.py
       - name: Run Python test suite
         run: |
-          python -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee python-tests.log
-          test ${PIPESTATUS[0]} -eq 0
+          : > python-tests.log
+          groups=(
+            "tests.test_serve_kb tests.test_v3_scripts tests.test_web_console_manual"
+            "tests.test_taxonomy_candidates tests.test_taxonomy_cluster tests.test_taxonomy_config tests.test_taxonomy_embeddings tests.test_taxonomy_engine tests.test_taxonomy_end_to_end tests.test_taxonomy_models tests.test_taxonomy_naming tests.test_taxonomy_signals"
+            "tests.test_viewer_contract tests.test_graph_view_contract tests.test_home_web_first tests.test_interview_graph tests.test_interview_health tests.test_interview_index tests.test_interview_page_types tests.test_interview_taxonomy tests.test_vendor_assets"
+            "tests.test_community_graph tests.test_idea_lab tests.test_local_backup tests.test_create_knowledge_page_skill tests.test_create_engineering_interview_page_skill tests.test_paper_reading_skill tests.test_web_workbench_e2e"
+          )
+          for group in "${groups[@]}"; do
+            echo "=== $group ===" | tee -a python-tests.log
+            python -m unittest $group -v 2>&1 | tee -a python-tests.log || echo PYTHON_TEST_FAILURE=1 >> "$GITHUB_ENV"
+          done
+          test "${PYTHON_TEST_FAILURE:-0}" = 0
       - name: Upload Python test log
         if: always()
         uses: actions/upload-artifact@v4
