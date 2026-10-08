@@ -34,7 +34,15 @@ jobs:
           python scripts/build_index.py
           python scripts/render_graph.py
       - name: Run Python test suite
-        run: python -m unittest discover -s tests -p 'test_*.py'
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee python-tests.log
+          test ${PIPESTATUS[0]} -eq 0
+      - name: Upload Python test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-tests-${{ matrix.python-version }}
+          path: python-tests.log
 
   javascript-contract:
     name: Node ${{ matrix.node-version }} contract checks
