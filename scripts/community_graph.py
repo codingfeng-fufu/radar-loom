@@ -128,6 +128,7 @@ def build_communities(pages, edges, broken, resolution=DEFAULT_RESOLUTION, seed=
     groups = _stable_partition(set(pages), edges, resolution, seed)
     memberships = {}
     communities = []
+    community_by_id = {}
     leaf_ids = []
     for members in groups:
         digest = hashlib.sha1("\n".join(members).encode("utf-8")).hexdigest()[:12]
@@ -136,7 +137,7 @@ def build_communities(pages, edges, broken, resolution=DEFAULT_RESOLUTION, seed=
         for member in members:
             memberships[member] = cid
         summary = _llm_summary(members, pages, cid)
-        communities.append({
+        community = {
             "id": cid,
             "level": 1,
             "parent": None,
@@ -147,7 +148,9 @@ def build_communities(pages, edges, broken, resolution=DEFAULT_RESOLUTION, seed=
             "summary": summary["short"],
             "detail": summary["detail"],
             "summaryMeta": {"provider": summary["provider"], "confidence": summary["confidence"]},
-        })
+        }
+        communities.append(community)
+        community_by_id[cid] = community
     cross = Counter()
     for source, target in edges:
         left, right = memberships.get(source), memberships.get(target)
@@ -168,16 +171,17 @@ def build_communities(pages, edges, broken, resolution=DEFAULT_RESOLUTION, seed=
             digest = hashlib.sha1((str(level + 1) + "\n" + "\n".join(member_set)).encode("utf-8")).hexdigest()[:12]
             cid = f"com_{digest}"
             summary = _llm_summary(member_set, pages, cid)
-            communities.append({
+            community = {
                 "id": cid, "level": level + 1, "parent": None,
                 "children": sorted(child_ids), "members": member_set, "memberCount": len(member_set),
                 "internalEdgeCount": sum(1 for a, b in edges if a in member_set and b in member_set),
                 "name": summary["name"], "summary": summary["short"], "detail": summary["detail"],
                 "summaryMeta": {"provider": summary["provider"], "confidence": summary["confidence"]},
-            })
+            }
+            communities.append(community)
+            community_by_id[cid] = community
             for child in child_ids:
-                child_item = next(item for item in communities if item["id"] == child)
-                child_item["parent"] = cid
+                community_by_id[child]["parent"] = cid
             next_current[cid] = set(member_set)
         current = next_current
         level += 1
