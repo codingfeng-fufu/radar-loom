@@ -226,11 +226,14 @@ class TaxonomyEngine:
         minimum = int(self.config.get("forming_min_pages", 3))
         maximum = int(self.config.get("candidate_max_pages", 15))
         active_keys = {(frozenset(group.members), tuple(group.parent_category_ids)) for group in groups}
+        members_by_category: dict[str, set[str]] = {}
+        for membership in result.memberships:
+            members_by_category.setdefault(membership.category_id, set()).add(membership.page)
         # Retire invalid historical automatic categories through an auditable event.
         for category_id, category in list(result.categories.items()):
             if category_id.startswith("cat_seed_") or category.status == "merged":
                 continue
-            members = {m.page for m in result.memberships if m.category_id == category_id}
+            members = members_by_category.get(category_id, set())
             key = (frozenset(members), tuple(sorted(category.parents)))
             if len(members) > maximum or (category.status == "forming" and category.parents and key not in active_keys):
                 del result.categories[category_id]
@@ -244,7 +247,7 @@ class TaxonomyEngine:
             member_set = set(group.members)
             existing = next((cid for cid, category in result.categories.items()
                              if category.status != "merged" and set(category.parents) == set(group.parent_category_ids)
-                             and {m.page for m in result.memberships if m.category_id == cid} == member_set), None)
+                             and members_by_category.get(cid, set()) == member_set), None)
             if existing:
                 category = result.categories[existing]
                 stable_runs = category.stable_runs + 1
@@ -270,6 +273,7 @@ class TaxonomyEngine:
                 score = max(0.0, min(1.0, tcan._cosine(vectors[name], centroid)))
                 result.memberships.append(Membership(path, category_id, score, dict(group.signals),
                     f"候选群组语义内聚度 {score:.2f}", timestamp, timestamp))
+            members_by_category[category_id] = set(group.members)
             result.events.append(TaxonomyEvent("create", [category_id], "候选群组达到形成阈值", timestamp))
 
     def sync(
