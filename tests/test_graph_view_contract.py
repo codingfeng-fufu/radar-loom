@@ -28,7 +28,12 @@ class GraphViewContractTests(unittest.TestCase):
         self.assertIn("minmax(0, 1fr)", self.html)
         self.assertIn('rel="icon" href="data:,"', self.html)
         for token in ('--ui-bg', '--ui-surface', '--ui-surface-soft', '--ui-text', '--ui-muted', '--ui-border', '--ui-accent', '--ui-success', '--ui-warning', '--ui-danger'):
-            self.assertIn(token, self.html)
+                self.assertIn(token, self.html)
+
+    def test_visual_polish_tokens_are_present(self):
+        self.assertIn('data-radarloom-polish="v1"', self.html)
+        self.assertIn("grid-template-rows: 64px", self.html)
+        self.assertIn("border-radius: 10px", self.html)
 
     def test_search_filters_focus_and_layout_controls_are_implemented(self):
         for function in ("applyFilters", "focusNode", "clearFocus", "runLayout", "renderDetails"):

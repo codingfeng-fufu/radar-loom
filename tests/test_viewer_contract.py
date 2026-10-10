@@ -81,6 +81,11 @@ class ViewerContractTests(unittest.TestCase):
         self.assertIn("elements.message.setAttribute('role', isError ? 'alert' : 'status')", self.html)
         self.assertIn("当前内容已保留", self.html)
 
+    def test_visual_polish_tokens_are_present(self):
+        self.assertIn('data-radarloom-polish="v1"', self.html)
+        for token in ("--ui-shadow", "--ui-accent-soft", "border-radius: 10px"):
+            self.assertIn(token, self.html)
+
     def test_successful_render_reports_active_file_to_workbench(self):
         self.assertRegex(self.html, r"function\s+notifyActiveFile\s*\(")
         self.assertIn("window.parent.postMessage", self.html)

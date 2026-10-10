@@ -74,6 +74,8 @@ class IdeaLabTest(unittest.TestCase):
         self.assertIn("kb-refresh-result", graph_viewer)
         self.assertIn("idea-graph-data.json", graph_viewer)
         self.assertIn("cytoscape", graph_viewer)
+        self.assertIn("grid-template-columns:276px", viewer)
+        self.assertIn("background:#f5f7fb", viewer)
 
 
 if __name__ == "__main__":
