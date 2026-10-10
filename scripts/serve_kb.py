@@ -25,6 +25,11 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from search_service import search_payload
 from catalog_service import catalog_payload, paper_notes_payload
+from request_validation import (
+    ALLOWED_ORIGIN, ALLOWED_ORIGINS, MAX_ARCHIVE_BYTES, MAX_FILENAME_BYTES,
+    MAX_IDEA_REQUEST_BYTES, MAX_UPLOAD_BYTES, MIME_TYPE_RE, MULTIPART_BOUNDARY_RE,
+    UPLOAD_TYPES, valid_content_length,
+)
 
 
 def page_history_payload(root: Path, file: str, old: str = '', new: str = 'HEAD') -> dict[str, object]:
@@ -131,29 +136,6 @@ def quality_issues(root: Path) -> dict[str, object]:
     orphaned = [f'pages/{path.name}' for path in pages if path.stem not in referenced and path.name not in excluded_orphans]
     issues.extend({'file': file, 'severity': 'warning', 'missing': [], 'broken': [], 'reason': '孤立节点'} for file in orphaned)
     return {'version': 2, 'issues': issues, 'orphaned': orphaned, 'counts': {'pages': len(pages), 'issues': len(issues), 'errors': sum(1 for i in issues if i.get('severity') == 'error'), 'warnings': sum(1 for i in issues if i.get('severity') == 'warning'), 'orphaned': len(orphaned)}}
-
-
-ALLOWED_ORIGIN = "http://127.0.0.1:18080"
-ALLOWED_ORIGINS = frozenset({ALLOWED_ORIGIN, "http://127.0.0.1:18081"})
-MAX_UPLOAD_BYTES = 20 * 1024 * 1024
-MAX_FILENAME_BYTES = 240
-MAX_IDEA_REQUEST_BYTES = 64 * 1024
-MAX_ARCHIVE_BYTES = 100 * 1024 * 1024
-UPLOAD_TYPES = {
-    ".pdf": "application/pdf",
-    ".md": "text/markdown",
-    ".txt": "text/plain",
-    ".png": "image/png",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".webp": "image/webp",
-}
-
-
-MIME_TYPE_RE = re.compile(
-    r"^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+(?:\s*;.*)?$"
-)
-MULTIPART_BOUNDARY_RE = re.compile(r"^[0-9A-Za-z'()+_,./:=?-]{1,70}$")
 
 
 class RefreshError(RuntimeError):
@@ -411,10 +393,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         return not require_origin or self.headers.get("Origin") in ALLOWED_ORIGINS
 
     def content_length(self, default: int = -1) -> int:
-        try:
-            return int(self.headers.get("Content-Length", ""))
-        except ValueError:
-            return default
+        return valid_content_length(self.headers.get("Content-Length"), default=default)
 
     def do_OPTIONS(self) -> None:
         if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import"}:
