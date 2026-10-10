@@ -542,7 +542,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 return
             try:
                 result = self.builder.taxonomy_rebuild()
-            except RefreshError as error:
+            except RefreshError:
                 self.send_json(500, {"version": 1, "operation": "taxonomy-rebuild", "ok": False, "error": "taxonomy rebuild failed"})
                 return
             self.send_json(200, {"version": 1, "operation": "taxonomy-rebuild", "ok": True, "stats": self.builder.graph_stats(), **result})

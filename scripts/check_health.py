@@ -49,6 +49,21 @@ def is_optional_local_source(path: str | None) -> bool:
     return Path(path).parts[:1] in {("papers",), ("raw",)}
 
 
+def invalid_source(value: object) -> bool:
+    """Return whether a source value is empty, unknown, or unavailable."""
+    text = str(value or "").strip()
+    if not text:
+        return True
+    source_type, local_path = rc.parse_source(text)
+    if source_type == "unknown":
+        return True
+    return (
+        source_type == "local"
+        and not (rc.VAULT_ROOT / local_path).exists()
+        and not is_optional_local_source(local_path)
+    )
+
+
 def check_update_record(body: str) -> tuple[bool, bool]:
     """返回(「更新记录」小节是否存在, 是否有 `- ` 条目)。"""
     lines = body.split("\n")
@@ -215,7 +230,7 @@ def main(argv=None) -> int:
         if not _interview_summary(fm):
             add(name, "E12", f"[ERROR E12] 面试页《{name}》 缺少 summary/摘要")
         sources = _values(fm.get("source"))
-        if not sources or any(not str(s).strip() or rc.parse_source(str(s))[0] == "unknown" or (rc.parse_source(str(s))[0] == "local" and not (rc.VAULT_ROOT / rc.parse_source(str(s))[1]).exists() and not is_optional_local_source(rc.parse_source(str(s))[1])) for s in sources):
+        if not sources or any(invalid_source(source) for source in sources):
             add(name, "E14", f"[ERROR E14] 面试页《{name}》 source 缺失、非法或本地来源不存在")
         if fm.get("confidence") not in VALID_CONFIDENCE and fm.get("信度") not in VALID_CONFIDENCE:
             add(name, "E12", f"[ERROR E12] 面试页《{name}》 confidence/信度缺失或非法值")

@@ -1,6 +1,6 @@
 # 索引(机器生成,勿手工编辑)
 
-> 生成:2026-10-09 · 页面 135 · 运行 `python3 scripts/build_index.py` 刷新
+> 生成:2026-10-11 · 页面 135 · 运行 `python3 scripts/build_index.py` 刷新
 
 ## KG
 

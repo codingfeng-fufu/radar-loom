@@ -25,7 +25,6 @@ from taxonomy_embeddings import (
 )
 from taxonomy_models import (
     Category,
-    Candidate,
     Membership,
     Registry,
     TaxonomyRun,
@@ -172,7 +171,7 @@ class TaxonomyEngine:
             tags = page.frontmatter.get("tags", [])
             if not isinstance(tags, list):
                 tags = [tags]
-            for tag in (sorted(set(str(item) for item in tags) & set(ts.LEGACY_TAG_TO_SEED_ID)) if self.profile == "knowledge" else []):
+            for tag in (sorted({str(item) for item in tags} & set(ts.LEGACY_TAG_TO_SEED_ID)) if self.profile == "knowledge" else []):
                 registry.memberships.append(
                     Membership(
                         page=self._stable_path(page),

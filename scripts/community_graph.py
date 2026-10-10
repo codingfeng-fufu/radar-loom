@@ -13,7 +13,7 @@ import os
 import shlex
 import subprocess
 import sys
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 import igraph as ig
