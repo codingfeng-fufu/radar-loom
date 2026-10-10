@@ -169,6 +169,7 @@
   @media (max-width: 760px) { .app { grid-template-rows: 152px minmax(0, 1fr); } .toolbar { padding: 5px 12px; } }
 </style>
 <link rel="stylesheet" href="assets/ui-tokens.css">
+<link rel="stylesheet" href="assets/ui-states.css">
 </head>
 <body>
   <div class="app">
@@ -216,10 +217,10 @@
         <div class="graph" id="graph" aria-label="知识图谱画布"></div>
         <div class="graph-legend" id="graphLegend" aria-hidden="true"></div>
         <div class="toast" id="toast" role="status" hidden></div>
-        <div class="overlay" id="loading"><div class="overlay-box"><div class="spinner"></div><p>正在载入并布局图谱...</p></div></div>
+        <div class="overlay" id="loading"><div class="overlay-box rl-state rl-state-loading"><h2 class="rl-state-title">正在载入并布局图谱</h2><p class="rl-state-detail">大图会先显示快速预览，随后完成布局。</p></div></div>
         <div id="graphStatus" role="status" data-state="checking" data-revision=""></div>
-        <div class="overlay" id="errorState" hidden><div class="overlay-box"><h2>图谱载入失败</h2><p id="errorText"></p><a href="viewer.html?f=graph.md">打开 Mermaid 备用图谱</a></div></div>
-        <div class="overlay" id="emptyState" hidden><div class="overlay-box"><h2>没有匹配节点</h2><p>调整分类、项目或一跳筛选条件。</p></div></div>
+        <div class="overlay" id="errorState" hidden><div class="overlay-box rl-state rl-state-error"><h2 class="rl-state-title">图谱载入失败</h2><p id="errorText" class="rl-state-detail"></p><div><button class="rl-state-action" id="retryGraph" type="button">重试</button> <a href="viewer.html?f=graph.md">打开 Mermaid 备用图谱</a></div></div></div>
+        <div class="overlay" id="emptyState" hidden><div class="overlay-box rl-state rl-state-empty"><h2 class="rl-state-title">没有匹配节点</h2><p class="rl-state-detail">调整分类、项目或一跳筛选条件。</p></div></div>
       </main>
 
       <aside class="details" id="details" aria-label="节点详情">
@@ -270,7 +271,7 @@
     if (explicitMode) state.mode = explicitMode;
     const el = Object.fromEntries([
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
-      'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'detailContent', 'toolbarStats',
+      'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'retryGraph', 'detailContent', 'toolbarStats',
       'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails',
       'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'communityBackButton', 'graphLegend', 'toast', 'exportPngButton', 'exportSvgButton', 'exportJsonButton', 'pathButton', 'pathPanel', 'pathFrom', 'pathTo', 'pathRun'
     ].map((id) => [id, document.getElementById(id)]));
@@ -1068,6 +1069,7 @@
       if (button && button.dataset.mode !== state.mode) replaceGraphElements(button.dataset.mode);
     });
     el.rebuildTaxonomy.addEventListener('click', rebuildTaxonomy);
+    el.retryGraph.addEventListener('click', () => start());
     el.labelsToggle.addEventListener('change', () => { state.showAllLabels = el.labelsToggle.checked; updateLabels(); persistGraphState(); notifyGraphContext(); });
     el.neighborOnly.addEventListener('change', applyFilters);
     el.filterButton.addEventListener('click', () => document.body.classList.add('filters-open'));

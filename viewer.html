@@ -196,6 +196,7 @@
     @media (max-width: 760px) { .document { width: min(100% - 28px, 920px); padding-top: 34px; } .document > article { padding-inline: 2px; } article h1 { font-size: 30px; } }
   </style>
   <link rel="stylesheet" href="assets/ui-tokens.css">
+  <link rel="stylesheet" href="assets/ui-states.css">
   <script src="vendor/marked/marked.min.js"></script>
   <script src="vendor/dompurify/purify.min.js"></script>
   <script src="vendor/highlight/highlight.min.js"></script>
@@ -230,7 +231,7 @@
           <select class="nav-filter" id="tagFilter" aria-label="知识方向筛选"><option value="">全部方向</option></select>
         </div>
       </div>
-      <nav id="navigation" aria-live="polite"><div class="nav-skeleton"><p class="status">正在读取索引...</p></div></nav>
+      <nav id="navigation" aria-live="polite"><div class="nav-skeleton rl-state rl-state-loading"><p class="rl-state-title">正在读取索引...</p></div></nav>
     </aside>
     <button class="scrim" id="scrim" aria-label="关闭导航"></button>
     <main class="main" id="viewerPanel" role="tabpanel" aria-labelledby="knowledgeTab">
@@ -560,7 +561,7 @@
     function setMessage(text, isError = false) {
       elements.message.textContent = text;
       elements.message.hidden = !text;
-      elements.message.className = isError ? 'error' : 'status';
+      elements.message.className = isError ? 'rl-state rl-state-error' : (text ? 'rl-state rl-state-loading' : 'status');
       elements.message.setAttribute('role', isError ? 'alert' : 'status');
     }
     function renderReadingTools() {
@@ -1447,10 +1448,10 @@ ${serializedArticle}
         restoreExportSnapshotOwnership();
         elements.navigation.replaceChildren();
         const message = document.createElement('p');
-        message.className = 'error';
+        message.className = 'rl-state-detail';
         message.textContent = `载入失败：${error.message}`;
         const retry = document.createElement('button');
-        retry.className = 'nav-retry';
+        retry.className = 'nav-retry rl-state-action';
         retry.type = 'button';
         retry.textContent = '重试';
         const failedIntent = { requestedFile, sectionHint: hintedSection, historyMode };

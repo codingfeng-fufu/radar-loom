@@ -1,0 +1,30 @@
+/* Shared loading, empty, error, and recovery states. */
+.rl-state,
+.status,
+.loading,
+.empty,
+.error {
+  color: var(--rl-muted, #718096);
+}
+
+.rl-state {
+  display: grid;
+  gap: var(--rl-space-2, 8px);
+  place-items: center;
+  min-height: 160px;
+  padding: var(--rl-space-8, 32px);
+  border: 1px dashed var(--rl-border, #dbe3ec);
+  border-radius: var(--rl-radius-lg, 14px);
+  background: rgb(255 255 255 / 70%);
+  text-align: center;
+}
+
+.rl-state-title { color: var(--rl-text-strong, #152850); font-weight: 700; }
+.rl-state-detail { max-width: 46ch; font-size: 13px; }
+.rl-state-error { border-style: solid; border-color: rgb(180 35 24 / 28%); background: var(--rl-danger-soft, #fff0ee); color: var(--rl-danger, #b42318); }
+.rl-state-empty { background: var(--rl-surface-soft, #eef3f8); }
+.rl-state-loading::before { width: 24px; height: 24px; border: 3px solid var(--rl-border, #dbe3ec); border-top-color: var(--rl-accent, #147d73); border-radius: 50%; animation: rl-spin .8s linear infinite; content: ""; }
+.rl-state-action { min-height: 34px; border: 1px solid var(--rl-border, #dbe3ec); border-radius: var(--rl-radius-sm, 7px); background: var(--rl-surface, #fff); color: var(--rl-accent, #147d73); padding: 0 12px; cursor: pointer; }
+.rl-state-action:hover { border-color: var(--rl-accent, #147d73); background: var(--rl-accent-soft, #e2f5f1); }
+
+@keyframes rl-spin { to { transform: rotate(360deg); } }
