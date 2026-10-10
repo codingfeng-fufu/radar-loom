@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import difflib
 import hashlib
 import ipaddress
 import json
@@ -23,63 +22,7 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
-
-
-def _search_terms(query: str) -> tuple[list[str], list[str], list[str], list[str]]:
-    phrases = re.findall(r'"([^"]+)"', query)
-    clean = re.sub(r'"[^"]+"', ' ', query)
-    tokens = re.findall(r'\S+', clean)
-    positive, negative, alternatives = [], [], []
-    for token in tokens:
-        upper = token.upper()
-        if upper in {'AND', 'OR'}:
-            continue
-        if token.startswith('-') and len(token) > 1:
-            negative.append(token[1:].lower())
-        elif 'OR' in {part.upper() for part in tokens}:
-            alternatives.append(token.lower())
-        else:
-            positive.append(token.lower())
-    return positive, negative, alternatives, [item.lower() for item in phrases]
-
-
-def search_payload(root: Path, query: str, section: str = '', sort: str = 'relevance', page: int = 1, page_size: int = 20) -> dict[str, object]:
-    positive, negative, alternatives, phrases = _search_terms(query.strip())
-    records = []
-    for path in sorted((root / 'pages').glob('*.md')):
-        try:
-            text = path.read_text(encoding='utf-8')
-        except OSError:
-            continue
-        lower = text.lower()
-        is_interview = bool(re.search(r'(?m)^page[_ -]?type:\s*(?:interview|engineering-interview)', text, re.IGNORECASE))
-        if section and ((section == 'interview') != is_interview):
-            continue
-        if any(term in lower for term in negative) or any(phrase not in lower for phrase in phrases):
-            continue
-        matched = all(term in lower for term in positive) if not alternatives else (all(term in lower for term in positive) or any(term in lower for term in alternatives))
-        fuzzy = 0.0
-        if not matched and len(query.strip()) >= 4:
-            words = re.findall(r'[\w\u4e00-\u9fff-]+', lower)
-            fuzzy = max((difflib.SequenceMatcher(None, query.lower(), word).ratio() for word in words), default=0.0)
-            matched = fuzzy >= 0.72
-        if not matched:
-            continue
-        title = path.stem
-        summary_match = re.search(r'^(?:摘要|summary):\s*(.+)$', text, re.MULTILINE | re.IGNORECASE)
-        summary = summary_match.group(1).strip()[:300] if summary_match else ''
-        position = min([lower.find(term) for term in positive if lower.find(term) >= 0] or [0])
-        snippet = re.sub(r'\s+', ' ', text[max(0, position - 100):position + 260]).strip()
-        records.append({'file': f'pages/{path.name}', 'title': title, 'summary': summary, 'snippet': snippet, 'pageType': 'interview' if is_interview else 'knowledge', 'updatedAt': path.stat().st_mtime_ns, 'score': round((len(positive) + len(phrases)) * 10 + fuzzy * 5, 3)})
-    if sort == 'updated':
-        records.sort(key=lambda item: item['updatedAt'], reverse=True)
-    elif sort == 'title':
-        records.sort(key=lambda item: item['title'])
-    else:
-        records.sort(key=lambda item: (-item['score'], item['title']))
-    page = max(1, int(page)); page_size = min(100, max(1, int(page_size)))
-    start = (page - 1) * page_size
-    return {'version': 1, 'query': query, 'total': len(records), 'page': page, 'pageSize': page_size, 'results': records[start:start + page_size]}
+from search_service import search_payload
 
 
 def page_history_payload(root: Path, file: str, old: str = '', new: str = 'HEAD') -> dict[str, object]:
