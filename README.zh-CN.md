@@ -24,6 +24,12 @@ RadarLoom 不依赖 Claude 也可以独立运行。Claude Code 和它的 WebUI �
 
 ![RadarLoom 产品概念图](docs/assets/radarloom-product-concept.png)
 
+下面是从当前仓库实际运行的本地页面截取的产品图，分别对应 Viewer、社区图谱和 Idea Lab：
+
+![RadarLoom Viewer](docs/assets/radarloom-viewer.png)
+![RadarLoom 社区图谱](docs/assets/radarloom-community-graph.png)
+![RadarLoom Idea Lab](docs/assets/radarloom-idea-lab.png)
+
 ## 架构
 
 ```mermaid

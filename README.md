@@ -28,6 +28,12 @@ This concept mockup shows the intended desktop workflow: browse knowledge pages,
 
 ![RadarLoom product concept](docs/assets/radarloom-product-concept.png)
 
+The current local UI is shown below (screenshots are generated from the repository's own Viewer, community graph, and Idea Lab):
+
+![RadarLoom Viewer](docs/assets/radarloom-viewer.png)
+![RadarLoom community graph](docs/assets/radarloom-community-graph.png)
+![RadarLoom Idea Lab](docs/assets/radarloom-idea-lab.png)
+
 ## Architecture
 
 ```mermaid
