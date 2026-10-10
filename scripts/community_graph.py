@@ -27,8 +27,13 @@ DEFAULT_SEED = 42
 SCHEMA_VERSION = 1
 
 
-def _knowledge_pages():
-    pages = rc.scan_pages()
+def _knowledge_pages(pages=None):
+    """Return all knowledge pages and the subset eligible for communities.
+
+    Callers that already scanned the vault can pass that mapping to avoid a
+    second filesystem walk; the standalone CLI keeps the default scan.
+    """
+    pages = pages or rc.scan_pages()
     knowledge, _ = rc.partition_pages(pages)
     # MOC and project pages are navigation/implementation structures, not
     # concept entities for the knowledge community graph.

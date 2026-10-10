@@ -329,7 +329,7 @@ def main(argv=None) -> int:
     edges, broken, degree = graph_data(pages)
     # Knowledge communities are a separate derived graph.  The interview
     # graph below intentionally remains untouched and isolated.
-    all_knowledge, eligible_pages = community_graph._knowledge_pages()
+    all_knowledge, eligible_pages = community_graph._knowledge_pages(all_pages)
     community_edges, community_broken = community_graph.explicit_graph(all_knowledge, eligible_pages)
     community_payload = community_graph.build_communities(
         eligible_pages, community_edges, community_broken,
