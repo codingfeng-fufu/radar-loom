@@ -409,6 +409,12 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return False
         return not require_origin or self.headers.get("Origin") in ALLOWED_ORIGINS
 
+    def content_length(self, default: int = -1) -> int:
+        try:
+            return int(self.headers.get("Content-Length", ""))
+        except ValueError:
+            return default
+
     def do_OPTIONS(self) -> None:
         if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import"}:
             self.send_error(404)
@@ -453,10 +459,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         if not self.taxonomy_allowed(require_origin=True):
             self.send_json(403, {"ok": False, "error": "localhost origin required"})
             return
-        try:
-            length = int(self.headers.get("Content-Length", ""))
-        except ValueError:
-            length = -1
+        length = self.content_length()
         if length < 1:
             self.send_json(400, {"ok": False, "error": "valid Content-Length required"})
             return
@@ -512,10 +515,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         if not self.taxonomy_allowed(require_origin=True):
             self.send_json(403, {"ok": False, "error": "localhost origin required"})
             return
-        try:
-            length = int(self.headers.get("Content-Length", ""))
-        except ValueError:
-            length = -1
+        length = self.content_length()
         if length < 0:
             self.send_json(400, {"ok": False, "error": "valid Content-Length required"})
             return
@@ -671,7 +671,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             self.send_json(403, {"ok": False, "error": "localhost origin required"})
             return
         try:
-            length = int(self.headers.get("Content-Length", "0"))
+            length = self.content_length(0)
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
             file = payload.get("file", "")
         except (ValueError, UnicodeDecodeError, json.JSONDecodeError):
@@ -712,10 +712,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         if not self.taxonomy_allowed(require_origin=True):
             self.send_json(403, {"ok": False, "error": "localhost origin required"})
             return
-        try:
-            length = int(self.headers.get('Content-Length', '0'))
-        except ValueError:
-            length = 0
+        length = self.content_length(0)
         if length < 1 or length > MAX_ARCHIVE_BYTES:
             self.send_json(413, {"ok": False, "error": "archive must be between 1 byte and 100 MiB"})
             return
