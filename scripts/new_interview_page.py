@@ -32,6 +32,7 @@ def parse_args(argv=None):
     parser.add_argument("--tags", default="")
     parser.add_argument("--related-concepts", default="")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--date", dest="page_date", help="页面日期(YYYY-MM-DD),默认今天")
     return parser.parse_args(argv)
 
 
@@ -56,6 +57,11 @@ def validate_args(args) -> tuple[str, list[str]]:
     for name, value in (("source", args.source), ("question", args.question), ("summary", args.summary)):
         if not value.strip():
             die(f"{name} 不能为空")
+    if args.page_date:
+        try:
+            date.fromisoformat(args.page_date)
+        except ValueError:
+            die("date 必须是 YYYY-MM-DD 格式")
     return title, roles
 
 
@@ -71,7 +77,7 @@ def render_template(args, title: str, roles: list[str]) -> str:
         "__QUESTION_RAW__": args.question.strip(),
         "__QUESTION__": json.dumps(args.question.strip(), ensure_ascii=False),
         "__RELATED__": yaml_list(split_items(args.related_concepts)),
-        "{DATE}": date.today().isoformat(),
+        "{DATE}": args.page_date or date.today().isoformat(),
     }
     template = TEMPLATE.read_text(encoding="utf-8")
     return PLACEHOLDER_PATTERN.sub(lambda match: values[match.group(0)], template)

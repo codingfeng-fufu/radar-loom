@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -41,6 +42,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--summary", help="一句话摘要(不超过60字)")
     parser.add_argument("--force-source", action="store_true", help="允许暂时使用不存在的本地来源")
     parser.add_argument("--confidence", default="中", help="信度:高/中/低(默认 中)")
+    parser.add_argument("--date", dest="page_date", help="页面日期(YYYY-MM-DD),默认今天")
     return parser.parse_args()
 
 
@@ -85,6 +87,11 @@ def validate(args: argparse.Namespace) -> tuple[str, list[str], str, str, str]:
     # ---- confidence ----
     if args.confidence not in ("高", "中", "低"):
         die(f"非法信度「{args.confidence}」:信度必须为 高/中/低 之一。")
+    if args.page_date:
+        try:
+            date.fromisoformat(args.page_date)
+        except ValueError:
+            die("--date 必须是 YYYY-MM-DD 格式。")
 
     return title, tags, summary, source, args.confidence
 
@@ -112,11 +119,11 @@ def dedup_check(title: str) -> None:
         sys.exit(1)
 
 
-def build_content(title: str, tags: list[str], summary: str, source: str, confidence: str) -> str:
+def build_content(title: str, tags: list[str], summary: str, source: str, confidence: str, page_date: str | None = None) -> str:
     """§11.3 读模板并做替换,返回新页正文。"""
     text = rc.TEMPLATE_FILE.read_text(encoding="utf-8")
     # 1. 占位符
-    text = text.replace("{TITLE}", title).replace("{DATE}", rc.today())
+    text = text.replace("{TITLE}", title).replace("{DATE}", page_date or rc.today())
     # 2. frontmatter 三处字符串替换
     text = text.replace("摘要:", f"摘要: {summary}", 1)
     text = text.replace("来源: ", f"来源: {source}")
@@ -154,7 +161,7 @@ def main() -> int:
     dedup_check(title)
 
     rc.PAGES_DIR.mkdir(parents=True, exist_ok=True)
-    content = build_content(title, tags, summary, source, confidence)
+    content = build_content(title, tags, summary, source, confidence, args.page_date)
     target_path = rc.PAGES_DIR / f"{title}.md"
     target_path.write_text(content, encoding="utf-8")
     build_index.main([])
