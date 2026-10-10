@@ -137,6 +137,37 @@
   .node-title { letter-spacing: 0; }
   @media (min-width: 1100px) { .graph-shell { background: #111820; } }
 </style>
+<style data-radarloom-polish="v1">
+  :root { --ui-bg: #f5f7fb; --ui-surface: #fff; --ui-surface-soft: #eef3f8; --ui-text: #17233d; --ui-muted: #718096; --ui-border: #dbe3ec; --ui-accent: #177f75; --canvas: #0f1726; }
+  body { background: var(--ui-bg); color: var(--ui-text); }
+  .app { grid-template-rows: 64px minmax(0, 1fr); }
+  .toolbar { gap: 14px; padding: 0 20px; background: rgb(255 255 255 / 92%); box-shadow: 0 4px 18px rgb(19 42 73 / 6%); }
+  .brand strong { color: #152850; font-size: 17px; }
+  .mode-switch { padding: 3px; gap: 2px; border: 0; border-radius: 10px; background: #e7edf4; overflow: visible; }
+  .mode-button { height: 34px; border: 0 !important; border-radius: 8px; padding: 0 12px; transition: .18s ease; }
+  .mode-button:hover { background: rgb(255 255 255 / 68%); color: var(--ui-text); }
+  .mode-button[aria-pressed="true"] { background: #fff; color: var(--ui-accent); box-shadow: 0 2px 8px rgb(19 42 73 / 10%); }
+  .search { height: 40px; border-color: #d4deea; border-radius: 10px; background: #f8fafc; }
+  .search:focus { border-color: var(--ui-accent); box-shadow: 0 0 0 3px rgb(23 127 117 / 13%); }
+  .tool-button { height: 38px; border-color: #d4deea; border-radius: 9px; background: #fff; transition: .18s ease; }
+  .tool-button:hover { border-color: var(--ui-accent); color: var(--ui-accent); background: #f2fbf9; transform: translateY(-1px); }
+  .workspace { grid-template-columns: 268px minmax(0, 1fr) 336px; }
+  .filters, .details { background: linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%); }
+  .filters { padding: 20px 18px; border-right-color: #dbe3ec; }
+  .details { padding: 22px 20px; border-left-color: #dbe3ec; }
+  .panel-title { color: #1c3157; font-size: 15px; }
+  .metrics { border: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 16px rgb(20 42 72 / 6%); }
+  .metric { padding: 12px; }
+  .metric strong { color: #19345f; font-size: 20px; }
+  .filter-section { border-top-color: #dbe3ec; padding: 16px 0; }
+  .filter-section h3 { color: #718096; letter-spacing: .08em; }
+  .graph-shell { background: #0f1726; }
+  .graph-legend { left: 18px; bottom: 18px; border-color: rgb(164 191 218 / 22%); border-radius: 10px; background: rgb(14 24 40 / 86%); box-shadow: 0 10px 24px rgb(0 0 0 / 22%); }
+  .details .node-title { color: #172e5b; }
+  .details .summary { color: #4b5d75; line-height: 1.7; }
+  .neighbor-button { border-radius: 7px; padding: 7px 9px; background: rgb(255 255 255 / 56%); }
+  @media (max-width: 760px) { .app { grid-template-rows: 152px minmax(0, 1fr); } .toolbar { padding: 5px 12px; } }
+</style>
 </head>
 <body>
   <div class="app">
