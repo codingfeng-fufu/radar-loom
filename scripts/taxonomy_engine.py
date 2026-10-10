@@ -84,7 +84,7 @@ class DeterministicTestEncoder:
 
 
 class TaxonomyEngine:
-    def __init__(self, root: Path | str, config: dict, encoder=None, namer=None, profile: str = "knowledge"):
+    def __init__(self, root: Path | str, config: dict, encoder=None, namer=None, profile: str = "knowledge", today_provider=None):
         if profile not in {"knowledge", "interview"}:
             raise ValueError("profile must be knowledge or interview")
         self.root = Path(root).resolve()
@@ -94,6 +94,12 @@ class TaxonomyEngine:
         self.cache_root = self.root / ".cache" / ("taxonomy" if profile == "knowledge" else "interview-taxonomy")
         self._provided_encoder = encoder
         self._provided_namer = namer
+        self._today_provider = today_provider or (lambda: dt.date.today())
+
+    def _today(self) -> dt.date:
+        """Return the current date through an injectable provider for reproducible runs."""
+        value = self._today_provider()
+        return value if isinstance(value, dt.date) else dt.date.fromisoformat(str(value)[:10])
 
     def _scan_pages(self) -> dict[str, rc.PageInfo]:
         pages_dir = self.root / "pages"
@@ -148,7 +154,7 @@ class TaxonomyEngine:
         return KeywordNamer()
 
     def migrate(self, today: str | None = None, dry_run: bool = False) -> Registry:
-        timestamp = today or dt.date.today().isoformat()
+        timestamp = today or self._today().isoformat()
         pages = self._scan_pages()
         registry = Registry.empty(parameters_hash(self.config), timestamp)
         for tag, category_id in (sorted(ts.LEGACY_TAG_TO_SEED_ID.items()) if self.profile == "knowledge" else []):
@@ -284,7 +290,7 @@ class TaxonomyEngine:
     ) -> Registry:
         if not self.registry_path.exists():
             return self.migrate(today=today)
-        timestamp = today or dt.date.today().isoformat()
+        timestamp = today or self._today().isoformat()
         pages = self._scan_pages()
         path_to_name = {self._stable_path(page): name for name, page in pages.items()}
         current_fingerprints = self._fingerprints(pages)
@@ -426,7 +432,7 @@ class TaxonomyEngine:
         return result
 
     def global_rebuild(self, today: str | None = None, allow_llm: bool = True) -> Registry:
-        timestamp = today or dt.date.today().isoformat()
+        timestamp = today or self._today().isoformat()
         pages = self._scan_pages()
         registry = load_registry(self.registry_path) if self.registry_path.exists() else self.migrate(timestamp)
         vectors, failures = self._vectors(pages)
@@ -568,7 +574,7 @@ class TaxonomyEngine:
             "memberships": len(registry.memberships),
             "pending_pages": len(registry.pending_pages),
             "changes_since_global": registry.changes_since_global,
-            "global_due": global_due(registry, self.config, dt.date.today()),
+            "global_due": global_due(registry, self.config, self._today()),
             "seed_categories": seed_categories,
             "automatic_categories": automatic_categories,
             "candidates": len(registry.candidates),
