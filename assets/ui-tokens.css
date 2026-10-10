@@ -1,0 +1,71 @@
+/* RadarLoom shared UI tokens. Pages may alias these to their local variables. */
+:root {
+  --rl-bg: #f5f7fb;
+  --rl-surface: #ffffff;
+  --rl-surface-soft: #eef3f8;
+  --rl-surface-raised: #ffffff;
+  --rl-text: #17233d;
+  --rl-text-strong: #152850;
+  --rl-muted: #718096;
+  --rl-border: #dbe3ec;
+  --rl-border-strong: #cbd7e4;
+  --rl-accent: #147d73;
+  --rl-accent-soft: #e2f5f1;
+  --rl-success: #18794e;
+  --rl-warning: #a66a08;
+  --rl-warning-soft: #fff6dd;
+  --rl-danger: #b42318;
+  --rl-danger-soft: #fff0ee;
+  --rl-info: #315b7d;
+  --rl-info-soft: #eaf1f6;
+  --rl-radius-sm: 7px;
+  --rl-radius-md: 10px;
+  --rl-radius-lg: 14px;
+  --rl-control-height: 38px;
+  --rl-shadow-sm: 0 3px 10px rgb(21 40 72 / 5%);
+  --rl-shadow-md: 0 12px 32px rgb(21 40 72 / 7%);
+  --rl-shadow-lg: 0 24px 70px rgb(21 40 72 / 18%);
+  --rl-space-1: 4px;
+  --rl-space-2: 8px;
+  --rl-space-3: 12px;
+  --rl-space-4: 16px;
+  --rl-space-5: 20px;
+  --rl-space-6: 24px;
+  --rl-space-8: 32px;
+
+  /* Compatibility aliases for the existing pages. */
+  --ui-bg: var(--rl-bg);
+  --ui-surface: var(--rl-surface);
+  --ui-surface-soft: var(--rl-surface-soft);
+  --ui-text: var(--rl-text);
+  --ui-muted: var(--rl-muted);
+  --ui-border: var(--rl-border);
+  --ui-accent: var(--rl-accent);
+  --ui-success: var(--rl-success);
+  --ui-warning: var(--rl-warning);
+  --ui-danger: var(--rl-danger);
+  --bg: var(--rl-bg);
+  --surface: var(--rl-surface);
+  --soft: var(--rl-surface-soft);
+  --ink: var(--rl-text);
+  --muted: var(--rl-muted);
+  --line: var(--rl-border);
+  --accent: var(--rl-accent);
+  --accent-soft: var(--rl-accent-soft);
+}
+
+button,
+input,
+textarea,
+select {
+  accent-color: var(--rl-accent);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgb(20 125 115 / 24%);
+  outline-offset: 2px;
+}
