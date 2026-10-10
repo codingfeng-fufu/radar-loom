@@ -28,6 +28,11 @@
       position: relative; z-index: 40; display: grid; grid-template-columns: auto auto minmax(180px, 440px) auto;
       align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--line); background: var(--paper);
     }
+    .community-breadcrumb { display: inline-flex; align-items: center; gap: 4px; max-width: 360px; overflow: auto; white-space: nowrap; }
+    .community-breadcrumb[hidden] { display: none; }
+    .community-crumb { border: 0; background: transparent; color: var(--muted); padding: 4px 5px; cursor: pointer; font-size: 12px; }
+    .community-crumb:hover { color: var(--accent); }
+    .community-crumb-separator { color: var(--muted); }
     .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .brand a { color: var(--ink); text-decoration: none; }
     .brand strong { white-space: nowrap; font-size: 16px; }
@@ -191,6 +196,7 @@
         <button class="tool-button icon-button" id="rebuildTaxonomy" type="button" title="全局重组分类" aria-label="全局重组分类"><svg data-icon="refresh" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7"/></svg></button>
         <button class="tool-button text-button" id="layoutButton" type="button">重新布局</button>
         <button class="tool-button text-button" id="communityBackButton" type="button" hidden>返回上层</button>
+        <nav class="community-breadcrumb" id="communityBreadcrumb" aria-label="社区层级"></nav>
         <button class="tool-button text-button" id="exportPngButton" type="button" title="导出 PNG">PNG</button>
         <button class="tool-button text-button" id="exportSvgButton" type="button" title="导出 SVG">SVG</button>
         <button class="tool-button text-button" id="exportJsonButton" type="button" title="导出 JSON">JSON</button>
@@ -273,7 +279,7 @@
       'search', 'searchResults', 'categoryFilters', 'projectFilters', 'neighborOnly', 'fitButton', 'layoutButton',
       'labelsToggle', 'loading', 'errorState', 'errorText', 'emptyState', 'retryGraph', 'detailContent', 'toolbarStats',
       'nodeCount', 'edgeCount', 'visibleCount', 'brokenCount', 'filterButton', 'closeFilters', 'closeDetails',
-      'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'communityBackButton', 'graphLegend', 'toast', 'exportPngButton', 'exportSvgButton', 'exportJsonButton', 'pathButton', 'pathPanel', 'pathFrom', 'pathTo', 'pathRun'
+      'mobileScrim', 'modeSwitch', 'rebuildTaxonomy', 'communityBackButton', 'communityBreadcrumb', 'graphLegend', 'toast', 'exportPngButton', 'exportSvgButton', 'exportJsonButton', 'pathButton', 'pathPanel', 'pathFrom', 'pathTo', 'pathRun'
     ].map((id) => [id, document.getElementById(id)]));
 
     function createText(tag, text, className) {
@@ -865,6 +871,7 @@
       });
       [...el.modeSwitch.querySelectorAll('[data-mode]')].forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
       el.communityBackButton.hidden = mode !== 'community' || !state.communityFocus;
+      updateCommunityBreadcrumb();
       buildFilters(); updateLegend(); clearFocus();
       state.showAllLabels = restored ? restored.showAllLabels : state.showAllLabels;
       el.labelsToggle.checked = state.showAllLabels;
@@ -885,6 +892,18 @@
       }, 0));
       else { state.restoring = false; persistGraphState(); notifyGraphContext(); }
       runLayout(false);
+    }
+
+    function updateCommunityBreadcrumb() {
+      if (!el.communityBreadcrumb) return;
+      el.communityBreadcrumb.replaceChildren();
+      if (state.mode !== 'community' || !state.payload?.community) { el.communityBreadcrumb.hidden = true; return; }
+      el.communityBreadcrumb.hidden = false;
+      const byId = new Map((state.payload.community.communities || []).map((item) => [item.id, item]));
+      const chain = []; let current = state.communityFocus;
+      while (current && byId.has(current)) { chain.unshift(byId.get(current)); current = byId.get(current).parent; }
+      const root = createText('button', '全部社区', 'community-crumb'); root.type = 'button'; root.addEventListener('click', () => { state.communityFocus = null; replaceGraphElements('community'); }); el.communityBreadcrumb.append(root);
+      chain.forEach((item) => { el.communityBreadcrumb.append(createText('span', '›', 'community-crumb-separator')); const button = createText('button', item.name || item.id, 'community-crumb'); button.type = 'button'; button.addEventListener('click', () => { state.communityFocus = item.id; replaceGraphElements('community'); }); el.communityBreadcrumb.append(button); });
     }
 
     function bindModeIndependentHandlersOnce() {
