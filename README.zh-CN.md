@@ -62,6 +62,17 @@ python3 -m pip install -r requirements-taxonomy.txt
 npm ci
 ```
 
+首次体验可以直接运行一键演示启动器：
+
+```bash
+bash scripts/start_demo.sh
+```
+
+脚本会尽量重建索引和图谱产物，然后在
+`http://127.0.0.1:18081/viewer.html` 提供 Viewer。Claude Code 是可选扩展；
+Viewer、搜索、图谱、论文笔记和 Idea 页面都不需要 API Key。只想使用已有产物
+时可以加 `--skip-refresh`。
+
 生成索引和图谱产物：
 
 ```bash

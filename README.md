@@ -66,6 +66,17 @@ python3 -m pip install -r requirements-taxonomy.txt
 npm ci
 ```
 
+For the shortest first run, use the demo launcher after installation:
+
+```bash
+bash scripts/start_demo.sh
+```
+
+It rebuilds the index and graph artifacts when possible, then opens the local
+Viewer at `http://127.0.0.1:18081/viewer.html`. Claude Code is optional; the
+standalone Viewer, search, graph, paper-note, and Idea surfaces do not require
+an API key. Use `--skip-refresh` when you only want to serve existing artifacts.
+
 Build the local indexes and graph artifacts:
 
 ```bash
