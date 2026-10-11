@@ -409,7 +409,14 @@
       const facts = fieldsNotApplicable ? [['页面类型', '导航页'], ['字段检查', '不适用'], ['断链', quality.broken], ['健康状态', quality.broken === '0 个' ? 'OK' : quality.health], ['结构', quality.structure]] : [['摘要', quality.summary], ['来源', quality.source], ['信度', quality.confidence], ['标签', quality.tags], ['引用', quality.links], ['断链', quality.broken], ['健康状态', quality.health], ['结构', quality.structure]];
       for (const [label, value] of facts) {
         const term = document.createElement('dt'); const detail = document.createElement('dd');
-        term.textContent = label; detail.textContent = value; elements.qualityFacts.append(term, detail);
+        term.textContent = label;
+        if (label === '来源') {
+          const source = metadata.source || metadata['来源'];
+          const urls = metadataValues(source).filter((item) => /^https?:\/\//i.test(item));
+          if (urls.length) { urls.forEach((url, index) => { const link = document.createElement('a'); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = urls.length > 1 ? `来源 ${index + 1}` : url; detail.append(link, document.createTextNode(index < urls.length - 1 ? '、' : '')); }); }
+          else detail.textContent = value;
+        } else detail.textContent = value;
+        elements.qualityFacts.append(term, detail);
       }
       elements.qualityPanel.hidden = false;
     }
