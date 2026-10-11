@@ -353,6 +353,7 @@ class KnowledgeBuilder:
 
     def taxonomy_rebuild(self) -> dict[str, object]:
         with self._lock:
+            before_changes = git_changes(self.root)
             phase_started = time.perf_counter()
             output_lines = [
                 self._run_script(
@@ -378,6 +379,7 @@ class KnowledgeBuilder:
                 "status": status,
                 "output": "\n".join(line for line in output_lines if line),
                 "phases": [{"name": "taxonomy-global-and-graph", "durationMs": round((time.perf_counter() - phase_started) * 1000, 1)}],
+                "gitChanges": {"before": before_changes, "after": git_changes(self.root)},
             }
 
 
@@ -416,6 +418,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def refresh_payload(self, force: bool) -> tuple[int, dict[str, object]]:
+        before_changes = git_changes(self.builder.root)
         try:
             result = self.builder.refresh(force=force)
         except RefreshError as error:
@@ -423,7 +426,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             if force:
                 payload.update({"version": 1, "operation": "knowledge-refresh"})
             return 500, payload
-        payload = {"ok": True, **result}
+        payload = {"ok": True, **result, "gitChanges": {"before": before_changes, "after": git_changes(self.builder.root)}}
         if force:
             payload.update({"version": 1, "operation": "knowledge-refresh", "stats": self.builder.graph_stats()})
         return 200, payload
