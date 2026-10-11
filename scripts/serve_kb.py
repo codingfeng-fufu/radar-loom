@@ -87,6 +87,27 @@ def export_archive(root: Path) -> bytes:
     return buffer.getvalue()
 
 
+def import_preview(root: Path, archive_bytes: bytes) -> dict[str, object]:
+    """Validate an import archive and report conflicts without writing files."""
+    archive = zipfile.ZipFile(io.BytesIO(archive_bytes))
+    allowed = ('.md', '.json', '.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp')
+    forbidden = {'scripts', '.git', '.trash', 'node_modules'}
+    members = [item for item in archive.infolist() if not item.is_dir() and item.filename != 'manifest.json']
+    if any(Path(item.filename).is_absolute() or '..' in Path(item.filename).parts or not item.filename.lower().endswith(allowed) or Path(item.filename).parts[0] in forbidden for item in members):
+        raise ValueError('archive contains an unsafe file')
+    added, changed, unchanged = [], [], []
+    for item in members:
+        target = root / item.filename
+        incoming = archive.read(item)
+        if not target.exists():
+            added.append(item.filename)
+        elif not target.is_file() or hashlib.sha256(target.read_bytes()).digest() != hashlib.sha256(incoming).digest():
+            changed.append(item.filename)
+        else:
+            unchanged.append(item.filename)
+    return {'version': 1, 'files': len(members), 'added': sorted(added), 'changed': sorted(changed), 'unchanged': sorted(unchanged)}
+
+
 def health_summary(root: Path, builder: 'KnowledgeBuilder') -> dict[str, object]:
     pages = list((root / 'pages').glob('*.md'))
     try:
@@ -416,7 +437,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         return valid_content_length(self.headers.get("Content-Length"), default=default)
 
     def do_OPTIONS(self) -> None:
-        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import"}:
+        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import", "/api/import/preview"}:
             self.send_error(404)
             return
         self.send_response(204)
@@ -437,6 +458,9 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return
         if path == "/api/import":
             self.handle_archive_import()
+            return
+        if path == "/api/import/preview":
+            self.handle_archive_preview()
             return
         if path == "/api/taxonomy/rebuild":
             if not self.taxonomy_allowed(require_origin=True):
@@ -746,6 +770,22 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             self.send_json(400, {"ok": False, "error": f"archive import failed: {error}"})
             return
         self.send_json(200, {"ok": True, "imported": len(members)})
+
+    def handle_archive_preview(self) -> None:
+        if not self.taxonomy_allowed(require_origin=True):
+            self.send_json(403, {"ok": False, "error": "localhost origin required"})
+            return
+        length = self.content_length(0)
+        if length < 1 or length > MAX_ARCHIVE_BYTES:
+            self.send_json(413, {"ok": False, "error": "archive must be between 1 byte and 100 MiB"})
+            return
+        if self.headers.get_content_type() != 'application/zip':
+            self.send_json(415, {"ok": False, "error": "application/zip required"})
+            return
+        try:
+            self.send_json(200, {"ok": True, **import_preview(self.builder.root, self.rfile.read(length))})
+        except (OSError, ValueError, zipfile.BadZipFile) as error:
+            self.send_json(400, {"ok": False, "error": f"archive preview failed: {error}"})
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
