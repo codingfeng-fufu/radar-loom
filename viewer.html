@@ -126,6 +126,11 @@
     article table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
     article th, article td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
     article blockquote { margin-left: 0; padding: 4px 16px; border-left: 4px solid var(--line); color: var(--muted); }
+    .related-pages { margin: 44px 0 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--sidebar); }
+    .related-pages h2 { margin: 0 0 12px; border: 0; padding: 0; font-size: 18px; }
+    .related-pages h3 { margin: 14px 0 4px; font-size: 14px; color: var(--muted); }
+    .related-pages ul { margin: 0; padding-left: 20px; }
+    .related-pages li + li { margin-top: 4px; }
     article :not(pre) > code { padding: 2px 5px; border-radius: 3px; background: var(--code); }
     article pre { overflow: auto; padding: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--code); }
     article pre code { padding: 0; }
@@ -1365,6 +1370,8 @@ ${serializedArticle}
           await renderMermaidDiagrams(elements.content);
         }
         if (token !== navigationGeneration) return;
+        await renderRelatedPages(file, section, body, token);
+        if (token !== navigationGeneration) return;
         const pageTitle = elements.content.querySelector('h1')?.textContent?.trim() || file.split('/').pop().replace(/\.md$/, '');
         renderReadingTools();
         const baseUrl = new URL(file, document.baseURI).href;
@@ -1387,6 +1394,27 @@ ${serializedArticle}
         notifyActiveFile(file, pageTitle, pageMetadata);
         const saved = userState.progress[file];
         if (saved && saved.scrollRatio > 0.02) window.requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, elements.content.offsetTop + saved.scrollRatio * Math.max(0, elements.content.scrollHeight - window.innerHeight)), behavior: 'auto' }));
+    }
+
+    async function renderRelatedPages(file, section, body, token) {
+      const links = [...body.matchAll(/\[\[([^\]|\n]+)(?:\|[^\]\n]+)?\]\]/g)].map((match) => match[1].trim()).filter(Boolean);
+      let catalog;
+      try { catalog = await loadCatalog(); } catch { return; }
+      if (token !== navigationGeneration) return;
+      const current = catalog.entries?.find((entry) => entry.file === file);
+      const outgoing = [...new Set(links)].map((name) => catalog.entries?.find((entry) => entry.id === name || entry.file === `pages/${name}.md`)).filter(Boolean);
+      const incoming = (catalog.edges || []).filter((edge) => edge.section === section && edge.target === current?.id).map((edge) => catalog.entries?.find((entry) => entry.id === edge.source)).filter(Boolean);
+      if (!outgoing.length && !incoming.length) return;
+      const panel = document.createElement('aside'); panel.className = 'related-pages'; panel.setAttribute('aria-label', '关联页面');
+      const title = document.createElement('h2'); title.textContent = '关联页面'; panel.append(title);
+      for (const [label, entries] of [['出链', outgoing], ['入链', incoming]]) {
+        if (!entries.length) continue;
+        const heading = document.createElement('h3'); heading.textContent = `${label} (${entries.length})`; panel.append(heading);
+        const list = document.createElement('ul');
+        entries.slice(0, 20).forEach((entry) => { const item = document.createElement('li'); const link = document.createElement('a'); link.href = viewerHref(entry.file, entry.section); link.textContent = entry.title; link.addEventListener('click', (event) => { event.preventDefault(); navigateTo(entry.file, { sectionHint: entry.section, historyMode: 'push' }); }); item.append(link); list.append(item); });
+        panel.append(list);
+      }
+      elements.content.append(panel);
     }
 
     function commitSection(section, parsed, file) {
