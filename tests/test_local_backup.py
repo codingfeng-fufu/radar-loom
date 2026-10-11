@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 import zipfile
+from datetime import datetime
 from pathlib import Path
 
 SPEC = importlib.util.spec_from_file_location("local_backup", Path(__file__).parents[1] / "scripts/local_backup.py")
@@ -19,6 +20,13 @@ class LocalBackupTests(unittest.TestCase):
             self.assertIn("pages/A.md", backup.verify(archive)["files"])
             restored = backup.stage_restore(archive, Path(folder) / "restored")
             self.assertEqual((restored / "pages/A.md").read_text(encoding="utf-8"), "# A\n")
+
+    def test_create_accepts_fixed_timestamp(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "kb"; (root / "pages").mkdir(parents=True)
+            archive = backup.create(root, Path(folder) / "backups", datetime(2026, 1, 2, 3, 4, 5))
+            self.assertEqual(archive.name, "knowledge-base-20260102-030405.zip")
+            self.assertEqual(backup.verify(archive)["createdAt"], "2026-01-02T03:04:05")
 
     def test_verify_rejects_checksum_mismatch(self):
         with tempfile.TemporaryDirectory() as folder:

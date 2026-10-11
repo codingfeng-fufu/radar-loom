@@ -30,10 +30,11 @@ def files(root: Path):
                 yield path
 
 
-def create(root: Path, destination: Path) -> Path:
+def create(root: Path, destination: Path, created_at: datetime | None = None) -> Path:
     destination.mkdir(parents=True, exist_ok=True)
-    target = destination / f"knowledge-base-{datetime.now():%Y%m%d-%H%M%S}.zip"
-    manifest = {"version": 2, "createdAt": datetime.now().isoformat(), "scope": "portable-knowledge-state", "files": {}}
+    created_at = created_at or datetime.now()
+    target = destination / f"knowledge-base-{created_at:%Y%m%d-%H%M%S}.zip"
+    manifest = {"version": 2, "createdAt": created_at.isoformat(), "scope": "portable-knowledge-state", "files": {}}
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as archive:
         for path in files(root):
             relative = path.relative_to(root).as_posix()
@@ -104,9 +105,14 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--destination", type=Path, default=DEFAULT_DIR)
     parser.add_argument("--keep", type=int, default=14)
+    parser.add_argument("--date", help="可复现的备份时间，格式 YYYY-MM-DD 或 YYYY-MM-DDTHH:MM:SS")
     args = parser.parse_args()
     if args.command == "create":
-        target = create(args.root, args.destination); prune(args.destination, args.keep)
+        try:
+            created_at = datetime.fromisoformat(args.date) if args.date else None
+        except ValueError as error:
+            parser.error(f"--date 格式无效: {error}")
+        target = create(args.root, args.destination, created_at); prune(args.destination, args.keep)
         print(f"备份完成: {target}")
     elif not args.archive:
         parser.error("verify/preview/stage-restore 需要 archive")
