@@ -30,6 +30,7 @@ Mutating requests require a loopback client and an allowed local `Origin` header
 - `POST /api/taxonomy/rebuild`
 - `POST /api/import` with `Content-Type: application/zip` (validated local backup restore)
 - `POST /api/import/preview` with `Content-Type: application/zip` (read-only added/changed/unchanged conflict report)
+- `POST /api/knowledge/gaps/status` with `{"file":"pages/...md","status":"open|in_progress|resolved|dismissed"}`
 
 Refresh responses include `phases` with per-stage duration and `gitChanges.before/after`
 for showing which generated files changed during the operation.
