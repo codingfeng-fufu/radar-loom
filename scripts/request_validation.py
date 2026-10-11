@@ -4,7 +4,12 @@ from __future__ import annotations
 import re
 
 ALLOWED_ORIGIN = "http://127.0.0.1:18080"
-ALLOWED_ORIGINS = frozenset({ALLOWED_ORIGIN, "http://127.0.0.1:18081"})
+ALLOWED_ORIGINS = frozenset({ALLOWED_ORIGIN, "http://127.0.0.1:18081", "http://127.0.0.1:49281"})
+LOCAL_ORIGIN_RE = re.compile(r"^http://127\.0\.0\.1:49\d{3}$")
+
+
+def is_allowed_origin(origin: str | None) -> bool:
+    return bool(origin and (origin in ALLOWED_ORIGINS or LOCAL_ORIGIN_RE.fullmatch(origin)))
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 MAX_FILENAME_BYTES = 240
 MAX_IDEA_REQUEST_BYTES = 64 * 1024

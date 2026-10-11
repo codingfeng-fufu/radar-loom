@@ -30,7 +30,7 @@ from duplicate_service import duplicate_payload
 from request_validation import (
     ALLOWED_ORIGIN, ALLOWED_ORIGINS, MAX_ARCHIVE_BYTES, MAX_FILENAME_BYTES,
     MAX_IDEA_REQUEST_BYTES, MAX_UPLOAD_BYTES, MIME_TYPE_RE, MULTIPART_BOUNDARY_RE,
-    UPLOAD_TYPES, valid_content_length,
+    UPLOAD_TYPES, is_allowed_origin, valid_content_length,
 )
 
 
@@ -395,7 +395,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             origin = self.headers.get("Origin")
             self.send_header(
                 "Access-Control-Allow-Origin",
-                origin if origin in ALLOWED_ORIGINS else ALLOWED_ORIGIN,
+                origin if is_allowed_origin(origin) else ALLOWED_ORIGIN,
             )
             self.send_header("Vary", "Origin")
         super().end_headers()
@@ -438,7 +438,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             loopback = False
         if not loopback:
             return False
-        return not require_origin or self.headers.get("Origin") in ALLOWED_ORIGINS
+        return not require_origin or is_allowed_origin(self.headers.get("Origin"))
 
     def content_length(self, default: int = -1) -> int:
         return valid_content_length(self.headers.get("Content-Length"), default=default)

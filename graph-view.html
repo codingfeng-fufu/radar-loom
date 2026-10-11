@@ -250,7 +250,7 @@
     const GRAPH_DATA_URL = GRAPH_DATA_URLS[PROFILE];
     const GRAPH_STATE_KEY = GRAPH_STATE_KEYS[PROFILE];
     const LEGACY_GRAPH_STATE_KEY = 'radar-graph-state-v1';
-    const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
+    const WORKBENCH_ORIGIN = (() => { try { return document.referrer ? new URL(document.referrer).origin : 'http://127.0.0.1:18080'; } catch { return 'http://127.0.0.1:18080'; } })();
     function readPersistedState() {
       try {
         const stored = sessionStorage.getItem(GRAPH_STATE_KEY)

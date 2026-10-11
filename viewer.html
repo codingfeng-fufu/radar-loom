@@ -300,7 +300,7 @@
     const OFFLINE_CACHE_PREFIX = 'radar-viewer-offline-v1:';
     function cacheRead(key) { try { const item = JSON.parse(localStorage.getItem(OFFLINE_CACHE_PREFIX + key) || 'null'); return item?.value || null; } catch { return null; } }
     function cacheWrite(key, value) { try { localStorage.setItem(OFFLINE_CACHE_PREFIX + key, JSON.stringify({ cachedAt: Date.now(), value })); } catch {} }
-    const WORKBENCH_ORIGIN = 'http://127.0.0.1:18080';
+    const WORKBENCH_ORIGIN = (() => { try { return document.referrer ? new URL(document.referrer).origin : 'http://127.0.0.1:18080'; } catch { return 'http://127.0.0.1:18080'; } })();
     let activeSection = 'knowledge';
     let navigationGeneration = 0;
     let enrichmentGeneration = 0;
