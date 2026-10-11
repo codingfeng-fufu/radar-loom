@@ -690,7 +690,7 @@
       }
       summary.hidden = false;
       const link = document.createElement('a');
-      link.href = `graph-view.html?profile=${section}&mode=taxonomy`;
+      link.href = `taxonomy.html?profile=${section}`;
       link.textContent = '动态分类：读取中...';
       summary.append(link);
       return fetch(taxonomyDataUrl(section), { cache: 'no-store' })
