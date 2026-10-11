@@ -7488,6 +7488,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_218a7eee5608",
         "lastStableAt": null,
+        "memberCount": 7,
         "name": "Architectur…",
         "namingStatus": "pending",
         "parents": [
@@ -7495,6 +7496,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "Transformer 架构 Architecture",
+          "编码器-解码器结构 Encoder-Decoder Architecture",
+          "BERT与GPT的区别 BERT vs GPT",
+          "前馈网络 FFN Feed-Forward Network",
+          "多头注意力 Multi-Head Attention"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7507,6 +7515,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_22b92293061e",
         "lastStableAt": null,
+        "memberCount": 4,
         "name": "CRAG Counte…",
         "namingStatus": "pending",
         "parents": [
@@ -7514,6 +7523,12 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "RAGChecker",
+          "纠错RAG CRAG",
+          "反事实评测 Counterfactual Evaluation",
+          "分层评测 Stratified Evaluation"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7526,6 +7541,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_2e29bb42f941",
         "lastStableAt": null,
+        "memberCount": 4,
         "name": "ALOHA BGP CA",
         "namingStatus": "pending",
         "parents": [
@@ -7533,6 +7549,12 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "随机接入协议 ALOHA CSMA CSMA-CD CSMA-CA",
+          "信道复用技术 FDM TDM WDM CDM",
+          "流量控制常见方式 Flow Control",
+          "路由协议 RIP OSPF BGP"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7545,6 +7567,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_3dbcf9f45fc4",
         "lastStableAt": null,
+        "memberCount": 12,
         "name": "操作系统",
         "namingStatus": "pending",
         "parents": [
@@ -7552,6 +7575,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "进程与线程 Process and Thread",
+          "操作系统同步与互斥 OS Synchronization and Mutual Exclusion",
+          "操作系统 Operating System",
+          "操作系统死锁 Deadlock",
+          "进程调度算法 CPU Scheduling Algorithms"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7564,6 +7594,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_6ea9fc82942f",
         "lastStableAt": null,
+        "memberCount": 5,
         "name": "GNN KG Link",
         "namingStatus": "pending",
         "parents": [
@@ -7571,6 +7602,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "文本蕴含与自然语言推理 NLI",
+          "链接预测 Link Prediction",
+          "TripleChecker",
+          "GNN-RAG 图神经网络检索增强",
+          "KG-RAG 工作原理"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7583,6 +7621,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_7c8780a1a33c",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "Alignment D…",
         "namingStatus": "pending",
         "parents": [
@@ -7590,6 +7629,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "实体对齐 Entity Alignment",
+          "知识图谱对齐任务 KG Alignment Tasks",
+          "实体消歧 Entity Disambiguation"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7602,6 +7646,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_80ecc3f256aa",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "Calibration…",
         "namingStatus": "pending",
         "parents": [
@@ -7609,6 +7654,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "选择性预测 Selective Prediction",
+          "模型校准 Calibration",
+          "不确定性量化 Uncertainty Quantification"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7621,6 +7671,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_85605149264c",
         "lastStableAt": null,
+        "memberCount": 13,
         "name": "Architectur…",
         "namingStatus": "pending",
         "parents": [
@@ -7628,6 +7679,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "Transformer 架构 Architecture",
+          "编码器-解码器结构 Encoder-Decoder Architecture",
+          "交叉编码器 Cross-Encoder",
+          "词嵌入 Word Embedding",
+          "BERT与GPT的区别 BERT vs GPT"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7640,6 +7698,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_87584d31757c",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "AI Determin…",
         "namingStatus": "pending",
         "parents": [
@@ -7647,6 +7706,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "符号人工智能 Symbolic AI",
+          "神经符号方法 Neuro-Symbolic AI",
+          "确定性状态机 Deterministic State Machine"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7659,6 +7723,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_8ec90d1e73ff",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "GNN Graph H…",
         "namingStatus": "pending",
         "parents": [
@@ -7666,6 +7731,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "关系图卷积网络 RGCN",
+          "图神经网络 GNN",
+          "异构图 Heterogeneous Graph"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7678,6 +7748,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_9365b0b60186",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "Auditabilit…",
         "namingStatus": "pending",
         "parents": [
@@ -7685,6 +7756,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "可审计性 Auditability",
+          "可观测性 Observability",
+          "可验证性 Verifiability"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7697,6 +7773,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_94e3cd3c5a52",
         "lastStableAt": null,
+        "memberCount": 7,
         "name": "知识图谱",
         "namingStatus": "pending",
         "parents": [
@@ -7704,6 +7781,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "知识图谱质量评估维度",
+          "置信度评分 Confidence Scoring",
+          "图结构一致性 Graph Structure Consistency",
+          "知识图谱构建流程 KG Construction Pipeline",
+          "知识图谱补全 Knowledge Graph Completion"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7716,6 +7800,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_960c7d216073",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "Machine Min…",
         "namingStatus": "pending",
         "parents": [
@@ -7723,6 +7808,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "TripleChecker",
+          "MiniCheck 高效事实核查",
+          "机器遗忘 Machine Unlearning"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7735,6 +7825,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_a1c83bf6e3f3",
         "lastStableAt": null,
+        "memberCount": 3,
         "name": "Chain Engin…",
         "namingStatus": "pending",
         "parents": [
@@ -7742,6 +7833,11 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "上下文学习 In-context Learning",
+          "思维链 Chain-of-Thought",
+          "提示工程 Prompt Engineering"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7754,6 +7850,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_ab2025989046",
         "lastStableAt": null,
+        "memberCount": 5,
         "name": "ANN Approxi…",
         "namingStatus": "pending",
         "parents": [
@@ -7761,6 +7858,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "交叉编码器 Cross-Encoder",
+          "双塔Embedding Dual Encoder",
+          "近似最近邻检索 ANN Approximate Nearest Neighbor",
+          "MiniCheck 高效事实核查",
+          "K近邻 KNN K-Nearest Neighbors"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7773,6 +7877,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_c82d9a7ea669",
         "lastStableAt": null,
+        "memberCount": 5,
         "name": "Benchmark C…",
         "namingStatus": "pending",
         "parents": [
@@ -7780,6 +7885,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "TripleChecker",
+          "MiniCheck 高效事实核查",
+          "基准数据集 Benchmark",
+          "RAG 评测指标 EM Recall MRR",
+          "引用召回与精确率 Citation Recall Precision"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7792,6 +7904,7 @@
         "definition": "由候选页面形成的高内聚新主题。",
         "id": "cat_e9b010e10b0f",
         "lastStableAt": null,
+        "memberCount": 7,
         "name": "CRAG GNN Gr…",
         "namingStatus": "pending",
         "parents": [
@@ -7799,6 +7912,13 @@
         ],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "纠错RAG CRAG",
+          "GraphRAG 架构",
+          "KG-RAG 工作原理",
+          "Self-RAG",
+          "LightRAG"
+        ],
         "source": "automatic",
         "stableRuns": 1,
         "status": "forming",
@@ -7811,11 +7931,17 @@
         "definition": "历史分类标签 多智能体 的初始种子类别。",
         "id": "cat_seed_agents",
         "lastStableAt": "2026-07-15",
+        "memberCount": 3,
         "name": "多智能体系统 Multi-Agent Systems",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "Agent 记忆架构",
+          "ReAct Agent 工作原理",
+          "Redis 内存数据存储"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7828,11 +7954,19 @@
         "definition": "历史分类标签 评测 的初始种子类别。",
         "id": "cat_seed_evaluation",
         "lastStableAt": "2026-07-15",
+        "memberCount": 28,
         "name": "评测方法 Evaluation Methods",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "McNemar检验",
+          "RAG 评测指标 EM Recall MRR",
+          "分层评测 Stratified Evaluation",
+          "反事实评测 Counterfactual Evaluation",
+          "基准数据集 Benchmark"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7845,11 +7979,19 @@
         "definition": "历史分类标签 基础 的初始种子类别。",
         "id": "cat_seed_foundations",
         "lastStableAt": "2026-07-15",
+        "memberCount": 62,
         "name": "机器学习与NLP基础 ML-NLP Foundations",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "EM算法 Expectation-Maximization",
+          "主题模型 LDA",
+          "位置编码 Positional Encoding",
+          "依存句法分析 Dependency Parsing",
+          "信息检索 IR基础模型 Information Retrieval"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7862,11 +8004,19 @@
         "definition": "历史分类标签 前沿 的初始种子类别。",
         "id": "cat_seed_frontier",
         "lastStableAt": "2026-07-15",
+        "memberCount": 7,
         "name": "前沿趋势 Frontier",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "BigQuery Dremel 宽表建模 BigQuery-Dremel",
+          "GNN-RAG 图神经网络检索增强",
+          "Google Bigtable 宽表模型 Bigtable",
+          "ReDeEP 机制可解释性",
+          "StructRAG 结构化知识推理"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7879,11 +8029,19 @@
         "definition": "历史分类标签 KG 的初始种子类别。",
         "id": "cat_seed_kg",
         "lastStableAt": "2026-07-15",
+        "memberCount": 45,
         "name": "知识图谱 KG",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "FinGraph 财务知识图谱",
+          "GNN-RAG 图神经网络检索增强",
+          "Graph Fusion 图融合",
+          "KG-RAG 工作原理",
+          "SHA-256 产物指纹"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7896,11 +8054,19 @@
         "definition": "历史分类标签 LLM机制 的初始种子类别。",
         "id": "cat_seed_llm",
         "lastStableAt": "2026-07-15",
+        "memberCount": 45,
         "name": "大模型机制与推理 LLM Mechanisms",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "LLM 推理优化 KV Cache Quantization",
+          "上下文学习 In-context Learning",
+          "人类反馈强化学习 RLHF",
+          "位置编码 Positional Encoding",
+          "卷积神经网络 CNN"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7913,11 +8079,19 @@
         "definition": "历史分类标签 RAG 的初始种子类别。",
         "id": "cat_seed_rag",
         "lastStableAt": "2026-07-15",
+        "memberCount": 40,
         "name": "检索增强生成 RAG-GraphRAG",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "GNN-RAG 图神经网络检索增强",
+          "GraphRAG 架构",
+          "KG-RAG 工作原理",
+          "LightRAG",
+          "RAG 评测指标 EM Recall MRR"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",
@@ -7930,11 +8104,19 @@
         "definition": "历史分类标签 可信度 的初始种子类别。",
         "id": "cat_seed_trust",
         "lastStableAt": "2026-07-15",
+        "memberCount": 24,
         "name": "幻觉与可信度 Hallucination Trustworthiness",
         "namingStatus": "ready",
         "parents": [],
         "redirectTo": null,
         "related": [],
+        "representativePages": [
+          "RAGChecker",
+          "ReDeEP 机制可解释性",
+          "不确定性量化 Uncertainty Quantification",
+          "分层评测 Stratified Evaluation",
+          "分布偏移 Distribution Shift"
+        ],
         "source": "seed",
         "stableRuns": 2,
         "status": "stable",

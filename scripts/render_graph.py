@@ -108,8 +108,12 @@ def _taxonomy_payload(registry, node_ids=None, profile="knowledge"):
             "stats": {"categories": 0, "activeCategories": 0, "memberships": 0, "forming": 0, "pendingPages": 0, "seedCategories": 0, "automaticCategories": 0, "candidates": 0},
         }
     categories = []
+    category_members = {}
+    for membership in registry.memberships:
+        category_members.setdefault(membership.category_id, []).append((Path(membership.page).stem, membership.score))
     for category_id in sorted(registry.categories):
         category = registry.categories[category_id]
+        members = sorted(category_members.get(category_id, []), key=lambda item: (-item[1], item[0]))
         categories.append({
             "id": category.id,
             "name": category.name,
@@ -126,6 +130,8 @@ def _taxonomy_payload(registry, node_ids=None, profile="knowledge"):
             "stableRuns": category.stable_runs,
             "algorithmVersion": category.algorithm_version,
             "source": "seed" if category.id.startswith("cat_seed_") else "automatic",
+            "memberCount": len(members),
+            "representativePages": [item[0] for item in members[:5]],
         })
     memberships = []
     for membership in sorted(registry.memberships, key=lambda item: (item.page, item.category_id)):
