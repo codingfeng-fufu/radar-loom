@@ -28,6 +28,19 @@ class LocalBackupTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 backup.verify(archive)
 
+    def test_preview_reports_conflicts_without_writing(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source"; (source / "pages").mkdir(parents=True)
+            (source / "pages" / "A.md").write_text("old\n", encoding="utf-8")
+            (source / "pages" / "B.md").write_text("new\n", encoding="utf-8")
+            archive = backup.create(source, Path(folder) / "backups")
+            root = Path(folder) / "kb"; (root / "pages").mkdir(parents=True)
+            (root / "pages" / "A.md").write_text("changed\n", encoding="utf-8")
+            result = backup.preview(archive, root)
+            self.assertIn("pages/A.md", result["changed"])
+            self.assertIn("pages/B.md", result["added"])
+            self.assertEqual((root / "pages" / "A.md").read_text(encoding="utf-8"), "changed\n")
+
 
 if __name__ == "__main__":
     unittest.main()

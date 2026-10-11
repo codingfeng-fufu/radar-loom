@@ -68,6 +68,22 @@ def stage_restore(archive_path: Path, destination: Path | None = None) -> Path:
     return target
 
 
+def preview(archive_path: Path, destination: Path) -> dict[str, list[str]]:
+    """Compare an archive with a destination without writing any files."""
+    manifest = verify(archive_path)
+    added, changed, unchanged = [], [], []
+    for name, digest in manifest.get("files", {}).items():
+        target = destination / name
+        if not target.exists():
+            added.append(name)
+            continue
+        if not target.is_file() or hashlib.sha256(target.read_bytes()).hexdigest() != digest:
+            changed.append(name)
+        else:
+            unchanged.append(name)
+    return {"added": sorted(added), "changed": sorted(changed), "unchanged": sorted(unchanged)}
+
+
 def prune(directory: Path, keep: int) -> None:
     for path in sorted(directory.glob("knowledge-base-*.zip"), reverse=True)[max(1, keep):]:
         path.unlink()
@@ -75,7 +91,7 @@ def prune(directory: Path, keep: int) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("create", "verify", "stage-restore"))
+    parser.add_argument("command", choices=("create", "verify", "preview", "stage-restore"))
     parser.add_argument("archive", nargs="?", type=Path)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--destination", type=Path, default=DEFAULT_DIR)
@@ -85,9 +101,12 @@ def main() -> int:
         target = create(args.root, args.destination); prune(args.destination, args.keep)
         print(f"备份完成: {target}")
     elif not args.archive:
-        parser.error("verify/stage-restore 需要 archive")
+        parser.error("verify/preview/stage-restore 需要 archive")
     elif args.command == "verify":
         manifest = verify(args.archive); print(f"校验通过: {len(manifest['files'])} 个文件")
+    elif args.command == "preview":
+        result = preview(args.archive, args.root)
+        print(json.dumps({key: len(value) for key, value in result.items()}, ensure_ascii=False))
     else:
         print(f"恢复演练完成: {stage_restore(args.archive, args.destination)}")
     return 0
