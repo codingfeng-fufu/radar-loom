@@ -29,6 +29,17 @@ def discover_gaps(root: Path) -> dict[str, object]:
             "bodyLength": len(body.strip()),
         }
     gaps = []
+    taxonomy = {}
+    try:
+        import json
+        taxonomy = json.loads((root / "taxonomy.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError, json.JSONDecodeError):
+        taxonomy = {}
+    pending = set(taxonomy.get("pending_pages", []))
+    low_confidence = Counter()
+    for membership in taxonomy.get("memberships", []):
+        if float(membership.get("score", 1)) < 0.55:
+            low_confidence[Path(str(membership.get("page", ""))).stem] += 1
     for name in sorted(known):
         info = metadata[name]
         in_count = incoming[name]
@@ -42,8 +53,13 @@ def discover_gaps(root: Path) -> dict[str, object]:
             reasons.append("证据字段不完整")
         if len(out_links) == 0 and in_count > 0:
             reasons.append("只有入链，缺少出链")
+        stable_path = f"pages/{name}.md"
+        if stable_path in pending or name in pending:
+            reasons.append("taxonomy 待处理")
+        if low_confidence[name]:
+            reasons.append(f"低置信度归属 {low_confidence[name]} 个")
         if reasons:
             score = min(100, len(reasons) * 20 + min(in_count, 10) * 4)
             gaps.append({"file": f"pages/{name}.md", "title": name, "score": score, "reasons": reasons, "incoming": in_count, "outgoing": len(out_links), "bodyLength": info["bodyLength"]})
     gaps.sort(key=lambda item: (-item["score"], item["title"]))
-    return {"version": 1, "pages": len(paths), "gaps": gaps, "counts": {"gaps": len(gaps), "isolated": sum("孤立节点" in item["reasons"] for item in gaps), "evidenceIncomplete": sum("证据字段不完整" in item["reasons"] for item in gaps)}}
+    return {"version": 1, "generatedAt": taxonomy.get("generated_at"), "pages": len(paths), "gaps": gaps, "counts": {"gaps": len(gaps), "isolated": sum("孤立节点" in item["reasons"] for item in gaps), "evidenceIncomplete": sum("证据字段不完整" in item["reasons"] for item in gaps), "taxonomyPending": sum("taxonomy 待处理" in item["reasons"] for item in gaps), "lowConfidence": sum("低置信度归属" in " ".join(item["reasons"]) for item in gaps)}}
