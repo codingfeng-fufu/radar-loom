@@ -78,12 +78,16 @@ def git_changes(root: Path, base: str = '') -> dict[str, object]:
 
 def export_archive(root: Path) -> bytes:
     buffer = io.BytesIO()
+    manifest_files = {}
     with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as archive:
         for pattern in ('pages/*.md', 'paper-notes/*.md', 'ideas/*.md', 'ideas/pages/*.md', 'ideas/data/*.json', '*.md', 'taxonomy.json', 'interview-taxonomy.json', 'graph-data.json', 'community-data.json', 'interview-graph-data.json', 'config/*.json'):
             for path in root.glob(pattern):
                 if path.is_file() and '.trash' not in path.parts:
-                    archive.write(path, path.relative_to(root).as_posix())
-        archive.writestr('manifest.json', json.dumps({'version': 2, 'createdAt': time.time(), 'scope': 'portable-knowledge-state'}, ensure_ascii=False, indent=2))
+                    relative = path.relative_to(root).as_posix()
+                    data = path.read_bytes()
+                    archive.writestr(relative, data)
+                    manifest_files[relative] = hashlib.sha256(data).hexdigest()
+        archive.writestr('manifest.json', json.dumps({'version': 2, 'createdAt': time.time(), 'scope': 'portable-knowledge-state', 'files': manifest_files}, ensure_ascii=False, indent=2))
     return buffer.getvalue()
 
 
