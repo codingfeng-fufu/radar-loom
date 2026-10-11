@@ -27,6 +27,7 @@ def discover_gaps(root: Path) -> dict[str, object]:
             "source": bool(re.search(r"(?m)^(?:来源|source):\s*\S", header)),
             "confidence": bool(re.search(r"(?m)^(?:信度|confidence):\s*\S", header)),
             "bodyLength": len(body.strip()),
+            "tags": re.findall(r"#[^\s#]+", header),
         }
     gaps = []
     taxonomy = {}
@@ -58,8 +59,16 @@ def discover_gaps(root: Path) -> dict[str, object]:
             reasons.append("taxonomy 待处理")
         if low_confidence[name]:
             reasons.append(f"低置信度归属 {low_confidence[name]} 个")
+        candidates = []
+        for other, other_info in metadata.items():
+            if other == name or other in out_links:
+                continue
+            shared = len(set(info["tags"]) & set(other_info["tags"]))
+            if shared:
+                candidates.append((shared, other))
+        candidates.sort(key=lambda item: (-item[0], item[1]))
         if reasons:
             score = min(100, len(reasons) * 20 + min(in_count, 10) * 4)
-            gaps.append({"file": f"pages/{name}.md", "title": name, "score": score, "reasons": reasons, "incoming": in_count, "outgoing": len(out_links), "bodyLength": info["bodyLength"]})
+            gaps.append({"file": f"pages/{name}.md", "title": name, "score": score, "reasons": reasons, "incoming": in_count, "outgoing": len(out_links), "bodyLength": info["bodyLength"], "suggestedLinks": [{"title": other, "sharedTags": shared} for shared, other in candidates[:5]]})
     gaps.sort(key=lambda item: (-item["score"], item["title"]))
     return {"version": 1, "generatedAt": taxonomy.get("generated_at"), "pages": len(paths), "gaps": gaps, "counts": {"gaps": len(gaps), "isolated": sum("孤立节点" in item["reasons"] for item in gaps), "evidenceIncomplete": sum("证据字段不完整" in item["reasons"] for item in gaps), "taxonomyPending": sum("taxonomy 待处理" in item["reasons"] for item in gaps), "lowConfidence": sum("低置信度归属" in " ".join(item["reasons"]) for item in gaps)}}
