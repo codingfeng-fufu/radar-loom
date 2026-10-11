@@ -280,7 +280,9 @@ class KnowledgeBuilder:
                 )
             )
             output_lines = []
+            phases = []
             if taxonomy_due:
+                phase_started = time.perf_counter()
                 for args in (("sync",), ("--profile", "interview", "sync")):
                     try:
                         combined = self._run_script(
@@ -291,19 +293,24 @@ class KnowledgeBuilder:
                     except RefreshError as error:
                         output_lines.append(str(error))
                 self._last_taxonomy_check = now
+                phases.append({"name": "taxonomy-sync", "durationMs": round((time.perf_counter() - phase_started) * 1000, 1)})
 
             if not force and not self.is_stale():
                 return {
                     "rebuilt": False,
                     "revision": self.revision(),
                     "output": "\n".join(output_lines),
+                    "phases": phases,
                 }
 
+            phase_started = time.perf_counter()
             output_lines.extend(self._run_generators())
+            phases.append({"name": "index-and-graph", "durationMs": round((time.perf_counter() - phase_started) * 1000, 1)})
             return {
                 "rebuilt": True,
                 "revision": self.revision(),
                 "output": "\n".join(output_lines),
+                "phases": phases,
             }
 
     def taxonomy_status(self) -> dict[str, object]:
@@ -321,6 +328,7 @@ class KnowledgeBuilder:
 
     def taxonomy_rebuild(self) -> dict[str, object]:
         with self._lock:
+            phase_started = time.perf_counter()
             output_lines = [
                 self._run_script(
                     self._taxonomy_script, "global", timeout=self.taxonomy_timeout
@@ -344,6 +352,7 @@ class KnowledgeBuilder:
                 "revision": self.revision(),
                 "status": status,
                 "output": "\n".join(line for line in output_lines if line),
+                "phases": [{"name": "taxonomy-global-and-graph", "durationMs": round((time.perf_counter() - phase_started) * 1000, 1)}],
             }
 
 
