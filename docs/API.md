@@ -31,6 +31,9 @@ Mutating requests require a loopback client and an allowed local `Origin` header
 - `POST /api/import` with `Content-Type: application/zip` (validated local backup restore)
 - `POST /api/import/preview` with `Content-Type: application/zip` (read-only added/changed/unchanged conflict report)
 
+Refresh responses include `phases` with per-stage duration and `gitChanges.before/after`
+for showing which generated files changed during the operation.
+
 ## External links
 
 Viewer links use `viewer.html?section=knowledge&f=pages%2F...`. The workbench accepts the same URL and keeps Claude context associated with the selected file.
