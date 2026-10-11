@@ -27,6 +27,7 @@ from urllib.parse import parse_qs, urlsplit
 from search_service import search_payload
 from catalog_service import catalog_payload, paper_notes_payload
 from duplicate_service import duplicate_payload
+from knowledge_gaps import discover_gaps
 from request_validation import (
     ALLOWED_ORIGIN, ALLOWED_ORIGINS, MAX_ARCHIVE_BYTES, MAX_FILENAME_BYTES,
     MAX_IDEA_REQUEST_BYTES, MAX_UPLOAD_BYTES, MIME_TYPE_RE, MULTIPART_BOUNDARY_RE,
@@ -881,6 +882,12 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
                 self.send_json(200, quality_issues(self.builder.root))
             except OSError as error:
                 self.send_json(500, {"ok": False, "error": str(error)})
+            return
+        if path == "/api/knowledge/gaps":
+            try:
+                self.send_json(200, discover_gaps(self.builder.root))
+            except OSError as error:
+                self.send_json(500, {"ok": False, "error": f"knowledge gaps unavailable: {error}"})
             return
         if path == "/api/catalog":
             try:
