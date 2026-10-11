@@ -750,10 +750,20 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         try:
             archive = zipfile.ZipFile(io.BytesIO(self.rfile.read(length)))
             allowed = ('.md', '.json', '.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp')
-            members = [item for item in archive.infolist() if not item.is_dir()]
+            members = [item for item in archive.infolist() if not item.is_dir() and item.filename != 'manifest.json']
             forbidden = {'scripts', '.git', '.trash', 'node_modules'}
             if any(Path(item.filename).is_absolute() or '..' in Path(item.filename).parts or not item.filename.lower().endswith(allowed) or Path(item.filename).parts[0] in forbidden for item in members):
                 raise ValueError('archive contains an unsafe file')
+            if 'manifest.json' in archive.namelist():
+                manifest = json.loads(archive.read('manifest.json'))
+                declared = manifest.get('files', {}) if isinstance(manifest, dict) else {}
+                if declared:
+                    actual_names = {item.filename for item in members}
+                    if set(declared) != actual_names:
+                        raise ValueError('archive manifest does not match members')
+                    for name, digest in declared.items():
+                        if hashlib.sha256(archive.read(name)).hexdigest() != digest:
+                            raise ValueError(f'archive checksum mismatch: {name}')
             staged = [(self.builder.root / item.filename, archive.read(item)) for item in members]
             originals = {target: target.read_bytes() for target, _ in staged if target.is_file()}
             created = []
