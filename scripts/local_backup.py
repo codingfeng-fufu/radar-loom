@@ -12,7 +12,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIR = ROOT / ".backups"
-INCLUDE = ("pages/*.md", "paper-notes/*.md", "*.md", "config/*.json", "graph-data.json", "community-data.json", "interview-graph-data.json")
+# Portable knowledge state, excluding caches, source code, and machine-local
+# Claude/WebUI state.  Ideas and taxonomy registries are first-class user data.
+INCLUDE = (
+    "pages/*.md", "paper-notes/*.md", "ideas/*.md", "ideas/pages/*.md", "ideas/data/*.json",
+    "*.md", "config/*.json", "taxonomy.json", "interview-taxonomy.json",
+    "graph-data.json", "community-data.json", "interview-graph-data.json",
+)
 
 
 def files(root: Path):
@@ -27,7 +33,7 @@ def files(root: Path):
 def create(root: Path, destination: Path) -> Path:
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / f"knowledge-base-{datetime.now():%Y%m%d-%H%M%S}.zip"
-    manifest = {"version": 1, "createdAt": datetime.now().isoformat(), "files": {}}
+    manifest = {"version": 2, "createdAt": datetime.now().isoformat(), "scope": "portable-knowledge-state", "files": {}}
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as archive:
         for path in files(root):
             relative = path.relative_to(root).as_posix()

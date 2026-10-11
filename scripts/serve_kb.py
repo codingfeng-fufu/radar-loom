@@ -25,6 +25,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from search_service import search_payload
 from catalog_service import catalog_payload, paper_notes_payload
+from duplicate_service import duplicate_payload
 from request_validation import (
     ALLOWED_ORIGIN, ALLOWED_ORIGINS, MAX_ARCHIVE_BYTES, MAX_FILENAME_BYTES,
     MAX_IDEA_REQUEST_BYTES, MAX_UPLOAD_BYTES, MIME_TYPE_RE, MULTIPART_BOUNDARY_RE,
@@ -49,27 +50,6 @@ def page_history_payload(root: Path, file: str, old: str = '', new: str = 'HEAD'
         completed = subprocess.run(['git', '-C', str(root), 'diff', '--no-ext-diff', '--unified=3', old, new, '--', file], capture_output=True, text=True, check=False)
         diff = completed.stdout
     return {'version': 1, 'file': file, 'commits': commits, 'old': old or None, 'new': new, 'diff': diff}
-
-
-def duplicate_payload(root: Path, threshold: float = 0.86) -> dict[str, object]:
-    pages = []
-    for path in sorted((root / 'pages').glob('*.md')):
-        try:
-            text = path.read_text(encoding='utf-8')
-        except OSError:
-            continue
-        normalized = re.sub(r'\s+', ' ', text.lower())
-        pages.append((path, normalized))
-    pairs = []
-    for index, (left, left_text) in enumerate(pages):
-        for right, right_text in pages[index + 1:]:
-            score = difflib.SequenceMatcher(None, left_text, right_text).ratio()
-            title_score = difflib.SequenceMatcher(None, left.stem.lower(), right.stem.lower()).ratio()
-            score = max(score, title_score * 0.92)
-            if score >= threshold:
-                pairs.append({'left': f'pages/{left.name}', 'right': f'pages/{right.name}', 'score': round(score, 3)})
-    pairs.sort(key=lambda item: item['score'], reverse=True)
-    return {'version': 1, 'threshold': threshold, 'pairs': pairs[:200]}
 
 
 def merge_preview(root: Path, left: str, right: str) -> dict[str, object]:
@@ -98,11 +78,11 @@ def git_changes(root: Path, base: str = '') -> dict[str, object]:
 def export_archive(root: Path) -> bytes:
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as archive:
-        for pattern in ('pages/*.md', '*.md', 'graph-data.json', 'community-data.json', 'interview-graph-data.json', 'config/*.json'):
+        for pattern in ('pages/*.md', 'paper-notes/*.md', 'ideas/*.md', 'ideas/pages/*.md', 'ideas/data/*.json', '*.md', 'taxonomy.json', 'interview-taxonomy.json', 'graph-data.json', 'community-data.json', 'interview-graph-data.json', 'config/*.json'):
             for path in root.glob(pattern):
                 if path.is_file() and '.trash' not in path.parts:
                     archive.write(path, path.relative_to(root).as_posix())
-        archive.writestr('manifest.json', json.dumps({'version': 1, 'createdAt': time.time()}, ensure_ascii=False, indent=2))
+        archive.writestr('manifest.json', json.dumps({'version': 2, 'createdAt': time.time(), 'scope': 'portable-knowledge-state'}, ensure_ascii=False, indent=2))
     return buffer.getvalue()
 
 
