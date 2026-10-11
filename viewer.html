@@ -690,7 +690,11 @@
       }
       summary.hidden = false;
       const link = document.createElement('a');
-      link.href = `taxonomy.html?profile=${section}`;
+      // The integrated workbench reserves 18080 for its shell; open the
+      // standalone taxonomy surface on the knowledge service port.
+      link.href = `http://127.0.0.1:18081/taxonomy.html?profile=${section}`;
+      link.target = '_blank';
+      link.rel = 'noopener';
       link.textContent = '动态分类：读取中...';
       summary.append(link);
       return fetch(taxonomyDataUrl(section), { cache: 'no-store' })
