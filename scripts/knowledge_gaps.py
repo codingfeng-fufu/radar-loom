@@ -2,11 +2,17 @@
 from __future__ import annotations
 
 import re
+import json
 from collections import Counter
 from pathlib import Path
 
 
 def discover_gaps(root: Path) -> dict[str, object]:
+    state_path = root / ".knowledge-gap-state.json"
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}
+    except (OSError, ValueError, json.JSONDecodeError):
+        state = {}
     paths = sorted((root / "pages").glob("*.md"))
     known = {path.stem for path in paths}
     outgoing: dict[str, list[str]] = {}
@@ -32,7 +38,6 @@ def discover_gaps(root: Path) -> dict[str, object]:
     gaps = []
     taxonomy = {}
     try:
-        import json
         taxonomy = json.loads((root / "taxonomy.json").read_text(encoding="utf-8"))
     except (OSError, ValueError, json.JSONDecodeError):
         taxonomy = {}
@@ -69,11 +74,10 @@ def discover_gaps(root: Path) -> dict[str, object]:
         candidates.sort(key=lambda item: (-item[0], item[1]))
         if reasons:
             score = min(100, len(reasons) * 20 + min(in_count, 10) * 4)
-            gaps.append({"file": f"pages/{name}.md", "title": name, "score": score, "reasons": reasons, "incoming": in_count, "outgoing": len(out_links), "bodyLength": info["bodyLength"], "suggestedLinks": [{"title": other, "sharedTags": shared} for shared, other in candidates[:5]]})
+            gaps.append({"file": f"pages/{name}.md", "title": name, "score": score, "status": state.get(f"pages/{name}.md", {}).get("status", "open"), "reasons": reasons, "incoming": in_count, "outgoing": len(out_links), "bodyLength": info["bodyLength"], "suggestedLinks": [{"title": other, "sharedTags": shared} for shared, other in candidates[:5]]})
     gaps.sort(key=lambda item: (-item["score"], item["title"]))
     weak_links = []
     try:
-        import json
         community = json.loads((root / "community-data.json").read_text(encoding="utf-8"))
         names = {item["id"]: item.get("name", item["id"]) for item in community.get("communities", [])}
         for edge in community.get("edges", []):
@@ -82,3 +86,19 @@ def discover_gaps(root: Path) -> dict[str, object]:
     except (OSError, ValueError, TypeError, json.JSONDecodeError):
         weak_links = []
     return {"version": 1, "generatedAt": taxonomy.get("generated_at"), "pages": len(paths), "gaps": gaps, "communityWeakLinks": weak_links[:100], "counts": {"gaps": len(gaps), "isolated": sum("孤立节点" in item["reasons"] for item in gaps), "evidenceIncomplete": sum("证据字段不完整" in item["reasons"] for item in gaps), "taxonomyPending": sum("taxonomy 待处理" in item["reasons"] for item in gaps), "lowConfidence": sum("低置信度归属" in " ".join(item["reasons"]) for item in gaps), "communityWeakLinks": len(weak_links)}}
+
+
+def update_gap_status(root: Path, file: str, status: str) -> dict[str, object]:
+    if not file.startswith("pages/") or ".." in Path(file).parts or status not in {"open", "in_progress", "resolved", "dismissed"}:
+        raise ValueError("invalid gap status request")
+    path = root / file
+    if not path.is_file():
+        raise FileNotFoundError(file)
+    state_path = root / ".knowledge-gap-state.json"
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}
+    except (OSError, ValueError, json.JSONDecodeError):
+        state = {}
+    state[file] = {"status": status, "updatedAt": __import__("datetime").datetime.now().isoformat()}
+    state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {"version": 1, "file": file, "status": status}

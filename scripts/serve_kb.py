@@ -27,7 +27,7 @@ from urllib.parse import parse_qs, urlsplit
 from search_service import search_payload
 from catalog_service import catalog_payload, paper_notes_payload
 from duplicate_service import duplicate_payload
-from knowledge_gaps import discover_gaps
+from knowledge_gaps import discover_gaps, update_gap_status
 from request_validation import (
     ALLOWED_ORIGIN, ALLOWED_ORIGINS, MAX_ARCHIVE_BYTES, MAX_FILENAME_BYTES,
     MAX_IDEA_REQUEST_BYTES, MAX_UPLOAD_BYTES, MIME_TYPE_RE, MULTIPART_BOUNDARY_RE,
@@ -445,7 +445,7 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
         return valid_content_length(self.headers.get("Content-Length"), default=default)
 
     def do_OPTIONS(self) -> None:
-        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/pages/trash", "/api/pages/restore", "/api/import", "/api/import/preview"}:
+        if urlsplit(self.path).path not in {"/api/refresh", "/api/taxonomy/rebuild", "/api/uploads", "/api/ideas", "/api/knowledge/gaps/status", "/api/pages/trash", "/api/pages/restore", "/api/import", "/api/import/preview"}:
             self.send_error(404)
             return
         self.send_response(204)
@@ -460,6 +460,18 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
             return
         if path == "/api/ideas":
             self.handle_idea_capture()
+            return
+        if path == "/api/knowledge/gaps/status":
+            if not self.taxonomy_allowed(require_origin=True):
+                self.send_json(403, {"ok": False, "error": "localhost origin required"})
+                return
+            try:
+                length = self.content_length(0)
+                payload = json.loads(self.rfile.read(length).decode("utf-8"))
+                result = update_gap_status(self.builder.root, payload.get("file", ""), payload.get("status", ""))
+                self.send_json(200, {"ok": True, **result})
+            except (OSError, ValueError, FileNotFoundError, json.JSONDecodeError) as error:
+                self.send_json(400, {"ok": False, "error": str(error)})
             return
         if path in {"/api/pages/trash", "/api/pages/restore"}:
             self.handle_page_lifecycle(path)
