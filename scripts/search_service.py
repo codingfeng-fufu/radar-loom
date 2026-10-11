@@ -4,7 +4,20 @@ from __future__ import annotations
 
 import difflib
 import re
+from datetime import datetime, timezone
 from pathlib import Path
+
+
+def _frontmatter_value(source: str, key: str) -> str:
+    match = re.search(rf"(?m)^{re.escape(key)}:\s*(.+?)\s*$", source)
+    return match.group(1).strip().strip('"\'') if match else ""
+
+
+def _frontmatter_list(source: str, key: str) -> list[str]:
+    value = _frontmatter_value(source, key)
+    if value.startswith("[") and value.endswith("]"):
+        return [item.strip().strip('"\'') for item in value[1:-1].split(",") if item.strip()]
+    return [value] if value else []
 
 
 def _search_terms(query: str) -> tuple[list[str], list[str], list[str], list[str]]:
@@ -63,14 +76,23 @@ def search_payload(root: Path, query: str, section: str = "", sort: str = "relev
             continue
         summary_match = re.search(r"^(?:摘要|summary):\s*(.+)$", text, re.MULTILINE | re.IGNORECASE)
         summary = summary_match.group(1).strip()[:300] if summary_match else ""
-        snippet = re.sub(r"\s+", " ", text[max(0, position - 100):position + 260]).strip()
+        body = re.sub(r"\A---\s*\n.*?\n---\s*(?:\n|\Z)", "", text, flags=re.DOTALL)
+        body_lower = body.lower()
+        body_position = min((body_lower.find(term) for term in positive if body_lower.find(term) >= 0), default=0)
+        snippet = re.sub(r"\s+", " ", body[max(0, body_position - 100):body_position + 260]).strip()
+        updated_ns = path.stat().st_mtime_ns
+        updated_at = datetime.fromtimestamp(updated_ns / 1_000_000_000, timezone.utc).isoformat()
         records.append({
             "file": f"pages/{path.name}",
             "title": path.stem,
             "summary": summary,
             "snippet": snippet,
             "pageType": "interview" if is_interview else "knowledge",
-            "updatedAt": path.stat().st_mtime_ns,
+            "tags": _frontmatter_list(text, "tags"),
+            "confidence": _frontmatter_value(text, "信度") or _frontmatter_value(text, "confidence"),
+            "source": _frontmatter_value(text, "来源") or _frontmatter_value(text, "source"),
+            "updatedAt": updated_ns,
+            "updatedAtIso": updated_at,
             "score": round((len(positive) + len(phrases)) * 10 + fuzzy * 5, 3),
         })
     if sort == "updated":

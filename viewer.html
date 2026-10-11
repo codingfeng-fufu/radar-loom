@@ -776,6 +776,9 @@
           tags.textContent = entry.tags.map((tag) => `#${tag}`).join(' ');
           card.append(tags);
         }
+        const evidence = document.createElement('small');
+        const facts = [entry.pageType === 'interview' ? '工程面试' : '知识页', entry.confidence && `信度 ${entry.confidence}`, entry.updatedAtIso && `更新于 ${entry.updatedAtIso.slice(0, 10)}`].filter(Boolean);
+        if (facts.length > 1) { evidence.textContent = facts.join(' · '); card.append(evidence); }
         results.append(card);
       }
       elements.navigation.append(results);
@@ -848,7 +851,7 @@
         const merged = payload.results.map((result) => {
           const existing = localByFile.get(result.file);
           if (existing) return { ...existing, remoteScore: result.score, remoteSnippet: result.snippet };
-          return { file: result.file, title: result.title, summary: result.snippet || result.summary || '', tags: [], aliases: [], roles: [], difficulty: '', searchText: normalizeSearch([result.title, result.snippet, result.summary].join(' ')), remoteScore: result.score, remoteSnippet: result.snippet };
+          return { file: result.file, title: result.title, summary: result.snippet || result.summary || '', tags: result.tags || [], confidence: result.confidence || '', pageType: result.pageType || 'knowledge', updatedAtIso: result.updatedAtIso || '', aliases: [], roles: [], difficulty: '', searchText: normalizeSearch([result.title, result.snippet, result.summary].join(' ')), remoteScore: result.score, remoteSnippet: result.snippet };
         }).filter((entry) => {
           if (activeSection === 'interview' && !entry.file.includes('/')) return false;
           return !navigationState.filters.tag || entry.tags.includes(navigationState.filters.tag);
