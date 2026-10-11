@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import difflib
 import hashlib
 import ipaddress
@@ -94,7 +95,37 @@ def health_summary(root: Path, builder: 'KnowledgeBuilder') -> dict[str, object]
     except OSError:
         dirty = None
     stats = builder.graph_stats()
-    return {'version': 1, 'time': time.time(), 'pages': len(pages), 'nodes': stats['nodes'], 'edges': stats['edges'], 'revision': builder.revision(), 'gitDirty': dirty, 'stale': builder.is_stale()}
+    now = time.time()
+    artifacts = {}
+    for path in builder._outputs:
+        try:
+            artifacts[path.name] = {'exists': True, 'updatedAt': path.stat().st_mtime, 'ageSeconds': round(max(0.0, now - path.stat().st_mtime), 3)}
+        except OSError:
+            artifacts[path.name] = {'exists': False}
+    taxonomy = {}
+    for name in ('taxonomy.json', 'interview-taxonomy.json'):
+        path = root / name
+        try:
+            payload = json.loads(path.read_text(encoding='utf-8'))
+            run = payload.get('last_run') or {}
+            last_global = payload.get('last_global_at') or payload.get('generated_at')
+            age_days = None
+            if last_global:
+                try:
+                    age_days = max(0, (dt.date.today() - dt.date.fromisoformat(str(last_global)[:10])).days)
+                except ValueError:
+                    pass
+            due_days = 30
+            try:
+                config_name = 'taxonomy.json' if name == 'taxonomy.json' else 'interview-taxonomy.json'
+                config = json.loads((root / 'config' / config_name).read_text(encoding='utf-8'))
+                due_days = int(config.get('global_after_days', due_days))
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                pass
+            taxonomy[name] = {'exists': True, 'generatedAt': payload.get('generated_at'), 'lastGlobalAt': payload.get('last_global_at'), 'ageDays': age_days, 'globalDue': bool(age_days is not None and age_days >= due_days), 'lastRun': run.get('outcome', run.get('status', 'unknown'))}
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            taxonomy[name] = {'exists': False}
+    return {'version': 2, 'time': now, 'pages': len(pages), 'nodes': stats['nodes'], 'edges': stats['edges'], 'revision': builder.revision(), 'gitDirty': dirty, 'stale': builder.is_stale(), 'artifacts': artifacts, 'taxonomy': taxonomy}
 
 
 def quality_issues(root: Path) -> dict[str, object]:
