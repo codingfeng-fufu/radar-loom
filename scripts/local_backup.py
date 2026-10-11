@@ -51,9 +51,17 @@ def verify(archive_path: Path) -> dict:
         if bad:
             raise ValueError(f"CRC 校验失败: {bad}")
         manifest = json.loads(archive.read("manifest.json"))
-        for name, digest in manifest.get("files", {}).items():
+        files_manifest = manifest.get("files", {})
+        if not isinstance(files_manifest, dict):
+            raise ValueError("manifest files 必须是对象")
+        members = {item.filename for item in archive.infolist() if not item.is_dir()}
+        if members - set(files_manifest) - {"manifest.json"}:
+            raise ValueError("归档包含未列入 manifest 的文件")
+        for name, digest in files_manifest.items():
             if Path(name).is_absolute() or ".." in Path(name).parts:
                 raise ValueError(f"非法路径: {name}")
+            if name == "manifest.json" or name not in members:
+                raise ValueError(f"manifest 文件缺失: {name}")
             if hashlib.sha256(archive.read(name)).hexdigest() != digest:
                 raise ValueError(f"摘要不匹配: {name}")
     return manifest

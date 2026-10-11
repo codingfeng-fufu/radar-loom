@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import tempfile
 import unittest
 import zipfile
@@ -40,6 +41,16 @@ class LocalBackupTests(unittest.TestCase):
             self.assertIn("pages/A.md", result["changed"])
             self.assertIn("pages/B.md", result["added"])
             self.assertEqual((root / "pages" / "A.md").read_text(encoding="utf-8"), "changed\n")
+
+    def test_verify_rejects_unmanifested_member(self):
+        with tempfile.TemporaryDirectory() as folder:
+            archive = Path(folder) / "extra.zip"
+            with zipfile.ZipFile(archive, "w") as item:
+                item.writestr("pages/A.md", "ok")
+                item.writestr("extra.txt", "not audited")
+                item.writestr("manifest.json", json.dumps({"files": {"pages/A.md": __import__("hashlib").sha256(b"ok").hexdigest()}}))
+            with self.assertRaises(ValueError):
+                backup.verify(archive)
 
 
 if __name__ == "__main__":
