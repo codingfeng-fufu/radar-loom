@@ -12,11 +12,11 @@ The local service runs on `http://127.0.0.1:18081`.
 | `GET /api/page-history?file=pages/...&old=<commit>&new=<commit>` | Unified diff between versions |
 | `GET /api/duplicates?threshold=0.86` | Duplicate-page candidates |
 | `GET /api/pages/trash` | Recycle-bin manifest |
-| `GET /api/health/summary` | Page, graph, revision and working-tree status |
+| `GET /api/health/summary` | Page, graph, revision, artifact age, taxonomy freshness and working-tree status |
 | `GET /api/quality/issues` | Missing fields, broken links and orphaned pages |
 | `GET /api/git/changes?base=<commit>` | File-level Git change summary |
 | `GET /api/merge-preview?left=pages/...&right=pages/...` | Manual merge preview |
-| `GET /api/export` | Download a ZIP backup |
+| `GET /api/export` | Download a portable ZIP backup with SHA-256 manifest |
 
 The optional stdio MCP adapter is `python3 scripts/mcp_server.py`. It exposes `kb_search`, `kb_catalog`, `kb_health`, and `kb_page_history` through `initialize`, `tools/list`, and `tools/call` JSON-RPC messages.
 
@@ -29,6 +29,7 @@ Mutating requests require a loopback client and an allowed local `Origin` header
 - `POST /api/refresh`
 - `POST /api/taxonomy/rebuild`
 - `POST /api/import` with `Content-Type: application/zip` (validated local backup restore)
+- `POST /api/import/preview` with `Content-Type: application/zip` (read-only added/changed/unchanged conflict report)
 
 ## External links
 
