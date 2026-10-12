@@ -953,8 +953,8 @@
             'text-outline-width': 3, 'text-outline-color': '#111820', 'text-wrap': 'wrap', 'text-max-width': 130, 'text-valign': 'bottom', 'text-margin-y': 8
           }},
           { selector: 'node[nodeType = "category"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#ffe2b3', 'font-size': compactGraph ? 20 : 14, 'text-wrap': 'wrap', 'text-max-width': 120 } },
-          { selector: 'node[nodeType = "community"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#a9dcff', 'font-size': compactGraph ? 15 : 12, 'text-wrap': 'wrap', 'text-max-width': 130, 'text-margin-y': 10 } },
-          { selector: 'node[nodeType = "community"][level = 2]', style: { 'background-color': '#2e779f', 'border-width': 4, 'border-color': '#f1c873', 'font-size': compactGraph ? 18 : 16, 'text-max-width': 180, 'width': 82, 'height': 82, 'text-margin-y': 12 } },
+          { selector: 'node[nodeType = "community"]', style: { 'label': 'data(label)', 'border-width': 2, 'border-color': '#a9dcff', 'font-size': compactGraph ? 13 : 12, 'text-wrap': 'wrap', 'text-max-width': compactGraph ? 88 : 130, 'text-margin-y': 10 } },
+          { selector: 'node[nodeType = "community"][level = 2]', style: { 'background-color': '#2e779f', 'border-width': 4, 'border-color': '#f1c873', 'font-size': compactGraph ? 15 : 16, 'text-max-width': compactGraph ? 110 : 180, 'width': 82, 'height': 82, 'text-margin-y': 12 } },
           { selector: 'node[nodeType = "community"][level = 1]', style: { 'background-color': '#3978a8', 'width': 48, 'height': 48, 'font-size': compactGraph ? 13 : 11 } },
           { selector: 'node[nodeType = "community-page"]', style: { 'background-color': '#6b7f8d', 'border-width': 1, 'border-color': '#9aabb7', 'width': 13, 'height': 13, 'label': '', 'opacity': .82 } },
           { selector: 'node[nodeType = "category"][source = "seed"]', style: { 'background-color': '#b97832', 'border-color': '#ffe2b3', 'border-style': 'solid' } },
