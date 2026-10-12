@@ -819,6 +819,9 @@ class KnowledgeRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/favicon.ico":
+            self.send_bytes(200, b"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='#152850'/><path d='M8 16h16M16 8v16' stroke='#75d5bc' stroke-width='4' stroke-linecap='round'/></svg>", 'image/svg+xml')
+            return
         if path == "/api/paper-notes":
             try:
                 self.send_json(200, paper_notes_payload(self.builder.root))
